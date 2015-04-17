@@ -6,6 +6,22 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
+    %nav.navbar.navbar-default
+      .container
+        .navbar-header
+          = link_to 'Home', root_path, class: 'navbar-brand'
+
+        %ul.nav.navbar-nav
+          %li= link_to 'Dashboard', dashboard_path
+
+        - if user_signed_in?
+          %p.navbar-text.navbar-right
+            Signed in as #{current_user.name}
+            = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'navbar-link'
+        - else
+          %p.navbar-text.navbar-right
+            = link_to 'Login', new_user_session_path, class: 'navbar-link'
+
     .container
       - if notice
         .alert.alert-success= notice
