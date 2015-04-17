@@ -1,2 +1,35 @@
-%h1 Dashboard#index
-%p Find me in app/views/dashboard/index.html.haml
+.page-header
+  %h1 Dashboard
+
+.panel.panel-default
+  .panel-heading
+    %span.pull-right=link_to 'Change plan', root_path
+    Subscription status
+  .panel-body
+    - if current_user.subscription.active?
+      %h4= current_user.subscription.plan.name
+    - else
+      %h4.text-muted Inactive
+
+.panel.panel-default
+  .panel-heading
+    %span.pull-right=link_to 'Change', edit_user_registration_path
+    Your account information
+  .panel-body
+    %dl.dl-horizontal
+      %dt Name
+      %dd= current_user.name
+      %dt E-mail
+      %dd= current_user.email
+      %dt Twitter
+      %dd TBD
+      %dt Facebook
+      %dd TBD
+.panel.panel-default
+  .panel-heading
+    %span.pull-right=link_to 'Check for friends', root_path
+    Friend discounts
+  %table.table
+    %tbody
+      %tr
+        %td ...
