@@ -1,7 +1,7 @@
 class CreateAddresses < ActiveRecord::Migration
   def change
     create_table :addresses do |t|
-      t.belongs_to :user, unique: true, foreign_key: true
+      t.belongs_to :user, unique: true
       t.string :recipient
       t.string :street
       t.string :city
