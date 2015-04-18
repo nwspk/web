@@ -1,7 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   def new
     build_resource
-    resource.build_subscription
+    resource.build_subscription(plan_id: Plan.first.try(:id))
   end
 
   def create
