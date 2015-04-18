@@ -1,2 +1,44 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.navbar-custom {
+  background: #172C45;
+  color: #fff;
+  border-radius: 0 0 0 0;
+
+  a {
+    color: #fff;
+  }
+
+  .nav {
+    li {
+      a:hover, a:focus {
+        background: #224F67;
+      }
+    }
+  }
+
+  .navbar-brand {
+    font-weight: bold;
+  }
+
+  .navbar-btn {
+    background: transparent;
+    border-color: lighten(#224F67, 50%);
+    color: lighten(#224F67, 50%);
+    border-radius: 10px;
+
+    &:hover, &:focus {
+      color: #fff;
+      border-color: #fff;
+    }
+  }
+
+  .navbar-text {
+    color: lighten(#224F67, 50%);
+  }
+}

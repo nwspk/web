@@ -2,14 +2,17 @@
 %html
   %head
     %title TomDoors
+
+    %link{href: 'http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700', rel: 'stylesheet', type: 'text/css'}/
+
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
-    %nav.navbar.navbar-default
+    %nav.navbar.navbar-custom
       .container
         .navbar-header
-          = link_to 'Home', root_path, class: 'navbar-brand'
+          = link_to 'Top Office Machines', root_path, class: 'navbar-brand'
 
         %ul.nav.navbar-nav
           %li= link_to 'Dashboard', dashboard_path
@@ -19,14 +22,21 @@
             Signed in as #{current_user.name}
             = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'navbar-link'
         - else
-          %p.navbar-text.navbar-right
-            = link_to 'Login', new_user_session_path, class: 'navbar-link'
+          = link_to 'Login', new_user_session_path, class: 'btn btn-default navbar-btn navbar-right'
+
+    = yield :pre_content
 
     .container
       - if notice
-        .alert.alert-success= notice
+        .alert.alert-success.alert-dismissible
+          %button{type: "button", class: "close", data: { dismiss: "alert" } }
+            %span &times;
+          = notice
 
       - if alert
-        .alert.alert-danger= alert
+        .alert.alert-danger.alert-dismissible
+          %button{type: "button", class: "close", data: { dismiss: "alert" } }
+            %span &times;
+          = alert
 
       = yield
