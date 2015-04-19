@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   get '/auth/:provider/callback', to: 'connections#create'
 
+  post '/connections/check_friends', to: 'connections#check_friends'
+
   resource :subscription do
     get :checkout
     post :process_card

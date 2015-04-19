@@ -36,9 +36,19 @@
         %dd= link_to 'Connect your Facebook account', '/auth/facebook'
 .panel.panel-default
   .panel-heading
-    %span.pull-right=link_to 'Check for friends', root_path
+    %span.pull-right=link_to 'Check for friends', connections_check_friends_path, method: :post
     Friend discounts
   %table.table
-    %tbody
+    %thead
       %tr
-        %td ...
+        %th Name
+        %th Network
+    %tbody
+      - if current_user.friends.count > 0
+        - current_user.friends.each do |edge|
+          %tr
+            %td= edge.to.name
+            %td= edge.network.capitalize
+      - else
+        %tr
+          %td.text-muted{colspan: 2} No friends detected on Twitter or Facebook yet

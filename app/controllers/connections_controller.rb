@@ -17,4 +17,11 @@ class ConnectionsController < ApplicationController
   def failure
     redirect_to dashboard_path, alert: 'There was a problem authenticating you'
   end
+
+  def check_friends
+    service = CheckFriendsService.new
+    service.call(current_user)
+
+    redirect_to dashboard_path, notice: 'Checked your friends, here are the results'
+  end
 end

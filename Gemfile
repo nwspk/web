@@ -19,6 +19,7 @@ gem 'bootstrap-sass'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'twitter'
+gem 'koala', '~> 2.0'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 group :development, :test do
