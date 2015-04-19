@@ -12,7 +12,10 @@
     %nav.navbar.navbar-custom
       .container
         .navbar-header
-          = link_to 'Top Office Machines', root_path, class: 'navbar-brand'
+          %a.navbar-brand.nwspk-house{href: root_path}
+            NWSPK
+            %br/
+            HOUSE
 
         %ul.nav.navbar-nav
           %li= link_to 'Dashboard', dashboard_path
