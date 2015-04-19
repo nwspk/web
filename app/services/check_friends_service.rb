@@ -43,7 +43,7 @@ class CheckFriendsService
       friend_profiles.concat client.friendships(batch)
     end
 
-    friend_ids = friend_profiles.select { |friend| friend.connections.include?('followed_by') }
+    friend_ids = friend_profiles.select { |friend| friend.connections.include?('followed_by') }.map { |f| f.id }
     users = Connection.where(provider: 'twitter', uid: friend_ids).includes(:user).map { |c| c.user }
 
     users.each do |friend|
