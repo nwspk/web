@@ -21,8 +21,8 @@ class CheckFriendsService
     users = Connection.where(provider: 'facebook', uid: friend_ids).includes(:user)
 
     users.each do |friend|
-      FriendEdge.find_by_or_create(from: user, to: friend, network: 'facebook')
-      FriendEdge.find_by_or_create(from: friend, to: user, network: 'facebook')
+      FriendEdge.find_or_create_by(from: user, to: friend, network: 'facebook')
+      FriendEdge.find_or_create_by(from: friend, to: user, network: 'facebook')
     end
   end
 
@@ -43,8 +43,8 @@ class CheckFriendsService
     users = Connection.where(provider: 'twitter', uid: friend_ids).includes(:user)
 
     users.each do |friend|
-      FriendEdge.find_by_or_create(from: user, to: friend, network: 'twitter')
-      FriendEdge.find_by_or_create(from: friend, to: user, network: 'twitter')
+      FriendEdge.find_or_create_by(from: user, to: friend, network: 'twitter')
+      FriendEdge.find_or_create_by(from: friend, to: user, network: 'twitter')
     end
   end
 end
