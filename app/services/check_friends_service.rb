@@ -15,6 +15,7 @@ class CheckFriendsService
     friends = graph.get_connections('me', 'friends')
     friend_ids = friends.map { |f| f['id'] }
 
+    p friends
     p friend_ids
 
     users = Connection.where(provider: 'facebook', uid: friend_ids).includes(:user)
@@ -33,7 +34,7 @@ class CheckFriendsService
       config.access_token_secret = user.twitter.secret
     end
 
-    friend_ids = client.friend_ids(user.twitter.uid)
+    friend_ids = client.friend_ids
     friend_profiles = client.friendships(friend_ids)
     friend_ids = friend_profiles.select { |friend| friend.connections.include?('followed_by') }
 
