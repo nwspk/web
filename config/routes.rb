@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
-  get 'dashboard', to: 'dashboard#index'
-
-  post 'webhooks', to: 'webhooks#index'
-
+  get 'dashboard',                to: 'dashboard#index'
+  get 'connections',              to: 'connections#index'
   get '/auth/:provider/callback', to: 'connections#create'
 
+  post 'webhooks',                   to: 'webhooks#index'
   post '/connections/check_friends', to: 'connections#check_friends'
 
   resource :subscription do
