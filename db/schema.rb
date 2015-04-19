@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150417110837) do
+ActiveRecord::Schema.define(version: 20150419114212) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer  "user_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20150417110837) do
     t.integer  "plan_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.datetime "active_until"
   end
 
   add_index "subscriptions", ["plan_id"], name: "index_subscriptions_on_plan_id"

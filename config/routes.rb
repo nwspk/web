@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'dashboard', to: 'dashboard#index'
+  get :dashboard, to: 'dashboard#index'
+  post :webhooks, to: 'webhooks#index'
 
   resource :subscription do
     get :checkout

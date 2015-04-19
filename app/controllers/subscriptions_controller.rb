@@ -18,7 +18,7 @@ class SubscriptionsController < ApplicationController
 
       if @subscription.subscription_id.blank?
         subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
-        @subscription.update!(subscription_id: subscription.id)
+        @subscription.update!(subscription_id: subscription.id, active_until: subscription.current_period_end)
       else
         subscription = customer.subscriptions.retrieve(@subscription.subscription_id)
         subscription.plan = @subscription.plan.stripe_id
@@ -36,7 +36,7 @@ class SubscriptionsController < ApplicationController
       customer = Stripe::Customer.retrieve(@subscription.customer_id)
       customer.subscriptions.retrieve(@subscription.subscription_id).delete
 
-      @subscription.update(subscription_id: "", plan_id: nil)
+      @subscription.update(subscription_id: "", plan_id: nil, active_until: nil)
     end
 
     redirect_to dashboard_path, notice: 'Your subscription has been successfully terminated'
@@ -55,7 +55,16 @@ class SubscriptionsController < ApplicationController
 
     @subscription.customer_id     = customer.id
     @subscription.subscription_id = subscription.id
-    @subscription.save
+    @subscription.active_until    = subscription.current_period_end
+    @subscription.save!
+
+    # Setup fee
+    Stripe::InvoiceItem.create(
+      :customer => customer.id,
+      :amount => 1000,
+      :currency => "usd",
+      :description => "One-time setup fee"
+    )
 
     redirect_to dashboard_path, notice: 'Congratulations!'
   rescue Stripe::CardError => e
