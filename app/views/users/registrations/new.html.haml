@@ -10,7 +10,7 @@
   = f.input :password_confirmation, required: true
 
   = f.simple_fields_for :subscription do |sub_form|
-    = sub_form.association :plan, as: :radio_buttons, collection: Plan.all, label_method: :description
+    = sub_form.association :plan, as: :radio_buttons, collection: Plan.all, label_method: :description, hint: "There is a one-time setup fee of #{Money.new(1000, 'GBP').format}"
 
   .form-group
     .col-sm-offset-3.col-sm-6

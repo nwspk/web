@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title TomDoors
+    %title NWSPK House Member's Club
 
     %link{href: '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700', rel: 'stylesheet', type: 'text/css'}/
 
@@ -19,6 +19,7 @@
 
         %ul.nav.navbar-nav
           %li= link_to 'Dashboard', dashboard_path
+          %li= link_to 'Friends graph', dashboard_path
 
         - if user_signed_in?
           %p.navbar-text.navbar-right

@@ -1,7 +1,10 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   def new
-    build_resource
+    build_resource({})
     resource.build_subscription(plan_id: Plan.first.try(:id))
+    @validatable = true
+    @minimum_password_length = User.password_length.min
+    respond_with self.resource
   end
 
   def create
