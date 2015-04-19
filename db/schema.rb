@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150419114212) do
+ActiveRecord::Schema.define(version: 20150419124453) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer  "user_id"
@@ -23,6 +23,20 @@ ActiveRecord::Schema.define(version: 20150419114212) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "connections", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "provider",     default: "", null: false
+    t.string   "uid",          default: "", null: false
+    t.string   "access_token", default: "", null: false
+    t.string   "secret"
+    t.datetime "expires_at"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "connections", ["provider", "uid"], name: "index_connections_on_provider_and_uid", unique: true
+  add_index "connections", ["user_id"], name: "index_connections_on_user_id"
 
   create_table "plans", force: :cascade do |t|
     t.string   "name",       default: "", null: false

@@ -6,6 +6,15 @@ class User < ActiveRecord::Base
 
   has_one :address
   has_one :subscription
+  has_many :connections
 
   accepts_nested_attributes_for :subscription
+
+  def facebook
+    self.connections.find_by(provider: 'facebook')
+  end
+
+  def twitter
+    self.connections.find_by(provider: 'twitter')
+  end
 end

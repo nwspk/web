@@ -14,8 +14,11 @@ gem 'devise'
 gem 'devise_invitable'
 gem 'simple_form'
 gem 'haml-rails'
-gem 'twitter'
 gem 'bootstrap-sass'
+
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'twitter'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 group :development, :test do
@@ -25,6 +28,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'quiet_assets'
+  gem 'dotenv-rails'
 end
 
 group :production do

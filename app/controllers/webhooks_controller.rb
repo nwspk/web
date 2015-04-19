@@ -4,7 +4,7 @@ class WebhooksController < ApplicationController
   def index
     event_json   = JSON.parse(request.body.read)
     event        = Stripe::Event.retrieve(event_json['id'])
-    subscription = Subscription.find(customer_id: event.data.object.customer)
+    subscription = Subscription.find_by!(customer_id: event.data.object.customer)
 
     case event.type
     when 'invoice.created'

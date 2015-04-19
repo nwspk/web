@@ -19,12 +19,21 @@
     %dl.dl-horizontal
       %dt Name
       %dd= current_user.name
+
       %dt E-mail
       %dd= current_user.email
+
       %dt Twitter
-      %dd TBD
+      - if current_user.twitter
+        %dd= current_user.twitter.uid
+      - else
+        %dd= link_to 'Connect your Twitter account', '/auth/twitter'
+
       %dt Facebook
-      %dd TBD
+      - if current_user.facebook
+        %dd= current_user.facebook.uid
+      - else
+        %dd= link_to 'Connect your Facebook account', '/auth/facebook'
 .panel.panel-default
   .panel-heading
     %span.pull-right=link_to 'Check for friends', root_path
