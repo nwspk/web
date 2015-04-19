@@ -36,7 +36,7 @@ class CheckFriendsService
       config.access_token_secret = user.twitter.secret
     end
 
-    friend_ids = client.friend_ids
+    friend_ids = client.friend_ids.to_a
 
     return if friend_ids.empty?
 
