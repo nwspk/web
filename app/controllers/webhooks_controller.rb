@@ -8,7 +8,11 @@ class WebhooksController < ApplicationController
 
     case event.type
     when 'invoice.created'
-      # todo
+      friends_service = CheckFriendsService.new
+      friends_service.call(subscription.user)
+
+      discount_service = AddDiscountService.new
+      discount_service.call(event.data.object, subscription, subscription.user.friends)
     when 'invoice.payment_succeeded'
       subscription.update!(active_until: 30.days.from_now)
     end
