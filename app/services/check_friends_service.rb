@@ -15,12 +15,9 @@ class CheckFriendsService
     friends = graph.get_connections('me', 'friends')
     friend_ids = friends.map { |f| f['id'] }
 
-    p friends
-    p friend_ids
-
     return if friend_ids.empty?
 
-    users = Connection.where(provider: 'facebook', uid: friend_ids).includes(:user)
+    users = Connection.where(provider: 'facebook', uid: friend_ids).includes(:user).map { |c| c.user }
 
     users.each do |friend|
       FriendEdge.find_or_create_by(from: user, to: friend, network: 'facebook')
@@ -47,10 +44,7 @@ class CheckFriendsService
     end
 
     friend_ids = friend_profiles.select { |friend| friend.connections.include?('followed_by') }
-
-    p friend_ids
-
-    users = Connection.where(provider: 'twitter', uid: friend_ids).includes(:user)
+    users = Connection.where(provider: 'twitter', uid: friend_ids).includes(:user).map { |c| c.user }
 
     users.each do |friend|
       FriendEdge.find_or_create_by(from: user, to: friend, network: 'twitter')
