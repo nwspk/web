@@ -1,0 +1,18 @@
+.page-header
+  %h2 Change subscription plan
+
+= simple_form_for(@subscription, html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { radio_buttons: :horizontal_radio_and_checkboxes }) do |f|
+  = f.association :plan, as: :radio_buttons, collection: Plan.all, label_method: :description
+
+  .form-group
+    .col-sm-offset-3.col-sm-6
+      = f.button :submit, 'Change plan', class: 'btn-success'
+
+%hr/
+
+%h3 Cancel subscription
+
+- if @subscription.active?
+  %p= link_to 'Cancel subscription', subscription_path, data: { confirm: 'Are you sure?' }, method: :delete
+- else
+  %p.text-muted Your subscription is already terminated

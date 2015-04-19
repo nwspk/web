@@ -3,7 +3,7 @@
 
 .panel.panel-default
   .panel-heading
-    %span.pull-right=link_to 'Change plan', root_path
+    %span.pull-right=link_to 'Change plan', edit_subscription_path
     Subscription status
   .panel-body
     - if current_user.subscription.active?
