@@ -4,6 +4,6 @@ class Plan < ActiveRecord::Base
   validates :name, :stripe_id, :value, presence: true
 
   def description
-    "#{self.name} - £#{self.value / 100} / month"
+    "#{self.name} - #{Money.new(self.value, 'GBP').format} / month"
   end
 end

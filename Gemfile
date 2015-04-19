@@ -15,6 +15,7 @@ gem 'devise_invitable'
 gem 'simple_form'
 gem 'haml-rails'
 gem 'bootstrap-sass'
+gem 'money'
 
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'

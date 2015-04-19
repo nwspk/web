@@ -4,4 +4,4 @@
     %small Checkout
 
 = simple_form_for(@subscription, url: process_card_subscription_path, method: :post, html: { class: 'form-horizontal' }, wrapper: :horizontal_form) do |f|
-  %script{ src: "https://checkout.stripe.com/checkout.js", class: "stripe-button", data: { key: STRIPE_PUBLIC_KEY, name: @subscription.plan.name, description: @subscription.plan.description, email: current_user.email, panel: { label: 'Subscribe' } } }
+  %script{ src: "https://checkout.stripe.com/checkout.js", class: "stripe-button", data: { key: STRIPE_PUBLIC_KEY, name: @subscription.plan.name, currency: 'gbp', description: @subscription.plan.description, email: current_user.email, panel: { label: 'Subscribe' } } }

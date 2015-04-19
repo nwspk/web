@@ -36,7 +36,7 @@ class SubscriptionsController < ApplicationController
       customer = Stripe::Customer.retrieve(@subscription.customer_id)
       customer.subscriptions.retrieve(@subscription.subscription_id).delete
 
-      @subscription.update(subscription_id: "", plan_id: nil, active_until: nil)
+      @subscription.update(subscription_id: '', plan_id: nil, active_until: nil)
     end
 
     redirect_to dashboard_path, notice: 'Your subscription has been successfully terminated'
@@ -60,10 +60,10 @@ class SubscriptionsController < ApplicationController
 
     # Setup fee
     Stripe::InvoiceItem.create(
-      :customer => customer.id,
-      :amount => 1000,
-      :currency => "usd",
-      :description => "One-time setup fee"
+      customer: customer.id,
+      amount: 10000,
+      currency: 'gbp',
+      description: 'One-time setup fee'
     )
 
     redirect_to dashboard_path, notice: 'Congratulations!'

@@ -43,12 +43,18 @@
       %tr
         %th Name
         %th Network
+        %th Discount
+    %tfoot
+      %tr
+        %th.text-right{colspan: 2} Discount total:
+        %td= Money.new(current_user.friends.count * 1, 'GBP').format
     %tbody
       - if current_user.friends.count > 0
         - current_user.friends.each do |edge|
           %tr
             %td= edge.to.name
             %td= edge.network.capitalize
+            %td= Money.new(1, 'GBP').format
       - else
         %tr
-          %td.text-muted{colspan: 2} No friends detected on Twitter or Facebook yet
+          %td.text-muted.text-center{colspan: 3} No friends detected on Twitter or Facebook yet
