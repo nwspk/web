@@ -61,7 +61,7 @@ class SubscriptionsController < ApplicationController
     # Setup fee
     Stripe::InvoiceItem.create(
       customer: customer.id,
-      amount: 10000,
+      amount: 1000,
       currency: 'gbp',
       description: 'One-time setup fee'
     )
