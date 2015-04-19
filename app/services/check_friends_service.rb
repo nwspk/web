@@ -18,6 +18,8 @@ class CheckFriendsService
     p friends
     p friend_ids
 
+    return if friend_ids.empty?
+
     users = Connection.where(provider: 'facebook', uid: friend_ids).includes(:user)
 
     users.each do |friend|
@@ -35,6 +37,11 @@ class CheckFriendsService
     end
 
     friend_ids = client.friend_ids
+
+    return if friend_ids.empty?
+
+    p friend_ids
+
     friend_profiles = client.friendships(friend_ids)
     friend_ids = friend_profiles.select { |friend| friend.connections.include?('followed_by') }
 
