@@ -40,9 +40,12 @@ class CheckFriendsService
 
     return if friend_ids.empty?
 
-    p friend_ids
+    friend_profiles = []
 
-    friend_profiles = client.friendships(friend_ids)
+    friend_ids.each_slice(100) do |batch|
+      friend_profiles.concat client.friendships(batch)
+    end
+
     friend_ids = friend_profiles.select { |friend| friend.connections.include?('followed_by') }
 
     p friend_ids
