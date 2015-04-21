@@ -1,0 +1,1 @@
+SIGNUP_FEE = 5000

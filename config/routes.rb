@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
+
   get 'dashboard',                to: 'dashboard#index'
   get 'connections',              to: 'connections#index'
   get '/auth/:provider/callback', to: 'connections#create'
