@@ -1,5 +1,7 @@
 ActiveAdmin.register User do
-  permit_params :name, :email
+  config.batch_actions = false
+
+  permit_params :name, :email, :password, :password_confirmation
 
   filter :name
   filter :email
@@ -16,12 +18,28 @@ ActiveAdmin.register User do
     actions
   end
 
+  controller do
+    def update_resource(object, attributes)
+      if attributes[0][:password].blank? && attributes[0][:password_confirmation].blank?
+        attributes[0].delete(:password)
+        attributes[0].delete(:password_confirmation)
+      end
+
+      object.update_attributes(*attributes)
+    end
+  end
+
   form do |f|
     semantic_errors
 
     inputs do
       input :name
       input :email
+
+      unless f.object.new_record?
+        f.input :password
+        f.input :password_confirmation
+      end
     end
 
     actions

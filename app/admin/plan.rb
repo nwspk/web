@@ -1,19 +1,30 @@
 ActiveAdmin.register Plan do
-  permit_params :name, :value, :stripe_id
+  config.batch_actions = false
+
+  permit_params :name, :value
 
   filter :name
-  filter :stripe_id, label: "Associated Stripe plan"
 
   index do
-    selectable_column
     column :name, sortable: false
 
     column :value, sortable: :value do |p|
       Money.new(p.value, 'GBP').format
     end
 
-    column "Associated Stripe plan", :stripe_id, sortable: false
+    column :subscriptions do |p|
+      p.subscriptions.count
+    end
+
     actions
+  end
+
+  controller do
+    def destroy
+      destroy!
+    rescue ActiveRecord::DeleteRestrictionError => e
+      redirect_to admin_plans_path, flash: { error: 'Cannot delete plan as it has subscribers' }
+    end
   end
 
   form do |f|
@@ -21,8 +32,7 @@ ActiveAdmin.register Plan do
 
     inputs do
       input :name
-      input :value, label: 'Value in cents'
-      input :stripe_id, label: 'Stripe plan ID'
+      input :value, label: 'Value in cents' if f.object.new_record?
     end
 
     actions
