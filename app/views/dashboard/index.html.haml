@@ -25,13 +25,13 @@
 
       %dt Twitter
       - if current_user.twitter
-        %dd= current_user.twitter.uid
+        %dd= link_to current_user.twitter.uid, current_user.twitter.profile_url
       - else
         %dd= link_to 'Connect your Twitter account', '/auth/twitter'
 
       %dt Facebook
       - if current_user.facebook
-        %dd= current_user.facebook.uid
+        %dd= link_to current_user.facebook.uid, current_user.facebook.profile_url
       - else
         %dd= link_to 'Connect your Facebook account', '/auth/facebook'
 .panel.panel-default
