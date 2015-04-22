@@ -17,6 +17,7 @@ gem 'haml-rails'
 gem 'bootstrap-sass'
 gem 'money'
 gem 'activeadmin', '~> 1.0.0.pre1'
+gem 'cancancan', '~> 1.10'
 
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'

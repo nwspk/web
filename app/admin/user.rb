@@ -11,6 +11,10 @@ ActiveAdmin.register User do
     column :name
     column :email
 
+    column :role do |u|
+      status_tag u.role
+    end
+
     column "Subscription" do |u|
       link_to (u.subscription.active? ? u.subscription.plan.name : "Inactive"), admin_subscription_path(u.subscription)
     end

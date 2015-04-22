@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def access_denied(exception)
+    redirect_to dashboard_path, alert: exception.message
+  end
+
   def after_sign_in_path_for(resource)
     dashboard_path
   end
