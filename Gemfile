@@ -23,7 +23,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'twitter'
 gem 'koala', '~> 2.0'
-gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'stripe'
 
 group :development, :test do
   gem 'byebug'
@@ -33,6 +33,15 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'quiet_assets'
   gem 'dotenv-rails'
+  gem 'nyan-cat-formatter'
+end
+
+group :test do
+  gem 'rr', require: false
+  gem 'fabrication'
+  gem 'faker'
+  gem 'stripe-ruby-mock', '~> 2.1.1', :require => 'stripe_mock'
+  gem 'timecop'
 end
 
 group :production do
