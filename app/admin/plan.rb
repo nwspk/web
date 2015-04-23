@@ -9,7 +9,7 @@ ActiveAdmin.register Plan do
     column :name, sortable: false
 
     column :value, sortable: :value do |p|
-      Money.new(p.value, 'GBP').format
+      p.value.format
     end
 
     column :subscriptions do |p|

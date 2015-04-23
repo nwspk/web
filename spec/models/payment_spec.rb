@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe "subscription/checkout.html.haml", type: :view do
+RSpec.describe Payment, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

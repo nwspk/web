@@ -4,7 +4,11 @@ class Plan < ActiveRecord::Base
   validates :name, :value, presence: true
 
   def description
-    "#{self.name} - #{Money.new(self.value, 'GBP').format} / month"
+    "#{self.name} - #{value.format} / month"
+  end
+
+  def value
+    Money.new(read_attribute(:value), 'GBP')
   end
 
   before_create  :create_stripe_counterpart
@@ -16,11 +20,11 @@ class Plan < ActiveRecord::Base
     stripe_id = self.name.to_s.parameterize
 
     Stripe::Plan.create(
-      amount: self.value,
+      amount: value.cents,
       name: self.name,
       id: stripe_id,
       interval: 'month',
-      currency: 'gbp'
+      currency: value.currency.iso_code
     )
 
     self.stripe_id = stripe_id

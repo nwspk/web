@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422103648) do
+ActiveRecord::Schema.define(version: 20150423182649) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -64,6 +64,17 @@ ActiveRecord::Schema.define(version: 20150422103648) do
 
   add_index "friend_edges", ["from_id"], name: "index_friend_edges_on_from_id"
   add_index "friend_edges", ["to_id"], name: "index_friend_edges_on_to_id"
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "total"
+    t.string   "stripe_invoice_id", default: "", null: false
+    t.datetime "date"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "payments", ["user_id"], name: "index_payments_on_user_id"
 
   create_table "plans", force: :cascade do |t|
     t.string   "name",       default: "", null: false
