@@ -23,6 +23,14 @@ ActiveAdmin.register User do
   end
 
   controller do
+    def create
+      create!
+
+      if @user.persisted?
+        @user.build_subscription.save(validate: false)
+      end
+    end
+
     def update_resource(object, attributes)
       if attributes[0][:password].blank? && attributes[0][:password_confirmation].blank?
         attributes[0].delete(:password)
@@ -34,16 +42,13 @@ ActiveAdmin.register User do
   end
 
   form do |f|
-    semantic_errors
+    semantic_errors *f.object.errors.keys
 
     inputs do
       input :name
       input :email
-
-      unless f.object.new_record?
-        f.input :password
-        f.input :password_confirmation
-      end
+      input :password
+      input :password_confirmation
     end
 
     actions

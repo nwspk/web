@@ -4,6 +4,8 @@ ActiveAdmin.register Subscription do
 
   actions :index, :show, :edit, :update
 
+  permit_params :plan_id
+
   index do
     column 'User' do |s|
       link_to s.user.email, admin_user_path(s.user)
@@ -28,12 +30,18 @@ ActiveAdmin.register Subscription do
   end
 
   member_action :terminate, method: :post do
-    # todo
+    service = TerminateSubscriptionService.new
+    service.call(resource)
+
+    redirect_to resource_path, notice: 'Succesfully terminated subscription'
   end
 
   controller do
     def update_resource(object, attributes)
-      # todo
+      if attributes[0][:plan_id] != object.plan_id
+        service = ChangePlanService.new
+        service.call(object, attributes[0][:plan_id])
+      end
     end
   end
 

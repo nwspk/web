@@ -12,32 +12,18 @@ class SubscriptionsController < ApplicationController
     new_plan_id = params[:subscription][:plan_id] if params[:subscription]
 
     if @subscription.plan_id != new_plan_id
-      @subscription.update!(plan_id: new_plan_id)
+      service = ChangePlanService.new
+      service.call(@subscription, new_plan_id)
 
-      customer = Stripe::Customer.retrieve(@subscription.customer_id)
-
-      if @subscription.subscription_id.blank?
-        subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
-        @subscription.update!(subscription_id: subscription.id, active_until: subscription.current_period_end)
-      else
-        subscription = customer.subscriptions.retrieve(@subscription.subscription_id)
-        subscription.plan = @subscription.plan.stripe_id
-        subscription.save
-      end
-
-      redirect_to dashboard_path, notice: "Successfully changed subscription plan to #{@subscription.plan.name}" and return
+      redirect_to dashboard_path, notice: "Successfully changed subscription plan to #{@subscription.plan.name}"
+    else
+      redirect_to edit_subscription_path, alert: 'No change was made since the same plan was selected'
     end
-
-    redirect_to edit_subscription_path, alert: 'No change was made since the same plan was selected'
   end
 
   def destroy
-    unless @subscription.subscription_id.blank?
-      customer = Stripe::Customer.retrieve(@subscription.customer_id)
-      customer.subscriptions.retrieve(@subscription.subscription_id).delete
-
-      @subscription.update(subscription_id: '', plan_id: nil, active_until: nil)
-    end
+    service = TerminateSubscriptionService.new
+    service.call(@subscription)
 
     redirect_to dashboard_path, notice: 'Your subscription has been successfully terminated'
   end

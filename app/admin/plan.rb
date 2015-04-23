@@ -28,7 +28,7 @@ ActiveAdmin.register Plan do
   end
 
   form do |f|
-    semantic_errors
+    semantic_errors *f.object.errors.keys
 
     inputs do
       input :name
