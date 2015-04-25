@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
   ROLES = {
-    ed: 'ed',
+    admin: 'admin',
     member: 'member'
   }
 
@@ -21,6 +21,8 @@ class User < ActiveRecord::Base
 
   before_validation :set_default_role
 
+  scope :admins, -> { where(role: ROLES[:admin]) }
+
   def facebook
     @facebook_cache ||= self.connections.find_by(provider: 'facebook')
   end
@@ -29,8 +31,8 @@ class User < ActiveRecord::Base
     @twitter_cache ||= self.connections.find_by(provider: 'twitter')
   end
 
-  def ed?
-    self.role == ROLES[:ed]
+  def admin?
+    self.role == ROLES[:admin]
   end
 
   private

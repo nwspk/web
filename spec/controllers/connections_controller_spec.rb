@@ -3,9 +3,12 @@ require 'rails_helper'
 RSpec.describe ConnectionsController, type: :controller do
   let(:user) { Fabricate(:user) }
 
+  before do
+    sign_in :user, user
+  end
+
   describe "GET #index" do
     it "returns http success" do
-      sign_in :user, user
       get :index
       expect(response).to have_http_status(:success)
     end
@@ -13,7 +16,8 @@ RSpec.describe ConnectionsController, type: :controller do
 
   describe "POST #check_friends" do
     it "returns http success" do
-      pending
+      post :check_friends
+      expect(response).to have_http_status(:redirect)
     end
   end
 end
