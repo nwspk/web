@@ -38,6 +38,12 @@ RSpec.describe UserGraph, type: :model do
     end
   end
 
+  describe '#full' do
+    subject { UserGraph.full }
+
+    it { expect(subject).to be_instance_of UserGraph }
+  end
+
   def create_edge(a, b)
     FriendEdge.create(from: a, to: b, network: 'foo')
     FriendEdge.create(from: b, to: a, network: 'foo')

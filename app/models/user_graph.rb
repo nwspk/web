@@ -14,24 +14,28 @@ class UserGraph
     }.to_json
   end
 
-  def self.centered_on_user(user)
+  def self.centered_on_user(user, options = {})
+    options[:max_depth] ||= 5
+
     graph       = self.new(user)
     open_list   = []
     closed_list = []
 
-    open_list << user
+    open_list << [user, 0]
 
     while !open_list.empty?
-      cur = open_list.pop
+      cur, depth = open_list.pop
 
       closed_list << cur.id
       graph.nodes << cur
 
       cur.friends.group(:to_id).select('count(friend_edges.id) as weight, to_id').each do |f|
+        next if options[:showcase_only] && !f.to.showcase
+
         graph.edges << [cur.id, f.to_id, f.weight]
 
-        unless closed_list.include? f.to_id
-          open_list << f.to
+        unless closed_list.include?(f.to_id) || (depth + 1) > options[:max_depth]
+          open_list << [f.to, depth + 1]
         end
       end
     end
@@ -39,29 +43,29 @@ class UserGraph
     graph
   end
 
-  def self.full(showcase_only = false)
-  end
+  def self.full(options = {})
+    if options[:showcase_only]
+      offset = Random.rand(User.where(showcase: true).count)
+      random_starting_user = User.where(showcase: true).offset(offset).first
+    else
+      offset = Random.rand(User.count)
+      random_starting_user = User.offset(offset).first
+    end
 
-  # class WorkNode
-  #   attr_accessor :user, :depth
-  # end
+    centered_on_user(random_starting_user, options)
+  end
 
   private
 
   def build_nodes_json
     @nodes.uniq.map.with_index do |x, i|
-      followers = x.followers.count
-
       {
         id: x.id.to_s,
         label: x.name,
         x: circular_x(i),
         y: circular_y(i),
-        size: Math.log10(followers),
-        data: {
-          followers: followers,
-          showcase: x.showcase
-        }
+        size: plan_to_size(x.subscription.plan),
+        showcase: x.showcase
       }
     end
   end
@@ -76,5 +80,9 @@ class UserGraph
 
   def circular_y(i)
     100 * Math.sin(2 * i * Math::PI / @nodes.uniq.size)
+  end
+
+  def plan_to_size(plan)
+    Math.log10(plan.value)
   end
 end
