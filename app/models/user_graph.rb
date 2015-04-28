@@ -27,7 +27,7 @@ class UserGraph
       closed_list << cur.id
       graph.nodes << cur
 
-      cur.friends.group(:to_id).select('*, count(distinct network) as weight').each do |f|
+      cur.friends.group(:to_id).select('count(friend_edges.id) as weight, to_id').each do |f|
         graph.edges << [cur.id, f.to_id, f.weight]
 
         unless closed_list.include? f.to_id
