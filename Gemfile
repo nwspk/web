@@ -34,12 +34,12 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'dotenv-rails'
   gem 'nyan-cat-formatter'
+  gem 'fabrication'
+  gem 'faker'
 end
 
 group :test do
   gem 'rr', require: false
-  gem 'fabrication'
-  gem 'faker'
   gem 'stripe-ruby-mock', '~> 2.1.1', :require => 'stripe_mock'
   gem 'timecop'
 end
