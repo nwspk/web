@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Plan, type: :model do
-  before :all do
-    StripeMock.start
-  end
-
-  after :all do
-    StripeMock.stop
-  end
-
   let(:plan) { Fabricate(:plan) }
 
   describe '#value' do

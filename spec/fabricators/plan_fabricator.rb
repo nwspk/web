@@ -1,4 +1,4 @@
 Fabricator(:plan) do
   name       { Faker::Name.title }
-  value      1000
+  value      { Random.rand(2000) }
 end

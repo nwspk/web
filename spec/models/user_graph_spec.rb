@@ -5,6 +5,10 @@ RSpec.describe UserGraph, type: :model do
   let(:user2) { Fabricate(:user) }
   let(:user3) { Fabricate(:user) }
 
+  before do
+    [user1, user2, user3].each { |u| u.update!(subscription: Fabricate(:subscription)) }
+  end
+
   context 'chain-type graph' do
     before do
       create_edge(user1, user2)
@@ -18,6 +22,7 @@ RSpec.describe UserGraph, type: :model do
       it { expect(subject.center).to be user1 }
       it { expect(subject.nodes).to include user1, user2, user3 }
       it { expect(subject.edges).to include [user1.id, user2.id, 1], [user2.id, user1.id, 1], [user2.id, user3.id, 1], [user3.id, user2.id, 1] }
+      it { expect(subject.to_json).to be_instance_of String }
     end
   end
 
@@ -35,6 +40,7 @@ RSpec.describe UserGraph, type: :model do
       it { expect(subject.center).to be user1 }
       it { expect(subject.nodes).to include user1, user2, user3 }
       it { expect(subject.edges).to include [user1.id, user2.id, 1], [user1.id, user3.id, 1], [user2.id, user1.id, 1], [user2.id, user3.id, 1], [user3.id, user2.id, 1], [user3.id, user1.id, 1] }
+      it { expect(subject.to_json).to be_instance_of String }
     end
   end
 

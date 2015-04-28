@@ -9,6 +9,7 @@ class UserGraph
 
   def to_json
     {
+      center: "n#{@center.id}",
       nodes: build_nodes_json,
       edges: build_edges_json
     }.to_json
@@ -21,18 +22,19 @@ class UserGraph
     open_list   = []
     closed_list = []
 
-    open_list << [user, 0]
+    open_list   << [user, 0]
+    graph.nodes << user
 
     while !open_list.empty?
       cur, depth = open_list.pop
 
       closed_list << cur.id
-      graph.nodes << cur
 
       cur.friends.group(:to_id).select('count(friend_edges.id) as weight, to_id').each do |f|
         next if options[:showcase_only] && !f.to.showcase
 
         graph.edges << [cur.id, f.to_id, f.weight]
+        graph.nodes << f.to
 
         unless closed_list.include?(f.to_id) || (depth + 1) > options[:max_depth]
           open_list << [f.to, depth + 1]
@@ -60,18 +62,19 @@ class UserGraph
   def build_nodes_json
     @nodes.uniq.map.with_index do |x, i|
       {
-        id: x.id.to_s,
+        id: "n#{x.id}",
         label: x.name,
         x: circular_x(i),
         y: circular_y(i),
-        size: plan_to_size(x.subscription.plan),
-        showcase: x.showcase
+        size: plan_to_size(x),
+        showcase: x.showcase,
+        plan_type: plan_type(x)
       }
     end
   end
 
   def build_edges_json
-    @edges.uniq.map.with_index { |x, i| { id: "e#{i}", source: x[0].to_s, target: x[1].to_s, weight: x[2] } }
+    @edges.uniq.map.with_index { |x, i| { id: "e#{i}", source: "n#{x[0]}", target: "n#{x[1]}", weight: x[2] } }
   end
 
   def circular_x(i)
@@ -82,7 +85,13 @@ class UserGraph
     100 * Math.sin(2 * i * Math::PI / @nodes.uniq.size)
   end
 
-  def plan_to_size(plan)
-    Math.log10(plan.value)
+  def plan_to_size(user)
+    return 1 if user.subscription.nil? || !user.subscription.active?
+    Math.log10(user.subscription.plan.value.cents)
+  end
+
+  def plan_type(user)
+    return :inactive if user.subscription.nil? || !user.subscription.active?
+    user.subscription.plan.name
   end
 end

@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe WebhooksController, type: :controller do
-  before :all do
-    StripeMock.start
-  end
-
-  after :all do
-    StripeMock.stop
-  end
-
   before do
     Timecop.freeze(Time.local(2015, 4, 23, 0, 46, 0))
   end

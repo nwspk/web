@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SubscriptionsController, type: :controller do
-  before :all do
-    StripeMock.start
-  end
-
-  after :all do
-    StripeMock.stop
-  end
-
   let(:user) { Fabricate(:user) }
 
   before do
