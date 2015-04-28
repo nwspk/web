@@ -8,16 +8,12 @@ ActiveAdmin.register User do
 
   index do
     id_column
+
     column :name
     column :email
-
-    column :role do |u|
-      status_tag u.role
-    end
-
-    column "Subscription" do |u|
-      link_to (u.subscription.active? ? u.subscription.plan.name : "Inactive"), admin_subscription_path(u.subscription)
-    end
+    column(:role) { |u| status_tag u.role }
+    column :showcase
+    column(:subscription) { |u| status_tag u.subscription.plan.try(:name), (u.subscription.active? ? :active : :inactive) }
 
     actions
   end
@@ -49,6 +45,7 @@ ActiveAdmin.register User do
       input :email
       input :password
       input :password_confirmation
+      input :showcase
     end
 
     actions

@@ -7,14 +7,8 @@ ActiveAdmin.register Plan do
 
   index do
     column :name, sortable: false
-
-    column :value, sortable: :value do |p|
-      p.value.format
-    end
-
-    column :subscriptions do |p|
-      p.subscriptions.count
-    end
+    column(:value, sortable: :value) { |p| p.value.format }
+    column(:subscriptions) { |p| p.subscriptions.count }
 
     actions
   end

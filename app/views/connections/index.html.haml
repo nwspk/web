@@ -1,4 +1,27 @@
 .page-header
   %h2 Friends graph
 
-%div#friends-graph{data: { nodes: @nodes.to_json, edges: @edges.to_json } }
+#sigma-container{ style: 'width: 100%; height: 600px; background: #eee' }
+
+%script{ type: 'text/javascript', src: asset_path('sigma.min.js') }
+%script{ type: 'text/javascript', src: asset_path('plugins/sigma.parsers.json.min.js') }
+
+:javascript
+  (function () {
+    'use strict';
+
+    var graphData = #{@graph.to_json};
+
+    new sigma({
+      container: 'sigma-container',
+      graph: graphData,
+      settings: {
+        edgeColor: 'default',
+        defaultNodeColor: '#aaa',
+        defaultEdgeColor: '#111'
+      }
+    });
+
+    window.graphData = graphData;
+  }());
+

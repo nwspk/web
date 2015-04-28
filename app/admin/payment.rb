@@ -5,18 +5,9 @@ ActiveAdmin.register Payment do
   actions :index
 
   index do
-    column 'Invoice ID' do |p|
-      p.stripe_invoice_id
-    end
-
-    column 'Total' do |p|
-      p.total.format
-    end
-
-    column :user do |p|
-      link_to p.user.email, admin_user_path(p.user)
-    end
-
+    column('Invoice ID') { |p| p.stripe_invoice_id }
+    column(:total) { |p| p.total.format }
+    column(:user) { |p| link_to p.user.email, admin_user_path(p.user) }
     column :date
   end
 end

@@ -15,3 +15,17 @@
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+.status_tag {
+  &.admin {
+    background: #172C45;
+  }
+
+  &.member {
+    background: #7E6F2A;
+  }
+
+  &.active {
+    background: #5BA437;
+  }
+}

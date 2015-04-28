@@ -6,11 +6,17 @@ class ChangePlanService
 
     if subscription_record.subscription_id.blank?
       subscription = customer.subscriptions.create(plan: subscription_record.plan.stripe_id)
-      subscription_record.update!(subscription_id: subscription.id, active_until: subscription.current_period_end)
+      subscription_record.update!(subscription_id: subscription.id, active_until: arbitrary_future_date)
     else
       subscription = customer.subscriptions.retrieve(subscription_record.subscription_id)
       subscription.plan = subscription_record.plan.stripe_id
       subscription.save
     end
+  end
+
+  private
+
+  def arbitrary_future_date
+    30.days.from_now
   end
 end

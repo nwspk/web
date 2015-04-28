@@ -20,15 +20,7 @@ class ConnectionsController < ApplicationController
   end
 
   def index
-    _friends = current_user.friends.to_a
-    friends  = [].concat(_friends)
-
-    _friends.each do |edge|
-      friends = friends.concat(edge.to.friends.to_a)
-    end
-
-    @nodes = friends.map { |x| [x.from, x.to] }.flatten.uniq.map { |x| { id: x.id, name: x.name } }
-    @edges = friends.map { |x| { source: x.from.id, target: x.to.id } }
+    @graph = UserGraph.centered_on_user(current_user)
   end
 
   def check_friends
