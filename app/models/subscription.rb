@@ -7,4 +7,8 @@ class Subscription < ActiveRecord::Base
   def active?
     !self.subscription_id.blank? && !self.active_until.nil? && self.active_until > Time.now
   end
+
+  def grace_period?
+    self.active_until < Time.now
+  end
 end

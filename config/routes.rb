@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'fellowship',               to: 'home#fellowship'
   get 'contact',                  to: 'home#contact'
   get 'calendar',                 to: 'home#calendar'
+  get 'api/uid',                  to: 'api#uid'
 
   post 'webhooks',                   to: 'webhooks#index'
   post '/connections/check_friends', to: 'connections#check_friends'

@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_one :address, dependent: :destroy
   has_one :subscription, dependent: :destroy
   has_many :connections, dependent: :destroy
+  has_many :rings, dependent: :destroy
 
   has_many :friends, -> { includes(:to) }, class_name: 'FriendEdge', foreign_key: 'from_id', dependent: :destroy
   has_many :followers, class_name: 'FriendEdge', foreign_key: 'to_id', dependent: :destroy
