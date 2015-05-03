@@ -1,7 +1,7 @@
 ActiveAdmin.register Plan do
   config.batch_actions = false
 
-  permit_params :name, :value
+  permit_params :name, :value, :visible
 
   filter :name
 
@@ -9,6 +9,7 @@ ActiveAdmin.register Plan do
     column :name, sortable: false
     column(:value, sortable: :value) { |p| p.value.format }
     column(:subscriptions) { |p| p.subscriptions.count }
+    column :visible
 
     actions
   end
@@ -26,6 +27,7 @@ ActiveAdmin.register Plan do
 
     inputs do
       input :name
+      input :visible
       input :value, label: 'Value in cents' if f.object.new_record?
     end
 

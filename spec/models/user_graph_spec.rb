@@ -6,7 +6,7 @@ RSpec.describe UserGraph, type: :model do
   let(:user3) { Fabricate(:user) }
 
   before do
-    [user1, user2, user3].each { |u| u.update!(subscription: Fabricate(:subscription)) }
+    [user1, user2, user3].each_with_index { |u, i| u.update!(subscription: Fabricate(:subscription, plan: Fabricate(:plan, name: "plan-#{i}"))) }
   end
 
   context 'chain-type graph' do
@@ -46,6 +46,12 @@ RSpec.describe UserGraph, type: :model do
 
   describe '#full' do
     subject { UserGraph.full }
+
+    it { expect(subject).to be_instance_of UserGraph }
+  end
+
+  describe '#by_door_access' do
+    subject { UserGraph.by_door_access }
 
     it { expect(subject).to be_instance_of UserGraph }
   end

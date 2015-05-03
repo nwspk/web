@@ -1,4 +1,4 @@
 Fabricator(:plan) do
-  name       { Faker::Name.title }
+  name       { Faker::Commerce.color }
   value      { Random.rand(2000) }
 end
