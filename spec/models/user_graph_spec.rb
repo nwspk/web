@@ -50,6 +50,12 @@ RSpec.describe UserGraph, type: :model do
     it { expect(subject).to be_instance_of UserGraph }
   end
 
+  describe '#by_door_access' do
+    subject { UserGraph.by_door_access }
+
+    it { expect(subject).to be_instance_of UserGraph }
+  end
+
   def create_edge(a, b)
     FriendEdge.create(from: a, to: b, network: 'foo')
     FriendEdge.create(from: b, to: a, network: 'foo')
