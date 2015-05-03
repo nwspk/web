@@ -4,6 +4,26 @@
 
 %p It is a residential incubator and members’ club located in East London.
 
-%p [showcase social graph]
+#sigma-container{ style: 'margin-top: 40px; width: 100%; height: 300px; background: pink' }
 
-%p [#nwspk twitter feed]
+%script{ type: 'text/javascript', src: asset_path('sigma.min.js') }
+%script{ type: 'text/javascript', src: asset_path('plugins/sigma.parsers.json.min.js') }
+
+:javascript
+  (function () {
+    'use strict';
+
+    var graphData = #{@graph.to_json};
+
+    new sigma({
+      container: 'sigma-container',
+      graph: graphData,
+      settings: {
+        edgeColor: 'default',
+        defaultNodeColor: '#aaa',
+        defaultEdgeColor: '#111'
+      }
+    });
+
+    window.graphData = graphData;
+  }());
