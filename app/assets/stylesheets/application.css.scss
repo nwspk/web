@@ -371,8 +371,22 @@ table {
   position:absolute;
 }
 
-.has-error .help-block {
-  display: none;
+.has-error {
+  :focus {
+    outline: green;
+  } 
+  .help-block {
+    display: none;
+  }
+}
+
+.alert {
+  margin-bottom: 0px;
+}
+
+.alert-danger {
+  background: transparent;
+  border: 0;
 }
 
 .nav-pills {
