@@ -1,12 +1,15 @@
-.page-header
-  %h1 Become a Member
-
-%h2 Why become a member?
+%p.lead Benefits of Membership
 
 %ul
-  %li Financially support the incubation of society-changing projects. [see our projects /fellowship]
-  %li Have a say in which projects receive incubation. [fellowship applications www.reddit.com/r/nwspk]
-  %li Get access to a space in East London dedicated to fixing society. [event programme /calendar]
+  %li= "Financially support the incubation of society-changing #{link_to 'projects', 'fellowship'}.".html_safe 
+  %li= "#{link_to 'Have a say', 'http://www.reddit.com/r/nwspk'} in which projects receive incubation.".html_safe 
+  %li= "#{link_to 'Get access', 'https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9'} to a space in East London dedicated to fixing society.".html_safe
+
+%p.lead.space Pricing
+
+%p Membership is charged by monthly subscription. There is a one off joining fee of £50.
+
+%p Maven discount: for each member you connect to on Twitter or Facebook, your membership is discounted by £1 / yr.
 
 %table.table.table-bordered.table-striped
   %thead
@@ -14,10 +17,6 @@
       %th Tier
       %th Price / yr
       %th Contribution
-  %tfoot
-    %tr
-      %th One off joining fee:
-      %td £50
   %tbody
     %tr
       %td Unperson
@@ -39,5 +38,3 @@
       %td Thought Police
       %td £1500
       %td 50% goes directly to projects
-
-%p Maven discount: for each member you connect to on Twitter or Facebook, your membership is instantly discounted by £1 / yr.

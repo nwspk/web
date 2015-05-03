@@ -33,6 +33,17 @@ body {
   padding-bottom: 40px;
 }
 
+a {
+    color: #c02d25;
+    transition: 0.5s;
+    -webkit-transition: 0.5s; 
+  }
+
+a:hover {
+  color: #272727;
+  text-decoration: none;
+}
+
 .navbar-custom {
   margin-top: 45px;
 
