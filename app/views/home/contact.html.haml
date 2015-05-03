@@ -1,23 +1,33 @@
-.page-header
-  %h1 Contact
+%p.lead.space Address
 
 %address
-  %strong Newspeak House
-  %br
+  .bold Newspeak House
   133 Bethnal Green Road
   %br/
   London, England, E2 7DG
 
-%dl.dl-horizontal
-  %dt Founder
-  %dd Edward Saperia ed@nwspk.com
-  %dd edsaperia Facebook LinkedIn
+%p.lead.space Contact
+
+.contact
+  .bold Founder
+  Edward Saperia
+  %br/
+  = link_to 'ed@nwspk.com', 'mailto:ed@nwspk.com', target: '_blank'
+-#edsaperia Facebook LinkedIn
+
+%p.lead.space Hire
 
 %p
-  Newspeak House is available for hire. [brochure].
+  = "Newspeak House is available for hire. [ #{link_to 'brochure', 'http://www.topofficemachines.com', target: '_blank'} ]".html_safe
   %br/
   For enquiries please contact:
+  %br/
+  .bold Programme Assistant
+  Aisha Brady
+  %br/
+  = link_to 'aisha@nwspk.com', 'mailto:aisha@nwspk.com', target: '_blank'
 
-%dl.dl-horizontal
-  %dt Programme Assistant
-  %dd Aisha Brady aisha@nwspk.com
+.singleline.extraspace
+
+.footer 
+  = link_to image_tag('mono.png'), root_path

@@ -26,22 +26,35 @@
 }
 
 body {
-  font-family: 'akkuratRegular', sans-serif;
+  font-family: 'akkuratLight', sans-serif;
   background: url('bg.jpg') repeat;
   background-size: 103px 103px;
   color: #272727;
   padding-bottom: 40px;
 }
 
+.bold {
+  font-family: 'akkuratRegular' !important;
+}
+
 a {
     color: #c02d25;
     transition: 0.5s;
     -webkit-transition: 0.5s; 
-  }
+} 
 
 a:hover {
   color: #272727;
   text-decoration: none;
+}
+
+.lead {
+  font-family: 'akkuratRegular', sans-serif;
+}
+
+.alttitle {
+  font-family: 'Conv_F25_Executive';
+  font-size: 2em;
 }
 
 .navbar-custom {
@@ -84,6 +97,7 @@ a:hover {
     } 
   }
 
+@media (min-width: 850px) {
   .nav:before {
     content: "";
     position: absolute;
@@ -126,6 +140,7 @@ a:hover {
     color: #272727;
   }
 }
+}
 
 @media (min-width: 850px) {
   .container {
@@ -137,11 +152,39 @@ a:hover {
   margin-top: 20px;
 }
 
+.extraspace {
+  margin-top: 40px;
+}
+
 .singleline {
   width: 100%;
   height: 3px;
   background: url('sngll.png') repeat-x;
   background-size: 336px 2px;
+}
+
+.sololink {
+  width: 100%;
+  margin: 20px 0;
+  text-align: center;
+  font-size: 1.4em;
+  a {
+    font-family: 'Conv_F25_Executive';
+  }
+  a:before {
+    content: "[";
+    font-family: 'Courier'; 
+    font-weight: bold;
+    color: #272727;
+    margin-right: 4px;
+  }
+  a:after {
+    content: "]";
+    font-family: 'Courier'; 
+    margin-left: 4px;
+    font-weight: bold;
+    color: #272727;
+  }
 }
 
 .sigmalabel {
@@ -178,4 +221,142 @@ a:hover {
     width: 25px;
     height: 14px;
   }
+}
+
+table {
+  border-color: #272727;
+  td, tbody, thead, tr, th {
+    border: 2px solid #272727;
+  }
+}
+
+.table thead tr th {
+  border-color: #272727;
+}
+
+.table-border {
+  border: 2px solid #272727;
+}
+
+.simple_form {
+  width: 100%;
+  -webkit-transform: rotate(-0.3deg);
+  -moz-transform: rotate(-0.3deg);
+  -ms-transform: rotate(-0.3deg);
+  -o-transform: rotate(-0.3deg);
+  .control-label {
+    text-align: left;
+    font-family: 'Conv_F25_Executive';
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 54px;
+  }
+  .col-sm-6 {
+    width: 100%;
+  }
+  input[type="text"], input[type="email"], input[type="password"]{
+    width: 100%;
+    padding: 30px 0 5px 20px;
+    background: transparent;
+    font-family: 'AkkuratRegular', sans-serif;
+    height: 56px;
+    border-radius: 0px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border-bottom: 2px solid transparent;
+    border-image: url('texture.jpg') 0 27 27 27 round stretch;
+  }
+  .user_subscription_plan {
+    min-height: 54px;
+    .help-block {
+      font-family: 'Conv_F25_Executive';
+      margin-left: 60px;
+      margin-top: 7px;
+    }
+  }
+
+  .password .help-block {
+    font-family: 'Conv_F25_Executive';
+    position: absolute;
+    margin-top: -49px;
+    margin-left: 91px;
+  }
+  abbr {
+    cursor: auto;
+    border: 0;
+    margin-left: 6px;
+  }
+
+  /*input {
+    width: 50%;
+    padding: 30px 0 5px 20px;
+    background: transparent;
+    font-family: 'AkkuratRegular', sans-serif;
+    height: 56px;
+    border-radius: 0px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border-right: 2px solid transparent;
+    border-image: url('texture.jpg') 0 27 27 27 round stretch; 
+  }
+  .user_password_confirmation input {
+    float: right;
+    width: 50%;
+    padding: 30px 0 5px 20px;
+    background: transparent;
+    font-family: 'AkkuratRegular', sans-serif;
+    height: 56px;
+    border-radius: 0px;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border-right: 2px solid transparent;
+    border-image: url('texture.jpg') 0 27 27 27 round stretch; 
+  }*/
+}
+
+.form-group {
+  margin-bottom: 0
+}
+
+.formsubmit {
+  width: 100%;
+  z-index: 250;
+  border-top: 2px solid black;
+  margin-left: 0px !important;
+  text-align: center;
+  input {
+    font-family: 'Conv_F25_Executive';
+    color: #c02d25;
+    background: transparent;
+    position: relative;
+    z-index: 600;
+    font-size: 1.4em;
+    border: 0;
+  }
+  :hover {
+    background: transparent;
+    color: #272727;
+  }
+}
+
+.simple_form:after {
+  border: 3px solid transparent;
+  border-image: url('texture.jpg') 0 27 27 27 round stretch;
+  content: '';
+  top:0px;
+  left:0px;
+  position:absolute;
+  width:100%;
+  height:100%;
+}
+.simple_form:before {
+  border-top: 2px solid transparent;
+  border-image: url('texture.jpg') 27 0 0 0 stretch round;
+  content: '';
+  height: 3em;
+  left: -3px;
+  top: 0;
+  width:101%;
+  position:absolute;
 }
