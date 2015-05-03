@@ -251,6 +251,8 @@ table {
     z-index: 100;
     width: 100%;
     height: 54px;
+    padding-left: 24px;
+    font-style: italic
   }
   .col-sm-6 {
     width: 100%;
@@ -275,6 +277,12 @@ table {
       margin-top: 7px;
     }
   }
+  .user_remember_me {
+    font-family: 'Conv_F25_Executive';
+    position: absolute;
+    z-index: 750;
+    padding-top: 5px;
+  }
 
   .password .help-block {
     font-family: 'Conv_F25_Executive';
@@ -285,7 +293,6 @@ table {
   abbr {
     cursor: auto;
     border: 0;
-    margin-left: 6px;
   }
 
   /*input {
@@ -338,6 +345,9 @@ table {
     background: transparent;
     color: #272727;
   }
+  :focus {
+    background: transparent;
+  }
 }
 
 .simple_form:after {
@@ -359,4 +369,15 @@ table {
   top: 0;
   width:101%;
   position:absolute;
+}
+
+.has-error .help-block {
+  display: none;
+}
+
+.nav-pills {
+    font-family: 'Conv_F25_Executive';
+    li:hover a {
+      background: transparent;
+  }
 }
