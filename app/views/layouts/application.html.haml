@@ -19,12 +19,12 @@
 
         %ul.nav.navbar-nav
           - if user_signed_in?
-            %li= link_to 'Dashboard', dashboard_path
-            %li= link_to 'Friends graph', connections_path
+            = link_to_in_li 'Dashboard', dashboard_path
+            = link_to_in_li 'Friends graph', connections_path
           - else
-            %li= link_to 'Membership', membership_path
-            %li= link_to 'Fellowship', fellowship_path
-            %li= link_to 'Contact', contact_path
+            = link_to_in_li 'Membership', membership_path
+            = link_to_in_li 'Fellowship', fellowship_path
+            = link_to_in_li 'Contact', contact_path
 
         - if user_signed_in?
           %p.navbar-text.navbar-right
