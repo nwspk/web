@@ -5,13 +5,8 @@ RSpec.configure do |config|
 
   config.mock_with :rr
 
-  config.before :all do
-    StripeMock.start
-  end
-
-  config.after :all do
-    StripeMock.stop
-  end
+  config.before(:each) { StripeMock.start }
+  config.after(:each)  { StripeMock.stop }
 
   config.order = :random
   Kernel.srand config.seed

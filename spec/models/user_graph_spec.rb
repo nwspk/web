@@ -6,7 +6,7 @@ RSpec.describe UserGraph, type: :model do
   let(:user3) { Fabricate(:user) }
 
   before do
-    [user1, user2, user3].each { |u| u.update!(subscription: Fabricate(:subscription)) }
+    [user1, user2, user3].each_with_index { |u, i| u.update!(subscription: Fabricate(:subscription, plan: Fabricate(:plan, name: "plan-#{i}"))) }
   end
 
   context 'chain-type graph' do
