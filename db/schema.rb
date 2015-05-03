@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430184840) do
+ActiveRecord::Schema.define(version: 20150503105352) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -77,11 +77,12 @@ ActiveRecord::Schema.define(version: 20150430184840) do
   add_index "payments", ["user_id"], name: "index_payments_on_user_id"
 
   create_table "plans", force: :cascade do |t|
-    t.string   "name",       default: "", null: false
-    t.string   "stripe_id",  default: "", null: false
-    t.integer  "value",      default: 0,  null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "name",       default: "",   null: false
+    t.string   "stripe_id",  default: "",   null: false
+    t.integer  "value",      default: 0,    null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "visible",    default: true, null: false
   end
 
   create_table "rings", force: :cascade do |t|
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(version: 20150430184840) do
     t.datetime "updated_at"
     t.string   "role",                   default: "",    null: false
     t.boolean  "showcase",               default: false, null: false
+    t.string   "url",                    default: "",    null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

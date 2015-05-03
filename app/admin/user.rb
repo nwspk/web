@@ -6,6 +6,13 @@ ActiveAdmin.register User do
   filter :name
   filter :email
 
+  sidebar "User Details", only: [:show, :edit] do
+    ul do
+      li link_to "Rings",    admin_user_rings_path(user)
+      li(link_to("Subscription", admin_subscription_path(user.subscription))) unless user.subscription.nil?
+    end
+  end
+
   index do
     id_column
 
@@ -13,7 +20,8 @@ ActiveAdmin.register User do
     column :email
     column(:role) { |u| status_tag u.role }
     column :showcase
-    column(:subscription) { |u| status_tag u.subscription.plan.try(:name), (u.subscription.active? ? :active : :inactive) }
+    column :url
+    column(:subscription) { |u| status_tag u.subscription.try(:plan_name), (u.subscription.try(:active?) ? :active : :inactive) }
 
     actions
   end
@@ -46,6 +54,7 @@ ActiveAdmin.register User do
       input :password
       input :password_confirmation
       input :showcase
+      input :url
     end
 
     actions

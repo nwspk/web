@@ -11,6 +11,8 @@ class Plan < ActiveRecord::Base
     Money.new(read_attribute(:value), 'GBP')
   end
 
+  scope :visible, -> { where(visible: true) }
+
   before_create  :create_stripe_counterpart
   before_destroy :destroy_stripe_counterpart
 
