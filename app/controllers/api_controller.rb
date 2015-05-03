@@ -11,10 +11,11 @@ class ApiController < ApplicationController
 
     if ring.eligible_for_entry?
       response = { status: :ok }
+      ring.record_entry!
+      render json: response, status: 200
     else
       response = { status: :no }
+      render json: response, status: 401
     end
-
-    render json: response, status: 200
   end
 end
