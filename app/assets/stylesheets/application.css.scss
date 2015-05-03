@@ -9,30 +9,91 @@
   font-style: normal;
 }
 
-body {
-  font-family: 'Source Sans Pro', sans-serif;
+@font-face {
+  font-family: 'akkuratLight';
+  src: font-url('AkkuratLightRegular.eot');
+  src: local('☺'), font-url('AkkuratLightRegular.woff') format('woff'), font-url('AkkuratLightRegular.ttf') format('truetype'), font-url('AkkuratLightRegular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal; 
 }
 
-.nwspk-house {
-  font-family: 'Conv_F25_Executive';
-  text-align: center;
+@font-face {
+  font-family: 'akkuratRegular';
+  src: font-url('AkkuratRegular.eot');
+  src: local('☺'), font-url('AkkuratRegular.woff') format('woff'), font-url('AkkuratRegular.ttf') format('truetype'), font-url('AkkuratRegular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal; 
+}
+
+body {
+  font-family: 'akkuratRegular', sans-serif;
+  background: url('bg.jpg') repeat;
+  background-size: 103px 103px;
 }
 
 .navbar-custom {
-  background: #172C45;
-  color: #fff;
-  border-radius: 0 0 0 0;
+  margin-top: 45px;
 
   a {
-    color: #fff;
+    color: #c02d25;
+  }
+
+  .logo {
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+    padding: 0 0 40px;
+    img {
+      width: 150px;
+    }
   }
 
   .nav {
+    font-family: 'Conv_F25_Executive';
+    background: url('dblln.png') repeat-x;
+    width: 100%;
     li {
+      margin-right: 10px;
+      -webkit-transition: 0.5s; 
+      transition: 0.5s;
+      a {
+        padding: 15px 12px
+      }
       a:hover, a:focus {
-        background: #224F67;
+        color: #272727;
+        background: transparent;
       }
     }
+  }
+
+  .nav:before {
+    content: url('dbllnl.png');
+    position: absolute;
+    margin: -7px 0 0 -2px;
+  }
+
+  .nav:after {
+    content: url('dbllnr.png');
+    position: relative;
+    float: right;
+    margin: -57px -8px 0 0;;
+  }
+
+  .nav li:before {
+    content: "[";
+    position: absolute;
+    font-family: 'Courier'; 
+    margin: 12px 2px 0 0;
+    font-weight: bold;
+  }
+
+  .nav li:after {
+    content: "]";
+    position: relative;
+    float: right;
+    font-family: 'Courier'; 
+    margin: -38px -1px 0 0;
+    font-weight: bold;
   }
 
   .navbar-brand {
@@ -56,17 +117,9 @@ body {
   }
 }
 
-.jumbotron {
-  background: lighten(#224F67, 5%) image-url('hero_bg.jpg') center center;
-  color: #fff;
-
-  .btn-success {
-    background: #76822B;
-    border-color: darken(#76822B, 10%);
-
-    &:hover, &:focus {
-      background: lighten(#76822B, 10%);
-    }
+@media (min-width: 850px) {
+  .container {
+    width: 800px;
   }
 }
 
