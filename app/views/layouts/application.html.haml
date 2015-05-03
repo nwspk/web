@@ -22,13 +22,7 @@
             %li= link_to 'Fellowship', fellowship_path
             %li= link_to 'Calendar', "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9"
             %li= link_to 'Contact', contact_path
-
-        - if user_signed_in?
-          %p.navbar-text.navbar-right
-            Signed in as #{current_user.name}
-            = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'navbar-link'
-        - else
-          = link_to 'Sign in', new_user_session_path, class: 'btn btn-default navbar-btn navbar-right'
+            %li= link_to 'Sign in', new_user_session_path, class: 'navbar-login'
 
     = yield :pre_content
 

@@ -29,6 +29,7 @@ body {
   font-family: 'akkuratRegular', sans-serif;
   background: url('bg.jpg') repeat;
   background-size: 103px 103px;
+  color: #272727;
 }
 
 .navbar-custom {
@@ -51,6 +52,7 @@ body {
   .nav {
     font-family: 'Conv_F25_Executive';
     background: url('dblln.png') repeat-x;
+    background-size: 1px 4px;
     width: 100%;
     li {
       margin-right: 10px;
@@ -67,53 +69,45 @@ body {
   }
 
   .nav:before {
-    content: url('dbllnl.png');
+    content: "";
     position: absolute;
-    margin: -7px 0 0 -2px;
+    margin: 0 0 0 -3px;
+    background: url('dbllnl.png');
+    height: 4px;
+    width: 3px;
+    background-size: 3px 4px;
   }
 
   .nav:after {
-    content: url('dbllnr.png');
+    content: "";
+    background: url('dbllnr.png');
+    background-size: 3px 4px;
+    height: 4px;
+    width: 3px;
     position: relative;
     float: right;
-    margin: -57px -8px 0 0;;
+    margin: -50px -3px 0 0;;
   }
 
-  .nav li:before {
+  .nav li a:before {
     content: "[";
     position: absolute;
     font-family: 'Courier'; 
-    margin: 12px 2px 0 0;
+    margin-left: -12px;
+    margin-top: -3px;
     font-weight: bold;
+    color: #272727;
   }
 
-  .nav li:after {
+  .nav li a:after {
     content: "]";
     position: relative;
     float: right;
     font-family: 'Courier'; 
-    margin: -38px -1px 0 0;
+    margin-left: 4px;
+    margin-top: -3px;
     font-weight: bold;
-  }
-
-  .navbar-brand {
-    margin-top: -8px;
-  }
-
-  .navbar-btn {
-    background: transparent;
-    border-color: lighten(#224F67, 50%);
-    color: lighten(#224F67, 50%);
-    border-radius: 10px;
-
-    &:hover, &:focus {
-      color: #fff;
-      border-color: #fff;
-    }
-  }
-
-  .navbar-text {
-    color: lighten(#224F67, 50%);
+    color: #272727;
   }
 }
 
