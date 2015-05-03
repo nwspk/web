@@ -9,6 +9,10 @@ class Subscription < ActiveRecord::Base
   end
 
   def grace_period?
-    self.active_until < Time.now
+    !self.active_until.nil? && self.active_until < Time.now
+  end
+
+  def plan_name
+    self.plan.try(:name)
   end
 end

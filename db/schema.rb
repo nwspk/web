@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430184840) do
+ActiveRecord::Schema.define(version: 20150503111328) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -54,6 +54,16 @@ ActiveRecord::Schema.define(version: 20150430184840) do
   add_index "connections", ["provider", "uid"], name: "index_connections_on_provider_and_uid", unique: true
   add_index "connections", ["user_id"], name: "index_connections_on_user_id"
 
+  create_table "door_accesses", force: :cascade do |t|
+    t.integer  "ring_id",    null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "door_accesses", ["ring_id"], name: "index_door_accesses_on_ring_id"
+  add_index "door_accesses", ["user_id"], name: "index_door_accesses_on_user_id"
+
   create_table "friend_edges", force: :cascade do |t|
     t.integer  "from_id"
     t.integer  "to_id"
@@ -77,11 +87,12 @@ ActiveRecord::Schema.define(version: 20150430184840) do
   add_index "payments", ["user_id"], name: "index_payments_on_user_id"
 
   create_table "plans", force: :cascade do |t|
-    t.string   "name",       default: "", null: false
-    t.string   "stripe_id",  default: "", null: false
-    t.integer  "value",      default: 0,  null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "name",       default: "",   null: false
+    t.string   "stripe_id",  default: "",   null: false
+    t.integer  "value",      default: 0,    null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "visible",    default: true, null: false
   end
 
   create_table "rings", force: :cascade do |t|
@@ -121,6 +132,7 @@ ActiveRecord::Schema.define(version: 20150430184840) do
     t.datetime "updated_at"
     t.string   "role",                   default: "",    null: false
     t.boolean  "showcase",               default: false, null: false
+    t.string   "url",                    default: "",    null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

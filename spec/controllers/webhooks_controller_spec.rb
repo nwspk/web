@@ -41,6 +41,18 @@ RSpec.describe WebhooksController, type: :controller do
       post :index, event.to_json
     end
 
+    it 'does not add friend discount when an invoice with an empty charge is generated' do
+      event = StripeMock.mock_webhook_event('invoice.created', {
+        customer: subscription.customer_id,
+        total: 0
+      })
+
+      stub(Stripe::Event).retrieve { event }
+      stub(Stripe::InvoiceItem).create(is_a(Hash)) { raise 'Friend discount added for 0 charge invoice' }
+
+      expect { post :index, event.to_json }.to_not raise_error
+    end
+
     it 'notifies admins when a payment fails' do
       event = StripeMock.mock_webhook_event('invoice.payment_failed', {
         customer: subscription.customer_id

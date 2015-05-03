@@ -15,14 +15,14 @@
           = link_to image_tag( 'logo.png'), root_path
         %ul.nav.navbar-nav
           - if user_signed_in?
-            %li= link_to 'Account', dashboard_path
+            = link_to_in_li 'Account', dashboard_path
           - else
-            %li= link_to 'Home', root_path
-            %li= link_to 'Membership', membership_path
-            %li= link_to 'Fellowship', fellowship_path
-            %li= link_to 'Calendar', "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9"
-            %li= link_to 'Contact', contact_path
-            %li= link_to 'Sign in', new_user_session_path, class: 'navbar-login'
+            = link_to_in_li 'Home', root_path
+            = link_to_in_li 'Membership', membership_path
+            = link_to_in_li 'Fellowship', fellowship_path
+            = link_to_in_li 'Calendar', "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9"
+            = link_to_in_li 'Contact', contact_path
+            = link_to_in_li 'Sign in', new_user_session_path, class: 'navbar-login'
 
     = yield :pre_content
 
