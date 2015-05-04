@@ -14,7 +14,7 @@
   src: font-url('AkkuratLightRegular.eot');
   src: local('☺'), font-url('AkkuratLightRegular.woff') format('woff'), font-url('AkkuratLightRegular.ttf') format('truetype'), font-url('AkkuratLightRegular.svg') format('svg');
   font-weight: normal;
-  font-style: normal; 
+  font-style: normal;
 }
 
 @font-face {
@@ -22,12 +22,12 @@
   src: font-url('AkkuratRegular.eot');
   src: local('☺'), font-url('AkkuratRegular.woff') format('woff'), font-url('AkkuratRegular.ttf') format('truetype'), font-url('AkkuratRegular.svg') format('svg');
   font-weight: normal;
-  font-style: normal; 
+  font-style: normal;
 }
 
 body {
   font-family: 'akkuratLight', sans-serif;
-  background: url('bg.jpg') repeat;
+  background: image-url('bg.jpg') repeat;
   background-size: 103px 103px;
   color: #272727;
   padding-bottom: 40px;
@@ -40,8 +40,8 @@ body {
 a {
     color: #c02d25;
     transition: 0.5s;
-    -webkit-transition: 0.5s; 
-} 
+    -webkit-transition: 0.5s;
+}
 
 a:hover {
   color: #272727;
@@ -76,12 +76,12 @@ a:hover {
 
   .nav {
     font-family: 'Conv_F25_Executive';
-    background: url('dblln.png') repeat-x;
+    background: image-url('dblln.png') repeat-x;
     background-size: 1px 4px;
     width: 100%;
     li {
       margin-right: 10px;
-      -webkit-transition: 0.5s; 
+      -webkit-transition: 0.5s;
       transition: 0.5s;
       a {
         padding: 15px 12px
@@ -94,7 +94,7 @@ a:hover {
     .active a {
       color: #272727;
       text-decoration: underline;
-    } 
+    }
   }
 
 @media (min-width: 850px) {
@@ -102,7 +102,7 @@ a:hover {
     content: "";
     position: absolute;
     margin: 0 0 0 -3px;
-    background: url('dbllnl.png');
+    background: image-url('dbllnl.png');
     height: 4px;
     width: 3px;
     background-size: 3px 4px;
@@ -110,7 +110,7 @@ a:hover {
 
   .nav:after {
     content: "";
-    background: url('dbllnr.png');
+    background: image-url('dbllnr.png');
     background-size: 3px 4px;
     height: 4px;
     width: 3px;
@@ -122,7 +122,7 @@ a:hover {
   .nav li a:before {
     content: "[";
     position: absolute;
-    font-family: 'Courier'; 
+    font-family: 'Courier';
     margin-left: -12px;
     margin-top: -3px;
     font-weight: bold;
@@ -133,7 +133,7 @@ a:hover {
     content: "]";
     position: relative;
     float: right;
-    font-family: 'Courier'; 
+    font-family: 'Courier';
     margin-left: 4px;
     margin-top: -3px;
     font-weight: bold;
@@ -159,7 +159,7 @@ a:hover {
 .singleline {
   width: 100%;
   height: 3px;
-  background: url('sngll.png') repeat-x;
+  background: image-url('sngll.png') repeat-x;
   background-size: 336px 2px;
 }
 
@@ -173,14 +173,14 @@ a:hover {
   }
   a:before {
     content: "[";
-    font-family: 'Courier'; 
+    font-family: 'Courier';
     font-weight: bold;
     color: #272727;
     margin-right: 4px;
   }
   a:after {
     content: "]";
-    font-family: 'Courier'; 
+    font-family: 'Courier';
     margin-left: 4px;
     font-weight: bold;
     color: #272727;
@@ -267,7 +267,7 @@ table {
     box-shadow: none;
     -webkit-box-shadow: none;
     border-bottom: 2px solid transparent;
-    border-image: url('texture.jpg') 0 27 27 27 round stretch;
+    border-image: image-url('texture.jpg') 0 27 27 27 round stretch;
   }
   .user_subscription_plan {
     min-height: 54px;
@@ -305,7 +305,7 @@ table {
     box-shadow: none;
     -webkit-box-shadow: none;
     border-right: 2px solid transparent;
-    border-image: url('texture.jpg') 0 27 27 27 round stretch; 
+    border-image: url('texture.jpg') 0 27 27 27 round stretch;
   }
   .user_password_confirmation input {
     float: right;
@@ -318,7 +318,7 @@ table {
     box-shadow: none;
     -webkit-box-shadow: none;
     border-right: 2px solid transparent;
-    border-image: url('texture.jpg') 0 27 27 27 round stretch; 
+    border-image: url('texture.jpg') 0 27 27 27 round stretch;
   }*/
 }
 
@@ -352,7 +352,7 @@ table {
 
 .simple_form:after {
   border: 3px solid transparent;
-  border-image: url('texture.jpg') 0 27 27 27 round stretch;
+  border-image: image-url('texture.jpg') 0 27 27 27 round stretch;
   content: '';
   top:0px;
   left:0px;
@@ -362,7 +362,7 @@ table {
 }
 .simple_form:before {
   border-top: 2px solid transparent;
-  border-image: url('texture.jpg') 27 0 0 0 stretch round;
+  border-image: image-url('texture.jpg') 27 0 0 0 stretch round;
   content: '';
   height: 3em;
   left: -3px;
@@ -374,7 +374,7 @@ table {
 .has-error {
   :focus {
     outline: green;
-  } 
+  }
   .help-block {
     display: none;
   }
