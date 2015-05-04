@@ -30,7 +30,7 @@ class UserGraph
 
       closed_list << cur.id
 
-      cur.friends.group(:to_id).select('count(friend_edges.id) as weight, to_id').each do |f|
+      cur.friends.group(:to_id).select('count(friend_edges.id) as weight, to_id').includes(to: { subscription: :plan }).each do |f|
         next if options[:showcase_only] && !f.to.showcase
 
         graph.edges << [cur.id, f.to_id, f.weight]
@@ -47,10 +47,18 @@ class UserGraph
 
   def self.full(options = {})
     if options[:showcase_only]
-      offset = Random.rand(User.where(showcase: true).count)
+      count  = User.where(showcase: true).count
+
+      return self.new(nil) if count == 0
+
+      offset = Random.rand(count)
       random_starting_user = User.where(showcase: true).offset(offset).first
     else
-      offset = Random.rand(User.count)
+      count = User.count
+
+      return self.new(nil) if count == 0
+
+      offset = Random.rand(count)
       random_starting_user = User.offset(offset).first
     end
 
@@ -79,7 +87,7 @@ class UserGraph
 
       closed_list << cur.id
 
-      cur.friends.where(to_id: user_subset).group(:to_id).select('count(friend_edges.id) as weight, to_id').each do |f|
+      cur.friends.where(to_id: user_subset).group(:to_id).select('count(friend_edges.id) as weight, to_id').includes(to: { subscription: :plan }).each do |f|
         graph.edges << [cur.id, f.to_id, f.weight]
         graph.nodes << f.to
 

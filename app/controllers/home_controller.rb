@@ -1,9 +1,6 @@
 class HomeController < ApplicationController
   def index
-  	@graph = UserGraph.full
-  end
-
-  def build_graph(depth = 0)
+    @graph = UserGraph.full
   end
 
   def membership

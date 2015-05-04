@@ -10,7 +10,7 @@
     %span.pull-right=link_to 'Change plan', edit_subscription_path
     Subscription status
   .panel-body
-    - if current_user.subscription.active?
+    - if !current_user.subscription.nil? && current_user.subscription.active?
       %h4= current_user.subscription.plan.name
     - else
       %h4.text-muted Inactive

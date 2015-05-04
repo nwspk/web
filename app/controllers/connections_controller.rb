@@ -31,9 +31,4 @@ class ConnectionsController < ApplicationController
   rescue Twitter::Error::TooManyRequests => e
     redirect_to dashboard_path, alert: 'Failed to check friends, Twitter access is currently rate limited'
   end
-
-  private
-
-  def build_graph(depth = 0)
-  end
 end

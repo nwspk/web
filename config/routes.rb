@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   get 'dashboard',                to: 'dashboard#index'
   get 'connections',              to: 'connections#index'
   get '/auth/:provider/callback', to: 'connections#create'
-  get 'membership',               to: 'home#membership'
   get 'fellowship',               to: 'home#fellowship'
   get 'contact',                  to: 'home#contact'
   get 'calendar',                 to: 'home#calendar'
@@ -19,6 +18,10 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, path: 'account', controllers: { registrations: 'users/registrations' }
+
+  devise_scope :user do
+    get 'membership', to: 'users/registrations#new'
+  end
 
   root to: 'home#index'
 end
