@@ -1,7 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   def new
-    build_resource({})
-    resource.build_subscription(plan_id: Plan.first.try(:id))
+    build_resource
     @validatable = true
     @minimum_password_length = User.password_length.min
     respond_with self.resource
@@ -15,8 +14,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   protected
 
+  def resource_class
+    PublicUser
+  end
+
   def after_sign_up_path_for(resource)
     checkout_subscription_path
+  end
+
+  def build_resource(hash=nil)
+    super
+
+    if self.resource.subscription.nil?
+      self.resource.build_subscription(plan_id: Plan.first.try(:id))
+    end
   end
 
   private
