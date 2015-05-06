@@ -9,7 +9,7 @@ class UserGraph
 
   def to_json
     {
-      center: "n#{@center.id}",
+      center: @center.nil? ? nil : "n#{@center.id}",
       nodes: build_nodes_json,
       edges: build_edges_json
     }.to_json
