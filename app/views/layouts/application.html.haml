@@ -15,6 +15,10 @@
           = link_to image_tag( 'logo.png'), root_path
         %ul.nav.navbar-nav
           - if user_signed_in?
+            = link_to_in_li 'Home', root_path
+            = link_to_in_li 'Fellowship', fellowship_path
+            = link_to_in_li 'Calendar', "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9", target: '_blank'
+            = link_to_in_li 'Contact', contact_path
             = link_to_in_li 'Account', dashboard_path
           - else
             = link_to_in_li 'Home', root_path

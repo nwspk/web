@@ -257,6 +257,14 @@ table {
   .col-sm-6 {
     width: 100%;
   }
+  .radio:first-child {
+  	margin-top: 20px;
+  }
+
+  .radio {
+  	margin-left: 20px;
+    font-family: 'Conv_F25_Executive';
+  }
   input[type="text"], input[type="email"], input[type="password"]{
   	position: relative;
   	z-index: 900;
@@ -275,7 +283,7 @@ table {
     min-height: 54px;
     .help-block {
       font-family: 'Conv_F25_Executive';
-      margin-left: 80px;
+      margin-left: 13px;
       margin-top: 7px;
     }
   }
