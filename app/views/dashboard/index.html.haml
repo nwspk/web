@@ -3,6 +3,8 @@
 
   %hr/
 
+  = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'navbar-link'
+
   %p.text-center= link_to 'Admin UI', admin_root_path, class: 'btn btn-default btn-xs'
 
 .panel.panel-default
