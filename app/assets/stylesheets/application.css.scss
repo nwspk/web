@@ -314,27 +314,40 @@ table {
   }
   .stripe-button-el {
   	width: 100%;
-	text-align: center;
-	background: transparent;
-	background-image: none;
-	margin: 20px 0;
-	    -webkit-box-shadow: none;
-	    box-shadow: none;
-	    border: none;
-	span {
-		font-family: 'Conv_F25_Executive';
+  	text-align: center;
+  	background: transparent;
+  	background-image: none;
+  	margin: 20px 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    position: relative;
+    z-index: 9999;
+	  span {
+		  font-family: 'Conv_F25_Executive';
 	    color: #c02d25;
 	    background: transparent;
-		background-image: none;
+		  background-image: none;
 	    border: 0;
 	    text-shadow: none;
 	    font-size: 1.4em;
 	    -webkit-box-shadow: none;
 	    box-shadow: none;
 	    border: none;
-	}
+	  }
   }
+  .stripe-button-el:not(:disabled):active span, .stripe-button-el.active span, .stripe-button-el:active {
+    background: transparent !important;
+    background-image: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    color: #272727;
+    outline: 0
+  }
+  button:focus {outline:0;}
 }
+
 
 .form-group {
   margin-bottom: 0
