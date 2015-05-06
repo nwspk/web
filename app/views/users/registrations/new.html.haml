@@ -41,25 +41,26 @@
       %td £1500
       %td 50% goes directly to projects
 
-.singleline.extraspace
+- unless user_signed_in?
+  .singleline.extraspace
 
-%p.alttitle.space Membership Form
+  %p.alttitle.space Membership Form
 
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { radio_buttons: :horizontal_radio_and_checkboxes }) do |f|
-  = f.error_notification
+  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { radio_buttons: :horizontal_radio_and_checkboxes }) do |f|
+    = f.error_notification
 
-  = f.input :name, require: true, autofocus: true
-  = f.input :email, required: true
-  = f.input :password, required: true, hint: ("(min #{@minimum_password_length} characters)" if @validatable)
-  = f.input :password_confirmation, required: true
-  = f.simple_fields_for :subscription do |sub_form|
-    = sub_form.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :description, hint: "There is a one-time setup fee of #{Money.new(SIGNUP_FEE, 'GBP').format}"
+    = f.input :name, required: true
+    = f.input :email, required: true
+    = f.input :password, required: true, hint: ("(min #{@minimum_password_length} characters)" if @validatable)
+    = f.input :password_confirmation, required: true
+    = f.simple_fields_for :subscription do |sub_form|
+      = sub_form.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :description, hint: "There is a one-time setup fee of #{Money.new(SIGNUP_FEE, 'GBP').format}"
 
-  .form-group.formsubmit
-    .col-sm-6
-      = f.button :submit, 'Proceed to checkout', class: 'btn-success'
+    .form-group.formsubmit
+      .col-sm-6
+        = f.button :submit, 'Proceed to checkout', class: 'btn-success'
 
-.singleline.extraspace
+  .singleline.extraspace
 
-.footer
-  = link_to image_tag('mono.png'), root_path
+  .footer
+    = link_to image_tag('mono.png'), root_path

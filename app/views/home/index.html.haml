@@ -1,8 +1,8 @@
 =image_tag('skyline.png')
 
-%p.lead.space Something has gone terribly wrong with society.
+%p.lead.space Something has gone terribly wrong with society. We can do better.
 
-%p In the wake of the 2015 general election, Newspeak House was founded to foster the creation of technology to disrupt the UK political / media / government complex.  
+%p In the wake of the 2015 general election, Newspeak House was founded to foster the creation of technology to disrupt the UK political / media / government complex.
 
 %p It is a residential incubator and members’ club located in East London.
 
@@ -12,6 +12,8 @@
 
 %script{ type: 'text/javascript', src: asset_path('sigma.min.js') }
 %script{ type: 'text/javascript', src: asset_path('plugins/sigma.parsers.json.min.js') }
+%script{ type: 'text/javascript', src: asset_path('plugins/sigma.plugins.animate.min.js') }
+%script{ type: 'text/javascript', src: asset_path('plugins/sigma.fruchterman.js') }
 
 :javascript
   (function () {
@@ -19,7 +21,7 @@
 
     var graphData = #{@graph.to_json};
 
-    new sigma({
+    var sigInst = new sigma({
       container: 'sigma-container',
       graph: graphData,
       settings: {
@@ -29,10 +31,12 @@
       }
     });
 
+    var listener = sigma.layouts.fruchtermanReingold.start(sigInst, {});
+
     window.graphData = graphData;
   }());
 
 .singleline
 
-.footer 
+.footer
   = link_to image_tag('mono.png'), root_path

@@ -5,6 +5,8 @@
 
 %script{ type: 'text/javascript', src: asset_path('sigma.min.js') }
 %script{ type: 'text/javascript', src: asset_path('plugins/sigma.parsers.json.min.js') }
+%script{ type: 'text/javascript', src: asset_path('plugins/sigma.plugins.animate.min.js') }
+%script{ type: 'text/javascript', src: asset_path('plugins/sigma.fruchterman.js') }
 
 :javascript
   (function () {
@@ -12,7 +14,7 @@
 
     var graphData = #{@graph.to_json};
 
-    new sigma({
+    var sigInst = new sigma({
       container: 'sigma-container',
       graph: graphData,
       settings: {
@@ -21,6 +23,8 @@
         defaultEdgeColor: '#111'
       }
     });
+
+    var listener = sigma.layouts.fruchtermanReingold.start(sigInst, {});
 
     window.graphData = graphData;
   }());

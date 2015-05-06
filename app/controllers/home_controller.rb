@@ -3,9 +3,6 @@ class HomeController < ApplicationController
     @graph = UserGraph.full
   end
 
-  def membership
-  end
-
   def fellowship
   end
 

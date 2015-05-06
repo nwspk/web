@@ -1,5 +1,9 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  skip_before_filter :require_no_authentication, only: :new
+
   def new
+    return if user_signed_in?
+
     build_resource
     @validatable = true
     @minimum_password_length = User.password_length.min
