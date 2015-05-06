@@ -38,9 +38,9 @@ body {
 }
 
 a {
-    color: #c02d25;
-    transition: 0.5s;
-    -webkit-transition: 0.5s;
+  color: #c02d25;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
 }
 
 a:hover {
@@ -97,49 +97,49 @@ a:hover {
     }
   }
 
-@media (min-width: 850px) {
-  .nav:before {
-    content: "";
-    position: absolute;
-    margin: 0 0 0 -3px;
-    background: image-url('dbllnl.png');
-    height: 4px;
-    width: 3px;
-    background-size: 3px 4px;
-  }
+  @media (min-width: 850px) {
+    .nav:before {
+      content: "";
+      position: absolute;
+      margin: 0 0 0 -3px;
+      background: image-url('dbllnl.png');
+      height: 4px;
+      width: 3px;
+      background-size: 3px 4px;
+    }
 
-  .nav:after {
-    content: "";
-    background: image-url('dbllnr.png');
-    background-size: 3px 4px;
-    height: 4px;
-    width: 3px;
-    position: relative;
-    float: right;
-    margin: -50px -3px 0 0;;
-  }
+    .nav:after {
+      content: "";
+      background: image-url('dbllnr.png');
+      background-size: 3px 4px;
+      height: 4px;
+      width: 3px;
+      position: relative;
+      float: right;
+      margin: -50px -3px 0 0;;
+    }
 
-  .nav li a:before {
-    content: "[";
-    position: absolute;
-    font-family: 'Courier';
-    margin-left: -12px;
-    margin-top: -3px;
-    font-weight: bold;
-    color: #272727;
-  }
+    .nav li a:before {
+      content: "[";
+      position: absolute;
+      font-family: 'Courier';
+      margin-left: -12px;
+      margin-top: -3px;
+      font-weight: bold;
+      color: #272727;
+    }
 
-  .nav li a:after {
-    content: "]";
-    position: relative;
-    float: right;
-    font-family: 'Courier';
-    margin-left: 4px;
-    margin-top: -3px;
-    font-weight: bold;
-    color: #272727;
+    .nav li a:after {
+      content: "]";
+      position: relative;
+      float: right;
+      font-family: 'Courier';
+      margin-left: 4px;
+      margin-top: -3px;
+      font-weight: bold;
+      color: #272727;
+    }
   }
-}
 }
 
 @media (min-width: 850px) {
@@ -228,7 +228,7 @@ table {
   border-bottom: 2px solid #272727;
   border-image: image-url('texture.jpg') 0 27 27 27 round stretch;
   thead {
-  	font-family: 'Conv_F25_Executive'
+    font-family: 'Conv_F25_Executive'
   }
   -webkit-transform: rotate(-0.3deg);
   -moz-transform: rotate(-0.3deg);
@@ -264,18 +264,18 @@ table {
     width: 100%;
   }
   .radio:first-child {
-  	margin-top: 20px;
+    margin-top: 20px;
   }
 
   .radio {
-  	margin-left: 20px;
+    margin-left: 20px;
     font-family: 'Conv_F25_Executive';
     position: relative;
     z-index: 450;
   }
   input[type="text"], input[type="email"], input[type="password"]{
-  	position: relative;
-  	z-index: 900;
+    position: relative;
+    z-index: 900;
     width: 100%;
     padding: 30px 0 5px 20px;
     background: transparent;
@@ -313,28 +313,28 @@ table {
     border: 0;
   }
   .stripe-button-el {
-  	width: 100%;
-  	text-align: center;
-  	background: transparent;
-  	background-image: none;
-  	margin: 20px 0;
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    background-image: none;
+    margin: 20px 0;
     -webkit-box-shadow: none;
     box-shadow: none;
     border: none;
     position: relative;
     z-index: 9999;
-	  span {
-		  font-family: 'Conv_F25_Executive';
-	    color: #c02d25;
-	    background: transparent;
-		  background-image: none;
-	    border: 0;
-	    text-shadow: none;
-	    font-size: 1.4em;
-	    -webkit-box-shadow: none;
-	    box-shadow: none;
-	    border: none;
-	  }
+    span {
+      font-family: 'Conv_F25_Executive';
+      color: #c02d25;
+      background: transparent;
+      background-image: none;
+      border: 0;
+      text-shadow: none;
+      font-size: 1.4em;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      border: none;
+    }
   }
   .stripe-button-el:not(:disabled):active span, .stripe-button-el.active span, .stripe-button-el:active {
     background: transparent !important;
@@ -417,8 +417,8 @@ table {
 }
 
 .nav-pills {
-    font-family: 'Conv_F25_Executive';
-    li:hover a {
-      background: transparent;
+  font-family: 'Conv_F25_Executive';
+  li:hover a {
+    background: transparent;
   }
 }
