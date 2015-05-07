@@ -7,7 +7,7 @@
     = link_to 'Checkout now', checkout_subscription_path
 
 = simple_form_for(@subscription, html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { radio_buttons: :horizontal_radio_and_checkboxes }) do |f|
-  = f.association :plan, as: :radio_buttons, collection: Plan.all, label_method: :description
+  = f.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :description
 
   .form-group
     .col-sm-3.col-sm-6
