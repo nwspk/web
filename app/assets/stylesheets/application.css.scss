@@ -345,7 +345,18 @@ table {
     color: #272727;
     outline: 0
   }
-  button:focus {outline:0;}
+  input[type="submit"] {
+    background: none;
+    position: relative;
+    z-index: 9999;
+    font-family: 'Conv_F25_Executive';
+    color: #c02d25;
+    display: block;
+    margin: 0 auto;
+    font-size: 1.4em;
+    border: 0;
+  }
+  button:focus, input[type="submit"]:focus {outline:0;}
 }
 
 
