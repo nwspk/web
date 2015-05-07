@@ -249,7 +249,7 @@ table {
   border-color: #272727;
   border-bottom: 2px solid #272727;
   border-image: image-url('texture.jpg') 0 27 27 27 round stretch;
-  @include rotate(-0.7deg);
+  @include rotate(-0.3deg);
 
   thead {
     font-family: 'Conv_F25_Executive';
@@ -266,7 +266,7 @@ table {
 
 .simple_form {
   width: 100%;
-  @include rotate(-0.7deg);
+  @include rotate(0.3deg);
 
   .control-label {
     text-align: left;

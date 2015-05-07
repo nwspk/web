@@ -2,16 +2,24 @@
 %script{ type: 'text/javascript', src: asset_path('plugins/sigma.parsers.json.min.js') }
 %script{ type: 'text/javascript', src: asset_path('plugins/sigma.plugins.animate.min.js') }
 %script{ type: 'text/javascript', src: asset_path('plugins/sigma.fruchterman.js') }
+%script{ type: 'text/javascript', src: asset_path('sigma.customLabels.js') }
 
 :javascript
   (function () {
     'use strict';
 
-    var graphData = #{@graph.to_json};
+    var graphData, sigInst, listener;
 
-    var sigInst = new sigma({
-      container: 'sigma-container',
+    graphData = #{@graph.to_json};
+
+    sigInst = new sigma({
       graph: graphData,
+
+      renderer: {
+        container: document.getElementById('sigma-container'),
+        type: 'canvas'
+      },
+
       settings: {
         edgeColor: 'default',
         defaultNodeColor: '#aaa',
@@ -19,7 +27,13 @@
       }
     });
 
-    var listener = sigma.layouts.fruchtermanReingold.start(sigInst, {});
+    sigInst.bind('clickNode', function (e) {
+      if (e.data.node.url.length > 0) {
+        window.open(e.data.node.url, '_blank');
+      }
+    });
+
+    listener = sigma.layouts.fruchtermanReingold.start(sigInst, {});
 
     window.graphData = graphData;
   }());

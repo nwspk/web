@@ -1,7 +1,7 @@
 ActiveAdmin.register User do
   config.batch_actions = false
 
-  permit_params :name, :email, :password, :password_confirmation
+  permit_params :name, :email, :password, :password_confirmation, :showcase, :url
 
   filter :name
   filter :email
