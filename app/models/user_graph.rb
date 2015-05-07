@@ -106,7 +106,7 @@ class UserGraph
     @nodes.uniq.map.with_index do |x, i|
       {
         id: "n#{x.id}",
-        label: x.name,
+        label: "#{x.name}",
         x: circular_x(i),
         y: circular_y(i),
         size: plan_to_size(x),

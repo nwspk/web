@@ -25,6 +25,14 @@
   font-style: normal;
 }
 
+@mixin rotate($deg) {
+  -webkit-transform: rotate($deg);
+  -moz-transform: rotate($deg);
+  -ms-transform: rotate($deg);
+  -o-transform: rotate($deg);
+  transform: translateZ(1px) rotate($deg);
+}
+
 body {
   font-family: 'akkuratLight', sans-serif;
   background: image-url('bg.jpg') repeat;
@@ -52,7 +60,7 @@ a:hover {
   font-family: 'akkuratRegular', sans-serif;
 }
 
-.alttitle {
+.alt-title {
   font-size: 1.6em;
   font-family: 'akkuratRegular', sans-serif;
 }
@@ -69,6 +77,7 @@ a:hover {
     display: block;
     margin: 0 auto;
     padding: 0 0 40px;
+
     img {
       width: 150px;
     }
@@ -79,21 +88,27 @@ a:hover {
     background: image-url('dblln.png') repeat-x;
     background-size: 1px 4px;
     width: 100%;
+
     li {
       margin-right: 10px;
       -webkit-transition: 0.5s;
       transition: 0.5s;
+
       a {
-        padding: 15px 12px
+        padding: 15px 12px;
+
+        &:hover, &:focus {
+          color: #272727;
+          background: transparent;
+        }
       }
-      a:hover, a:focus {
-        color: #272727;
-        background: transparent;
+
+      &.active {
+        a {
+          color: #272727;
+          text-decoration: underline;
+        }
       }
-    }
-    .active a {
-      color: #272727;
-      text-decoration: underline;
     }
   }
 
@@ -150,44 +165,48 @@ a:hover {
 
 .space {
   margin-top: 20px;
+  margin-bottom: 40px;
 }
 
-.extraspace {
+.extra-space {
   margin-top: 40px;
 }
 
-.singleline {
+.single-line {
   width: 100%;
   height: 3px;
   background: image-url('sngll.png') repeat-x;
   background-size: 336px 2px;
 }
 
-.sololink {
+.solo-link {
   width: 100%;
   margin: 20px 0;
   text-align: center;
   font-size: 1.4em;
+
   a {
     font-family: 'Conv_F25_Executive';
-  }
-  a:before {
-    content: "[";
-    font-family: 'Courier';
-    font-weight: bold;
-    color: #272727;
-    margin-right: 4px;
-  }
-  a:after {
-    content: "]";
-    font-family: 'Courier';
-    margin-left: 4px;
-    font-weight: bold;
-    color: #272727;
+
+    &:before {
+      content: "[";
+      font-family: 'Courier';
+      font-weight: bold;
+      color: #272727;
+      margin-right: 4px;
+    }
+
+    &:after {
+      content: "]";
+      font-family: 'Courier';
+      margin-left: 4px;
+      font-weight: bold;
+      color: #272727;
+    }
   }
 }
 
-.sigmalabel {
+.sigma-label {
   display: inline-block;
   border-bottom: 2px solid black;
   border-right: 2px solid black;
@@ -196,6 +215,7 @@ a:hover {
   padding: 3px 5px 0 0;
   margin-top: -2px;
   position: absolute;
+  z-index: 20;
 }
 
 .node circle {
@@ -217,6 +237,7 @@ a:hover {
 .footer {
   width: 100%;
   text-align: center;
+
   a img {
     width: 25px;
     height: 14px;
@@ -224,16 +245,15 @@ a:hover {
 }
 
 table {
+  background: image-url('bg.jpg') repeat;
   border-color: #272727;
   border-bottom: 2px solid #272727;
   border-image: image-url('texture.jpg') 0 27 27 27 round stretch;
+  @include rotate(-0.7deg);
+
   thead {
-    font-family: 'Conv_F25_Executive'
+    font-family: 'Conv_F25_Executive';
   }
-  -webkit-transform: rotate(-0.3deg);
-  -moz-transform: rotate(-0.3deg);
-  -ms-transform: rotate(-0.3deg);
-  -o-transform: rotate(-0.3deg);
 }
 
 .table thead tr th {
@@ -246,10 +266,8 @@ table {
 
 .simple_form {
   width: 100%;
-  -webkit-transform: rotate(-0.3deg);
-  -moz-transform: rotate(-0.3deg);
-  -ms-transform: rotate(-0.3deg);
-  -o-transform: rotate(-0.3deg);
+  @include rotate(-0.7deg);
+
   .control-label {
     text-align: left;
     font-family: 'Conv_F25_Executive';
@@ -260,9 +278,11 @@ table {
     font-style: italic;
     left: 0px;
   }
+
   .col-sm-6 {
     width: 100%;
   }
+
   .radio:first-child {
     margin-top: 20px;
   }
@@ -273,6 +293,7 @@ table {
     position: relative;
     z-index: 450;
   }
+
   input[type="text"], input[type="email"], input[type="password"]{
     position: relative;
     z-index: 900;
@@ -287,14 +308,17 @@ table {
     border-bottom: 2px solid transparent;
     border-image: image-url('texture.jpg') 0 27 27 27 round stretch;
   }
+
   .user_subscription_plan {
     min-height: 54px;
+
     .help-block {
       font-family: 'Conv_F25_Executive';
       margin-left: 13px;
       margin-top: 7px;
     }
   }
+
   .user_remember_me {
     font-family: 'Conv_F25_Executive';
     position: absolute;
@@ -308,10 +332,12 @@ table {
     margin-top: -49px;
     margin-left: 111px;
   }
+
   abbr {
     cursor: auto;
     border: 0;
   }
+
   .stripe-button-el {
     width: 100%;
     text-align: center;
@@ -323,6 +349,7 @@ table {
     border: none;
     position: relative;
     z-index: 9999;
+
     span {
       font-family: 'Conv_F25_Executive';
       color: #c02d25;
@@ -336,6 +363,7 @@ table {
       border: none;
     }
   }
+
   .stripe-button-el:not(:disabled):active span, .stripe-button-el.active span, .stripe-button-el:active {
     background: transparent !important;
     background-image: none;
@@ -345,6 +373,7 @@ table {
     color: #272727;
     outline: 0
   }
+
   input[type="submit"] {
     background: none;
     position: relative;
@@ -356,7 +385,10 @@ table {
     font-size: 1.4em;
     border: 0;
   }
-  button:focus, input[type="submit"]:focus {outline:0;}
+
+  button:focus, input[type="submit"]:focus {
+    outline: 0;
+  }
 }
 
 
@@ -364,12 +396,13 @@ table {
   margin-bottom: 0
 }
 
-.formsubmit {
+.form-submit {
   width: 100%;
   z-index: 250;
   border-top: 2px solid black;
   margin-left: 0px !important;
   text-align: center;
+
   input {
     font-family: 'Conv_F25_Executive';
     color: #c02d25;
@@ -379,10 +412,12 @@ table {
     font-size: 1.4em;
     border: 0;
   }
+
   :hover {
     background: transparent;
     color: #272727;
   }
+
   :focus {
     background: transparent;
   }
@@ -392,12 +427,13 @@ table {
   border: 3px solid transparent;
   border-image: image-url('texture.jpg') 0 27 27 27 round stretch;
   content: '';
-  top:0px;
-  left:0px;
-  position:absolute;
-  width:100%;
-  height:100%;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
+
 .simple_form:before {
   border-top: 2px solid transparent;
   border-image: image-url('texture.jpg') 27 0 0 0 stretch round;
@@ -413,6 +449,7 @@ table {
   :focus {
     outline: green;
   }
+
   .help-block {
     display: none;
   }
@@ -429,6 +466,7 @@ table {
 
 .nav-pills {
   font-family: 'Conv_F25_Executive';
+
   li:hover a {
     background: transparent;
   }

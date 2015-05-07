@@ -1,19 +1,26 @@
 %p.lead.space Benefits of Membership
 
 %ul
-  %li= "Financially support the incubation of society-changing #{link_to 'projects', 'fellowship'}.".html_safe
-  %li= "#{link_to 'Have a say', 'http://www.reddit.com/r/nwspk'} in which projects receive incubation.".html_safe
-  %li= "#{link_to 'Get access', 'https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9'} to a space in East London dedicated to fixing society.".html_safe
+  %li
+    Financially support the incubation of society-changing
+    = link_to 'projects', 'fellowship'
+    \.
+  %li
+    = link_to 'Have a say', 'http://www.reddit.com/r/nwspk'
+    in which projects receive incubation.
+  %li
+    = link_to 'Get access', 'https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9'
+    to a space in East London dedicated to fixing society.
 
-%p.lead.extraspace Pricing
+%p.lead.extra-space Pricing
 
-%p Membership is charged by monthly subscription. There is a one off joining fee of #{Money.new(SIGNUP_FEE).format}.
+%p Membership is charged by monthly subscription. There is a one off joining fee of #{Money.new(SIGNUP_FEE, 'GBP').format}.
 
 %p
   %span.bold Maven discount:
   for each member you connect to on Twitter or Facebook, your membership is discounted by £1 / yr.
 
-%table.table.table-border.extraspace
+%table.table.table-border.extra-space
   %thead
     %tr
       %th Tier
@@ -42,9 +49,9 @@
       %td 50% goes directly to projects
 
 - unless user_signed_in?
-  .singleline.extraspace
+  .single-line.extra-space
 
-  %p.alttitle.space Membership Form
+  %p.alt-title.space Membership Form
 
   = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { radio_buttons: :horizontal_radio_and_checkboxes }) do |f|
     = f.error_notification
@@ -56,11 +63,11 @@
     = f.simple_fields_for :subscription do |sub_form|
       = sub_form.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :description, hint: "There is a one-time setup fee of #{Money.new(SIGNUP_FEE, 'GBP').format}"
 
-    .form-group.formsubmit
+    .form-group.form-submit
       .col-sm-6
         = f.button :submit, 'Proceed to checkout', class: 'btn-success'
 
-  .singleline.extraspace
+.single-line.extra-space
 
-  .footer
-    = link_to image_tag('mono.png'), root_path
+.footer
+  = link_to image_tag('mono.png'), root_path
