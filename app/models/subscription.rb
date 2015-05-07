@@ -12,6 +12,10 @@ class Subscription < ActiveRecord::Base
     !self.active_until.nil? && self.active_until < Time.now
   end
 
+  def needs_checkout?
+    self.customer_id.blank?
+  end
+
   def plan_name
     self.plan.try(:name)
   end

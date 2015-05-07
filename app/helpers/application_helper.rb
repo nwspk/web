@@ -6,4 +6,8 @@ module ApplicationHelper
       link_to body, url, options
     end
   end
+
+  def canonical_path
+    CANONICAL_HOST.blank? ? request.original_url : CANONICAL_HOST + "#{request.fullpath}"
+  end
 end
