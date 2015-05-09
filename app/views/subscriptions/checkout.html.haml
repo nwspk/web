@@ -1,3 +1,6 @@
+- content_for :page_title do
+  Checkout
+
 %p.lead Become a member
 
 = simple_form_for(@subscription, url: process_card_subscription_path, method: :post, html: { class: 'form-horizontal' }, wrapper: :horizontal_form) do |f|
