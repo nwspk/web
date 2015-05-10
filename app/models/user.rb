@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   before_validation :set_default_role
 
   scope :admins, -> { where(role: ROLES[:admin]) }
+  scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
 
   def facebook
     @facebook_cache ||= self.connections.find_by(provider: 'facebook')

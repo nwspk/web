@@ -7,13 +7,6 @@ RSpec.describe ConnectionsController, type: :controller do
     sign_in :user, user
   end
 
-  describe "GET #index" do
-    it "returns http success" do
-      get :index
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   describe "POST #check_friends" do
     it "returns http success" do
       post :check_friends

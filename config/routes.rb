@@ -2,12 +2,14 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   get 'dashboard',                to: 'dashboard#index'
-  get 'connections',              to: 'connections#index'
   get '/auth/:provider/callback', to: 'connections#create'
   get 'fellowship',               to: 'home#fellowship'
   get 'contact',                  to: 'home#contact'
   get 'calendar',                 to: 'home#calendar'
   get 'api/uid',                  to: 'api#uid'
+  get 'graphs/full'
+  get 'graphs/friends'
+  get 'graphs/access'
 
   post 'webhooks',                   to: 'webhooks#index'
   post '/connections/check_friends', to: 'connections#check_friends'

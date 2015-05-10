@@ -15,10 +15,10 @@ RSpec.describe UserGraph, type: :model do
       create_edge(user2, user3)
     end
 
-    describe '#centered_on_user' do
-      subject { UserGraph.centered_on_user(user1) }
+    describe 'FriendsBuilder#build' do
+      subject { UserGraph::FriendsBuilder.new(user: user1).build }
 
-      it { expect(subject).to be_instance_of UserGraph }
+      it { expect(subject).to be_instance_of UserGraph::Graph }
       it { expect(subject.center).to be user1 }
       it { expect(subject.nodes).to include user1, user2, user3 }
       it { expect(subject.edges).to include [user1.id, user2.id, 1], [user2.id, user1.id, 1], [user2.id, user3.id, 1], [user3.id, user2.id, 1] }
@@ -33,10 +33,10 @@ RSpec.describe UserGraph, type: :model do
       create_edge(user3, user1)
     end
 
-    describe '#centered_on_user' do
-      subject { UserGraph.centered_on_user(user1) }
+    describe 'FriendsBuilder#build' do
+      subject { UserGraph::FriendsBuilder.new(user: user1).build }
 
-      it { expect(subject).to be_instance_of UserGraph }
+      it { expect(subject).to be_instance_of UserGraph::Graph }
       it { expect(subject.center).to be user1 }
       it { expect(subject.nodes).to include user1, user2, user3 }
       it { expect(subject.edges).to include [user1.id, user2.id, 1], [user1.id, user3.id, 1], [user2.id, user1.id, 1], [user2.id, user3.id, 1], [user3.id, user2.id, 1], [user3.id, user1.id, 1] }
@@ -44,16 +44,16 @@ RSpec.describe UserGraph, type: :model do
     end
   end
 
-  describe '#full' do
-    subject { UserGraph.full }
+  describe 'FullBuilder#build' do
+    subject { UserGraph::FullBuilder.new.build }
 
-    it { expect(subject).to be_instance_of UserGraph }
+    it { expect(subject).to be_instance_of UserGraph::Graph }
   end
 
-  describe '#by_door_access' do
-    subject { UserGraph.by_door_access }
+  describe 'AccessBuilder#build' do
+    subject { UserGraph::AccessBuilder.new.build }
 
-    it { expect(subject).to be_instance_of UserGraph }
+    it { expect(subject).to be_instance_of UserGraph::Graph }
   end
 
   def create_edge(a, b)

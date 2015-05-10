@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @graph = UserGraph.full
+    @graph = UserGraph::FullBuilder.new.build
   end
 
   def fellowship
