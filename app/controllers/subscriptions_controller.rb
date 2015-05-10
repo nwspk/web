@@ -34,7 +34,8 @@ class SubscriptionsController < ApplicationController
     customer = Stripe::Customer.create(
       source: token,
       email: current_user.email,
-      description: current_user.name
+      description: current_user.name,
+      account_balance: SIGNUP_FEE
     )
 
     subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
@@ -43,14 +44,6 @@ class SubscriptionsController < ApplicationController
     @subscription.subscription_id = subscription.id
     @subscription.active_until    = subscription.current_period_end
     @subscription.save!
-
-    # Setup fee
-    Stripe::InvoiceItem.create(
-      customer: customer.id,
-      amount: SIGNUP_FEE,
-      currency: 'gbp',
-      description: 'One-time setup fee'
-    )
 
     redirect_to dashboard_path, notice: 'Congratulations!'
   rescue Stripe::CardError => e
