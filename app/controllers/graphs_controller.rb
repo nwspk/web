@@ -11,8 +11,10 @@ class GraphsController < ApplicationController
   end
 
   def access
-    builder = UserGraph::AccessBuilder.new(user: current_user, start: start_date, end: end_date)
-    @graph  = builder.build
+    @start_date = start_date || 1.day.ago
+    @end_date   = end_date   || 1.day.from_now
+    builder     = UserGraph::AccessBuilder.new(user: current_user, start: @start_date, end: @end_date)
+    @graph      = builder.build
   end
 
   private

@@ -5,8 +5,8 @@
   %h1 Door access graph
 
 = form_tag(graphs_access_path, method: :get) do
-  = select_date 1.day.ago, prefix: :start
-  = select_date 1.day.from_now, prefix: :end
+  = select_date @start_date, prefix: :start
+  = select_date @end_date, prefix: :end
   = submit_tag 'Show'
 
 #sigma-container{ style: 'width: 100%; height: 600px; background: #eee' }
