@@ -12,7 +12,7 @@
         prefix = settings('prefix') || '',
         size = node[prefix + 'size'];
 
-    if (!node.showcase)
+    if (!node.showcase && size < settings('labelThreshold'))
       return;
 
     if (!node.label || typeof node.label !== 'string')

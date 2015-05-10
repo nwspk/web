@@ -2,7 +2,10 @@ class GraphsController < ApplicationController
   before_filter :authenticate_user!, only: :friends
 
   def full
-    @graph = UserGraph::FullBuilder.new(user: current_user).build
+    @start_date = start_date
+    @end_date   = end_date
+    builder     = UserGraph::FullBuilder.new(user: current_user, start: @start_date, end: @end_date)
+    @graph      = builder.build
   end
 
   def friends
@@ -20,12 +23,14 @@ class GraphsController < ApplicationController
   private
 
   def start_date
-    return nil if params[:start].nil?
     Date.civil(params[:start][:year].to_i, params[:start][:month].to_i, params[:start][:day].to_i)
+  rescue
+    false
   end
 
   def end_date
-    return nil if params[:end].nil?
     Date.civil(params[:end][:year].to_i, params[:end][:month].to_i, params[:end][:day].to_i)
+  rescue
+    false
   end
 end
