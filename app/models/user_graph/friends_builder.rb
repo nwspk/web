@@ -1,7 +1,7 @@
 class UserGraph::FriendsBuilder < UserGraph::Builder
   def initialize(options = {})
     @user          = options[:user]
-    @max_depth     = options[:max_depth]     || 5
+    @max_depth     = options[:max_depth]     || 2
     @showcase_only = options[:showcase_only] || false
   end
 
