@@ -1,6 +1,10 @@
 class UserGraph::FullBuilder < UserGraph::Builder
+  def initialize(options = {})
+    @user = options[:user]
+  end
+
   def build
-    graph       = UserGraph::Graph.new(nil)
+    graph       = UserGraph::Graph.new(@user)
     users       = User.with_subscription
     friendships = FriendEdge.weighted.includes(:from)
 

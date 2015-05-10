@@ -27,6 +27,16 @@
       }
     });
 
+    if (graphData.center != null) {
+      sigInst.graph.nodes().forEach(function (n) {
+        if (n.id === graphData.center) {
+          n.color = '#C02D25';
+        }
+      });
+
+      sigInst.refresh();
+    }
+
     sigInst.bind('clickNode', function (e) {
       if (e.data.node.url.length > 0) {
         window.open(e.data.node.url, '_blank');

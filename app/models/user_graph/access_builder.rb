@@ -2,6 +2,7 @@ class UserGraph::AccessBuilder < UserGraph::Builder
   def initialize(options = {})
     @start_date  = options[:start]     || 1.day.ago
     @end_date    = options[:end]       || 1.day.from_now
+    @user        = options[:user]
   end
 
   def build
@@ -10,7 +11,7 @@ class UserGraph::AccessBuilder < UserGraph::Builder
 
     return empty_graph if user_subset.size < 1
 
-    graph       = UserGraph::Graph.new(nil)
+    graph       = UserGraph::Graph.new(@user)
     friendships = FriendEdge.where(from_id: user_subset_ids).weighted.includes(:from)
 
     user_subset.each do |u|

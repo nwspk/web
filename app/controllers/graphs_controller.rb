@@ -2,7 +2,7 @@ class GraphsController < ApplicationController
   before_filter :authenticate_user!, only: :friends
 
   def full
-    @graph = UserGraph::FullBuilder.new.build
+    @graph = UserGraph::FullBuilder.new(user: current_user).build
   end
 
   def friends
@@ -11,7 +11,7 @@ class GraphsController < ApplicationController
   end
 
   def access
-    builder = UserGraph::AccessBuilder.new(start: params[:start], end: params[:end])
+    builder = UserGraph::AccessBuilder.new(user: current_user, start: params[:start], end: params[:end])
     @graph  = builder.build
   end
 end
