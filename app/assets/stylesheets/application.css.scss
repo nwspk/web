@@ -294,6 +294,21 @@ table {
     z-index: 450;
   }
 
+  select {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    z-index: 9999;
+    margin-bottom: 10px;
+    background: transparent;
+    margin-top: 10px;
+    border-radius: 0px;
+    border: 2px solid black;
+    font-family: 'Conv_F25_Executive';
+
+  }
+
   input[type="text"], input[type="email"], input[type="password"]{
     position: relative;
     z-index: 900;
