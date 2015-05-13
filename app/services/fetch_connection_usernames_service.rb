@@ -27,7 +27,7 @@ class FetchConnectionUsernamesService
       config.access_token_secret = connections.first.secret
     end
 
-    client.users(c.pluck(:uid)).each do |twitter_user|
+    client.users(connections.pluck(:uid)).each do |twitter_user|
       Connection.find_by(provider: 'twitter', uid: twitter_user.id).update(username: twitter_user.name)
     end
   end
