@@ -12,9 +12,14 @@ Rails.application.routes.draw do
   get 'graphs/access'
 
   post 'webhooks',                   to: 'webhooks#index'
-  post '/connections/check_friends', to: 'connections#check_friends'
 
-  resource :subscription do
+  resources :connections, only: [:destroy] do
+    collection do
+      post :check_friends
+    end
+  end
+
+  resource :subscription, only: [:edit, :update] do
     get :checkout
     post :process_card
   end

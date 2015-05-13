@@ -32,13 +32,17 @@
 
       %dt Twitter
       - if current_user.twitter
-        %dd= link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
+        %dd
+          = link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
+          = link_to 'Disconnect', connection_path(current_user.twitter), method: :delete
       - else
         %dd= link_to 'Connect your Twitter account', '/auth/twitter'
 
       %dt Facebook
       - if current_user.facebook
-        %dd= link_to current_user.facebook.username, current_user.facebook.profile_url
+        %dd
+          = link_to current_user.facebook.username, current_user.facebook.profile_url
+          = link_to 'Disconnect', connection_path(current_user.facebook), method: :delete
       - else
         %dd= link_to 'Connect your Facebook account', '/auth/facebook'
 

@@ -20,12 +20,17 @@ class ConnectionsController < ApplicationController
     end
   end
 
-  def failure
-    redirect_to dashboard_path, alert: 'There was a problem authenticating you'
+  def destroy
+    connection = Connection.find(params[:id])
+
+    service = RemoveConnectionService.new
+    service.call(connection)
+
+    redirect_to dashboard_path, notice: 'Successfully disconnected account'
   end
 
-  def index
-    @graph = UserGraph.centered_on_user(current_user)
+  def failure
+    redirect_to dashboard_path, alert: 'There was a problem authenticating you'
   end
 
   def check_friends
