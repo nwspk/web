@@ -8,7 +8,10 @@ class FetchConnectionUsernamesService
 
   def facebook
     connections = Connection.where(username: '', provider: 'facebook')
-    graph       = Koala::Facebook::API.new(connections.first.access_token)
+
+    return if connections.size < 1
+
+    graph = Koala::Facebook::API.new(connections.first.access_token)
 
     graph.get_objects(connections.pluck(:uid)).each_pair do |uid, fb_user|
       Connection.find_by(provider: 'facebook', uid: uid).update(username: fb_user['name'])
