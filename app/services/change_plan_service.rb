@@ -2,6 +2,8 @@ class ChangePlanService
   def call(subscription_record, new_plan_id)
     subscription_record.update!(plan_id: new_plan_id)
 
+    return if subscription_record.customer_id.blank?
+
     customer = Stripe::Customer.retrieve(subscription_record.customer_id)
 
     if subscription_record.subscription_id.blank?

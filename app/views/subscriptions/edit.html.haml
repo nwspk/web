@@ -6,7 +6,7 @@
 
 - if @subscription.needs_checkout?
   %p
-    It looks like you haven't checked out yet.
+    It looks like you haven't checked out yet. You need to checkout to be an active member of Newspeak House. You can change your plan selection before proceeding.
     = link_to 'Checkout now', checkout_subscription_path
 
 = simple_form_for(@subscription, html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { radio_buttons: :horizontal_radio_and_checkboxes }) do |f|
