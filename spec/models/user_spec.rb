@@ -7,4 +7,8 @@ RSpec.describe User, type: :model do
       expect(user.role).to eq User::ROLES[:member]
     end
   end
+
+  describe '#discounts' do
+    pending
+  end
 end

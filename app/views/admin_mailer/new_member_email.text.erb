@@ -1,0 +1,9 @@
+A new member has signed up. Here are the details:
+
+Name:     <%= @new_member.name %>
+E-mail:   <%= @new_member.email %>
+Plan:     <%= @new_member.subscription.try(:plan_name) %>
+Twitter:  <%= @new_member.twitter.try(:profile_url) %>
+Facebook: <%= @new_member.facebook.try(:profile_url) %>
+
+You are receiving these e-mails because you're an Admin of Newspeak House.

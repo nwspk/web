@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :subscription
 
   before_validation :set_default_role
+  after_create :notify_admins
 
   scope :admins, -> { where(role: ROLES[:admin]) }
   scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
@@ -46,5 +47,9 @@ class User < ActiveRecord::Base
 
   def set_default_role
     self.role = ROLES[:member] if self.role.blank?
+  end
+
+  def notify_admins
+    AdminMailer.new_member_email(self).deliver_later
   end
 end

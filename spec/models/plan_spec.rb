@@ -9,6 +9,10 @@ RSpec.describe Plan, type: :model do
     end
   end
 
+  describe '#value_with_discounts' do
+    pending
+  end
+
   describe '#description' do
     it 'returns a string' do
       expect(plan.description).to be_a String
