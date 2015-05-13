@@ -38,6 +38,10 @@ class User < ActiveRecord::Base
     self.role == ROLES[:admin]
   end
 
+  def discount
+    Money.new(self.friends.count('distinct to_id') * 100, 'GBP')
+  end
+
   private
 
   def set_default_role

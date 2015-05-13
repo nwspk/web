@@ -12,7 +12,11 @@ class ConnectionsController < ApplicationController
     connection.user         = current_user
     connection.save!
 
-    redirect_to dashboard_path, notice: 'Successfully connected account'
+    if current_user.subscription.try(:needs_checkout?)
+      redirect_to subscription_checkout_path
+    else
+      redirect_to dashboard_path, notice: 'Successfully connected account'
+    end
   end
 
   def failure

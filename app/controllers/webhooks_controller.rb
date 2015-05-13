@@ -33,7 +33,7 @@ class WebhooksController < ApplicationController
     friends_service.call(subscription.user)
 
     discount_service = AddDiscountService.new
-    discount_service.call(invoice, subscription, subscription.user.friends)
+    discount_service.call(invoice, subscription, subscription.user)
   end
 
   def on_invoice_paid(subscription, invoice)

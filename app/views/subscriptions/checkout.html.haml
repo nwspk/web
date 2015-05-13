@@ -3,5 +3,27 @@
 
 %p.lead Become a member
 
-= simple_form_for(@subscription, url: process_card_subscription_path, method: :post, html: { class: 'form-horizontal' }, wrapper: :horizontal_form) do |f|
-  %script{ src: "https://checkout.stripe.com/checkout.js", class: "stripe-button", data: { key: STRIPE_PUBLIC_KEY, name: @subscription.plan.name, currency: 'gbp', description: @subscription.plan.description, email: current_user.email, panel: { label: 'Subscribe' } } }
+%p One last step before you're a full member with a subscription! You need to checkout with Stripe.
+
+%p You can connect your social network accounts to check for discounts before checking out.
+
+.panel.panel-default
+  .panel-heading Social accounts
+  .panel-body
+    %dl.dl-horizontal
+      %dt Twitter
+      - if current_user.twitter
+        %dd= link_to current_user.twitter.uid, current_user.twitter.profile_url
+      - else
+        %dd= link_to 'Connect your Twitter account', '/auth/twitter'
+
+      %dt Facebook
+      - if current_user.facebook
+        %dd= link_to current_user.facebook.uid, current_user.facebook.profile_url
+      - else
+        %dd= link_to 'Connect your Facebook account', '/auth/facebook'
+
+= render partial: 'dashboard/friends'
+
+= simple_form_for(@subscription, url: process_card_subscription_path, method: :post) do |f|
+  = stripe_button @plan.name, @plan.description, current_user.email, SIGNUP_FEE + @plan.value_with_discount(current_user).cents, 'Pay'

@@ -41,30 +41,5 @@
         %dd= link_to current_user.facebook.uid, current_user.facebook.profile_url
       - else
         %dd= link_to 'Connect your Facebook account', '/auth/facebook'
-.panel.panel-default
-  .panel-heading
-    %span.pull-right=link_to 'Check for friends', connections_check_friends_path, method: :post
-    Friend discounts
-  %table.table
-    %thead
-      %tr
-        %th Name
-        %th Network
-        %th Discount
-    %tfoot
-      %tr
-        %th.text-right{colspan: 2} Discount total:
-        %td= Money.new(current_user.friends.count('distinct to_id') * 100, 'GBP').format
-    %tbody
-      - if current_user.friends.count > 0
-        - current_user.friends.to_a.group_by(&:to_id).each_value do |friend|
-          - friend.each do |edge|
-            %tr
-              - if friend.first == edge
-                %td{rowspan: friend.size}= edge.to.name
-              %td= link_to edge.network.capitalize, edge.to.send(edge.network).try(:profile_url)
-              - if friend.first == edge
-                %td{rowspan: friend.size}= Money.new(100, 'GBP').format
-      - else
-        %tr
-          %td.text-muted.text-center{colspan: 3} No friends detected on Twitter or Facebook yet
+
+= render partial: 'friends'

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SubscriptionsController, type: :controller do
-  let(:user) { Fabricate(:user) }
+  let(:user) { Fabricate(:subscription).user }
 
   before do
     sign_in :user, user

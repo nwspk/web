@@ -11,6 +11,10 @@ class Plan < ActiveRecord::Base
     Money.new(read_attribute(:value), 'GBP')
   end
 
+  def value_with_discount(user)
+    self.value - user.discount
+  end
+
   scope :visible, -> { where(visible: true) }
 
   before_create  :create_stripe_counterpart

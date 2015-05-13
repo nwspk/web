@@ -3,6 +3,7 @@ class SubscriptionsController < ApplicationController
   before_action :set_subscription
 
   def checkout
+    @plan = @subscription.plan
   end
 
   def edit
@@ -35,7 +36,7 @@ class SubscriptionsController < ApplicationController
       source: token,
       email: current_user.email,
       description: current_user.name,
-      account_balance: SIGNUP_FEE
+      account_balance: SIGNUP_FEE - current_user.discount.cents
     )
 
     subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
