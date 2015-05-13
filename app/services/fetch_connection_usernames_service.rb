@@ -14,7 +14,9 @@ class FetchConnectionUsernamesService
     graph = Koala::Facebook::API.new(connections.first.access_token)
 
     graph.get_objects(connections.pluck(:uid)).each_pair do |uid, fb_user|
-      Connection.find_by(provider: 'facebook', uid: uid).update(username: fb_user['name'])
+      c = Connection.find_by(provider: 'facebook', uid: uid)
+      next if c.nil?
+      c.update(username: fb_user['name'])
     end
   end
 
@@ -31,7 +33,9 @@ class FetchConnectionUsernamesService
     end
 
     client.users(connections.pluck(:uid)).each do |twitter_user|
-      Connection.find_by(provider: 'twitter', uid: twitter_user.id).update(username: twitter_user.name)
+      c = Connection.find_by(provider: 'twitter', uid: twitter_user.id)
+      next if c.nil?
+      c.update(username: twitter_user.name)
     end
   end
 end
