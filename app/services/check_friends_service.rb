@@ -10,7 +10,7 @@ class CheckFriendsService
   end
 
   def check_facebook_friends(user)
-    graph   = Koala::Facebook::API.new(user.facebook.access_token)
+    graph = Koala::Facebook::API.new(user.facebook.access_token)
 
     friends = graph.get_connections('me', 'friends')
     friend_ids = friends.map { |f| f['id'] }

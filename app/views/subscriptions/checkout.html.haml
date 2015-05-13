@@ -13,13 +13,13 @@
     %dl.dl-horizontal
       %dt Twitter
       - if current_user.twitter
-        %dd= link_to current_user.twitter.uid, current_user.twitter.profile_url
+        %dd= link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
       - else
         %dd= link_to 'Connect your Twitter account', '/auth/twitter'
 
       %dt Facebook
       - if current_user.facebook
-        %dd= link_to current_user.facebook.uid, current_user.facebook.profile_url
+        %dd= link_to current_user.facebook.username, current_user.facebook.profile_url
       - else
         %dd= link_to 'Connect your Facebook account', '/auth/facebook'
 

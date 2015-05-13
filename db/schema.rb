@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150503111328) do
+ActiveRecord::Schema.define(version: 20150513182757) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20150503111328) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.string   "profile_url"
+    t.string   "username",     default: "", null: false
   end
 
   add_index "connections", ["provider", "uid"], name: "index_connections_on_provider_and_uid", unique: true

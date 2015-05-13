@@ -9,6 +9,7 @@ class ConnectionsController < ApplicationController
     connection.secret       = auth['credentials']['secret']
     connection.expires_at   = auth['credentials']['expires_at']
     connection.profile_url  = auth['info']['urls'][auth['provider'].capitalize]
+    connection.username     = auth['info']['nickname']
     connection.user         = current_user
     connection.save!
 
