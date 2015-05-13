@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true
   validates :role, inclusion: ROLES.values
+  validates :ring_size, numericality: { only_integer: true, greater_than: 0, less_than: 21 }
   validates_associated :subscription
 
   has_one :address, dependent: :destroy
@@ -41,6 +42,10 @@ class User < ActiveRecord::Base
 
   def discount
     Money.new(self.friends.count('distinct to_id') * 100, 'GBP')
+  end
+
+  def needs_ring_size?
+    self.ring_size.nil?
   end
 
   private
