@@ -62,7 +62,7 @@
     = f.input :password, required: true, hint: ("(min #{@minimum_password_length} characters)" if @validatable)
     = f.input :password_confirmation, required: true
     = f.simple_fields_for :subscription do |sub_form|
-      = sub_form.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :description, hint: "There is a one-time setup fee of #{Money.new(SIGNUP_FEE, 'GBP').format}"
+      = sub_form.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :name, hint: "There is a one-time setup fee of #{Money.new(SIGNUP_FEE, 'GBP').format}"
 
     .form-group.form-submit
       .col-sm-6

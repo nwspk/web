@@ -4,7 +4,7 @@ class Plan < ActiveRecord::Base
   validates :name, :value, presence: true
 
   def description
-    "#{self.name} - #{value.format} / month"
+    "#{self.name} - #{(value * 12).format} / yr"
   end
 
   def value
