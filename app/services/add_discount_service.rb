@@ -5,7 +5,7 @@ class AddDiscountService
     Stripe::InvoiceItem.create(
       customer: subscription.customer_id,
       invoice: invoice.id,
-      amount: user.discount.cents * -1,
+      amount: [(user.discount.cents / 12), subscription.plan.value.cents].min * -1,
       currency: 'gbp',
       description: "Discount for friends"
     )

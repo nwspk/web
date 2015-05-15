@@ -18,6 +18,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   protected
 
+  def update_resource(resource, params)
+    if params[:password].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation)
+      resource.update_without_password(params)
+    else
+      super(resource, params)
+    end
+  end
+
   def resource_class
     PublicUser
   end
@@ -38,5 +48,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def sign_up_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation, { subscription_attributes: [:plan_id] })
+  end
+
+  def account_update_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :ring_size)
   end
 end

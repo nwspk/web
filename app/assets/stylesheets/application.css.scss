@@ -47,13 +47,18 @@ body {
 
 a {
   color: #c02d25;
-  transition: 0.5s;
-  -webkit-transition: 0.5s;
+  transition: 100ms;
+  -webkit-transition: 100ms;
 }
 
 a:hover {
   color: #272727;
   text-decoration: none;
+}
+
+hr {
+  border-color: #aaa;
+  border-style: dotted;
 }
 
 .lead {

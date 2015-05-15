@@ -4,16 +4,14 @@
 .page-header
   %h1 Dashboard
 
-= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'navbar-link'
+.btn-group
+  = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-default'
+  = link_to 'Admin UI', admin_root_path, class: 'btn btn-default'
 
-%p.text-center= link_to 'Admin UI', admin_root_path, class: 'btn btn-default btn-xs'
+%hr/
 
 - if current_user.needs_ring_size?
-  = simple_form_for(current_user, url: edit_user_registration_path, method: :put, html: { class: 'form-horizontal' }, wrapper: :horizontal_form) do |f|
-    = f.input :ring_size, collection: 1..20, prompt: 'Select your ring size'
-    = f.submit 'Save'
-
-  %hr/
+  = render partial: 'ring_form'
 
 .panel.panel-default
   .panel-heading
@@ -37,11 +35,14 @@
       %dt E-mail
       %dd= current_user.email
 
+      %dt Ring size
+      %dd= current_user.ring_size
+
       %dt Twitter
       - if current_user.twitter
         %dd
           = link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
-          = link_to 'Disconnect', connection_path(current_user.twitter), method: :delete
+          = link_to '(Disconnect)', connection_path(current_user.twitter), method: :delete
       - else
         %dd= link_to 'Connect your Twitter account', '/auth/twitter'
 
@@ -49,7 +50,7 @@
       - if current_user.facebook
         %dd
           = link_to current_user.facebook.username, current_user.facebook.profile_url
-          = link_to 'Disconnect', connection_path(current_user.facebook), method: :delete
+          = link_to '(Disconnect)', connection_path(current_user.facebook), method: :delete
       - else
         %dd= link_to 'Connect your Facebook account', '/auth/facebook'
 

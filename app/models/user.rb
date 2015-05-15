@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :role, inclusion: ROLES.values
   validates_associated :subscription
+  validates :ring_size, inclusion: Ring::SIZES, unless: 'ring_size.nil?'
 
   has_one :address, dependent: :destroy
   has_one :subscription, dependent: :destroy
@@ -23,6 +24,7 @@ class User < ActiveRecord::Base
 
   before_validation :set_default_role
   after_create :notify_admins
+  before_destroy :terminate_subscription
 
   scope :admins, -> { where(role: ROLES[:admin]) }
   scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
@@ -55,5 +57,12 @@ class User < ActiveRecord::Base
 
   def notify_admins
     AdminMailer.new_member_email(self).deliver_later
+  end
+
+  def terminate_subscription
+    return if self.subscription.nil?
+    service = TerminateSubscriptionService.new
+    service.call(self.subscription)
+    return
   end
 end

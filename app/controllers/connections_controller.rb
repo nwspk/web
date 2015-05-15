@@ -9,15 +9,11 @@ class ConnectionsController < ApplicationController
     connection.secret       = auth['credentials']['secret']
     connection.expires_at   = auth['credentials']['expires_at']
     connection.profile_url  = auth['info']['urls'][auth['provider'].capitalize]
-    connection.username     = auth['info']['nickname']
+    connection.username     = auth['info']['nickname'] || auth['info']['name']
     connection.user         = current_user
     connection.save!
 
-    if current_user.subscription.try(:needs_checkout?)
-      redirect_to subscription_checkout_path
-    else
-      redirect_to dashboard_path, notice: 'Successfully connected account'
-    end
+    redirect_to redirect_path, notice: 'Successfully connected account'
   end
 
   def destroy
@@ -30,7 +26,7 @@ class ConnectionsController < ApplicationController
   end
 
   def failure
-    redirect_to dashboard_path, alert: 'There was a problem authenticating you'
+    redirect_to redirect_path, alert: 'There was a problem authenticating you'
   end
 
   def check_friends
@@ -40,5 +36,15 @@ class ConnectionsController < ApplicationController
     redirect_to dashboard_path, notice: 'Checked your friends, here are the results'
   rescue Twitter::Error::TooManyRequests => e
     redirect_to dashboard_path, alert: 'Failed to check friends, Twitter access is currently rate limited'
+  end
+
+  private
+
+  def redirect_path
+    if current_user.subscription.try(:needs_checkout?)
+      checkout_subscription_path
+    else
+      dashboard_path
+    end
   end
 end

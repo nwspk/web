@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ChangePlanService, type: :model do
-  before :all do
-    StripeMock.start
-  end
-
-  after :all do
-    StripeMock.stop
-  end
-
   let(:stripe_helper) { StripeMock.create_test_helper }
   let(:user) { Fabricate(:user) }
   let(:subscription) { user.build_subscription }

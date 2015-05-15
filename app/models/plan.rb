@@ -12,7 +12,7 @@ class Plan < ActiveRecord::Base
   end
 
   def value_with_discount(user)
-    self.value - user.discount
+    self.value - [user.discount / 12, self.value].min
   end
 
   scope :visible, -> { where(visible: true) }

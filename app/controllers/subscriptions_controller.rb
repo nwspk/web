@@ -36,7 +36,7 @@ class SubscriptionsController < ApplicationController
       source: token,
       email: current_user.email,
       description: current_user.name,
-      account_balance: SIGNUP_FEE - current_user.discount.cents
+      account_balance: SIGNUP_FEE - [(current_user.discount.cents / 12), @subscription.plan.value.cents].min
     )
 
     subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
