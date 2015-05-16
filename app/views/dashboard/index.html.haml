@@ -1,57 +1,55 @@
 - content_for :page_title do
   Dashboard
 
-.page-header
-  %h1 Dashboard
-
 .btn-group
   = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-default'
   = link_to 'Admin UI', admin_root_path, class: 'btn btn-default'
+  =link_to 'Edit', edit_user_registration_path, class: 'btn btn-default'
 
-%hr/
 
 - if current_user.needs_ring_size?
   = render partial: 'ring_form'
 
-.panel.panel-default
-  .panel-heading
-    %span.pull-right=link_to 'Change plan', edit_subscription_path
-    Subscription status
-  .panel-body
-    - if !current_user.subscription.nil? && current_user.subscription.active?
-      %h4= current_user.subscription.plan.name
-    - else
-      %h4.text-muted Inactive
+.cf
+  %table.table.table-border.extra-space.column-table
+    %tbody
+      %tr
+        %td.table-label Name
+        %td= current_user.name
+      %tr
+        %td.table-label Ring Size
+        %td= current_user.ring_size  
+      %tr
+        %td.table-label Email
+        %td= current_user.email
 
-.panel.panel-default
-  .panel-heading
-    %span.pull-right=link_to 'Change', edit_user_registration_path
-    Your account information
-  .panel-body
-    %dl.dl-horizontal
-      %dt Name
-      %dd= current_user.name
-
-      %dt E-mail
-      %dd= current_user.email
-
-      %dt Ring size
-      %dd= current_user.ring_size
-
-      %dt Twitter
-      - if current_user.twitter
-        %dd
-          = link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
-          = link_to '(Disconnect)', connection_path(current_user.twitter), method: :delete
-      - else
-        %dd= link_to 'Connect your Twitter account', '/auth/twitter'
-
-      %dt Facebook
-      - if current_user.facebook
-        %dd
-          = link_to current_user.facebook.username, current_user.facebook.profile_url
-          = link_to '(Disconnect)', connection_path(current_user.facebook), method: :delete
-      - else
-        %dd= link_to 'Connect your Facebook account', '/auth/facebook'
+  %table.table.table-border.extra-space.column-table
+    %tbody
+      %tr
+        %td.table-label Tier
+        - if !current_user.subscription.nil? && current_user.subscription.active?
+          %td
+            = current_user.subscription.plan.name 
+            =link_to 'Change plan', edit_subscription_path
+        - else
+          %td 
+            Inactive
+            =link_to 'Change plan', edit_subscription_path
+      %tr
+        %td.table-label Twitter
+        - if current_user.twitter
+          %td
+            = link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
+            = link_to '(Disconnect)', connection_path(current_user.twitter), method: :delete
+        - else
+          %td= link_to 'Connect', '/auth/twitter' 
+        %tr
+          %td.table-label Facebook
+          - if current_user.facebook
+            %td
+              = link_to current_user.facebook.username, current_user.facebook.profile_url
+              = link_to '(Disconnect)', connection_path(current_user.facebook), method: :delete
+          - else
+            %td= link_to 'Connect', '/auth/facebook'
 
 = render partial: 'friends'

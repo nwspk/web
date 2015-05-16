@@ -33,6 +33,20 @@
   transform: translateZ(1px) rotate($deg);
 }
 
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1;
+}
+
 body {
   font-family: 'akkuratLight', sans-serif;
   background: image-url('bg.jpg') repeat;
@@ -179,7 +193,7 @@ hr {
 }
 
 .extra-space {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .breakout {
@@ -285,12 +299,22 @@ table {
   }
 }
 
+.column-table {
+  width: calc(50% - 2px);
+  float: left;
+  @include rotate(0deg);
+}
+
 .table thead tr th {
   border-color: #272727;
 }
 
 .table-border {
   border: 2px solid #272727;
+}
+
+.table-label {
+  font-family: 'Conv_F25_Executive';
 }
 
 .simple_form {
