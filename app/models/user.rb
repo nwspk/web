@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
     member: 'member'
   }
 
+  attr_accessor :community
+
   validates :name, presence: true
   validates :role, inclusion: ROLES.values
   validates_associated :subscription
