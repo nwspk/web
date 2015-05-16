@@ -20,6 +20,7 @@ class CheckFriendsService
     users = Connection.where(provider: 'facebook', uid: friend_ids).includes(:user).map { |c| c.user }
 
     users.each do |friend|
+      next if friend.nil?
       FriendEdge.find_or_create_by(from: user, to: friend, network: 'facebook')
       FriendEdge.find_or_create_by(from: friend, to: user, network: 'facebook')
     end
@@ -47,6 +48,7 @@ class CheckFriendsService
     users = Connection.where(provider: 'twitter', uid: friend_ids).includes(:user).map { |c| c.user }
 
     users.each do |friend|
+      next if friend.nil?
       FriendEdge.find_or_create_by(from: user, to: friend, network: 'twitter')
       FriendEdge.find_or_create_by(from: friend, to: user, network: 'twitter')
     end

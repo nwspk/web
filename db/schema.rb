@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150515104159) do
+ActiveRecord::Schema.define(version: 20150516095930) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -66,8 +66,8 @@ ActiveRecord::Schema.define(version: 20150515104159) do
   add_index "door_accesses", ["user_id"], name: "index_door_accesses_on_user_id"
 
   create_table "friend_edges", force: :cascade do |t|
-    t.integer  "from_id"
-    t.integer  "to_id"
+    t.integer  "from_id",                 null: false
+    t.integer  "to_id",                   null: false
     t.string   "network",    default: "", null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
