@@ -4,8 +4,14 @@ class GraphsController < ApplicationController
   def full
     @start_date = start_date
     @end_date   = end_date
+
+    # Build graph
     builder     = UserGraph::FullBuilder.new(user: current_user, start: @start_date, end: @end_date)
     @graph      = builder.build
+
+    # Detect communities
+    service     = DetectCommunitiesService.new
+    service.call(@graph)
   end
 
   def friends

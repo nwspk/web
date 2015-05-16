@@ -8,9 +8,18 @@
   (function () {
     'use strict';
 
-    var graphData, sigInst, listener;
+    var graphData, sigInst, listener, colors, communityMap;
 
     graphData = #{@graph.to_json};
+
+    colors = ['#ECD078', '#D95B43', '#C02942', '#542437', '#53777A'];
+    communityMap = [];
+
+    graphData.nodes.forEach(function (n) {
+      if (communityMap.indexOf(n.community) === -1) {
+        communityMap.push(n.community);
+      }
+    });
 
     sigInst = new sigma({
       graph: graphData,
@@ -27,15 +36,17 @@
       }
     });
 
-    if (graphData.center != null) {
-      sigInst.graph.nodes().forEach(function (n) {
-        if (n.id === graphData.center) {
-          n.color = '#C02D25';
-        }
-      });
+    sigInst.graph.nodes().forEach(function (n) {
+      if (graphData.center != null && n.id === graphData.center) {
+        n.color = '#C02D25';
+      }
 
-      sigInst.refresh();
-    }
+      if (n.community != null) {
+        n.color = colors[communityMap.indexOf(n.community) % colors.length];
+      }
+    });
+
+    sigInst.refresh();
 
     sigInst.bind('clickNode', function (e) {
       if (e.data.node.url.length > 0) {

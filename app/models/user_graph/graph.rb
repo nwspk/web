@@ -24,6 +24,7 @@ class UserGraph::Graph
       {
         id: "n#{x.id}",
         label: "#{x.name}",
+        community: x.community,
         x: circular_x(i),
         y: circular_y(i),
         size: plan_to_size(x),
