@@ -1,12 +1,6 @@
 - content_for :page_title do
   Dashboard
 
-.btn-group
-  = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-default'
-  = link_to 'Admin UI', admin_root_path, class: 'btn btn-default'
-  =link_to 'Edit', edit_user_registration_path, class: 'btn btn-default'
-
-
 - if current_user.needs_ring_size?
   = render partial: 'ring_form'
 
@@ -34,7 +28,7 @@
         - else
           %td 
             Inactive
-            =link_to 'Change plan', edit_subscription_path
+            (#{link_to('change', edit_subscription_path)})
       %tr
         %td.table-label Twitter
         - if current_user.twitter
@@ -51,5 +45,10 @@
               = link_to '(Disconnect)', connection_path(current_user.facebook), method: :delete
           - else
             %td= link_to 'Connect', '/auth/facebook'
+%span.table-label
+  = link_to 'Edit Details', edit_user_registration_path
+  |
+  = link_to 'Admin UI', admin_root_path
+%span.pull-right.table-label=link_to 'Logout', destroy_user_session_path, method: :delete
 
 = render partial: 'friends'
