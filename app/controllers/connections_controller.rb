@@ -13,6 +13,13 @@ class ConnectionsController < ApplicationController
     connection.user         = current_user
     connection.save!
 
+    # Immediately check for friends
+    begin
+      service = CheckFriendsService.new
+      service.call(current_user)
+    rescue Twitter::Error::TooManyRequests => e
+    end
+
     redirect_to redirect_path, notice: 'Successfully connected account'
   end
 
