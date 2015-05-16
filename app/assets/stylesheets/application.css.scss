@@ -39,6 +39,7 @@ body {
   background-size: 103px 103px;
   color: #272727;
   padding-bottom: 40px;
+  font-size: 16px;
 }
 
 .bold {
@@ -72,7 +73,6 @@ hr {
 
 .navbar-custom {
   margin-top: 45px;
-
   a {
     color: #c02d25;
   }
@@ -88,11 +88,16 @@ hr {
     }
   }
 
+  .navbar-nav {
+    padding-left: 50px;
+  }
+
   .nav {
     font-family: 'Conv_F25_Executive';
     background: image-url('dblln.png') repeat-x;
     background-size: 1px 4px;
     width: 100%;
+    font-size: 1em;
 
     li {
       margin-right: 10px;
@@ -164,17 +169,36 @@ hr {
 
 @media (min-width: 850px) {
   .container {
-    width: 800px;
+    width: 1000px;
   }
 }
 
 .space {
   margin-top: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .extra-space {
   margin-top: 40px;
+}
+
+.breakout {
+  margin-left: -50px;
+  margin-right: -50px;
+  width: calc(100% + 100px) !important;
+  margin-bottom: 4px;
+}
+
+.padding {
+  box-sizing: border-box;
+  padding: 0 80px;
+
+  img {
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 30px;
+    margin-top: 20px;
+  }
 }
 
 .single-line {
@@ -188,7 +212,7 @@ hr {
   width: 100%;
   margin: 20px 0;
   text-align: center;
-  font-size: 1.4em;
+  font-size: 1.2em;
 
   a {
     font-family: 'Conv_F25_Executive';
