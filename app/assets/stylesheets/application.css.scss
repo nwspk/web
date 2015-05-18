@@ -47,7 +47,7 @@
     *zoom: 1;
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 768px) {
 	body {
 	  font-family: 'akkuratLight', sans-serif;
 	  background: image-url('bg.jpg') repeat;
@@ -312,7 +312,7 @@
 	}
 }
 
-@media only screen and (min-width: 850px) {
+@media only screen and (min-width: 768px) {
 	body {
 	  font-family: 'akkuratLight', sans-serif;
 	  background: image-url('bg.jpg') repeat;
