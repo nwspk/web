@@ -80,13 +80,13 @@
 
 	.container {
 		width: 100%;
-		padding: 0 50px;
+		padding: 0 25px;
 	  box-sizing: border-box;
 	}
 
 	.navbar-custom {
 		margin-top: 10px;
-	  .logo {
+	  	.logo {
 	    width: 100px;
 	    display: block;
 	    margin: 0 auto 10px;
@@ -102,7 +102,7 @@
 	  	float: right;
 	  	margin-top: -55px;
 	  	padding: 10px;
-	  	margin-right: -10px;
+	  	margin-right: 10px;
 
 	  	img {
 	  		width: 20px;
@@ -120,9 +120,9 @@
 	  .doubleline {	  	
 	    background: image-url('dblln.png') repeat-x;
 	    background-size: 1px 4px;
-	    width: calc(100% + 60px);
+	    width: calc(100% + 20px);
 	    height: 6px;
-	    margin-left: -30px;
+	    margin-left: -10px;
 	  }
 
 	  .nav {
@@ -159,13 +159,7 @@
   }
 
   .mainimage {
-  	width: 80%;
-  	display: block;
-  	margin: 0 auto;
-  	img {
-  		width: 100%;
-  		margin-bottom: 20px;
-  	}
+  	display: none;
   }
 
   .fullview {
@@ -201,8 +195,8 @@
 	}
 
 	.breakout {
-		width: calc(100% + 60px) !important;
-		margin-left: -30px;
+		width: calc(100% + 20px) !important;
+		margin-left: -10px;
 	}
 
 	.space {
