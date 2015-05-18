@@ -18,6 +18,10 @@
       .container
         .logo
           = link_to image_tag( 'logo.png'), root_path
+        %label{ :for => "show-nav", :class => "show-nav-btn" }
+          =image_tag('expand.png')
+        %input{ :type=>"checkbox", :id =>"show-nav" }
+        .doubleline
         %ul.nav.navbar-nav
           = link_to_in_li 'Home', root_path
           = link_to_in_li 'Membership', membership_path

@@ -1,4 +1,4 @@
-=image_tag('skyline.png')
+.mainimage=image_tag('skyline.png')
 
 %p.lead.space Something has gone terribly wrong with society. We can do better.
 
@@ -6,13 +6,27 @@
 
 %p It is a residential incubator and members’ club located in East London.
 
-#sigma-container{ style: 'margin-top: 40px; width: 100%; height: 400px; background: transparent; margin-bottom: 3px' }
-  .single-line
-  .sigma-label figure 1. Membership social graph, with notable members highlighted
+.fullview
+  #sigma-container{ style: 'margin-top: 40px; width: 100%; height: 400px; background: transparent; margin-bottom: 3px' }
+    .single-line
+    .sigma-label figure 1. Membership social graph, with notable members highlighted
+  = render partial: 'graphs/graph'
+  .single-line.breakout
 
-= render partial: 'graphs/graph'
+.mobileview 
+  .single-line.space
+  %ul.front-nav.cf
+    = link_to_in_li 'Membership', membership_path
+    = link_to_in_li 'Fellowship', fellowship_path
+    = link_to_in_li 'Graph', graphs_full_path
+    = link_to_in_li 'Calendar', "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9", target: '_blank'
+    = link_to_in_li 'Contact', contact_path
 
-.single-line.breakout
+    - if user_signed_in?
+      = link_to_in_li 'Account', dashboard_path
+    - else
+      = link_to_in_li 'Sign in', new_user_session_path, class: 'navbar-login'
+  .double-line.breakout
 
 .footer
   = link_to image_tag('mono.png'), root_path
