@@ -13,13 +13,11 @@ class DetectCommunitiesService
 
     @graph = node_map.values
 
-    puts "Converted graph"
-    puts "Initializing network"
     initialize_network
 
-    puts "Main algorithm"
-    while @p < 10
-      work
+    loop do
+      changes = work
+      break if changes == 0 || @p > 20
     end
 
     @graph.each do |n|
@@ -31,16 +29,21 @@ class DetectCommunitiesService
 
   private
 
+  def l(node, community)
+    @neighbours[node.id][community.id]
+  end
+
   def work
+    changes = 0
+
     @graph.each do |i|
-      community = i.community
       found_communities = []
       new_community = nil
       max = [[], 0]
 
       # Step 1
       @graph.each do |m|
-        val = @neighbours[i.id][m.id]
+        val = l(i, m)
 
         if val > max[1]
           max = [[m.community], val]
@@ -81,12 +84,14 @@ class DetectCommunitiesService
       end
 
       # Step 2
-      inequality_left  = (3 * @neighbours[i.id][new_community.id] - i.degree) * new_community.num
+      inequality_left  = (3 * lm - i.degree) * new_community.num
       inequality_right = new_community.inner_edges - new_community.outer_edges
 
-      if inequality_left > inequality_right
+      if inequality_left > inequality_right && new_community != i.community
+        old_community = i.community
+
         # (1)
-        community.members.delete(i)
+        old_community.members.delete(i)
         new_community.members << i
         i.community = new_community
 
@@ -95,18 +100,21 @@ class DetectCommunitiesService
         new_community.outer_edges = new_community.outer_edges + i.degree - 2 * lm
 
         # (3)
-        community.inner_edges = community.inner_edges - lm
-        community.outer_edges = community.outer_edges - i.degree + 2 * lm
+        old_community.inner_edges = old_community.inner_edges - lm
+        old_community.outer_edges = old_community.outer_edges - i.degree + 2 * lm
 
         # (4)
         i.connections.each do |k|
-          @neighbours[k.id][community.id]     = @neighbours[k.id][community.id] - 1
+          @neighbours[k.id][old_community.id] = @neighbours[k.id][old_community.id] - 1
           @neighbours[k.id][new_community.id] = @neighbours[k.id][new_community.id] + 1
         end
+
+        changes = changes + 1
       end
     end
 
     @p = @p + 1
+    changes
   end
 
   def initialize_network
@@ -166,6 +174,10 @@ class DetectCommunitiesService
 
     def neighbour_with?(other)
       @connections.include? other
+    end
+
+    def to_s
+      "<Node user=#{@user.name} community=#{@community.try(:id)}>"
     end
   end
 end
