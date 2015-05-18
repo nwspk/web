@@ -11,7 +11,7 @@ class WebhooksController < ApplicationController
       case event.type
       when 'invoice.created'
         subscription = Subscription.find_by!(customer_id: event.data.object.customer)
-        on_invoice_created(subscription, event.data.object)
+        on_invoice_created(subscription, event.data.object) unless event.data.object.closed
       when 'invoice.payment_succeeded'
         subscription = Subscription.find_by!(customer_id: event.data.object.customer)
         on_invoice_paid(subscription, event.data.object)

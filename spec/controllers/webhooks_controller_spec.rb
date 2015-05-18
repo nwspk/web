@@ -32,7 +32,8 @@ RSpec.describe WebhooksController, type: :controller do
 
     it 'adds friend discount when an invoice is generated' do
       event = StripeMock.mock_webhook_event('invoice.created', {
-        customer: subscription.customer_id
+        customer: subscription.customer_id,
+        closed: false
       })
 
       stub(Stripe::Event).retrieve { event }
