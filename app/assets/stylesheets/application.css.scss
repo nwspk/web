@@ -251,6 +251,13 @@
 				box-shadow: none;
 			}
 		}
+		select {
+			font-size: 16px;
+			box-shadow: 0px;
+			border-radius: 0;
+			border: 2px solid black;
+			background: transparent;
+		}
 	}
 
 	.solo-link {
@@ -270,6 +277,38 @@
 			padding: 10px;
 			@include rotate(1.5deg);
 		}
+	}
+
+	table {
+	  background: transparent;
+	  border: none;
+
+	  td {
+	  	border-top: 2px solid black;
+	  }
+	}
+
+	.column-table {
+	  width: 100%;
+	  float: left;
+	}
+
+	.table {
+		tbody tr td {
+			border-top: 2px solid black;
+		}
+
+		thead tr th {
+		  border-color: #272727;
+		}
+	}
+
+	.table-border {
+	  border: 2px solid #272727;
+	}
+
+	.table-label {
+	  font-family: 'Conv_F25_Executive';
 	}
 }
 
