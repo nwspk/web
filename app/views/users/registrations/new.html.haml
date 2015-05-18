@@ -65,7 +65,7 @@
       = sub_form.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :name, hint: "There is a one-time setup fee of #{Money.new(SIGNUP_FEE, 'GBP').format}"
 
     .form-group.form-submit
-      .col-sm-6
+      .col-6
         = f.button :submit, 'Proceed to checkout', class: 'btn-success'
 
 .single-line.space.breakout
