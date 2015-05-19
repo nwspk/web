@@ -1,2 +1,3 @@
 SIGNUP_FEE     = ENV['SIGNUP_FEE']     || 5000
 CANONICAL_HOST = ENV['CANONICAL_HOST'] || ''
+GOOGLE_UA      = ENV['GOOGLE_UA']      || ''
