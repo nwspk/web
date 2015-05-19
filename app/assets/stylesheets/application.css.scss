@@ -286,6 +286,7 @@
       font-weight: normal;
       color: #c02d25 !important;
       padding: 10px;
+      margin-right: 20px;
       span {
         background: transparent;
         background-image: none;
@@ -531,6 +532,11 @@
 		width: 100%;
 		text-align: center
 	}
+
+  .double-link a {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
 
 	.solo-link a, .double-link a {
 		display: inline-block;
