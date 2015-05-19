@@ -4,7 +4,7 @@
   (function () {
     'use strict';
 
-    var graphData, sigInst, listener, colors, communityMap;
+    var graphData, sigInst, colors, communityMap;
 
     graphData = #{@graph.to_json};
 
@@ -54,7 +54,13 @@
       }
     });
 
-    listener = sigma.layouts.fruchtermanReingold.start(sigInst, {});
+    sigInst.startForceAtlas2({
+      adjustSizes: true, worker: false
+    });
+
+    setTimeout(function () {
+      sigInst.stopForceAtlas2();
+    }, 5000);
 
     window.graphData = graphData;
   }());
