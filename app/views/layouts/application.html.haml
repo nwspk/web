@@ -23,18 +23,19 @@
           =image_tag('expand.png')
         %input{ :type=>"checkbox", :id =>"show-nav" }
         .doubleline
-        %ul.nav.navbar-nav
-          = link_to_in_li 'Home', root_path
-          = link_to_in_li 'Membership', membership_path
-          = link_to_in_li 'Fellowship', fellowship_path
-          = link_to_in_li 'Social Graph', graphs_full_path
-          = link_to_in_li 'Calendar', "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9", target: '_blank'
-          = link_to_in_li 'Contact', contact_path
+        .ulcontainer
+          %ul.nav.navbar-nav
+            = link_to_in_li 'Home', root_path
+            = link_to_in_li 'Membership', membership_path
+            = link_to_in_li 'Fellowship', fellowship_path
+            = link_to_in_li 'Social Graph', graphs_full_path
+            = link_to_in_li 'Calendar', "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9", target: '_blank'
+            = link_to_in_li 'Contact', contact_path
 
-          - if user_signed_in?
-            = link_to_in_li 'Account', dashboard_path
-          - else
-            = link_to_in_li 'Sign in', new_user_session_path, class: 'navbar-login'
+            - if user_signed_in?
+              = link_to_in_li 'Account', dashboard_path
+            - else
+              = link_to_in_li 'Sign in', new_user_session_path, class: 'navbar-login'
 
     = yield :pre_content
 

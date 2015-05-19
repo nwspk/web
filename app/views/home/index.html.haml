@@ -1,17 +1,10 @@
 .mainimage=image_tag('skyline.png')
 
-%p.lead.space Something has gone terribly wrong with society. We can do better.
+%p.lead Something has gone terribly wrong with society. We can do better.
 
 %p In the wake of the 2015 general election, Newspeak House was founded to foster the creation of technology to disrupt the UK political / media / government complex.
 
 %p It is a residential incubator and members’ club located in East London.
-
-.fullview
-  #sigma-container{ style: 'margin-top: 40px; width: 100%; height: 400px; background: transparent; margin-bottom: 3px' }
-    .single-line
-    .sigma-label figure 1. Membership social graph, with notable members highlighted
-  = render partial: 'graphs/graph'
-  .single-line.breakout
 
 .mobileview 
   .single-line.space
@@ -26,7 +19,8 @@
       = link_to_in_li 'Account', dashboard_path
     - else
       = link_to_in_li 'Sign in', new_user_session_path, class: 'navbar-login'
-  .double-line.breakout
+
+.double-line.breakout
 
 .footer
   = link_to image_tag('mono.png'), root_path
