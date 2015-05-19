@@ -1,5 +1,6 @@
 class GraphsController < ApplicationController
   before_filter :authenticate_user!, only: :friends
+  respond_to :html, :json, :gdf
 
   def full
     @start_date = start_date
@@ -12,11 +13,15 @@ class GraphsController < ApplicationController
     # Detect communities
     service     = DetectCommunitiesService.new
     service.call(@graph)
+
+    respond_with @graph
   end
 
   def friends
     builder = UserGraph::FriendsBuilder.new(user: current_user)
     @graph  = builder.build
+
+    respond_with @graph
   end
 
   def access
@@ -24,6 +29,8 @@ class GraphsController < ApplicationController
     @end_date   = end_date   || 1.day.from_now
     builder     = UserGraph::AccessBuilder.new(user: current_user, start: @start_date, end: @end_date)
     @graph      = builder.build
+
+    respond_with @graph
   end
 
   private

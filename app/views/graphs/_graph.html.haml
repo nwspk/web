@@ -1,8 +1,4 @@
-%script{ type: 'text/javascript', src: asset_path('sigma.min.js') }
-%script{ type: 'text/javascript', src: asset_path('plugins/sigma.parsers.json.min.js') }
-%script{ type: 'text/javascript', src: asset_path('plugins/sigma.plugins.animate.min.js') }
-%script{ type: 'text/javascript', src: asset_path('plugins/sigma.fruchterman.js') }
-%script{ type: 'text/javascript', src: asset_path('sigma.customLabels.js') }
+= javascript_include_tag 'graphs'
 
 :javascript
   (function () {
@@ -12,7 +8,7 @@
 
     graphData = #{@graph.to_json};
 
-    colors = ['#ECD078', '#D95B43', '#C02942', '#542437', '#53777A'];
+    colors = ['#556270', '#4ECDC4', '#C7F464', '#FF6B6B', '#C44D58'];
     communityMap = [];
 
     graphData.nodes.forEach(function (n) {
@@ -30,13 +26,17 @@
       },
 
       settings: {
-        edgeColor: 'default',
+        edgeColor: 'target',
         defaultNodeColor: '#555',
-        defaultEdgeColor: '#aaa'
+        defaultEdgeColor: '#aaa',
+        borderSize: 1,
+        defaultNodeBorderColor: 'node'
       }
     });
 
     sigInst.graph.nodes().forEach(function (n) {
+      n.size = n.size + 10;
+
       if (graphData.center != null && n.id === graphData.center) {
         n.color = '#C02D25';
       }

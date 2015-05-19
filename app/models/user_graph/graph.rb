@@ -17,6 +17,14 @@ class UserGraph::Graph
     }.to_json
   end
 
+  def to_gdf(options = {})
+    str = "nodedef> name VARCHAR, label VARCHAR, plan_type VARCHAR, size INT\n"
+    @nodes.each { |n| str << "#{n.id}, #{n.name}, #{plan_type(n)}, #{plan_to_size(n)}\n"}
+    str << "edgedef> user VARCHAR, friend VARCHAR\n"
+    @edges.each { |e| str << "#{e[0]}, #{e[1]}\n"}
+    str
+  end
+
   private
 
   def build_nodes_json
