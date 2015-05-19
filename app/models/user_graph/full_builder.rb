@@ -11,7 +11,7 @@ class UserGraph::FullBuilder < UserGraph::Builder
 
   def build
     graph       = UserGraph::Graph.new(@user)
-    users       = User.with_subscription.includes(:subscription)
+    users       = User.with_subscription.includes(subscription: :plan)
     friendships = FriendEdge.weighted.includes(:from)
 
     if @range

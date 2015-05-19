@@ -34,12 +34,12 @@
       Math.round(node[prefix + 'y'] + fontSize / 3)
     );
 
-    if (node.url.length > 0) {
+    if (node.showcase_text.length > 0) {
       context.font = fontSize * 0.75 + 'px ' + settings('font');
       context.fillStyle = '#555';
 
       context.fillText(
-        node.url,
+        node.showcase_text,
         Math.round(node[prefix + 'x'] + size + 3),
         Math.round(node[prefix + 'y'] + fontSize / 3 + fontSize)
       );

@@ -7,7 +7,7 @@ class UserGraph::AccessBuilder < UserGraph::Builder
 
   def build
     user_subset_ids = DoorAccess.where(created_at: @start_date..@end_date).select('distinct user_id').pluck(:user_id)
-    user_subset     = User.where(id: user_subset_ids)
+    user_subset     = User.where(id: user_subset_ids).includes(subscription: :plan)
 
     return empty_graph if user_subset.size < 1
 

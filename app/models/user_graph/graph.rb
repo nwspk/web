@@ -38,6 +38,7 @@ class UserGraph::Graph
         size: plan_to_size(x),
         showcase: x.showcase,
         plan_type: plan_type(x),
+        showcase_text: x.showcase_text,
         url: x.url
       }
     end
