@@ -113,7 +113,7 @@
 	  	display: none;
 	  }
 
-	  #show-nav:checked ~ .nav{
+	  #show-nav:checked ~ .ulcontainer {
 	    display: block;
 		}
 
@@ -125,12 +125,15 @@
 	    margin-left: -10px;
 	  }
 
+    .ulcontainer {
+      display: none;
+    }
+
 	  .nav {
 	    font-family: 'Conv_F25_Executive';
 	    width: 100%;
 	    margin: 0 auto;
 	    font-size: 1em;
-	    display: none;
 
 	    li {
 	      margin-right: 10px;
@@ -349,6 +352,11 @@
 		margin-top: 20px;
 	}
 
+  .ulcontainer {
+    width: 100%;
+    text-align: center;
+  }
+
 	.navbar-custom {
 	  margin-top: 45px;
 	  a {
@@ -374,10 +382,6 @@
 	    }
 	  }
 
-	  .navbar-nav {
-	    padding-left: 50px;
-	  }
-
 	  .doubleline {
 	    background: image-url('dblln.png') repeat-x;
 	    background-size: 1px 4px;
@@ -386,9 +390,19 @@
 	  }
 
 	  .nav {
+      display: inline-block;
 	    font-family: 'Conv_F25_Executive';
-	    width: 100%;
+	    margin: 0 auto;
 	    font-size: 1em;
+      float: none;
+
+      li:last-child {
+        margin-right: 0px;
+
+        a {
+          padding-right: 0px;
+        }
+      }
 
 	    li {
 	      margin-right: 10px;
