@@ -561,6 +561,31 @@
 		}
 	}
 
+	.simple_form input[type="submit"] {
+		display: block;
+		margin: 0 auto 20px;
+		font-size: 16px;
+		border-radius: 3px;
+		border: 3px solid #c02d25;
+		background: transparent;
+		font-family: "Conv_F25_Executive";
+		font-weight: normal;
+		color: #c02d25 !important;
+		padding: 10px;
+		position: relative;
+		z-index: 9999;
+		span {
+			background: transparent;
+			background-image: none;
+			color: #c02d25;
+			font-family: "Conv_F25_Executive";
+			font-weight: normal;
+			text-shadow: none;
+			font-size: 16px;
+			box-shadow: none;
+		}
+	}
+
 	.solo-link a {
 		@include rotate(-2deg);
 	}
