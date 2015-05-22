@@ -15,6 +15,14 @@ var initGraph = function (container, data) {
       dragNodes: false
     },
 
+    physics: {
+      barnesHut: {
+        gravitationalConstant: -9850,
+        centralGravity: 1.7,
+        avoidOverlap: 1
+      }
+    },
+
     edges: {
       scaling: {
         min: 1,
