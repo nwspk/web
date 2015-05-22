@@ -16,11 +16,11 @@ var initGraph = function (container, data) {
     },
 
     physics: {
-      barnesHut: {
-        gravitationalConstant: -9850,
-        centralGravity: 1.7,
-        avoidOverlap: 1
-      }
+      "forceAtlas2Based": {
+        "springLength": 100
+      },
+
+      "solver": "forceAtlas2Based"
     },
 
     edges: {
