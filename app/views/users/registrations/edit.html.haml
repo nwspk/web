@@ -6,12 +6,13 @@
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-horizontal' }, wrapper: :horizontal_form) do |f|
   = f.error_notification
 
-  = f.input :email, required: true, autofocus: true
+  = f.input :email, required: true
   = f.input :password, autocomplete: "off", required: false
   = f.input :password_confirmation, required: false
   = f.input :current_password, required: true
+  = f.input :ring_size, required: false, collection: Ring::SIZES, prompt: 'Select your ring size'
 
-  .form-group
+  .form-group.form-submit
     .col-6
       = f.button :submit, "Update"
 
