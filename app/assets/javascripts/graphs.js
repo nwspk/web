@@ -97,7 +97,13 @@ var initGraph = function (container, data) {
     return false;
   });
 
+  network.on('startStabilizing', function () {
+    $('.loader').show();
+  });
+
   network.on('stabilized', function () {
+    $('.loader').hide();
+
     if (data.center != null) {
       network.focus(data.center, {
         scale: 0.9,
