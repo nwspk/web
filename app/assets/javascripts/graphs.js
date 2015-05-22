@@ -15,14 +15,6 @@ var initGraph = function (container, data) {
       dragNodes: false
     },
 
-    physics: {
-      "forceAtlas2Based": {
-        "springLength": 100
-      },
-
-      "solver": "forceAtlas2Based"
-    },
-
     edges: {
       scaling: {
         min: 1,
