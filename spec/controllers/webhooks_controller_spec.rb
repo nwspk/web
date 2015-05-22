@@ -13,9 +13,9 @@ RSpec.describe WebhooksController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it 'return an error on a fake event request' do
+    it 'return nothing on a fake event request' do
       post :index, { id: 'fake' }.to_json
-      expect(response).to have_http_status(:bad_request)
+      expect(response).to have_http_status(:success)
     end
 
     it 'updates local subscription on successful payment' do

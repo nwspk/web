@@ -16,6 +16,8 @@ class DetectCommunitiesService
     l = Louvian.new(edge_list, true)
     l.run
 
+    return if l.levels.size < 1
+
     node_map = {}
 
     l.levels.each do |graph|
