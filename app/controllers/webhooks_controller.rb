@@ -23,7 +23,7 @@ class WebhooksController < ApplicationController
 
     render nothing: true, status: 200
   rescue Stripe::InvalidRequestError => e
-    render nothing: true, status: 400
+    render nothing: true, status: 200
   end
 
   private
