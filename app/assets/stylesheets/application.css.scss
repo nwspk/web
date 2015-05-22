@@ -1,5 +1,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "vis";
 
 @font-face {
   font-family: 'Conv_F25_Executive';
@@ -117,7 +118,7 @@
 	    display: block;
 		}
 
-	  .doubleline {	  	
+	  .doubleline {
 	    background: image-url('dblln.png') repeat-x;
 	    background-size: 1px 4px;
 	    width: calc(100% + 20px);
@@ -796,7 +797,7 @@
 	.form-group {
 	  margin-bottom: 0
 	}
-	
+
 	.form-submit {
 		width: 100%;
 		text-align: center;

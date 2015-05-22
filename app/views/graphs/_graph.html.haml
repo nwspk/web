@@ -1,66 +1,77 @@
 = javascript_include_tag 'graphs'
 
 :javascript
-  (function () {
+  $(function () {
     'use strict';
 
-    var graphData, sigInst, colors, communityMap;
+    var data = #{@graph.to_json};
 
-    graphData = #{@graph.to_json};
+    var container = document.getElementById('sigma-container');
 
-    colors = ['#556270', '#4ECDC4', '#C7F464', '#FF6B6B', '#C44D58'];
-    communityMap = [];
+    var options = {
+      width: '100%',
+      height: '600px',
 
-    graphData.nodes.forEach(function (n) {
-      if (communityMap.indexOf(n.community) === -1) {
-        communityMap.push(n.community);
-      }
-    });
-
-    sigInst = new sigma({
-      graph: graphData,
-
-      renderer: {
-        container: document.getElementById('sigma-container'),
-        type: 'canvas'
+      edges: {
+        width: 1,
+        widthMax: 2,
+        inheritColor: 'from'
       },
 
-      settings: {
-        edgeColor: 'target',
-        defaultNodeColor: '#555',
-        defaultEdgeColor: '#aaa',
-        borderSize: 1,
-        defaultNodeBorderColor: 'node'
+      nodes: {
+        shape: 'dot',
+        fontFace: 'akkuratRegular',
+        color: {
+          border: '#555',
+          background: '#666',
+          highlight: '#C02D25'
+        }
+      },
+
+      tooltip: {
+        fontFace: 'akkuratLight',
+        fontColor: '#fff',
+        color: {
+          border: '#000',
+          background: '#111'
+        }
+      },
+
+      groups: {}
+    };
+
+    var colorSwatch = [['#556270', '#3f4953'], ['#4ECDC4', '#33b5ac'], ['#C7F464', '#b6f134'], ['#FF6B6B', '#ff3838'], ['#C44D58', '#a73742']],
+      uniqColorCounter = 0,
+      nodeMap = {};
+
+    data.nodes.forEach(function (n) {
+      nodeMap[n.id] = n;
+
+      if (typeof options.groups[n.group] === 'undefined') {
+        var swatch = colorSwatch[uniqColorCounter % colorSwatch.length];
+
+        options.groups[n.group] = {
+          color: {
+            border: swatch[1],
+            background: swatch[0]
+          }
+        };
+
+        uniqColorCounter++;
       }
     });
 
-    sigInst.graph.nodes().forEach(function (n) {
-      n.size = n.size + 10;
+    var network = new vis.Network(container, data, options);
 
-      if (graphData.center != null && n.id === graphData.center) {
-        n.color = '#C02D25';
-      }
+    network.on('doubleClick', function (props) {
+      var url = nodeMap[props.nodes[0]].meta.url;
 
-      if (n.community != null) {
-        n.color = colors[communityMap.indexOf(n.community) % colors.length];
+      if (url.length > 0) {
+        window.open(url, '_blank');
       }
     });
 
-    sigInst.refresh();
-
-    sigInst.bind('clickNode', function (e) {
-      if (e.data.node.url.length > 0) {
-        window.open(e.data.node.url, '_blank');
-      }
+    $(window).on('resize', function () {
+      network.redraw();
     });
-
-    sigInst.startForceAtlas2({
-      adjustSizes: true, worker: false
-    });
-
-    setTimeout(function () {
-      sigInst.stopForceAtlas2();
-    }, 12000);
-
-    window.graphData = graphData;
-  }());
+  });

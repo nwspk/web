@@ -9,6 +9,22 @@ class UserGraph::Graph
     @edges  = Set.new []
   end
 
+  def to_adjacency_matrix
+    matrix = Array.new(@nodes.size) { Array.new(@nodes.size) }
+
+    @nodes.each_with_index do |ni, i|
+      @nodes.each_with_index do |nj, j|
+        if @edges.include?([ni.id, nj.id, 1]) || @edges.include?([ni.id, nj.id, 2])
+          matrix[i][j] = 1
+        else
+          matrix[i][j] = 0
+        end
+      end
+    end
+
+    matrix
+  end
+
   def to_json
     {
       center: @center.nil? ? nil : "n#{@center.id}",
@@ -31,29 +47,23 @@ class UserGraph::Graph
     @nodes.map.with_index do |x, i|
       {
         id: "n#{x.id}",
-        label: "#{x.name}",
-        community: x.community,
-        x: circular_x(i),
-        y: circular_y(i),
-        size: plan_to_size(x),
-        showcase: x.showcase,
-        plan_type: plan_type(x),
-        showcase_text: x.showcase_text,
-        url: x.url
+        label: x.showcase ? "#{x.name}" : "",
+        value: plan_to_size(x),
+        title: title(x),
+        group: x.community,
+        meta: {
+          text: x.showcase_text,
+          url: x.url,
+          plan: plan_type(x)
+        }
       }
     end
   end
 
   def build_edges_json
-    @edges.map.with_index { |x, i| { id: "e#{i}", source: "n#{x[0]}", target: "n#{x[1]}", weight: x[2] } }
-  end
-
-  def circular_x(i)
-    100 * Math.cos(2 * i * Math::PI / @nodes.size)
-  end
-
-  def circular_y(i)
-    100 * Math.sin(2 * i * Math::PI / @nodes.size)
+    edges = Set.new []
+    @edges.each { |e| (edges << e) unless (edges.include?(e) || edges.include?([e[1], e[0], e[2]])) }
+    edges.map.with_index { |x, i| { id: "e#{i}", from: "n#{x[0]}", to: "n#{x[1]}", value: x[2] } }
   end
 
   def plan_to_size(user)
@@ -64,5 +74,13 @@ class UserGraph::Graph
   def plan_type(user)
     return :inactive if user.subscription.nil? || !user.subscription.active?
     user.subscription.plan.name
+  end
+
+  def title(user)
+    lines = []
+    (lines << user.name) unless user.showcase
+    (lines << user.showcase_text) unless user.showcase_text.blank?
+    (lines << user.url) unless user.url.blank?
+    lines.join("<br />")
   end
 end

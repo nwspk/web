@@ -24,6 +24,7 @@ gem 'omniauth-twitter'
 gem 'twitter'
 gem 'koala', '~> 2.0'
 gem 'stripe'
+gem 'louvian_ruby'
 
 group :development, :test do
   gem 'byebug'

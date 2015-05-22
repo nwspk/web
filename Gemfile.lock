@@ -164,6 +164,7 @@ GEM
     libv8 (3.16.14.7)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
+    louvian_ruby (0.0.8)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     memoizable (0.4.2)
@@ -367,6 +368,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   koala (~> 2.0)
+  louvian_ruby
   money
   nyan-cat-formatter
   omniauth-facebook
