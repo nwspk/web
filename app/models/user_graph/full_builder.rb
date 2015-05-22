@@ -7,6 +7,8 @@ class UserGraph::FullBuilder < UserGraph::Builder
     else
       @range = false
     end
+
+    @blacklist = Set.new (options[:blacklist] || [])
   end
 
   def build
@@ -19,10 +21,12 @@ class UserGraph::FullBuilder < UserGraph::Builder
     end
 
     users.each do |u|
-      graph.nodes << u
+      (graph.nodes << u) unless @blacklist.include? u.id
     end
 
     friendships.each do |f|
+      next if @blacklist.include?(f.from_id) || @blacklist.include?(f.to_id)
+
       graph.nodes << f.from
       graph.nodes << f.to
       graph.edges << [f.from_id, f.to_id, f.weight]

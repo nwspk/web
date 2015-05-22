@@ -12,7 +12,8 @@ var initGraph = function (container, data) {
     interaction: {
       selectable: false,
       hover: false,
-      dragNodes: false
+      dragNodes: false,
+      hideEdgesOnDrag: true
     },
 
     edges: {
@@ -34,7 +35,9 @@ var initGraph = function (container, data) {
       shape: 'dot',
 
       font: {
-        face: 'akkuratRegular'
+        face: 'akkuratRegular',
+        size: 13,
+        color: '#111'
       },
 
       color: {
@@ -46,12 +49,25 @@ var initGraph = function (container, data) {
     groups: {}
   };
 
-  colorSwatch = [['#556270', '#3f4953'], ['#4ECDC4', '#33b5ac'], ['#C7F464', '#b6f134'], ['#FF6B6B', '#ff3838'], ['#C44D58', '#a73742']];
+  colorSwatch = [
+    ['#556270', '#3f4953'],
+    ['#4ECDC4', '#33b5ac'],
+    ['#C7F464', '#b6f134'],
+    ['#FF6B6B', '#ff3838'],
+    ['#C44D58', '#a73742']
+  ];
+
   uniqColorCounter = 0;
   nodeMap = {};
 
   data.nodes.forEach(function (n) {
     nodeMap[n.id] = n;
+
+    n.label = n.label.length > 0 ? n.label : undefined;
+
+    if (typeof n.label !== 'undefined' && n.meta.text.length > 0) {
+      n.label = n.label + "\n" + n.meta.text;
+    }
 
     if (typeof options.groups[n.group] === 'undefined') {
       var swatch = colorSwatch[uniqColorCounter % colorSwatch.length];

@@ -67,8 +67,8 @@ class UserGraph::Graph
   end
 
   def plan_to_size(user)
-    return 1.0 if (user.subscription.nil? || !user.subscription.active? || user.subscription.plan.nil?)
-    1.0 + Math.log10(user.subscription.plan.value.cents + 100)
+    return 10 if (user.subscription.nil? || !user.subscription.active? || user.subscription.plan.nil?)
+    user.subscription.plan.value.cents + 100
   end
 
   def plan_type(user)

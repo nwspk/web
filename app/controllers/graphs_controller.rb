@@ -5,9 +5,10 @@ class GraphsController < ApplicationController
   def full
     @start_date = start_date
     @end_date   = end_date
+    @blacklist  = params[:exclude].is_a?(Array) ? params[:exclude].map { |x| x.to_i } : [params[:exclude].to_i]
 
     # Build graph
-    builder     = UserGraph::FullBuilder.new(user: current_user, start: @start_date, end: @end_date)
+    builder     = UserGraph::FullBuilder.new(user: current_user, start: @start_date, end: @end_date, blacklist: @blacklist)
     @graph      = builder.build
 
     # Detect communities
