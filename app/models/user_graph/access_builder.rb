@@ -12,7 +12,7 @@ class UserGraph::AccessBuilder < UserGraph::Builder
     return empty_graph if user_subset.size < 1
 
     graph       = UserGraph::Graph.new(@user)
-    friendships = FriendEdge.where(from_id: user_subset_ids).weighted.includes(:from)
+    friendships = FriendEdge.where(from_id: user_subset_ids).weighted.includes(from: { subscription: :plan })
 
     user_subset.each do |u|
       graph.nodes << u

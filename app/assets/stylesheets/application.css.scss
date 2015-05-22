@@ -34,10 +34,6 @@
   transform: translateZ(1px) rotate($deg);
 }
 
-.clickable {
-	cursor: pointer;
-}
-
 .cf:before,
 .cf:after {
     content: " "; /* 1 */
@@ -898,4 +894,14 @@
     -webkit-box-shadow: none;
     box-shadow: none;
   }
+}
+
+div.vis-network-tooltip {
+	font-family: 'AkkuratRegular';
+	background: #111;
+	border-color: #000;
+	border-radius: 3px;
+	color: #fff;
+	font-size: 15px;
+	padding: 6px 13px;
 }
