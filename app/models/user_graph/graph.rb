@@ -47,7 +47,7 @@ class UserGraph::Graph
     @nodes.map.with_index do |x, i|
       {
         id: "n#{x.id}",
-        label: x.showcase ? "#{x.name}" : "",
+        label: (x.showcase || x.id == @center.try(:id)) ? "#{x.name}" : "",
         value: plan_to_size(x),
         title: title(x),
         group: x.community,

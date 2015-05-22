@@ -74,16 +74,6 @@
 
     var network = new vis.Network(container, data, options);
 
-    if (data.center != null) {
-      network.focus(data.center, {
-        scale: 0.9,
-        animation: {
-          duration: 1500,
-          easingFunction: 'easeInOutQuint'
-        }
-      });
-    }
-
     network.on('click', function (props) {
       var node = network.getNodeAt(props.pointer.DOM);
 
@@ -98,13 +88,15 @@
       }
     });
 
-    network.on('hoverNode', function (props) {
-      if (nodeMap[props.node].meta.url.length > 0) {
-        $(container).addClass('clickable');
+    network.on('stabilized', function () {
+      if (data.center != null) {
+        network.focus(data.center, {
+          scale: 0.9,
+          animation: {
+            duration: 1500,
+            easingFunction: 'easeInOutQuint'
+          }
+        });
       }
-    });
-
-    network.on('blurNode', function () {
-      $(container).removeClass('clickable');
     });
   });
