@@ -7,6 +7,10 @@ class GraphsController < ApplicationController
     @end_date   = end_date
     @blacklist  = params[:exclude].is_a?(Array) ? params[:exclude].map { |x| x.to_i } : [params[:exclude].to_i]
 
+    if @blacklist == [0]
+      @blacklist = [User.find_by(email: DEFAULT_USER_EXCLUDE).try(:id)]
+    end
+
     # Build graph
     builder     = UserGraph::FullBuilder.new(user: current_user, start: @start_date, end: @end_date, blacklist: @blacklist)
     @graph      = builder.build

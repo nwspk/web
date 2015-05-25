@@ -16,7 +16,19 @@ var initGraph = function (container, data) {
       hideEdgesOnDrag: true
     },
 
+    physics: {
+      barnesHut: {
+        gravitationalConstant: -10000
+      },
+
+      stabilization: {
+        iterations: 1000
+      }
+    },
+
     edges: {
+      smooth: false,
+
       scaling: {
         min: 1,
         max: 2
@@ -52,7 +64,7 @@ var initGraph = function (container, data) {
   colorSwatch = [
     ['#556270', '#3f4953'],
     ['#4ECDC4', '#33b5ac'],
-    ['#C7F464', '#b6f134'],
+    ['#b6f134', '#a0e210'],
     ['#FF6B6B', '#ff3838'],
     ['#C44D58', '#a73742']
   ];
@@ -117,7 +129,7 @@ var initGraph = function (container, data) {
     $('.loader').show();
   });
 
-  network.on('stabilized', function () {
+  network.on('stabilizationIterationsDone', function () {
     $('.loader').hide();
 
     if (data.center != null) {
