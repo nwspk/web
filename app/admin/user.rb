@@ -6,6 +6,10 @@ ActiveAdmin.register User do
   filter :name
   filter :email
 
+  scope :all
+  scope :with_subscription
+  scope :admins
+
   sidebar "User Details", only: [:show, :edit] do
     ul do
       li link_to "Rings",    admin_user_rings_path(user)

@@ -6,6 +6,9 @@ ActiveAdmin.register Subscription do
 
   permit_params :plan_id
 
+  scope :all
+  scope :with_credit_card
+
   index do
     column 'User' do |s|
       link_to s.user.email, admin_user_path(s.user)
