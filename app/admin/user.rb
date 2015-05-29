@@ -10,6 +10,10 @@ ActiveAdmin.register User do
     ul do
       li link_to "Rings",    admin_user_rings_path(user)
       li(link_to("Subscription", admin_subscription_path(user.subscription))) unless user.subscription.nil?
+
+      user.friends.each do |f|
+        li link_to f.to.name, admin_user_path(f.to)
+      end
     end
   end
 
