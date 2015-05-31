@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
-  get 'dashboard',                to: 'dashboard#index'
+  get 'account',                  to: 'dashboard#index', as: 'dashboard'
   get '/auth/:provider/callback', to: 'connections#create'
   get 'fellowship',               to: 'home#fellowship'
   get 'contact',                  to: 'home#contact'

@@ -22,6 +22,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if params[:password].blank?
       params.delete(:password)
       params.delete(:password_confirmation)
+      params.delete(:current_password)
       resource.update_without_password(params)
     else
       super(resource, params)
@@ -29,7 +30,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def resource_class
-    PublicUser
+    if [:new, :create].include? action_name
+      return PublicUser
+    end
+
+    User
   end
 
   def after_sign_up_path_for(resource)
