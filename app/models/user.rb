@@ -2,7 +2,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
   ROLES = {
-    admin: 'admin',
+    admin:  'admin',
+    staff:  'staff',
     member: 'member'
   }
 
@@ -41,6 +42,10 @@ class User < ActiveRecord::Base
 
   def admin?
     self.role == ROLES[:admin]
+  end
+
+  def staff?
+    self.role == ROLES[:staff]
   end
 
   def discount

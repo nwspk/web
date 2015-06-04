@@ -1,7 +1,7 @@
 ActiveAdmin.register User do
   config.batch_actions = false
 
-  permit_params :name, :email, :password, :password_confirmation, :showcase, :url, :showcase_text, :ring_size
+  permit_params :name, :email, :password, :password_confirmation, :showcase, :url, :showcase_text, :ring_size, :role
 
   filter :name
   filter :email
@@ -64,7 +64,11 @@ ActiveAdmin.register User do
       input :showcase
       input :url
       input :showcase_text
-      input :ring_size
+      input :ring_size, as: :select, collection: Ring::SIZES
+
+      if current_user.id != user.id
+        input :role, as: :select, collection: User::ROLES
+      end
     end
 
     actions
