@@ -8,6 +8,7 @@ ActiveAdmin.register User do
 
   scope :all
   scope :with_subscription
+  scope :staff
   scope :admins
 
   sidebar "User Details", only: [:show, :edit] do

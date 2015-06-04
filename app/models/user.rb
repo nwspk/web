@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
   before_destroy :terminate_subscription
 
   scope :admins, -> { where(role: ROLES[:admin]) }
+  scope :staff, -> { where(role: ROLES[:staff]) }
   scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
 
   def facebook

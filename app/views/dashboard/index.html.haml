@@ -1,5 +1,5 @@
 - content_for :page_title do
-  Dashboard
+  Account
 
 - if current_user.needs_ring_size?
   = render partial: 'ring_form'
@@ -12,7 +12,7 @@
         %td= current_user.name
       %tr
         %td.table-label Ring Size
-        %td= current_user.ring_size  
+        %td= current_user.ring_size
       %tr
         %td.table-label Email
         %td= current_user.email
@@ -23,10 +23,10 @@
         %td.table-label Tier
         - if !current_user.subscription.nil? && current_user.subscription.active?
           %td
-            = current_user.subscription.plan.name 
+            = current_user.subscription.plan.name
             =link_to 'Change plan', edit_subscription_path
         - else
-          %td 
+          %td
             Inactive
             (#{link_to('change', edit_subscription_path)})
       %tr
@@ -36,7 +36,7 @@
             = link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
             = link_to '(Disconnect)', connection_path(current_user.twitter), method: :delete
         - else
-          %td= link_to 'Connect', '/auth/twitter' 
+          %td= link_to 'Connect', '/auth/twitter'
         %tr
           %td.table-label Facebook
           - if current_user.facebook
