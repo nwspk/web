@@ -34,14 +34,24 @@ class CheckFriendsService
       config.access_token_secret = user.twitter.secret
     end
 
-    friend_ids = client.friend_ids.to_a
+    begin
+      friend_ids = client.friend_ids.to_a
+    rescue Twitter::Error::TooManyRequests => e
+      sleep e.rate_limit.reset_in + 1
+      retry
+    end
 
     return if friend_ids.empty?
 
     friend_profiles = []
 
     friend_ids.each_slice(100) do |batch|
-      friend_profiles.concat client.friendships(batch)
+      begin
+        friend_profiles.concat client.friendships(batch)
+      rescue Twitter::Error::TooManyRequests => e
+        sleep e.rate_limit.reset_in + 1
+        retry
+      end
     end
 
     friend_ids = friend_profiles.select { |friend| friend.connections.include?('followed_by') }.map { |f| f.id }
