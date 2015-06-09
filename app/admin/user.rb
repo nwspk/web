@@ -8,6 +8,7 @@ ActiveAdmin.register User do
 
   scope :all
   scope :with_subscription
+  scope :fellows
   scope :staff
   scope :admins
 

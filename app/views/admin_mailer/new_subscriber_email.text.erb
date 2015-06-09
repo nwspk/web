@@ -1,0 +1,9 @@
+A new member has started paying for a subscription. Here are the details:
+
+Name:     <%= @new_subscriber.name %>
+E-mail:   <%= @new_subscriber.email %>
+Plan:     <%= @new_subscriber.subscription.try(:plan_name) %>
+Twitter:  <%= @new_subscriber.twitter.try(:profile_url) %>
+Facebook: <%= @new_subscriber.facebook.try(:profile_url) %>
+
+You are receiving these e-mails because you're an Admin of Newspeak House.

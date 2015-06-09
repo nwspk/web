@@ -8,4 +8,8 @@ RSpec.describe AdminMailer, type: :mailer do
   describe '#new_member_email' do
     pending
   end
+
+  describe '#new_subscriber_email' do
+    pending
+  end
 end

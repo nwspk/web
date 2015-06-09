@@ -11,6 +11,12 @@ class AdminMailer < ApplicationMailer
     mail to: admins, subject: "New member signed up: #{new_member.name}"
   end
 
+  def new_subscriber_email(new_subscriber)
+    @new_subscriber = new_subscriber
+    return if no_admins
+    mail to: admins, subject: "New member became a paid subscriber: #{new_subscriber.name}"
+  end
+
   private
 
   def admins

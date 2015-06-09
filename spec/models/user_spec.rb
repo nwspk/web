@@ -19,6 +19,25 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#overrides_entry_rules?' do
+    let(:user) { Fabricate(:user) }
+
+    it 'returns true for admins' do
+      user.role = User::ROLES[:admin]
+      expect(user.overrides_entry_rules?).to be true
+    end
+
+    it 'returns true for staff' do
+      user.role = User::ROLES[:staff]
+      expect(user.overrides_entry_rules?).to be true
+    end
+
+    it 'returns true for fellows' do
+      user.role = User::ROLES[:fellow]
+      expect(user.overrides_entry_rules?).to be true
+    end
+  end
+
   describe '#discount' do
     let(:user) { Fabricate(:user) }
 

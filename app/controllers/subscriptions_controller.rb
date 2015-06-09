@@ -46,6 +46,8 @@ class SubscriptionsController < ApplicationController
     @subscription.active_until    = subscription.current_period_end
     @subscription.save!
 
+    AdminMailer.new_subscriber_email(current_user).deliver_later
+
     redirect_to dashboard_path, notice: 'Congratulations!'
   rescue Stripe::CardError => e
     render action: 'checkout', alert: e

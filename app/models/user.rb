@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   ROLES = {
     admin:  'admin',
     staff:  'staff',
+    fellow: 'fellow',
     member: 'member'
   }
 
@@ -31,6 +32,7 @@ class User < ActiveRecord::Base
 
   scope :admins, -> { where(role: ROLES[:admin]) }
   scope :staff, -> { where(role: ROLES[:staff]) }
+  scope :fellows, -> { where(role: ROLES[:fellow]) }
   scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
 
   def facebook
@@ -47,6 +49,14 @@ class User < ActiveRecord::Base
 
   def staff?
     self.role == ROLES[:staff]
+  end
+
+  def fellow?
+    self.role == ROLES[:fellow]
+  end
+
+  def overrides_entry_rules?
+    admin? || staff? || fellow?
   end
 
   def discount

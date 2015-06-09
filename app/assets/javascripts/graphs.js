@@ -11,14 +11,14 @@ var initGraph = function (container, data) {
 
     interaction: {
       selectable: false,
-      hover: false,
+      hover: true,
       dragNodes: false,
       hideEdgesOnDrag: true
     },
 
     physics: {
       barnesHut: {
-        gravitationalConstant: -10000
+        gravitationalConstant: -15000
       },
 
       stabilization: {
@@ -87,7 +87,11 @@ var initGraph = function (container, data) {
       options.groups[n.group] = {
         color: {
           border: swatch[1],
-          background: swatch[0]
+          background: swatch[0],
+          hover: {
+            border: '#111',
+            background: '#666'
+          }
         }
       };
 
@@ -111,18 +115,6 @@ var initGraph = function (container, data) {
     if (url.length > 0) {
       window.open(url, '_blank');
     }
-  });
-
-  network.on('oncontext', function (props) {
-    var node = network.getNodeAt(props.pointer.DOM);
-
-    if (typeof node === 'undefined') {
-      return;
-    }
-
-    dataSet.nodes.remove(node.id);
-
-    return false;
   });
 
   network.on('startStabilizing', function () {
