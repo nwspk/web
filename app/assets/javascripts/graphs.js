@@ -35,7 +35,8 @@ var initGraph = function (container, data) {
       },
 
       color: {
-        inherit: 'from'
+        inherit: 'from',
+        opacity: 0.5
       },
 
       selectionWidth: function (width) {
@@ -49,7 +50,8 @@ var initGraph = function (container, data) {
       font: {
         face: 'akkuratRegular',
         size: 13,
-        color: '#111'
+        color: '#111',
+        strokeWidth: 1
       },
 
       color: {
@@ -89,8 +91,8 @@ var initGraph = function (container, data) {
           border: swatch[1],
           background: swatch[0],
           hover: {
-            border: '#111',
-            background: '#666'
+            border: swatch[1],
+            background: swatch[1]
           }
         }
       };

@@ -19,8 +19,12 @@
   %body
     %nav.navbar.navbar-custom
       .container
-        .logo
-          = link_to image_tag( 'logo.png'), root_path
+        - if @small_logo
+          .logo-small
+            = link_to image_tag( 'mono.png'), root_path
+        - else
+          .logo
+            = link_to image_tag( 'logo.png'), root_path
         %label{ :for => "show-nav", :class => "show-nav-btn" }
           =image_tag('expand.png')
         %input{ :type=>"checkbox", :id =>"show-nav" }

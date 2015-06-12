@@ -3,6 +3,7 @@ class GraphsController < ApplicationController
   respond_to :html, :json, :gdf
 
   def full
+    @small_logo = true
     @start_date = start_date
     @end_date   = end_date
     @blacklist  = params[:exclude].is_a?(Array) ? params[:exclude].map { |x| x.to_i } : [params[:exclude].to_i]

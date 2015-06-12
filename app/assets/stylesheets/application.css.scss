@@ -48,6 +48,13 @@
     *zoom: 1;
 }
 
+.logo-small {
+	display: block;
+	margin: 0 auto;
+	width: 49px;
+	padding: 20px 0;
+}
+
 @media only screen and (max-width: 768px) {
 	body {
 	  font-family: 'akkuratLight', sans-serif;
