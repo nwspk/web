@@ -8,4 +8,8 @@ class HomeController < ApplicationController
 
   def contact
   end
+
+  def calendar
+    redirect_to "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9"
+  end
 end
