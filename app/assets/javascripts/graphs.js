@@ -50,8 +50,7 @@ var initGraph = function (container, data) {
       font: {
         face: 'akkuratRegular',
         size: 13,
-        color: '#111',
-        strokeWidth: 1
+        color: '#111'
       },
 
       color: {
