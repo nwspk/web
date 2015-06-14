@@ -78,7 +78,7 @@ class UserGraph::Graph
 
   def title(user)
     lines = []
-    lines << "#{user.name}, #{user.showcase_text}"
+    lines << [user.name, user.showcase_text.blank? ? nil : user.showcase_text].compact.join(", ")
     lines << user.url
     lines.join("<br />")
   end
