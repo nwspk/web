@@ -55,7 +55,11 @@ var initGraph = function (container, data) {
 
       color: {
         border: '#555',
-        background: '#666'
+        background: '#666',
+        hover: {
+          border: '#5d5d5d',
+          background: '#777'
+        }
       }
     },
 

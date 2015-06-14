@@ -78,9 +78,8 @@ class UserGraph::Graph
 
   def title(user)
     lines = []
-    (lines << user.name) unless user.showcase
-    (lines << user.showcase_text) unless user.showcase_text.blank?
-    (lines << user.url) unless user.url.blank?
+    lines << "#{user.name}, #{user.showcase_text}"
+    lines << user.url
     lines.join("<br />")
   end
 end

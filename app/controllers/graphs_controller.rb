@@ -4,16 +4,30 @@ class GraphsController < ApplicationController
 
   def full
     @small_logo = true
-    @start_date = start_date
-    @end_date   = end_date
+    @date_range = params[:date_range] || 'all'
     @blacklist  = params[:exclude].is_a?(Array) ? params[:exclude].map { |x| x.to_i } : [params[:exclude].to_i]
 
     if @blacklist == [0]
       @blacklist = [User.find_by(email: DEFAULT_USER_EXCLUDE).try(:id)]
     end
 
+    case @date_range
+    when 'day'
+      _start_date = 1.day.ago
+      _end_date   = Time.now
+    when 'week'
+      _start_date = 1.week.ago
+      _end_date   = Time.now
+    when 'month'
+      _start_date = 1.month.ago
+      _end_date   = Time.now
+    else
+      _start_date = false
+      _end_date   = false
+    end
+
     # Build graph
-    builder     = UserGraph::FullBuilder.new(user: current_user, start: @start_date, end: @end_date, blacklist: @blacklist)
+    builder     = UserGraph::FullBuilder.new(user: current_user, start: _start_date, end: _end_date, blacklist: @blacklist)
     @graph      = builder.build
 
     # Detect communities
