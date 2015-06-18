@@ -59,6 +59,7 @@
 
     = f.input :name, required: true
     = f.input :email, required: true
+    = f.input :url, wrapper_html: { style: 'display: none' }
     = f.input :password, required: true, hint: ("(min #{@minimum_password_length} characters)" if @validatable)
     = f.input :password_confirmation, required: true
     = f.simple_fields_for :subscription do |sub_form|

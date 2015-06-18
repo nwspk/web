@@ -13,16 +13,16 @@ class UserGraph::FullBuilder < UserGraph::Builder
 
   def build
     graph       = UserGraph::Graph.new(@user)
-    users       = User.includes(subscription: :plan)
+    # users       = User.includes(subscription: :plan)
     friendships = FriendEdge.weighted.includes(from: { subscription: :plan })
 
     if @range
       friendships = friendships.where(created_at: @range)
     end
 
-    users.each do |u|
-      (graph.nodes << u) unless @blacklist.include? u.id
-    end
+    # users.each do |u|
+    #   (graph.nodes << u) unless @blacklist.include? u.id
+    # end
 
     friendships.each do |f|
       next if @blacklist.include?(f.from_id) || @blacklist.include?(f.to_id)

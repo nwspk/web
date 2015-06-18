@@ -30,7 +30,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def resource_class
-    if [:new, :create].include? action_name
+    if [:new, :create].include? action_name.to_sym
       return PublicUser
     end
 
@@ -52,7 +52,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, { subscription_attributes: [:plan_id] })
+    params.require(:user).permit(:name, :email, :url, :password, :password_confirmation, { subscription_attributes: [:plan_id] })
   end
 
   def account_update_params
