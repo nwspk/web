@@ -87,11 +87,15 @@ var initGraph = function (container, data) {
     }
 
     if (data.center != null && data.center === n.id) {
+      n.borderWidth = 4;
+
       n.color = {
-        background: '#333',
+        border: '#ab261f',
+        background: '#C02D25',
 
         hover: {
-          background: '#444'
+          border: '#ab261f',
+          background: '#C02D25'
         }
       };
     }
