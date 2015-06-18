@@ -1,12 +1,9 @@
 - content_for :page_title do
   Door access graph
 
-.page-header
-  %h1 Door access graph
-
-= form_tag(graphs_access_path, method: :get) do
-  = select_date @start_date, prefix: :start
-  = select_date @end_date, prefix: :end
-  = submit_tag 'Show'
-
 = render partial: 'graph'
+
+.graph-panel
+  = form_tag graphs_full_path, method: :get do
+    = select_tag 'date_range', options_for_select([['All', 'all'], ['Past month', 'month'], ['Past week', 'week'], ['Past day', 'day']], @date_range)
+    = submit_tag 'Show connections'

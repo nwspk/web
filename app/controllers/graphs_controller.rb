@@ -1,33 +1,11 @@
 class GraphsController < ApplicationController
   before_filter :authenticate_user!, only: :friends
+  before_action :parse_graph_options
   respond_to :html, :json, :gdf
 
   def full
-    @small_logo = true
-    @date_range = params[:date_range] || 'all'
-    @blacklist  = params[:exclude].is_a?(Array) ? params[:exclude].map { |x| x.to_i } : [params[:exclude].to_i]
-
-    if @blacklist == [0]
-      @blacklist = [User.find_by(email: DEFAULT_USER_EXCLUDE).try(:id)]
-    end
-
-    case @date_range
-    when 'day'
-      _start_date = 1.day.ago
-      _end_date   = Time.now
-    when 'week'
-      _start_date = 1.week.ago
-      _end_date   = Time.now
-    when 'month'
-      _start_date = 1.month.ago
-      _end_date   = Time.now
-    else
-      _start_date = false
-      _end_date   = false
-    end
-
     # Build graph
-    builder     = UserGraph::FullBuilder.new(user: current_user, start: _start_date, end: _end_date, blacklist: @blacklist)
+    builder     = UserGraph::FullBuilder.new(user: @focus, start: @start_date, end: @end_date, blacklist: @blacklist)
     @graph      = builder.build
 
     # Detect communities
@@ -45,9 +23,7 @@ class GraphsController < ApplicationController
   end
 
   def access
-    @start_date = start_date || 1.day.ago
-    @end_date   = end_date   || 1.day.from_now
-    builder     = UserGraph::AccessBuilder.new(user: current_user, start: @start_date, end: @end_date)
+    builder     = UserGraph::AccessBuilder.new(user: @focus, start: @start_date, end: @end_date)
     @graph      = builder.build
 
     respond_with @graph
@@ -55,15 +31,51 @@ class GraphsController < ApplicationController
 
   private
 
-  def start_date
-    Date.civil(params[:start][:year].to_i, params[:start][:month].to_i, params[:start][:day].to_i)
-  rescue
-    false
+  def parse_graph_options
+    @small_logo = true
+
+    parse_date_range
+    parse_focus
+    parse_blacklist
   end
 
-  def end_date
-    Date.civil(params[:end][:year].to_i, params[:end][:month].to_i, params[:end][:day].to_i)
-  rescue
-    false
+  def parse_date_range
+    @date_range = params[:date_range] || 'all'
+
+    case @date_range
+    when 'day'
+      @start_date = 1.day.ago
+      @end_date   = Time.now
+    when 'week'
+      @start_date = 1.week.ago
+      @end_date   = Time.now
+    when 'month'
+      @start_date = 1.month.ago
+      @end_date   = Time.now
+    else
+      @start_date = false
+      @end_date   = false
+    end
+  end
+
+  def parse_focus
+    @focus = nil
+
+    if params[:focus]
+      begin
+        @focus = User.find(params[:focus].to_i)
+      rescue ActiveRecord::RecordNotFound
+      end
+    else
+      @focus = current_user
+    end
+  end
+
+  def parse_blacklist
+    @blacklist = params[:exclude].is_a?(Array) ? params[:exclude].map { |x| x.to_i } : [params[:exclude].to_i]
+
+    if @blacklist == [0]
+      @blacklist = [User.find_by(email: DEFAULT_USER_EXCLUDE).try(:id)]
+    end
   end
 end

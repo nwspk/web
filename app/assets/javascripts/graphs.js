@@ -86,6 +86,16 @@ var initGraph = function (container, data) {
       n.label = n.label + "\n" + n.meta.text;
     }
 
+    if (data.center != null && data.center === n.id) {
+      n.color = {
+        background: '#333',
+
+        hover: {
+          background: '#444'
+        }
+      };
+    }
+
     if (typeof options.groups[n.group] === 'undefined') {
       var swatch = colorSwatch[uniqColorCounter % colorSwatch.length];
 
@@ -93,6 +103,7 @@ var initGraph = function (container, data) {
         color: {
           border: swatch[1],
           background: swatch[0],
+
           hover: {
             border: swatch[1],
             background: swatch[1]
