@@ -16,12 +16,23 @@ RSpec.describe SubscriptionsController, type: :controller do
 
   describe "POST #process_card" do
     before do
-      user.build_subscription(plan: Fabricate(:plan)).save
+      user.build_subscription(plan: Fabricate(:plan, value: 5000)).save
     end
 
     it "returns http success" do
       post :process_card, { stripeToken: StripeMock.generate_card_token(last4: "9191", exp_year: 1984) }
       expect(response).to have_http_status(:redirect)
+    end
+
+    it "charges user only sign-up fee first" do
+      token = StripeMock.generate_card_token(last4: "9191", exp_year: 1984)
+
+      mock.proxy(Stripe::Customer).create.with_any_args do |customer|
+        expect(customer.account_balance).to eq (SIGNUP_FEE - 5000)
+        customer
+      end
+
+      post :process_card, { stripeToken: token }
     end
   end
 

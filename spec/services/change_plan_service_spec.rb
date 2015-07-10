@@ -4,8 +4,8 @@ RSpec.describe ChangePlanService, type: :model do
   let(:stripe_helper) { StripeMock.create_test_helper }
   let(:user) { Fabricate(:user) }
   let(:subscription) { user.build_subscription }
-  let(:plan1) { Fabricate(:plan) }
-  let(:plan2) { Fabricate(:plan) }
+  let(:plan1) { Fabricate(:plan, name: 'p1') }
+  let(:plan2) { Fabricate(:plan, name: 'p2') }
 
   before do
     customer = Stripe::Customer.create({
