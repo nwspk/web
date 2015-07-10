@@ -75,16 +75,9 @@ var initGraph = function (container, data) {
   ];
 
   uniqColorCounter = 0;
-  nodeMap = {};
 
   data.nodes.forEach(function (n) {
-    nodeMap[n.id] = n;
-
-    n.label = n.label.length > 0 ? n.label : undefined;
-
-    if (typeof n.label !== 'undefined' && n.meta.text.length > 0) {
-      n.label = n.label + "\n" + n.meta.text;
-    }
+    n.label = undefined;
 
     if (data.center != null && data.center === n.id) {
       n.borderWidth = 4;
@@ -130,7 +123,7 @@ var initGraph = function (container, data) {
       return;
     }
 
-    var url = nodeMap[node.id].meta.url;
+    var url = dataSet.nodes.get(node.id).meta.url;
 
     if (url.length > 0) {
       window.open(url, '_blank');
@@ -153,6 +146,53 @@ var initGraph = function (container, data) {
         }
       });
     }
+  });
+
+  network.on('afterDrawing', function (ctx) {
+    var nodes = network.getPositions(),
+      zoom = network.getScale();
+
+    var node, pos, box, fontSize, maxVisible;
+
+    if (zoom < 0.5) {
+      return;
+    }
+
+    maxVisible = 24;
+
+    Object.keys(nodes).forEach(function (nodeId) {
+      node     = dataSet.nodes.get(nodeId);
+      pos      = nodes[nodeId];
+      box      = network.getBoundingBox(nodeId);
+      fontSize = 13;
+
+      if (!node.meta.showcase && zoom < 1) {
+        return;
+      }
+
+      if (fontSize * zoom >= maxVisible) {
+        fontSize = maxVisible / zoom;
+      }
+
+      ctx.font = fontSize + 'px akkuratLight';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+
+      if (node.meta.showcase) {
+        ctx.fillStyle = '#000';
+      } else {
+        ctx.fillStyle = '#aaa';
+      }
+
+      ctx.fillText(node.meta.name, pos.x, box.bottom + 3);
+
+      if (node.meta.showcase && node.meta.text.length > 0) {
+        ctx.font = (fontSize * 0.8) + 'px akkuratLight';
+        ctx.fillStyle = '#777';
+
+        ctx.fillText(node.meta.text, pos.x, box.bottom + fontSize + 6);
+      }
+    });
   });
 
   $(container).on('contextmenu', function (e) {

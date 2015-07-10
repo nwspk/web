@@ -52,9 +52,11 @@ class UserGraph::Graph
         title: title(x),
         group: x.community,
         meta: {
+          name: x.name,
           text: x.showcase_text,
           url: x.url,
-          plan: plan_type(x)
+          plan: plan_type(x),
+          showcase: x.showcase
         }
       }
     end
