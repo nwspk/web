@@ -34,10 +34,7 @@ var initGraph = function (container, data) {
         max: 2
       },
 
-      color: {
-        inherit: 'from',
-        opacity: 0.5
-      },
+      color: '#ccc',
 
       selectionWidth: function (width) {
         return width + 0.5;
@@ -181,13 +178,13 @@ var initGraph = function (container, data) {
       if (node.meta.showcase) {
         ctx.fillStyle = '#000';
       } else {
-        ctx.fillStyle = '#aaa';
+        ctx.fillStyle = '#777';
       }
 
       ctx.fillText(node.meta.name, pos.x, box.bottom + 3);
 
       if (node.meta.showcase && node.meta.text.length > 0) {
-        ctx.font = (fontSize * 0.8) + 'px akkuratLight';
+        ctx.font = (fontSize * 0.85) + 'px akkuratLight';
         ctx.fillStyle = '#777';
 
         ctx.fillText(node.meta.text, pos.x, box.bottom + fontSize + 6);
