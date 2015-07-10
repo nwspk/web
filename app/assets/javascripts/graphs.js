@@ -154,7 +154,7 @@ var initGraph = function (container, data) {
 
     var node, pos, box, fontSize, maxVisible;
 
-    if (zoom < 0.5) {
+    if (zoom < 0.6) {
       return;
     }
 
@@ -164,9 +164,9 @@ var initGraph = function (container, data) {
       node     = dataSet.nodes.get(nodeId);
       pos      = nodes[nodeId];
       box      = network.getBoundingBox(nodeId);
-      fontSize = 13;
+      fontSize = 12;
 
-      if (!node.meta.showcase && zoom < 1) {
+      if (!node.meta.showcase && zoom < 1.5) {
         return;
       }
 
