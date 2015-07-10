@@ -174,7 +174,7 @@ var initGraph = function (container, data) {
         fontSize = maxVisible / zoom;
       }
 
-      ctx.font = fontSize + 'px akkuratLight';
+      ctx.font = fontSize + 'px akkuratRegular';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
 

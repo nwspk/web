@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
     self.role == ROLES[:staff]
   end
 
+  def admin_or_staff?
+    admin? || staff?
+  end
+
   def fellow?
     self.role == ROLES[:fellow]
   end

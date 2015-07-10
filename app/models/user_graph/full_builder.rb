@@ -9,23 +9,20 @@ class UserGraph::FullBuilder < UserGraph::Builder
     end
 
     @blacklist = Set.new (options[:blacklist] || [])
+    @no_staff  = options[:no_staff]
   end
 
   def build
     graph       = UserGraph::Graph.new(@user)
-    # users       = User.includes(subscription: :plan)
     friendships = FriendEdge.weighted.includes(from: { subscription: :plan })
 
     if @range
       friendships = friendships.where(created_at: @range)
     end
 
-    # users.each do |u|
-    #   (graph.nodes << u) unless @blacklist.include? u.id
-    # end
-
     friendships.each do |f|
       next if @blacklist.include?(f.from_id) || @blacklist.include?(f.to_id)
+      next if @no_staff && (f.from.admin_or_staff? || f.to.admin_or_staff?)
 
       graph.nodes << f.from
       graph.nodes << f.to

@@ -5,7 +5,7 @@ class GraphsController < ApplicationController
 
   def full
     # Build graph
-    builder     = UserGraph::FullBuilder.new(user: @focus, start: @start_date, end: @end_date, blacklist: @blacklist)
+    builder     = UserGraph::FullBuilder.new(user: @focus, start: @start_date, end: @end_date, blacklist: @blacklist, no_staff: (params[:no_staff] == 'true'))
     @graph      = builder.build
 
     # Detect communities
@@ -75,7 +75,7 @@ class GraphsController < ApplicationController
     @blacklist = params[:exclude].is_a?(Array) ? params[:exclude].map { |x| x.to_i } : [params[:exclude].to_i]
 
     if @blacklist == [0]
-      @blacklist = [User.find_by(email: DEFAULT_USER_EXCLUDE).try(:id)]
+      @blacklist = []
     end
   end
 end
