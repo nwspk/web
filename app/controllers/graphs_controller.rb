@@ -9,8 +9,8 @@ class GraphsController < ApplicationController
     @graph      = builder.build
 
     # Detect communities
-    service     = DetectCommunitiesService.new
-    service.call(@graph)
+    # service     = DetectCommunitiesService.new
+    # service.call(@graph)
 
     respond_with @graph
   end

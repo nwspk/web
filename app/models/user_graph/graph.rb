@@ -49,7 +49,6 @@ class UserGraph::Graph
         id: "n#{x.id}",
         label: (x.showcase || x.id == @center.try(:id)) ? "#{x.name}" : "",
         value: plan_to_size(x),
-        title: title(x),
         group: x.community,
         meta: {
           name: x.name,

@@ -11,9 +11,10 @@ var initGraph = function (container, data) {
 
     interaction: {
       selectable: false,
-      hover: true,
+      hover: false,
       dragNodes: false,
-      hideEdgesOnDrag: true
+      hideEdgesOnDrag: true,
+      tooltipDelay: 300
     },
 
     physics: {
@@ -34,7 +35,9 @@ var initGraph = function (container, data) {
         max: 2
       },
 
-      color: '#ccc',
+      color: {
+        inherit: 'from'
+      },
 
       selectionWidth: function (width) {
         return width + 0.5;
@@ -114,21 +117,58 @@ var initGraph = function (container, data) {
   network = new vis.Network(container, dataSet, options);
 
   network.on('click', function (props) {
-    var node = network.getNodeAt(props.pointer.DOM);
+    var node   = network.getNodeAt(props.pointer.DOM),
+      allNodes = dataSet.nodes.get({ returnType: 'Object' }),
+      updates  = [];
 
     if (typeof node === 'undefined') {
-      return;
+      Object.keys(allNodes).forEach(function (nId) {
+        var _node = allNodes[nId];
+
+        _node.color = {
+          background: '#666',
+          border: '#555'
+        };
+      });
+    } else {
+      // Highlight neighbourhood
+      Object.keys(allNodes).forEach(function (nId) {
+        var _node = allNodes[nId];
+
+        _node.color = {
+          background: '#bbb',
+          border: '#ccc'
+        };
+      });
+
+      var connectedNodes = network.getConnectedNodes(node),
+        tmp = [];
+
+      connectedNodes.forEach(function (nId) {
+        tmp = tmp.concat(network.getConnectedNodes(nId));
+      });
+
+      connectedNodes = connectedNodes.concat(tmp).concat(node);
+
+      connectedNodes.forEach(function (nId) {
+        var _node = allNodes[nId];
+
+        _node.color = {
+          background: '#666',
+          border: '#555'
+        };
+      });
     }
 
-    var url = dataSet.nodes.get(node.id).meta.url;
+    Object.keys(allNodes).forEach(function (nId) {
+      updates.push(allNodes[nId]);
+    });
 
-    if (url.length > 0) {
-      window.open(url, '_blank');
-    }
+    dataSet.nodes.update(updates);
   });
 
   network.on('startStabilizing', function () {
-    $('.loader').show();
+    //$('.loader').show();
   });
 
   network.on('stabilizationIterationsDone', function () {
@@ -150,10 +190,6 @@ var initGraph = function (container, data) {
       zoom = network.getScale();
 
     var node, pos, box, fontSize, maxVisible;
-
-    if (zoom < 0.6) {
-      return;
-    }
 
     maxVisible = 24;
 
@@ -183,7 +219,7 @@ var initGraph = function (container, data) {
 
       ctx.fillText(node.meta.name, pos.x, box.bottom + 3);
 
-      if (node.meta.showcase && node.meta.text.length > 0) {
+      if (node.meta.text.length > 0) {
         ctx.font = (fontSize * 0.85) + 'px akkuratLight';
         ctx.fillStyle = '#777';
 
