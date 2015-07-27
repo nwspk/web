@@ -123,6 +123,8 @@ var initGraph = function (container, data) {
       Object.keys(allNodes).forEach(function (nId) {
         var _node = allNodes[nId];
 
+        _node.highlighted = false;
+
         _node.color = {
           background: '#888',
           border: '#222'
@@ -133,13 +135,17 @@ var initGraph = function (container, data) {
       Object.keys(allNodes).forEach(function (nId) {
         var _node = allNodes[nId];
 
+        _node.highlighted = false;
+
         _node.color = {
-          background: '#ccc',
-          border: '#aaa'
+          background: '#d5d5d5',
+          border: '#ccc'
         };
       });
 
       var connectedNodes = network.getConnectedNodes(node);
+
+      allNodes[node].highlighted = true;
 
       allNodes[node].color = {
         border: '#222',
@@ -148,6 +154,8 @@ var initGraph = function (container, data) {
 
       connectedNodes.forEach(function (nId) {
         var _node = allNodes[nId];
+
+        _node.highlighted = true;
 
         _node.color = {
           background: '#888',
@@ -196,7 +204,7 @@ var initGraph = function (container, data) {
       box      = network.getBoundingBox(nodeId);
       fontSize = 14;
 
-      if (!node.meta.showcase && zoom < 1.2) {
+      if (!node.highlighted && !node.meta.showcase && zoom < 1.2) {
         return;
       }
 
