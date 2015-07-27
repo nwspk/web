@@ -54,12 +54,8 @@ var initGraph = function (container, data) {
       },
 
       color: {
-        border: '#555',
-        background: '#666',
-        hover: {
-          border: '#5d5d5d',
-          background: '#777'
-        }
+        border: '#222',
+        background: '#888'
       }
     },
 
@@ -126,8 +122,8 @@ var initGraph = function (container, data) {
         var _node = allNodes[nId];
 
         _node.color = {
-          background: '#666',
-          border: '#555'
+          background: '#888',
+          border: '#222'
         };
       });
     } else {
@@ -136,26 +132,24 @@ var initGraph = function (container, data) {
         var _node = allNodes[nId];
 
         _node.color = {
-          background: '#bbb',
-          border: '#ccc'
+          background: '#ccc',
+          border: '#aaa'
         };
       });
 
-      var connectedNodes = network.getConnectedNodes(node),
-        tmp = [];
+      var connectedNodes = network.getConnectedNodes(node);
 
-      connectedNodes.forEach(function (nId) {
-        tmp = tmp.concat(network.getConnectedNodes(nId));
-      });
-
-      connectedNodes = connectedNodes.concat(tmp).concat(node);
+      allNodes[node].color = {
+        border: '#222',
+        background: '#C02D25'
+      };
 
       connectedNodes.forEach(function (nId) {
         var _node = allNodes[nId];
 
         _node.color = {
-          background: '#666',
-          border: '#555'
+          background: '#888',
+          border: '#222'
         };
       });
     }
@@ -189,22 +183,27 @@ var initGraph = function (container, data) {
     var nodes = network.getPositions(),
       zoom = network.getScale();
 
-    var node, pos, box, fontSize, maxVisible;
+    var node, pos, box, fontSize, maxVisible, minVisible;
 
     maxVisible = 24;
+    minVisible = 14;
 
     Object.keys(nodes).forEach(function (nodeId) {
       node     = dataSet.nodes.get(nodeId);
       pos      = nodes[nodeId];
       box      = network.getBoundingBox(nodeId);
-      fontSize = 12;
+      fontSize = 14;
 
-      if (!node.meta.showcase && zoom < 1.5) {
+      if (!node.meta.showcase && zoom < 1.2) {
         return;
       }
 
       if (fontSize * zoom >= maxVisible) {
         fontSize = maxVisible / zoom;
+      }
+
+      if (fontSize * zoom <= minVisible) {
+        fontSize = minVisible / zoom;
       }
 
       ctx.font = fontSize + 'px akkuratRegular';
