@@ -19,7 +19,9 @@ var initGraph = function (container, data) {
 
     physics: {
       barnesHut: {
-        gravitationalConstant: -15000
+        gravitationalConstant: -15000,
+        avoidOverlap: 1,
+        springLength: 200
       },
 
       stabilization: {
