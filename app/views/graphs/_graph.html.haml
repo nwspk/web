@@ -1,9 +1,13 @@
 = javascript_include_tag 'graphs'
 
-#sigma-container{ style: 'width: 100%; height: 600px; background: transparent; position: absolute; left: 0' }
-.loader
+- if @graph.nodes.size == 0
+  %div.graph-error There's nothing to show here! (╯°□°）╯︵ ┻━┻
+- else
+  %div#sigma-container{ style: 'width: 100%; height: 600px; background: transparent; position: absolute; left: 0' }
+  %div.loader
 
-:javascript
-  $(function () {
-    initGraph(document.getElementById('sigma-container'), #{@graph.to_json});
-  });
+
+  :javascript
+    $(function () {
+      initGraph(document.getElementById('sigma-container'), #{@graph.to_json});
+    });

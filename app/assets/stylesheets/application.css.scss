@@ -990,3 +990,13 @@ div.vis-network-tooltip {
     position:absolute;
   }
 }
+
+.graph-error {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  padding-top: 300px;
+  font-size: 16px;
+  color: #999;
+}
