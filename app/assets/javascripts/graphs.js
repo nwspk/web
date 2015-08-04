@@ -3,7 +3,10 @@
 var initGraph = function (container, data) {
   'use strict';
 
-  var options, dataSet, colorSwatch, nodeMap, uniqColorCounter, network;
+  var options, dataSet, colorSwatch, nodeMap, uniqColorCounter, network, globalHighlight;
+
+  const ZOOM_THRESHOLD = 1.2;
+  globalHighlight = false;
 
   options = {
     width: '100%',
@@ -37,9 +40,7 @@ var initGraph = function (container, data) {
         max: 2
       },
 
-      color: {
-        inherit: 'from'
-      },
+      color: '#777',
 
       selectionWidth: function (width) {
         return width + 0.5;
@@ -49,6 +50,8 @@ var initGraph = function (container, data) {
     nodes: {
       shape: 'dot',
 
+      borderWidth: 4,
+
       font: {
         face: 'akkuratRegular',
         size: 13,
@@ -56,7 +59,7 @@ var initGraph = function (container, data) {
       },
 
       color: {
-        border: '#222',
+        border: '#777',
         background: '#888'
       }
     },
@@ -64,7 +67,7 @@ var initGraph = function (container, data) {
     groups: {}
   };
 
-  colorSwatch = [
+  /*colorSwatch = [
     ['#556270', '#3f4953'],
     ['#4ECDC4', '#33b5ac'],
     ['#b6f134', '#a0e210'],
@@ -72,14 +75,12 @@ var initGraph = function (container, data) {
     ['#C44D58', '#a73742']
   ];
 
-  uniqColorCounter = 0;
+  uniqColorCounter = 0;*/
 
   data.nodes.forEach(function (n) {
     n.label = undefined;
 
     if (data.center != null && data.center === n.id) {
-      n.borderWidth = 4;
-
       n.color = {
         border: '#ab261f',
         background: '#C02D25',
@@ -91,7 +92,7 @@ var initGraph = function (container, data) {
       };
     }
 
-    if (typeof options.groups[n.group] === 'undefined') {
+    /*if (typeof options.groups[n.group] === 'undefined') {
       var swatch = colorSwatch[uniqColorCounter % colorSwatch.length];
 
       options.groups[n.group] = {
@@ -107,7 +108,7 @@ var initGraph = function (container, data) {
       };
 
       uniqColorCounter++;
-    }
+    }*/
   });
 
   dataSet = { nodes: new vis.DataSet(data.nodes), edges: new vis.DataSet(data.edges) };
@@ -117,20 +118,40 @@ var initGraph = function (container, data) {
   network.on('click', function (props) {
     var node   = network.getNodeAt(props.pointer.DOM),
       allNodes = dataSet.nodes.get({ returnType: 'Object' }),
-      updates  = [];
+      allEdges = dataSet.edges.get({ returnType: 'Object' }),
+      updatesNodes  = [],
+      updatesEdges  = [];
 
     if (typeof node === 'undefined') {
+      globalHighlight = false;
+
       Object.keys(allNodes).forEach(function (nId) {
         var _node = allNodes[nId];
 
         _node.highlighted = false;
 
-        _node.color = {
-          background: '#888',
-          border: '#222'
-        };
+        if (_node.meta.showcase) {
+          _node.color = {
+            background: '#000',
+            border: '#000'
+          };
+        } else {
+          _node.color = {
+            background: '#888',
+            border: '#777'
+          };
+        }
+
+        updatesNodes.push(allNodes[nId]);
+      });
+
+      Object.keys(allEdges).forEach(function (eId) {
+        allEdges[eId].color = '#777';
+        updatesEdges.push(allEdges[eId]);
       });
     } else {
+      globalHighlight = true;
+
       // Highlight neighbourhood
       Object.keys(allNodes).forEach(function (nId) {
         var _node = allNodes[nId];
@@ -141,16 +162,28 @@ var initGraph = function (container, data) {
           background: '#d5d5d5',
           border: '#ccc'
         };
+
+        updatesNodes.push(allNodes[nId]);
       });
 
-      var connectedNodes = network.getConnectedNodes(node);
+      Object.keys(allEdges).forEach(function (eId) {
+        allEdges[eId].color = '#ccc';
+        updatesEdges.push(allEdges[eId]);
+      });
+
+      var connectedNodes = network.getConnectedNodes(node),
+        connectedEdges = network.getConnectedEdges(node);
 
       allNodes[node].highlighted = true;
 
       allNodes[node].color = {
-        border: '#222',
+        border: '#ab261f',
         background: '#C02D25'
       };
+
+      connectedEdges.forEach(function (eId) {
+        allEdges[eId].color = '#000';
+      });
 
       connectedNodes.forEach(function (nId) {
         var _node = allNodes[nId];
@@ -158,14 +191,47 @@ var initGraph = function (container, data) {
         _node.highlighted = true;
 
         _node.color = {
-          background: '#888',
-          border: '#222'
+          background: '#000',
+          border: '#000'
         };
       });
     }
 
+    dataSet.nodes.update(updatesNodes);
+    dataSet.edges.update(updatesEdges);
+  });
+
+  network.on('zoom', function (props) {
+    var allNodes = dataSet.nodes.get({ returnType: 'Object' }),
+      updates = [];
+
+    if (globalHighlight) {
+      return;
+    }
+
     Object.keys(allNodes).forEach(function (nId) {
-      updates.push(allNodes[nId]);
+      var _node = allNodes[nId];
+
+      if (props.scale < ZOOM_THRESHOLD) {
+        if (_node.meta.showcase) {
+          _node.color = {
+            background: '#000',
+            border: '#000'
+          };
+        } else {
+          _node.color = {
+            background: '#888',
+            border: '#777'
+          };
+        }
+      } else {
+        _node.color = {
+          background: '#000',
+          border: '#000'
+        };
+      }
+
+      updates.push(_node);
     });
 
     dataSet.nodes.update(updates);
@@ -204,7 +270,7 @@ var initGraph = function (container, data) {
       box      = network.getBoundingBox(nodeId);
       fontSize = 14;
 
-      if (!node.highlighted && !node.meta.showcase && zoom < 1.2) {
+      if (!node.highlighted && !node.meta.showcase && zoom < ZOOM_THRESHOLD) {
         return;
       }
 
@@ -220,7 +286,7 @@ var initGraph = function (container, data) {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
 
-      if (node.meta.showcase) {
+      if (node.meta.showcase || node.highlighted || (zoom >= ZOOM_THRESHOLD && !globalHighlight)) {
         ctx.fillStyle = '#000';
       } else {
         ctx.fillStyle = '#777';
