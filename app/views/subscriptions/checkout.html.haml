@@ -1,29 +1,36 @@
 - content_for :page_title do
   Checkout
 
-%p.lead Become a member
+- if @subscription.customer_id.blank?
+  %p.lead Become a member
 
-%p One last step before you're a full member with a subscription! You need to checkout with Stripe.
+  %p One last step before you're a full member with a subscription! You need to checkout with Stripe.
 
-%p You can connect your social network accounts to check for discounts before checking out.
+  %p You can connect your social network accounts to check for discounts before checking out.
 
-.panel.panel-default
-  .panel-heading Social accounts
-  .panel-body
-    %dl.dl-horizontal
-      %dt Twitter
-      - if current_user.twitter
-        %dd= link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
-      - else
-        %dd= link_to 'Connect your Twitter account', '/auth/twitter'
+  .panel.panel-default
+    .panel-heading Social accounts
+    .panel-body
+      %dl.dl-horizontal
+        %dt Twitter
+        - if current_user.twitter
+          %dd= link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
+        - else
+          %dd= link_to 'Connect your Twitter account', '/auth/twitter'
 
-      %dt Facebook
-      - if current_user.facebook
-        %dd= link_to current_user.facebook.username, current_user.facebook.profile_url
-      - else
-        %dd= link_to 'Connect your Facebook account', '/auth/facebook'
+        %dt Facebook
+        - if current_user.facebook
+          %dd= link_to current_user.facebook.username, current_user.facebook.profile_url
+        - else
+          %dd= link_to 'Connect your Facebook account', '/auth/facebook'
 
-= render partial: 'dashboard/friends'
+  = render partial: 'dashboard/friends'
+- else
+  %p.lead Change credit card
+  %p Just click on the button below and enter your new credit card details into the Stripe form.
 
 = simple_form_for(@subscription, url: process_card_subscription_path, method: :post) do |f|
-  = stripe_button @plan.name, @plan.description, current_user.email, SIGNUP_FEE + @plan.value_with_discount(current_user).cents, 'Pay'
+  - if @subscription.customer_id.blank?
+    = stripe_button @plan.name, @plan.description, current_user.email, SIGNUP_FEE + @plan.value_with_discount(current_user).cents, 'Pay'
+  - else
+    = stripe_button @plan.name, @plan.description, current_user.email, 0, 'Update card'

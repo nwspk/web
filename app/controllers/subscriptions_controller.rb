@@ -32,23 +32,28 @@ class SubscriptionsController < ApplicationController
   def process_card
     token = params[:stripeToken]
 
-    customer = Stripe::Customer.create(
-      source: token,
-      email: current_user.email,
-      description: current_user.name,
-      account_balance: SIGNUP_FEE - @subscription.plan.value.cents
-    )
+    if @subscription.customer_id.blank?
+      customer = Stripe::Customer.create(
+        source: token,
+        email: current_user.email,
+        description: current_user.name,
+        account_balance: SIGNUP_FEE - @subscription.plan.value.cents
+      )
 
-    subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
+      subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
 
-    @subscription.customer_id     = customer.id
-    @subscription.subscription_id = subscription.id
-    @subscription.active_until    = subscription.current_period_end
-    @subscription.save!
+      @subscription.customer_id     = customer.id
+      @subscription.subscription_id = subscription.id
+      @subscription.active_until    = subscription.current_period_end
+      @subscription.save!
 
-    AdminMailer.new_subscriber_email(current_user).deliver_later
+      AdminMailer.new_subscriber_email(current_user).deliver_later
 
-    redirect_to dashboard_path, notice: 'Congratulations!'
+      redirect_to dashboard_path, notice: 'Congratulations!'
+    else
+      service = ChangeCardService.new
+      service.call(@subscription.customer_id, token)
+    end
   rescue Stripe::CardError => e
     render action: 'checkout', alert: e
   end

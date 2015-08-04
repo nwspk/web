@@ -16,6 +16,16 @@
     .col-sm-3.col-sm-6
       = f.button :submit, 'Change plan', class: 'btn-success'
 
+- if !@subscription.needs_checkout?
+  %hr/
+
+  %h3 Change credit card
+
+  %p
+    If you would like to update the credit card that is being billed, you can use the
+    = link_to 'Checkout page', checkout_subscription_path
+    again
+
 %hr/
 
 %h3 Cancel subscription
