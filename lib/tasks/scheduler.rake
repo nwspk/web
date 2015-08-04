@@ -8,12 +8,8 @@ task :refresh_friends => :environment do
   while backlog.size > 0
     u = backlog.pop
 
-    begin
-      service = CheckFriendsService.new
-      service.call(u)
-    rescue Twitter::Error::TooManyRequests => e
-      backlog << u
-    end
+    service = CheckFriendsService.new
+    service.call(u)
   end
 
   puts "Done."
