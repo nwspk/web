@@ -61,6 +61,11 @@ var initGraph = function (container, data) {
       color: {
         border: '#777',
         background: '#888'
+      },
+
+      scaling: {
+        min: 5,
+        max: 15
       }
     },
 
@@ -79,6 +84,18 @@ var initGraph = function (container, data) {
 
   data.nodes.forEach(function (n) {
     n.label = undefined;
+
+    if (n.meta.showcase) {
+      n.color = {
+        background: '#000',
+        border: '#000'
+      };
+    } else {
+      n.color = {
+        background: '#888',
+        border: '#777'
+      };
+    }
 
     if (data.center != null && data.center === n.id) {
       n.color = {
@@ -301,9 +318,5 @@ var initGraph = function (container, data) {
         ctx.fillText(node.meta.text, pos.x, box.bottom + fontSize + 6);
       }
     });
-  });
-
-  $(container).on('contextmenu', function (e) {
-    e.preventDefault();
   });
 };
