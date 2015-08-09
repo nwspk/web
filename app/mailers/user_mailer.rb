@@ -1,7 +1,7 @@
 class UserMailer < ApplicationMailer
   helper ApplicationHelper
 
-  def billing_email(user, time)
+  def billing_email(user, time = Time.now)
     @user        = user
     @new_users   = User.created_after_date(time - 30.days)
     @num_users   = User.count
