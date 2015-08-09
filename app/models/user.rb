@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
   scope :staff, -> { where(role: ROLES[:staff]) }
   scope :fellows, -> { where(role: ROLES[:fellow]) }
   scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
+  scope :created_after_date, -> (date) { where('created_at > ?', date) }
 
   def facebook
     @facebook_cache ||= self.connections.find_by(provider: 'facebook')

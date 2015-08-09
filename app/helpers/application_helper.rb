@@ -10,4 +10,8 @@ module ApplicationHelper
   def canonical_path
     CANONICAL_HOST.blank? ? request.original_url : CANONICAL_HOST + "#{request.fullpath}"
   end
+
+  def plaintext_list_user_item(u)
+    [u.name, "#{u.showcase_text} #{u.url}"].map { |x| x.strip.blank? ? nil : x.strip }.compact.join("\n  ")
+  end
 end

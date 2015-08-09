@@ -1,0 +1,25 @@
+Hello <%= @user.name %>,
+
+Here is a little monthly summary of NWSPK activity.
+
+New members since you were last billed:
+---------------------------------------
+
+<% if @new_users.size > 0 %>
+  <%= @new_users.map { |u| plaintext_list_user_item(u) }.join("\n\n  ") %>
+<% else %>
+  (None)
+<% end %>
+
+
+Discounts
+---------
+
+You have <%= @num_connections %> connections (<%= @num_new_connections %> new ones this month),
+and there are <%= @num_users - @num_connections %> members you haven't connected to yet.
+
+
+Upcoming events
+---------------
+
+<%= calendar_url %>
