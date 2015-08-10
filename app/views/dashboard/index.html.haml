@@ -49,6 +49,8 @@
   = link_to 'Edit Details', edit_user_registration_path
   |
   = link_to 'Admin UI', admin_root_path
+  |
+  = link_to 'Refresh social accounts', check_friends_connections_path
 %span.pull-right.table-label=link_to 'Logout', destroy_user_session_path, method: :delete
 
 = render partial: 'friends'
