@@ -33,7 +33,21 @@
   To make sure this is up to date,
   %a{href: check_friends_connections_url} refresh your social accounts.
 
-%pre= @ascii_table
+%table{ style: 'border-collapse: collapse' }
+  %tbody
+    %tr
+      %td{ style: 'padding-right: 18px' } Membership Tier:
+      %td{ style: 'padding-right: 18px' }= @subscription.plan.name
+      %td{ style: 'padding-right: 18px' }= @subscription.plan.value.format(@format_rules)
+    %tr
+      %td{ style: 'padding-right: 18px' } Maven Discount:
+      %td{ style: 'padding-right: 18px' }= pluralize(@num_connections, 'connection')
+      %td{ style: 'padding-right: 18px' }= (@user.discount / -12).format(@format_rules)
+  %tfoot
+    %tr
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000'} Total:
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000'}
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000'}= @discounted_total.format(@format_rules)
 
 %p{ style: 'margin-bottom: 36px' }
   You will be billed with your card ending in #{@card_num} (

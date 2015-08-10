@@ -16,17 +16,17 @@ class UserMailer < ApplicationMailer
       @card_num = 4242
     end
 
-    format_rules     = { symbol_before_without_space: false, sign_before_symbol: true, sign_positive: true }
-    discounted_total = @subscription.plan.value - (@user.discount / 12)
+    @format_rules     = { symbol_before_without_space: false, sign_before_symbol: true, sign_positive: true }
+    @discounted_total = @subscription.plan.value - (@user.discount / 12)
 
-    if discounted_total.cents < 0
-      discounted_total = Money.new(0, 'GBP')
+    if @discounted_total.cents < 0
+      @discounted_total = Money.new(0, 'GBP')
     end
 
     @ascii_table = Terminal::Table.new rows: [
-      ['Membership Tier:', @subscription.plan.name, @subscription.plan.value.format(format_rules)],
-      ['Maven Discount:', "#{@num_connections} connections", (@user.discount / -12).format(format_rules)],
-      ['Total:', '', discounted_total.format(format_rules)]
+      ['Membership Tier:', @subscription.plan.name, @subscription.plan.value.format(@format_rules)],
+      ['Maven Discount:', "#{@num_connections} connections", (@user.discount / -12).format(@format_rules)],
+      ['Total:', '', @discounted_total.format(@format_rules)]
     ]
 
     mail to: user.email, subject: "This month at Newspeak House"
