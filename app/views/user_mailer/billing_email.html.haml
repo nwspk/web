@@ -36,18 +36,18 @@
 %table{ style: 'border-collapse: collapse; font: 14px/18px monospace' }
   %tbody
     %tr
-      %td{ style: 'padding-right: 18px' } Membership Tier:
-      %td{ style: 'padding-right: 18px' }= @subscription.plan.name
-      %td{ style: 'padding-right: 18px' }= positivize_zero_val(@subscription.plan.value)
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Membership Tier:
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @subscription.plan.name
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= positivize_zero_val(@subscription.plan.value)
     %tr
-      %td{ style: 'padding-right: 18px' } Maven Discount:
-      %td{ style: 'padding-right: 18px' }= pluralize(@num_connections, 'connection')
-      %td{ style: 'padding-right: 18px' }= positivize_zero_val(@user.discount / -12)
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Maven Discount:
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= pluralize(@num_connections, 'connection')
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= positivize_zero_val(@user.discount / -12)
   %tfoot
     %tr
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000'} Total:
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000'}
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000'}= positivize_zero_val(@discounted_total)
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'} Total:
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}= positivize_zero_val(@discounted_total)
 
 %p{ style: 'margin-bottom: 36px' }
   You will be billed with your card ending in #{@card_num} (
