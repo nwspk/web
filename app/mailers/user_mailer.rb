@@ -1,5 +1,6 @@
 class UserMailer < ApplicationMailer
-  helper ApplicationHelper
+  helper  ApplicationHelper
+  include ApplicationHelper
 
   def billing_email(user, time = Time.now)
     @user                = user
@@ -23,9 +24,9 @@ class UserMailer < ApplicationMailer
     end
 
     @ascii_table = Terminal::Table.new rows: [
-      ['Membership Tier:', @subscription.plan.name, @subscription.plan.value.format(symbol_before_without_space: false, sign_before_symbol: true, sign_positive: true)],
-      ['Maven Discount:', "#{@num_connections} connections", (@user.discount / -12).format(symbol_before_without_space: false, sign_before_symbol: true, sign_positive: true)],
-      ['Total:', '', @discounted_total.format(symbol_before_without_space: false, sign_before_symbol: true, sign_positive: true)]
+      ['Membership Tier:', @subscription.plan.name, positivize_zero_val(@subscription.plan.value)],
+      ['Maven Discount:', "#{@num_connections} connections", positivize_zero_val(@user.discount / -12)],
+      ['Total:', '', positivize_zero_val(@discounted_total)]
     ]
 
     mail to: user.email, subject: "This month at Newspeak House"
