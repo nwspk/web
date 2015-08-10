@@ -12,6 +12,6 @@ module ApplicationHelper
   end
 
   def plaintext_list_user_item(u)
-    [u.name, "#{u.showcase_text} #{u.url}"].map { |x| x.strip.blank? ? nil : x.strip }.compact.join("\n  ")
+    [u.name, u.showcase_text, u.url].map { |x| x.strip.blank? ? nil : x.strip }.compact.join(", ")
   end
 end

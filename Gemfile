@@ -25,6 +25,7 @@ gem 'twitter'
 gem 'koala', '~> 2.0'
 gem 'stripe'
 gem 'louvian_ruby'
+gem 'terminal-table'
 
 group :development, :test do
   gem 'byebug'

@@ -316,6 +316,7 @@ GEM
       dante (>= 0.2.0)
       jimson-temp
       stripe (= 1.20.1)
+    terminal-table (1.5.2)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -387,6 +388,7 @@ DEPENDENCIES
   sqlite3
   stripe
   stripe-ruby-mock (~> 2.1.1)
+  terminal-table
   therubyracer
   timecop
   twitter

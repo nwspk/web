@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :connections, only: [:destroy] do
     collection do
-      post :check_friends
+      get :check_friends
     end
   end
 

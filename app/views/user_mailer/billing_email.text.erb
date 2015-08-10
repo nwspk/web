@@ -1,25 +1,36 @@
 Hello <%= @user.name %>,
 
-Here is a little monthly summary of NWSPK activity.
-
-New members since you were last billed:
----------------------------------------
-
-<% if @new_users.size > 0 %>
-  <%= @new_users.map { |u| plaintext_list_user_item(u) }.join("\n\n  ") %>
-<% else %>
-  (None)
-<% end %>
-
-
-Discounts
----------
-
-You have <%= @num_connections %> connections (<%= @num_new_connections %> new ones this month),
-and there are <%= @num_users - @num_connections %> members you haven't connected to yet.
-
 
 Upcoming events
----------------
+===============
 
 <%= calendar_url %>
+
+
+New Members This Month
+======================
+
+<% @new_users.each do |u| %>
+• <%= plaintext_list_user_item(u) %>
+<% end %>
+
+See all members: <%= graphs_full_url %>
+
+
+Billing Invoice
+===============
+
+For each other member you connect to on Twitter or Facebook, your membership is discounted by £1 / yr.
+You've made <%= @num_new_connections %> new connections this month, and there are still <%= @num_users - @num_connections %> members you haven't connected to yet.
+To make sure this is up to date, refresh your social accounts: <%= check_friends_connections_url %>
+
+<%= @ascii_table %>
+
+You will be billed with your card ending in <%= @card_num %> (change payment details: <%= edit_subscription_url %>)
+
+
+____
+
+Any problems with your membership, or if you see anything funny with this email, please contact ed@nwspk.com
+
+Newspeak House
