@@ -39,7 +39,7 @@ class WebhooksController < ApplicationController
   def on_invoice_paid(subscription, invoice)
     subscription.update!(active_until: 30.days.from_now)
     Payment.create!(user: subscription.user, stripe_invoice_id: invoice.id, total: invoice.total, date: invoice.date)
-    #UserMailer.billing_email(subscription.user).deliver_later
+    UserMailer.billing_email(subscription.user).deliver_later
   end
 
   def on_invoice_failed(subscription, invoice)
