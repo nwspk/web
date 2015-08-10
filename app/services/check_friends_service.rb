@@ -24,8 +24,6 @@ class CheckFriendsService
       FriendEdge.find_or_create_by(from: user, to: friend, network: 'facebook')
       FriendEdge.find_or_create_by(from: friend, to: user, network: 'facebook')
     end
-  rescue Koala::Facebook::AuthenticationError => e
-    return
   end
 
   def check_twitter_friends(user)

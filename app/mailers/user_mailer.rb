@@ -11,11 +11,16 @@ class UserMailer < ApplicationMailer
     stripe_customer      = Stripe::Customer.retrieve(@subscription.customer_id)
     format_rules         = { symbol_before_without_space: false, sign_before_symbol: true, sign_positive: true }
     @card_num            = stripe_customer.sources.retrieve(stripe_customer.default_source).last4
+    discounted_total     = @subscription.plan.value - (@user.discount / 12)
+
+    if discounted_total.cents < 0
+      discounted_total = Money.new(0, 'GBP')
+    end
 
     @ascii_table = Terminal::Table.new rows: [
       ['Membership Tier:', @subscription.plan.name, @subscription.plan.value.format(format_rules)],
-      ['Maven Discount:', "#{@num_connections} connections", (@user.discount * -1).format(format_rules)],
-      ['Total:', '', (@subscription.plan.value - (@user.discount / 12)).format(format_rules)]
+      ['Maven Discount:', "#{@num_connections} connections", (@user.discount / -12).format(format_rules)],
+      ['Total:', '', discounted_total.format(format_rules)]
     ]
 
     mail to: user.email, subject: "This month at Newspeak House"

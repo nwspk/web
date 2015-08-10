@@ -1,0 +1,48 @@
+%p{ style: 'margin-bottom: 36px' } Hello #{@user.name},
+
+%p
+  %u Upcoming Events
+
+%p{ style: 'margin-bottom: 36px' }
+  %a{ href: calendar_url }= calendar_url
+
+%p
+  %u New Members This Month
+
+%ul{ style: 'padding-left: 18px' }
+  - @new_users.each do |u|
+    %li
+      - if u.url.blank?
+        = u.name
+      - else
+        %a{ href: u.url }>= u.name
+      - unless u.showcase_text.blank?
+        = ", #{u.showcase_text}"
+
+%p{ style: 'margin-bottom: 36px' }
+  %a{ href: graphs_full_url } See all members
+
+%p
+  %u Billing Invoice
+
+%p
+  For each other member you connect to on Twitter or Facebook, your membership is discounted by £1 / yr.
+  %br/
+  You've made #{@num_new_connections} new connections this month, and there are still #{@num_users - @num_connections} members you haven't connected to yet.
+  %br/
+  To make sure this is up to date,
+  %a{href: check_friends_connections_url} refresh your social accounts.
+
+%pre= @ascii_table
+
+%p{ style: 'margin-bottom: 36px' }
+  You will be billed with your card ending in #{@card_num} (
+  %a{href: edit_subscription_url }> change payment details
+  )
+
+%p{ style: 'color: #555'}
+  Any problems with your membership, or if you see anything funny with this email, please contact
+  %a{ href: 'mailto:ed@nwspk.com' } ed@nwspk.com
+
+%p
+  %strong Newspeak House
