@@ -8,8 +8,12 @@ task :refresh_friends => :environment do
   while backlog.size > 0
     u = backlog.pop
 
-    service = CheckFriendsService.new
-    service.call(u)
+    begin
+      service = CheckFriendsService.new
+      service.call(u)
+    rescue Koala::Facebook::AuthenticationError => e
+      puts "Could not authenticate with facebook for #{u.name}: #{e}"
+    end
   end
 
   puts "Done."

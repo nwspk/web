@@ -1,13 +1,15 @@
 class CheckFriendsService
   def call(user)
-    if user.facebook
-      check_facebook_friends(user)
-    end
-
     if user.twitter
       check_twitter_friends(user)
     end
+
+    if user.facebook
+      check_facebook_friends(user)
+    end
   end
+
+  private
 
   def check_facebook_friends(user)
     graph = Koala::Facebook::API.new(user.facebook.access_token)

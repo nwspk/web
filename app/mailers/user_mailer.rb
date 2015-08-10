@@ -8,10 +8,16 @@ class UserMailer < ApplicationMailer
     @subscription        = user.subscription
     @num_connections     = @user.friends.count('distinct to_id')
     @num_new_connections = @user.friends.where('friend_edges.created_at > ?', time - 30.days).count('distinct to_id')
-    stripe_customer      = Stripe::Customer.retrieve(@subscription.customer_id)
-    format_rules         = { symbol_before_without_space: false, sign_before_symbol: true, sign_positive: true }
-    @card_num            = stripe_customer.sources.retrieve(stripe_customer.default_source).last4
-    discounted_total     = @subscription.plan.value - (@user.discount / 12)
+
+    unless @subscription.customer_id.blank?
+      stripe_customer = Stripe::Customer.retrieve(@subscription.customer_id)
+      @card_num       = stripe_customer.sources.retrieve(stripe_customer.default_source).last4
+    else
+      @card_num = 4242
+    end
+
+    format_rules     = { symbol_before_without_space: false, sign_before_symbol: true, sign_positive: true }
+    discounted_total = @subscription.plan.value - (@user.discount / 12)
 
     if discounted_total.cents < 0
       discounted_total = Money.new(0, 'GBP')
