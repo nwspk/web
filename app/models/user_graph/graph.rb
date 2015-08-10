@@ -44,7 +44,7 @@ class UserGraph::Graph
   private
 
   def build_nodes_json
-    @nodes.map.with_index do |x, i|
+    @nodes.to_a.sort { |x, y| x.showcase && !y.showcase ? 1 : (y.showcase ? -1 : 0) }.map.with_index do |x, i|
       {
         id: "n#{x.id}",
         label: (x.showcase || x.id == @center.try(:id)) ? "#{x.name}" : "",

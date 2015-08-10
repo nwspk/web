@@ -40,7 +40,7 @@ var initGraph = function (container, data) {
         max: 2
       },
 
-      color: '#777',
+      color: '#ccc',
 
       selectionWidth: function (width) {
         return width + 0.5;
@@ -59,8 +59,8 @@ var initGraph = function (container, data) {
       },
 
       color: {
-        border: '#777',
-        background: '#888'
+        border: '#ccc',
+        background: '#d5d5d5'
       },
 
       scaling: {
@@ -92,8 +92,8 @@ var initGraph = function (container, data) {
       };
     } else {
       n.color = {
-        background: '#888',
-        border: '#777'
+        background: '#d5d5d5',
+        border: '#ccc'
       };
     }
 
@@ -154,8 +154,8 @@ var initGraph = function (container, data) {
           };
         } else {
           _node.color = {
-            background: '#888',
-            border: '#777'
+            background: '#d5d5d5',
+            border: '#ccc'
           };
         }
 
@@ -163,7 +163,7 @@ var initGraph = function (container, data) {
       });
 
       Object.keys(allEdges).forEach(function (eId) {
-        allEdges[eId].color = '#777';
+        allEdges[eId].color = '#ccc';
         updatesEdges.push(allEdges[eId]);
       });
     } else {
@@ -237,8 +237,8 @@ var initGraph = function (container, data) {
           };
         } else {
           _node.color = {
-            background: '#888',
-            border: '#777'
+            background: '#d5d5d5',
+            border: '#ccc'
           };
         }
       } else {
@@ -287,7 +287,7 @@ var initGraph = function (container, data) {
       box      = network.getBoundingBox(nodeId);
       fontSize = 14;
 
-      if (!node.highlighted && !node.meta.showcase && zoom < ZOOM_THRESHOLD) {
+      if (!node.highlighted && !(node.meta.showcase && !globalHighlight) && zoom < ZOOM_THRESHOLD) {
         return;
       }
 
@@ -303,7 +303,7 @@ var initGraph = function (container, data) {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
 
-      if (node.meta.showcase || node.highlighted || (zoom >= ZOOM_THRESHOLD && !globalHighlight)) {
+      if ((!globalHighlight && node.meta.showcase) || node.highlighted || (zoom >= ZOOM_THRESHOLD && !globalHighlight)) {
         ctx.fillStyle = '#000';
       } else {
         ctx.fillStyle = '#777';
