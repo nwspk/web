@@ -1,0 +1,29 @@
+%p
+  %u It is time to talk to:
+
+%table{ style: 'border-collapse: collapse; font: 14px/18px monospace' }
+  %tbody
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Name:
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @member.name
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } E-mail:
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @member.email
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Info:
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @member.showcase_text
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } URL:
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @member.url
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Twitter:
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @member.twitter.try(:profile_url)
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Facebook:
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @member.facebook.try(:profile_url)
+
+%p{ style: 'color: #555'}
+  You are receiving these e-mails because you're setup to receive periodic member reminders every #{pluralize(@reminder.frequency, 'hour')}.
+
+%p
+  %strong Newspeak House

@@ -17,6 +17,13 @@ class AdminMailer < ApplicationMailer
     mail to: admins, subject: "New member became a paid subscriber: #{new_subscriber.name}"
   end
 
+  def staff_reminder_email(reminder, member)
+    @member   = member
+    @reminder = reminder
+
+    mail to: @reminder.email, subject: "Member reminder: #{@member.name}"
+  end
+
   private
 
   def admins

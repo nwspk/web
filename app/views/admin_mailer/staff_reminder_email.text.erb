@@ -1,0 +1,10 @@
+It is time to talk to:
+
+Name:     <%= @member.name %>
+E-mail:   <%= @member.email %>
+Info:     <%= @member.showcase_text %>
+URL:      <%= @member.url %>
+Twitter:  <%= @member.twitter.try(:profile_url) %>
+Facebook: <%= @member.facebook.try(:profile_url) %>
+
+You are receiving these e-mails because you're setup to receive periodic member reminders for Newspeak House every <%= pluralize(@reminder.frequency, 'hour') %>.
