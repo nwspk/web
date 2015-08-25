@@ -5,6 +5,7 @@ ActiveAdmin.register User do
 
   filter :name
   filter :email
+  filter :rings_uid_matches, as: :string, label: "Ring UID"
 
   scope :all
   scope :with_subscription
