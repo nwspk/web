@@ -5,7 +5,7 @@ class StaffReminder < ActiveRecord::Base
   before_validation :set_default_last_id
 
   def due?(time = Time.now)
-    self.last_run_at < (time - self.frequency.hours)
+    self.last_run_at.nil? || self.last_run_at < (time - self.frequency.hours)
   end
 
   def pop!
