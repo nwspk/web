@@ -12,7 +12,7 @@ ActiveAdmin.register StaffReminder do
 
     column :last_member do |r|
       begin
-        User.find(r).name
+        User.find(r.last_id).name
       rescue ActiveRecord::RecordNotFound
         "None yet"
       end
