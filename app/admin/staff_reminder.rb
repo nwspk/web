@@ -19,7 +19,11 @@ ActiveAdmin.register StaffReminder do
     end
 
     column :last_run do |r|
-      time_ago_in_words(r.last_run_at) + " ago"
+      if r.last_run_at.nil?
+        "Never"
+      else
+        time_ago_in_words(r.last_run_at) + " ago"
+      end
     end
 
     actions
