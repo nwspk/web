@@ -29,8 +29,8 @@ class WebhooksController < ApplicationController
   private
 
   def on_invoice_created(subscription, invoice)
-    friends_service = CheckFriendsService.new
-    friends_service.call(subscription.user)
+    # friends_service = CheckFriendsService.new
+    # friends_service.call(subscription.user)
 
     items = Stripe::Invoice.retrieve(invoice.id).lines.all()
     return if items.data.size > 1
@@ -41,7 +41,7 @@ class WebhooksController < ApplicationController
 
   def on_invoice_paid(subscription, invoice)
     subscription.update!(active_until: 30.days.from_now)
-    Payment.create!(user: subscription.user, stripe_invoice_id: invoice.id, total: invoice.total, date: invoice.date, plan: subscription.plan)
+    Payment.create!(user: subscription.user, stripe_invoice_id: invoice.id, total: [invoice.total, 0].max, date: invoice.date, plan: subscription.plan)
     UserMailer.billing_email(subscription.user).deliver_later
   end
 
