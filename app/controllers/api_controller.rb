@@ -18,4 +18,23 @@ class ApiController < ApplicationController
       render json: response, status: 401
     end
   end
+
+  def dividends
+    month = (params[:month] || Date.today.month).to_i
+    year  = (params[:year] || Date.today.year).to_i
+
+    s = CalculatePayrollService.new
+
+    dividend = s.call(month, year)
+    dividend = Money.new(dividend, 'GBP').format
+
+    fellows = User.fellows
+
+    str = "Name,E-mail,Dividend\n"
+    fellows.each { |f| str << "\"#{f.name}\",\"#{f.email}\",\"#{dividend}\"\n" }
+
+    respond_to do |format|
+      format.csv { render body: str, content_type: 'text/csv' }
+    end
+  end
 end
