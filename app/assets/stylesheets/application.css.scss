@@ -48,13 +48,6 @@
     *zoom: 1;
 }
 
-.logo-small {
-  display: block;
-  margin: 0 auto;
-  width: 49px;
-  padding: 20px 0;
-}
-
 @media only screen and (max-width: 768px) {
   body {
     font-family: 'akkuratLight', sans-serif;
@@ -94,15 +87,6 @@
 
   .navbar-custom {
     margin-top: 10px;
-      .logo {
-      width: 100px;
-      display: block;
-      margin: 0 auto 10px;
-
-      img {
-        width: 100px;
-      }
-    }
 
     .show-nav-btn {
       width: 20px;
@@ -416,17 +400,6 @@
 
     .show-nav-btn {
       display: none;
-    }
-
-    .logo {
-      width: 150px;
-      display: block;
-      margin: 0 auto;
-      padding: 0 0 40px;
-
-      img {
-        width: 150px;
-      }
     }
 
     .doubleline {
@@ -999,4 +972,17 @@ div.vis-network-tooltip {
   padding-top: 300px;
   font-size: 16px;
   color: #999;
+}
+
+.logo {
+  padding: 20px 0;
+  padding-top: 0;
+  font-family: 'Conv_F25_Executive';
+  font-size: 50px;
+  text-transform: uppercase;
+  text-align: center;
+
+  a {
+    color: #000;
+  }
 }

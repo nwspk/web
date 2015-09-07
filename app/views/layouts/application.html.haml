@@ -19,12 +19,8 @@
   %body
     %nav.navbar.navbar-custom
       .container
-        - if @small_logo
-          .logo-small
-            = link_to image_tag( 'mono.png'), root_path
-        - else
-          .logo
-            = link_to image_tag( 'logo.png'), root_path
+        .logo
+          = link_to 'Newspeak House', root_path
         %label{ :for => "show-nav", :class => "show-nav-btn" }
           =image_tag('expand.png')
         %input{ :type=>"checkbox", :id =>"show-nav" }

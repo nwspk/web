@@ -27,6 +27,10 @@ gem 'stripe'
 gem 'louvian_ruby'
 gem 'terminal-table'
 
+group :development do
+  gem 'rubocop', require: false
+end
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
