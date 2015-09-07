@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'contact',                  to: 'home#contact'
   get 'calendar',                 to: 'home#calendar'
   get 'api/uid',                  to: 'api#uid'
+  get 'api/dividends',            to: 'api#dividends'
   get 'graphs/full'
   get 'graphs/friends'
   get 'graphs/access'
