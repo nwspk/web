@@ -86,7 +86,7 @@
   }
 
   .navbar-custom {
-    margin-top: 10px;
+    margin-top: 0px;
 
     .show-nav-btn {
       width: 20px;
@@ -389,7 +389,8 @@
   }
 
   .navbar-custom {
-    margin-top: 45px;
+    margin-top: 0px;
+
     a {
       color: #c02d25;
     }
@@ -975,14 +976,19 @@ div.vis-network-tooltip {
 }
 
 .logo {
-  padding: 20px 0;
-  padding-top: 0;
+  padding-top: 10px;
   font-family: 'Conv_F25_Executive';
-  font-size: 50px;
+  font-size: 40px;
   text-transform: uppercase;
   text-align: center;
 
   a {
     color: #000;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .logo {
+    font-size: 18px;
   }
 }

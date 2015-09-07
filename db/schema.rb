@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150825170513) do
+ActiveRecord::Schema.define(version: 20150907152821) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -88,12 +88,13 @@ ActiveRecord::Schema.define(version: 20150825170513) do
   add_index "payments", ["user_id"], name: "index_payments_on_user_id"
 
   create_table "plans", force: :cascade do |t|
-    t.string   "name",       default: "",   null: false
-    t.string   "stripe_id",  default: "",   null: false
-    t.integer  "value",      default: 0,    null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.boolean  "visible",    default: true, null: false
+    t.string   "name",         default: "",   null: false
+    t.string   "stripe_id",    default: "",   null: false
+    t.integer  "value",        default: 0,    null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "visible",      default: true, null: false
+    t.float    "contribution", default: 0.0,  null: false
   end
 
   create_table "rings", force: :cascade do |t|

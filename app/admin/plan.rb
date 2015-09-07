@@ -8,6 +8,7 @@ ActiveAdmin.register Plan do
   index do
     column :name, sortable: false
     column(:value, sortable: :value) { |p| p.value.format }
+    column(:contribution) { |p| "#{p.contribution * 100}%" }
     column(:subscriptions) { |p| p.subscriptions.count }
     column :visible
 
@@ -29,6 +30,7 @@ ActiveAdmin.register Plan do
       input :name
       input :visible
       input :value, label: 'Value in cents' if f.object.new_record?
+      input :contribution, label: 'Contribution between 0 and 1'
     end
 
     actions
