@@ -22,7 +22,7 @@ class UserGraph::FullBuilder < UserGraph::Builder
 
     friendships.each do |f|
       next if @blacklist.include?(f.from_id) || @blacklist.include?(f.to_id)
-      next if @no_staff && (f.from.admin_or_staff? || f.to.admin_or_staff?)
+      next if @no_staff && (f.from.excluded_from_graphs? || f.to.excluded_from_graphs?)
 
       graph.nodes << f.from
       graph.nodes << f.to

@@ -2,10 +2,14 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
   ROLES = {
-    admin:  'admin',
-    staff:  'staff',
-    fellow: 'fellow',
-    member: 'member'
+    admin:    'admin',
+    staff:    'staff',
+    fellow:   'fellow',
+    member:   'member',
+    guest:    'guest',
+    alumnus:  'alumnus',
+    founder:  'founder',
+    inactive: 'inactive',
   }
 
   attr_accessor :community
@@ -30,9 +34,14 @@ class User < ActiveRecord::Base
   after_create :notify_admins
   before_destroy :terminate_subscription
 
-  scope :admins, -> { where(role: ROLES[:admin]) }
-  scope :staff, -> { where(role: ROLES[:staff]) }
-  scope :fellows, -> { where(role: ROLES[:fellow]) }
+  scope :admins,   -> { where(role: ROLES[:admin]) }
+  scope :staff,    -> { where(role: ROLES[:staff]) }
+  scope :fellows,  -> { where(role: ROLES[:fellow]) }
+  scope :guests,   -> { where(role: ROLES[:guest]) }
+  scope :alumni,   -> { where(role: ROLES[:alumnus]) }
+  scope :founders, -> { where(role: ROLES[:founder]) }
+  scope :inactive, -> { where(role: ROLES[:inactive]) }
+
   scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
   scope :created_after_date, -> (date) { where('created_at > ?', date) }
 
@@ -56,12 +65,32 @@ class User < ActiveRecord::Base
     admin? || staff?
   end
 
+  def excluded_from_graphs?
+    admin_or_staff? || guest? || inactive?
+  end
+
   def fellow?
     self.role == ROLES[:fellow]
   end
 
+  def alumnus?
+    self.role == ROLES[:alumnus]
+  end
+
+  def guest?
+    self.role == ROLES[:guest]
+  end
+
+  def founder?
+    self.role == ROLES[:founder]
+  end
+
+  def inactive?
+    self.role == ROLES[:inactive]
+  end
+
   def overrides_entry_rules?
-    admin? || staff? || fellow?
+    admin_or_staff? || fellow? || guest? || alumnus? || founder?
   end
 
   def discount
