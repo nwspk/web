@@ -53,6 +53,8 @@ class SubscriptionsController < ApplicationController
     else
       service = ChangeCardService.new
       service.call(@subscription.customer_id, token)
+
+      redirect_to dashboard_path, notice: 'Credit card successfully changed!'
     end
   rescue Stripe::CardError => e
     render action: 'checkout', alert: e
