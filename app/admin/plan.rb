@@ -1,7 +1,7 @@
 ActiveAdmin.register Plan do
   config.batch_actions = false
 
-  permit_params :name, :value, :visible
+  permit_params :name, :value, :visible, :contribution
 
   filter :name
 
