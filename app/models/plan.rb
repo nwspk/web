@@ -1,5 +1,6 @@
 class Plan < ActiveRecord::Base
   has_many :subscriptions, dependent: :restrict_with_exception
+  has_many :payments
 
   validates :name, :value, presence: true
   validates :contribution, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }

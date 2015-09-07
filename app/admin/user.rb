@@ -10,8 +10,12 @@ ActiveAdmin.register User do
   scope :all
   scope :with_subscription
   scope :fellows
+  scope :alumni
   scope :staff
   scope :admins
+  scope :guests
+  scope :founders
+  scope :inactive
 
   sidebar "User Details", only: [:show, :edit] do
     ul do
