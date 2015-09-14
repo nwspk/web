@@ -20,18 +20,15 @@ class ApiController < ApplicationController
   end
 
   def dividends
-    month = (params[:month] || Date.today.month).to_i
-    year  = (params[:year] || Date.today.year).to_i
+    start_date = Chronic::parse(params[:from] || '30 days ago')
+    end_date   = Chronic::parse(params[:to]   || 'today')
 
     s = CalculatePayrollService.new
 
-    dividend = s.call(month, year)
+    dividend = s.call(start_date, end_date)
     dividend = Money.new(dividend, 'GBP').format
 
-    fellows = User.fellows
-
-    str = "Name,E-mail,Dividend\n"
-    fellows.each { |f| str << "\"#{f.name}\",\"#{f.email}\",\"#{dividend}\"\n" }
+    str = "Total dividends\n#{dividend}"
 
     respond_to do |format|
       format.csv { render body: str, content_type: 'text/csv' }

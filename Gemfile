@@ -16,6 +16,7 @@ gem 'simple_form'
 gem 'haml-rails'
 gem 'bootstrap-sass'
 gem 'money'
+gem 'chronic'
 gem 'activeadmin', '~> 1.0.0.pre1'
 gem 'cancancan', '~> 1.10'
 
