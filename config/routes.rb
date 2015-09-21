@@ -1,3 +1,5 @@
+require 'resque/server'
+
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
@@ -29,6 +31,10 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get 'membership', to: 'users/registrations#new'
+  end
+
+  authenticate :user do
+    mount Resque::Server.new, :at => "/resque"
   end
 
   root to: 'home#index'
