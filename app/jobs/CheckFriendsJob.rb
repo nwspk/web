@@ -13,7 +13,7 @@ class CheckFriendsJob
 
   private
 
-  def flush(str)
+  def self.flush(str)
     puts str
     $stdout.flush
   end
