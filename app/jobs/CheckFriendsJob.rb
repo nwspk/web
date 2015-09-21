@@ -1,5 +1,5 @@
 class CheckFriendsJob
-  @queue = :app
+  @queue = :long
 
   def self.perform(user_id)
     u = User.find(user_id)
