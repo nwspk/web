@@ -14,11 +14,7 @@ class ConnectionsController < ApplicationController
     connection.save!
 
     # Immediately check for friends
-    begin
-      service = CheckFriendsService.new
-      service.call(current_user)
-    rescue Twitter::Error::TooManyRequests => e
-    end
+    Resque.enqueue(CheckFriendsJob, current_user.id)
 
     redirect_to redirect_path, notice: 'Successfully connected account'
   end
@@ -37,16 +33,18 @@ class ConnectionsController < ApplicationController
   end
 
   def check_friends
-    service = CheckFriendsService.new
-    service.call(current_user)
+    if current_user.facebook && current_user.facebook.expired?
+      redirect_to '/auth/facebook'
+      return
+    end
 
-    redirect_to dashboard_path, notice: 'Checked your friends, here are the results'
-  rescue Koala::Facebook::AuthenticationError => e
-    redirect_to '/auth/facebook'
-  rescue Twitter::Error::Unauthorized => e
-    redirect_to '/auth/twitter'
-  rescue Twitter::Error::TooManyRequests => e
-    redirect_to dashboard_path, alert: 'Failed to check friends, Twitter access is currently rate limited'
+    if current_user.twitter && current_user.twitter.expired?
+      redirect_to '/auth/twitter'
+      return
+    end
+
+    Resque.enqueue(CheckFriendsJob, current_user.id)
+    redirect_to dashboard_path, notice: 'Checking your friends, this may take a while'
   end
 
   private

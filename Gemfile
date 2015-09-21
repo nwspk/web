@@ -27,6 +27,7 @@ gem 'koala', '~> 2.0'
 gem 'stripe'
 gem 'louvian_ruby'
 gem 'terminal-table'
+gem 'resque', "~> 1.22.0"
 
 group :development do
   gem 'rubocop', require: false
