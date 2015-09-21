@@ -43,6 +43,8 @@ class ConnectionsController < ApplicationController
     redirect_to dashboard_path, notice: 'Checked your friends, here are the results'
   rescue Koala::Facebook::AuthenticationError => e
     redirect_to '/auth/facebook'
+  rescue Twitter::Error::Unauthorized => e
+    redirect_to '/auth/twitter'
   rescue Twitter::Error::TooManyRequests => e
     redirect_to dashboard_path, alert: 'Failed to check friends, Twitter access is currently rate limited'
   end

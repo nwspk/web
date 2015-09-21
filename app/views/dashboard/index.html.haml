@@ -33,16 +33,22 @@
         %td.table-label Twitter
         - if current_user.twitter
           %td
-            = link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
-            = link_to '(Disconnect)', connection_path(current_user.twitter), method: :delete
+            - if current_user.twitter.expired?
+              = link_to 'Token expired, please re-authenticate', '/auth/twitter'
+            - else
+              = link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
+              = link_to '(Disconnect)', connection_path(current_user.twitter), method: :delete
         - else
           %td= link_to 'Connect', '/auth/twitter'
         %tr
           %td.table-label Facebook
           - if current_user.facebook
             %td
-              = link_to current_user.facebook.username, current_user.facebook.profile_url
-              = link_to '(Disconnect)', connection_path(current_user.facebook), method: :delete
+              - if current_user.facebook.expired?
+                = link_to 'Token expired, please re-authenticate', '/auth/facebook'
+              - else
+                = link_to current_user.facebook.username, current_user.facebook.profile_url
+                = link_to '(Disconnect)', connection_path(current_user.facebook), method: :delete
           - else
             %td= link_to 'Connect', '/auth/facebook'
 %span.table-label

@@ -5,5 +5,5 @@
 
 .graph-panel
   = form_tag graphs_full_path, method: :get do
-    = select_tag 'date_range', options_for_select([['All', 'all'], ['Past month', 'month'], ['Past week', 'week'], ['Past day', 'day']], @date_range)
+    = select_tag 'date_range', options_for_select([['All', 'all'], ['Past month', 'month'], ['Past week', 'week']], @date_range)
     = submit_tag 'Show connections'
