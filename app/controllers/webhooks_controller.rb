@@ -47,6 +47,8 @@ class WebhooksController < ApplicationController
 
   def on_invoice_failed(subscription, invoice)
     subscription.update!(active_until: nil)
+
     AdminMailer.payment_failed_email(subscription.user).deliver_later
+    UserMailer.payment_failed_email(subscription.user).deliver_later
   end
 end

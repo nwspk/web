@@ -1,5 +1,11 @@
 require "rails_helper"
 
 RSpec.describe UserMailer, type: :mailer do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#billing_email' do
+    pending
+  end
+
+  describe '#payment_failed_email' do
+    pending
+  end
 end

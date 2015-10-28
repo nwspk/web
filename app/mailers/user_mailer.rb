@@ -31,4 +31,9 @@ class UserMailer < ApplicationMailer
 
     mail to: user.email, subject: "This month at Newspeak House"
   end
+
+  def payment_failed_email(user)
+    @user = user
+    mail to: user.email, subject: "Subscription charge failed"
+  end
 end
