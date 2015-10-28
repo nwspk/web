@@ -18,6 +18,7 @@ class GraphsController < ApplicationController
   def friends
     builder = UserGraph::FriendsBuilder.new(user: current_user)
     @graph  = builder.build
+    @show_all_nodes = true
 
     respond_with @graph
   end
@@ -25,6 +26,7 @@ class GraphsController < ApplicationController
   def access
     builder     = UserGraph::AccessBuilder.new(user: @focus, start: @start_date, end: @end_date)
     @graph      = builder.build
+    @show_all_nodes = true
 
     respond_with @graph
   end
@@ -32,7 +34,8 @@ class GraphsController < ApplicationController
   private
 
   def parse_graph_options
-    @small_logo = true
+    @small_logo     = true
+    @show_all_nodes = true
 
     parse_date_range
     parse_focus
@@ -53,8 +56,9 @@ class GraphsController < ApplicationController
       @start_date = 1.month.ago
       @end_date   = Time.now
     else
-      @start_date = false
-      @end_date   = false
+      @start_date     = false
+      @end_date       = false
+      @show_all_nodes = false
     end
   end
 

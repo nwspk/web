@@ -1,12 +1,12 @@
 //= require vis
 
-var initGraph = function (container, data) {
+var initGraph = function (container, data, showAllNodes) {
   'use strict';
 
   var options, dataSet, colorSwatch, nodeMap, uniqColorCounter, network, globalHighlight;
 
   const ZOOM_THRESHOLD = 1.2;
-  globalHighlight = false;
+  globalHighlight      = false;
 
   options = {
     width: '100%',
@@ -287,7 +287,7 @@ var initGraph = function (container, data) {
       box      = network.getBoundingBox(nodeId);
       fontSize = 14;
 
-      if (!node.highlighted && !(node.meta.showcase && !globalHighlight) && zoom < ZOOM_THRESHOLD) {
+      if (!showAllNodes && (!node.highlighted && !(node.meta.showcase && !globalHighlight) && zoom < ZOOM_THRESHOLD)) {
         return;
       }
 
