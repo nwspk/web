@@ -15,6 +15,13 @@ class GraphsController < ApplicationController
     respond_with @graph
   end
 
+  def strangers
+    builder = UserGraph::StrangersBuilder.new(user: current_user)
+    @graph  = builder.build
+
+    respond_with @graph
+  end
+
   def friends
     builder = UserGraph::FriendsBuilder.new(user: current_user)
     @graph  = builder.build

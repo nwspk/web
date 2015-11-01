@@ -7,3 +7,5 @@
   = form_tag graphs_full_path, method: :get do
     = select_tag 'date_range', options_for_select([['All', 'all'], ['Past month', 'month'], ['Past week', 'week']], @date_range)
     = submit_tag 'Show connections'
+    - if user_signed_in?
+      = link_to 'Who am I not friends with yet?', graphs_strangers_path

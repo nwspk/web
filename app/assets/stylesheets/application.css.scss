@@ -963,6 +963,14 @@ div.vis-network-tooltip {
     width:101%;
     position:absolute;
   }
+
+  a {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    position: relative;
+    z-index: 3;
+  }
 }
 
 .graph-error {

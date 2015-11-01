@@ -17,6 +17,14 @@ RSpec.describe GraphsController, type: :controller do
     end
   end
 
+  describe "GET #strangers" do
+    it "returns http success" do
+      sign_in :user, Fabricate(:user)
+      get :strangers
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe "GET #access" do
     it "returns http success" do
       get :access

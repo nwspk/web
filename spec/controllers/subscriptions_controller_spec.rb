@@ -15,8 +15,10 @@ RSpec.describe SubscriptionsController, type: :controller do
   end
 
   describe "POST #process_card" do
+    let(:plan) { Fabricate(:plan, value: 5000) }
+
     before do
-      user.build_subscription(plan: Fabricate(:plan, value: 5000)).save
+      user.build_subscription(plan: plan).save
     end
 
     it "returns http success" do

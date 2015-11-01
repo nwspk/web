@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'api/dividends',            to: 'api#dividends'
   get 'graphs/full'
   get 'graphs/friends'
+  get 'graphs/strangers'
   get 'graphs/access'
 
   post 'webhooks',                   to: 'webhooks#index'
