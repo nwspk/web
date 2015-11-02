@@ -3,10 +3,166 @@
 var initGraph = function (container, data, showAllNodes) {
   'use strict';
 
-  var options, dataSet, colorSwatch, nodeMap, uniqColorCounter, network, globalHighlight;
+  var options, dataSet, colorSwatch, nodeMap, uniqColorCounter, network, globalHighlight, selectMode, highlightNode;
 
   const ZOOM_THRESHOLD = 1.2;
   globalHighlight      = false;
+  selectMode           = 'friends';
+
+  highlightNode = function (node) {
+    var allNodes = dataSet.nodes.get({ returnType: 'Object' }),
+      allEdges = dataSet.edges.get({ returnType: 'Object' }),
+      updatesNodes  = [],
+      updatesEdges  = [];
+
+    if (typeof node === 'undefined') {
+      globalHighlight = false;
+
+      Object.keys(allNodes).forEach(function (nId) {
+        var _node = allNodes[nId];
+
+        _node.highlighted = false;
+
+        if (_node.meta.showcase) {
+          _node.color = {
+            background: '#000',
+            border: '#000'
+          };
+        } else {
+          _node.color = {
+            background: '#d5d5d5',
+            border: '#ccc'
+          };
+        }
+
+        updatesNodes.push(allNodes[nId]);
+      });
+
+      Object.keys(allEdges).forEach(function (eId) {
+        allEdges[eId].color  = '#ccc';
+        allEdges[eId].hidden = false;
+
+        updatesEdges.push(allEdges[eId]);
+      });
+    } else {
+      globalHighlight = node;
+
+      if (selectMode === 'friends') {
+        // Highlight neighbourhood
+
+        Object.keys(allNodes).forEach(function (nId) {
+          var _node = allNodes[nId];
+
+          _node.highlighted = false;
+
+          _node.color = {
+            background: '#d5d5d5',
+            border: '#ccc'
+          };
+
+          updatesNodes.push(allNodes[nId]);
+        });
+
+        Object.keys(allEdges).forEach(function (eId) {
+          allEdges[eId].color  = '#ccc';
+          allEdges[eId].hidden = false;
+
+          updatesEdges.push(allEdges[eId]);
+        });
+
+        var connectedNodes = network.getConnectedNodes(node),
+          connectedEdges = network.getConnectedEdges(node);
+
+        allNodes[node].highlighted = true;
+
+        allNodes[node].color = {
+          border: '#ab261f',
+          background: '#C02D25'
+        };
+
+        connectedEdges.forEach(function (eId) {
+          allEdges[eId].color = '#000';
+        });
+
+        connectedNodes.forEach(function (nId) {
+          var _node = allNodes[nId];
+
+          _node.highlighted = true;
+
+          _node.color = {
+            background: '#000',
+            border: '#000'
+          };
+        });
+      } else if (selectMode === 'strangers') {
+        // Highlight nodes not connected to root node
+
+        Object.keys(allNodes).forEach(function (nId) {
+          var _node = allNodes[nId];
+
+          _node.highlighted = true;
+
+          _node.color = {
+            background: '#000',
+            border: '#000'
+          };
+
+          updatesNodes.push(allNodes[nId]);
+        });
+
+        Object.keys(allEdges).forEach(function (eId) {
+          allEdges[eId].color  = '#ccc';
+          allEdges[eId].hidden = false;
+
+          updatesEdges.push(allEdges[eId]);
+        });
+
+        var connectedNodes = network.getConnectedNodes(node),
+          connectedEdges = network.getConnectedEdges(node);
+
+        connectedNodes.forEach(function (nId) {
+          var _node = allNodes[nId];
+
+          _node.highlighted = false;
+
+          _node.color = {
+            background: '#d5d5d5',
+            border: '#ccc'
+          };
+        });
+
+        connectedEdges.forEach(function (eId) {
+          allEdges[eId].hidden = true;
+        });
+
+        allNodes[node].highlighted = true;
+
+        allNodes[node].color = {
+          border: '#ab261f',
+          background: '#C02D25'
+        };
+      }
+    }
+
+    dataSet.nodes.update(updatesNodes);
+    dataSet.edges.update(updatesEdges);
+  };
+
+  $('.select-mode').on('click', function (e) {
+    e.preventDefault();
+
+    if (selectMode === 'friends') {
+      selectMode = 'strangers';
+      $('.select-mode').text('Select mode: Strangers');
+    } else {
+      selectMode = 'friends';
+      $('.select-mode').text('Select mode: Friends');
+    }
+
+    if (!!globalHighlight) {
+      highlightNode(globalHighlight);
+    }
+  });
 
   options = {
     width: '100%',
@@ -133,89 +289,8 @@ var initGraph = function (container, data, showAllNodes) {
   network = new vis.Network(container, dataSet, options);
 
   network.on('click', function (props) {
-    var node   = network.getNodeAt(props.pointer.DOM),
-      allNodes = dataSet.nodes.get({ returnType: 'Object' }),
-      allEdges = dataSet.edges.get({ returnType: 'Object' }),
-      updatesNodes  = [],
-      updatesEdges  = [];
-
-    if (typeof node === 'undefined') {
-      globalHighlight = false;
-
-      Object.keys(allNodes).forEach(function (nId) {
-        var _node = allNodes[nId];
-
-        _node.highlighted = false;
-
-        if (_node.meta.showcase) {
-          _node.color = {
-            background: '#000',
-            border: '#000'
-          };
-        } else {
-          _node.color = {
-            background: '#d5d5d5',
-            border: '#ccc'
-          };
-        }
-
-        updatesNodes.push(allNodes[nId]);
-      });
-
-      Object.keys(allEdges).forEach(function (eId) {
-        allEdges[eId].color = '#ccc';
-        updatesEdges.push(allEdges[eId]);
-      });
-    } else {
-      globalHighlight = true;
-
-      // Highlight neighbourhood
-      Object.keys(allNodes).forEach(function (nId) {
-        var _node = allNodes[nId];
-
-        _node.highlighted = false;
-
-        _node.color = {
-          background: '#d5d5d5',
-          border: '#ccc'
-        };
-
-        updatesNodes.push(allNodes[nId]);
-      });
-
-      Object.keys(allEdges).forEach(function (eId) {
-        allEdges[eId].color = '#ccc';
-        updatesEdges.push(allEdges[eId]);
-      });
-
-      var connectedNodes = network.getConnectedNodes(node),
-        connectedEdges = network.getConnectedEdges(node);
-
-      allNodes[node].highlighted = true;
-
-      allNodes[node].color = {
-        border: '#ab261f',
-        background: '#C02D25'
-      };
-
-      connectedEdges.forEach(function (eId) {
-        allEdges[eId].color = '#000';
-      });
-
-      connectedNodes.forEach(function (nId) {
-        var _node = allNodes[nId];
-
-        _node.highlighted = true;
-
-        _node.color = {
-          background: '#000',
-          border: '#000'
-        };
-      });
-    }
-
-    dataSet.nodes.update(updatesNodes);
-    dataSet.edges.update(updatesEdges);
+    var node = network.getNodeAt(props.pointer.DOM);
+    highlightNode(node);
   });
 
   network.on('zoom', function (props) {
