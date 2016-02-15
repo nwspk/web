@@ -1,53 +1,39 @@
 - content_for :page_title do
   Membership
 
-%p.lead.space Benefits of Membership
+%p.lead.space Support Newspeak House with Membership
 
-%ul
-  %li
-    Financially support the incubation of society-changing #{link_to 'projects', 'fellowship'}.
-  %li
-    = link_to 'Have a say', 'http://www.reddit.com/r/nwspk'
-    in which projects receive incubation.
-  %li
-    = link_to 'Get access', 'https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9'
-    to a space in East London dedicated to fixing society.
+%p Newspeak House is primarily funded by commercial hires of its event space, but since they're unpredictable it limits our event programme and ability to invest in facilities. If we had 500 supporters, we'd be entirely self sufficient, able to have a full time events programme, and offer fully funded residential fellowships. Help us reach our goal by joining as a member!
 
-%p.lead.extra-space Pricing
+%p <i>"As we shuffle towards a dystopian future, Newspeak House dares to offer a space where we can consider alternative visions."</i> - <a href="https://www.twitter.com/billt">Bill Thompson</a>, <a href="https://en.wikipedia.org/wiki/Bill_Thompson_(technology_writer)">Hack & Pundit</a>, Member of Newspeak House
 
 %p Membership is charged by monthly subscription. There is a one off joining fee of #{Money.new(SIGNUP_FEE, 'GBP').format}.
 
 %p
   %span.bold Maven discount:
-  for each member you connect to on Twitter or Facebook, your membership is discounted by £1 / yr.
+  for each member you <a href="https://www.nwspk.com/graphs/full">connect to on Twitter or Facebook</a>, your membership is discounted by £1 / yr.
 
 %table.table.table-border.extra-space
   %thead
     %tr
       %th Tier
-      %th Price / mo
-      %th Contribution
+      %th Price / m
   %tbody
     %tr
       %td Unperson
       %td £25
-      %td 10% goes directly to projects
     %tr
       %td Proletariat
       %td £50
-      %td 20% goes directly to projects
     %tr
       %td Outer Party
       %td £75
-      %td 30% goes directly to projects
     %tr
       %td Inner Party
       %td £100
-      %td 40% goes directly to projects
     %tr
       %td Thought Police
       %td £125
-      %td 50% goes directly to projects
 
 - unless user_signed_in?
   .single-line.extra-space
@@ -63,7 +49,7 @@
     = f.input :password, required: true, hint: ("(min #{@minimum_password_length} characters)" if @validatable)
     = f.input :password_confirmation, required: true
     = f.simple_fields_for :subscription do |sub_form|
-      = sub_form.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :name, hint: "There is a one-time setup fee of #{Money.new(SIGNUP_FEE, 'GBP').format}"
+      = sub_form.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :name
 
     .form-group.form-submit
       .col-6
