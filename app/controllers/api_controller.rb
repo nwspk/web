@@ -34,4 +34,21 @@ class ApiController < ApplicationController
       format.csv { render body: str, content_type: 'text/csv' }
     end
   end
+
+  def events
+    cal = Icalendar::Calendar.new
+
+    Event.public_and_confirmed.each do |ev|
+      cal.event do |e|
+        e.dtstart = ev.start_at
+        e.dtend = ev.end_at
+        e.summary = ev.name
+        e.description = ev.description
+        e.url = ev.url
+        e.organizer = Icalendar::Values::CalAddress.new("mailto:#{ev.organiser_email}", cn: ev.organiser_name)
+      end
+    end
+
+    render body: cal.to_ical, content_type: 'text/calendar'
+  end
 end

@@ -28,6 +28,8 @@ gem 'stripe'
 gem 'louvian_ruby'
 gem 'terminal-table'
 gem 'resque', "~> 1.22.0"
+gem 'icalendar'
+gem 'kramdown'
 
 group :development do
   gem 'rubocop', require: false

@@ -21,11 +21,15 @@
     background: #172C45;
   }
 
-  &.member {
+  &.member, &.proposed {
     background: #7E6F2A;
   }
 
-  &.active {
+  &.active, &.confirmed {
     background: #5BA437;
+  }
+
+  &.rejected {
+    background: #000;
   }
 }

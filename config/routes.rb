@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'calendar',                 to: 'home#calendar'
   get 'api/uid',                  to: 'api#uid'
   get 'api/dividends',            to: 'api#dividends'
+  get 'api/events',               to: 'api#events'
   get 'graphs/full'
   get 'graphs/friends'
   get 'graphs/strangers'

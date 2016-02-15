@@ -137,6 +137,7 @@ GEM
       domain_name (~> 0.5)
     http_parser.rb (0.6.0)
     i18n (0.7.0)
+    icalendar (2.3.0)
     inherited_resources (1.6.0)
       actionpack (>= 3.2, < 5)
       has_scope (~> 0.6.0.rc)
@@ -165,6 +166,7 @@ GEM
       addressable
       faraday
       multi_json
+    kramdown (1.9.0)
     libv8 (3.16.14.7)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
@@ -398,9 +400,11 @@ DEPENDENCIES
   fabrication
   faker
   haml-rails
+  icalendar
   jbuilder (~> 2.0)
   jquery-rails
   koala (~> 2.0)
+  kramdown
   louvian_ruby
   money
   nyan-cat-formatter
