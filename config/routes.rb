@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     post :process_card
   end
 
+  resources :events, only: [:index, :show]
+
   devise_for :users, path: 'account', controllers: { registrations: 'users/registrations' }
 
   devise_scope :user do
