@@ -1,28 +1,26 @@
-.mainimage=image_tag('skyline.png')
-
-%p.lead Something has gone terribly wrong with society. We can do better.
-
-%p In the wake of the 2015 general election, Newspeak House was founded to <a href="https://en.wikipedia.org/wiki/Community_development">foster</a> the creation of technology to <a href="https://en.wikipedia.org/wiki/Disruptive_innovation">disrupt</a> the UK political / media / government <a href="https://en.wikipedia.org/wiki/Politico-media_complex">complex</a>.
-
-%p <i>"Everyone in the UK who has any interest in tech mixed with politics, government, journalism or social change should spend time at Newspeak House ASAP"</i> - <a href="https://twitter.com/steiny/status/674283091616210944">Tom Steinberg</a>, Founder of <a href="https://www.mysociety.org">MySociety</a>
-
-%p Newspeak House is an <a href="https://www.nwspk.com/calendar">events venue</a>, community space, <a href="https://www.nwspk.com/fellowship">residential incubator</a> and hangout in East London set up for people who want to change society with technology, and meet other people with similar interests. To find out more, come along to one of our <a href="https://www.nwspk.com/calendar">events</a> or <a href="mailto:ed@nwspk.com">get in touch</a> to arrange a visit.
-
-.mobileview 
-  .single-line.space
-  %ul.front-nav.cf
-    = link_to_in_li 'Membership', membership_path
-    = link_to_in_li 'Fellowship', fellowship_path
-    = link_to_in_li 'Social Graph', graphs_full_path
-    = link_to_in_li 'Calendar', "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9", target: '_blank'
-    = link_to_in_li 'Contact', contact_path
-
-    - if user_signed_in?
-      = link_to_in_li 'Account', dashboard_path
-    - else
-      = link_to_in_li 'Sign in', new_user_session_path, class: 'navbar-login'
-
-.double-line.breakout
-
-.footer
-  = link_to image_tag('mono.png'), root_path
+%section.house.center-block=image_tag('house.png')
+%section.intro
+  .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
+    %h4 Newspeak House is an events venue, community space and residential incubator in East London founded to foster innovation in politics, government and political media.
+  %a.side-link{:href => ""} »
+%section.flip
+  .events.col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
+    %h2 Events
+  %a.side-link{:href => ""} »
+%section
+  .members.col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
+    %h2 Recent Members
+  %a.side-link{:href => ""} »
+%section.flip
+  .fellows.col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
+    %h2 Fellows
+  %a.side-link{:href => ""} »
+%section
+  .contact.col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
+    %h2 Newspeak House Contact Info
+  %a.side-link{:href => ""} »
+%section.flip 
+  .quotes.col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
+    "Everyone in the UK who has any interest in tech mixed with politics, government, journalism or social change should spend time at Newspeak House ASAP" - Tom Steinberg, Founder of MySociety
+  %a.side-link{:href => ""} »
+%footer

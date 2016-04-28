@@ -17,27 +17,8 @@
 
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1"}
   %body
-    %nav.navbar.navbar-custom
-      .container
-        .logo
-          = link_to 'Newspeak House', root_path
-        %label{ :for => "show-nav", :class => "show-nav-btn" }
-          =image_tag('expand.png')
-        %input{ :type=>"checkbox", :id =>"show-nav" }
-        .doubleline
-        .ulcontainer
-          %ul.nav.navbar-nav
-            = link_to_in_li 'Home', root_path
-            = link_to_in_li 'Membership', membership_path
-            = link_to_in_li 'Fellowship', fellowship_path
-            = link_to_in_li 'Social Graph', graphs_full_path
-            = link_to_in_li 'Calendar', events_path
-            = link_to_in_li 'Contact', contact_path
-
-            - if user_signed_in?
-              = link_to_in_li 'Account', dashboard_path
-            - else
-              = link_to_in_li 'Sign in', new_user_session_path, class: 'navbar-login'
+    .logo
+      %a{:onclick => "$('html,body').animate({scrollTop:0},'fast');return false;"} NEWSPEAK HOUSE
 
     = yield :pre_content
 
@@ -54,7 +35,7 @@
             %span &times;
           = alert
 
-      = yield
+    = yield
 
     :javascript
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
