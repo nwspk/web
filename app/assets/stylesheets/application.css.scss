@@ -149,7 +149,7 @@ section {
       .event-details {
         display: flex;
         flex-direction: column;
-        width: calc(100% - 110px);
+        width: calc(100% - 120px);
         .event-title {
           font-weight: bold;
           font-size: 1.2em;
@@ -288,7 +288,7 @@ section {
     @include fast-transition;
     right: 0;
     width: 50px;
-    height: 53px;
+    height: 45px;
     line-height: 50px;
     display: block;
     text-align: center;
