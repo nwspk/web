@@ -1,8 +1,10 @@
-%section.house.center-block=image_tag('house.png')
+%section.house.center-block
+  =image_tag('house.png')
+  %a.top-right-link.glyphicon.glyphicon-chevron-right{:href => ""}
+  %a.top-left-link{:href => ""} SIGN IN
 %section.intro
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h4 Newspeak House is an events venue, community space and residential incubator in East London founded to foster innovation in politics, government and political media.
-  %a.side-link{:href => ""} »
 %section.flip.events
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h2 Events
@@ -54,32 +56,34 @@
     %h2 Recent Members
     %ul
       %li
-        %span.member-title
-          Ed Saperia
-        %span.member-description
-          Ed is a cool guy.
-        %span.member-links
-          %a{:href => ""} Ya
+        %img.member-image{:src => "https://pbs.twimg.com/profile_images/499303971962761216/A3Y3Br6e_400x400.jpeg"}
+        .member-details
+          %span.member-title
+            Ed Saperia
+          %span.member-description
+            Ed is a cool guy.
+          %span.member-links
+            %a{:href => "https://twitter.com/edsaperia"} Follow Ed on Twitter
       %li
-        %span.member-title
-          Eugen 
-        %span.member-description
-          Eugen does cool projects
-        %span.member-links
-          %a{:href => ""} Ya
-          %a{:href => ""} Ya
-          %a{:href => ""} Ya
+        %img.member-image{:src => "https://pbs.twimg.com/profile_images/716186374089613313/pbHYz3DW_400x400.jpg"}
+        .member-details
+          %span.member-title
+            Eugen Rochko
+          %span.member-description
+            Eugen is a cool guy.
+          %span.member-links
+            %a{:href => "https://twitter.com/gargron"} Follow Eugen on Twitter
       %li
-        %span.member-title
-          Kimi
-        %span.member-description
-          Kimi
-        %span.member-links
-          %a{:href => ""} Ya
+        %img.member-image{:src => "https://pbs.twimg.com/profile_images/378800000447457970/7246d8d893705501b78544b36054a901_400x400.jpeg"}
+        .member-details
+          %span.member-title
+            Kimi
+          %span.member-description
+            Kimi is a cool guy.
+          %span.member-links
+            %a{:href => "https://twitter.com/kimilawrie"} Follow Kimi on Twitter
   %a.side-link{:href => "events"} »
 .break
-  %p 
-    &middot;
 %section.membership.no-top-padding
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h2 Membership

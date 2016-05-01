@@ -19,6 +19,7 @@ body, html {
   padding: 0;
   margin: 0;
   overflow-x: hidden;
+  font-family: 'F25';
 }
 
 .logo a {
@@ -68,13 +69,51 @@ section {
   &.house {
     @include slow-transition;
     margin-top: 70px;
+    position: relative;
     img {
       max-height: 600px;
       max-width: 60vw;
     }
+    .top-left-link {
+      position: absolute;
+      left: 0;
+      top: 40%;
+      transform: translateY(-40%);
+      -ms-transform: rotate(270deg);
+      -webkit-transform: rotate(270deg);
+      transform: rotate(270deg);
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #1c2f52;
+      @include fast-transition;
+      &:hover {
+        left: -2px;
+        text-decoration: none;
+      }
+    }
+    .top-right-link {
+      position: absolute;
+      right: 14px;
+      top: 40%;
+      transform: translateY(-40%);
+      font-size: 20px;
+      color: #1c2f52;
+      text-decoration: none;
+      @include fast-transition;
+      &:hover {
+        right:12px;
+        text-decoration: none;
+      }
+    }
   }
   &.intro {
     @include center;
+    padding: 0 40px 40px;
+    h4 {
+      line-height: 24px;
+      color: #1c2f52;
+    }
   }
   &.events ul {
     padding: 0;
@@ -150,21 +189,38 @@ section {
     margin: 0;
     li {
       margin-bottom: 20px;
-      .member-title {
-        display: block;
-        width: 100%;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 5px;
-        margin-bottom: 5px;
-        font-weight: bold;
-        font-size: 1.2em;
-        color: #1c2f52;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      flex-wrap: wrap;
+      .member-image {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
       }
-      .member-description {
-        display: block;
-      }
-      .member-links a {
-        color: #1c2f52;
+      .member-details {
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 110px);
+        margin-left: 10px;
+        .member-title {
+          display: block;
+          width: 100%;
+          border-bottom: 1px solid #ccc;
+          padding-bottom: 5px;
+          margin-bottom: 5px;
+          font-weight: bold;
+          font-size: 1.2em;
+          color: #1c2f52;
+        }
+        .member-description {
+          display: block;
+        }
+        .member-links a {
+          color: #1c2f52;
+        }
       }
     }
   }
@@ -230,7 +286,6 @@ section {
   }
   .side-link {
     @include fast-transition;
-    position: absolute;
     right: 0;
     width: 50px;
     height: 53px;
@@ -240,6 +295,7 @@ section {
     font-size: 2em;
     color: white;
     background: #1c2f52;
+    @include v-center;
     &:hover {
       text-decoration: none;
       right: -5px;
@@ -250,7 +306,7 @@ section {
 
 .break {
     width: 100%;
-    height: 40px;
+    height: 10px;
     text-align: center;
     font-size: 40px;
     color: #1c2f52;

@@ -17,6 +17,12 @@
 	right: 0;
 }
 
+@mixin v-center {
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .center-block {
 	@include center;
 	display: block;
