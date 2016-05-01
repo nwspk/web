@@ -73,6 +73,11 @@ section {
     img {
       max-height: 600px;
       max-width: 60vw;
+      -webkit-animation: fadein 0.8s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 0.8s; /* Firefox < 16 */
+        -ms-animation: fadein 0.8s; /* Internet Explorer */
+         -o-animation: fadein 0.8s; /* Opera < 12.1 */
+            animation: fadein 0.8s;
     }
     .top-left-link {
       position: absolute;
@@ -300,6 +305,67 @@ section {
       text-decoration: none;
       right: -5px;
       color: white;
+    }
+  }
+  .back-link {
+    @include fast-transition;
+    left: 0;
+    width: 50px;
+    height: 45px;
+    line-height: 50px;
+    display: block;
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    background: #1c2f52;
+    @include v-center;
+    &:hover {
+      text-decoration: none;
+      left: -5px;
+      color: white;
+    }
+  }
+  &.events-page {
+    width: 100vw;
+    min-height: 100vh;
+    padding: 20px;
+    background: url('bg.jpg');
+    .wrap {
+      background: white;
+      width: 100%;
+      padding: 40px;
+      table {
+        margin-top: -20px;
+        width: 100%;
+        tbody {
+          border: 1px solid #ccc;
+        }
+        .eventdate {
+          width: 150px;
+          vertical-align: top;
+          .dayofmonth {
+            width: 40px;
+            font-size: 40px;
+            line-height: 36px;
+            float: left;
+            text-align: right;
+            margin-right: 10px;
+            margin-top: 4px;
+            color: #1c2f52;
+          }
+          .shortdate {
+            color: rgba(0,0,0,0.4);
+            font-size: 0.8em;
+          }
+        }
+        .eventtime {
+          width: 150px;
+          vertical-align: top;
+        }
+        .eventdetails {
+          vertical-align: top;
+        }
+      }
     }
   }
 }

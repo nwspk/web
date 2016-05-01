@@ -1,25 +1,27 @@
-%h1 Events#index
-%p Find me in app/views/events/index.html.haml
+- content_for :page_title do
+  Events
 
-%table
-  %thead
-    %tr
-      %th Date
-      %th Time
-      %th Event
-  %tbody
-    - @events.each_pair do |day, events|
-      %tr
-        %td{ rowspan: events.size + 1 }
-          .dayofmonth= events.first.start_at.strftime('%e')
-          .dayofweek= events.first.start_at.strftime('%A')
-          .shortdate= events.first.start_at.strftime('%B, %Y')
-        %td
-        %td
-      - events.each do |event|
+%section.events-page 
+  %a.back-link{:href => root_path + "#events"} «
+  .wrap.table-responsive
+    %h2 Events
+    %table.table-condensed.table-bordered
+      %thead
         %tr
-          %td
-            = event.start_at.strftime('%l:%M%P')
-            \-
-            = event.end_at.strftime('%l:%M%P')
-          %td= link_to event.name, event_path(event)
+          %th Date
+          %th Time
+          %th Details
+      %tbody
+        - @events.each_pair do |day, events|
+          %tr
+            %td.eventdate{ rowspan: events.size + 1 }
+              .dayofmonth= events.first.start_at.strftime('%e')
+              .dayofweek= events.first.start_at.strftime('%A')
+              .shortdate= events.first.start_at.strftime('%B, %Y')
+          - events.each do |event|
+            %tr
+              %td.eventtime
+                = event.start_at.strftime('%l:%M%P')
+                \-
+                = event.end_at.strftime('%l:%M%P')
+              %td.eventdetails= link_to event.name, event_path(event)
