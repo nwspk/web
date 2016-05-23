@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
   def index
-    @graph = UserGraph::FullBuilder.new(user: current_user).build
+    @events  = Event.public_and_confirmed.limit(3)
+    @members = User.with_subscription.limit(3)
+    @fellows = User.fellows.limit(8)
   end
 
   def fellowship

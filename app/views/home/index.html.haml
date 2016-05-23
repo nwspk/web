@@ -1,7 +1,7 @@
 %section.house.center-block
   =image_tag('house.png')
-  %a.top-right-link.glyphicon.glyphicon-chevron-right{:href => ""}
-  %a.top-left-link{:href => ""} SIGN IN
+  %a.top-right-link.glyphicon.glyphicon-chevron-right{:href => root_path}
+  %a.top-left-link{:href => new_user_session_path} SIGN IN
 %section.intro
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h4 Newspeak House is an events venue, community space and residential incubator in East London founded to foster innovation in politics, government and political media.
@@ -10,85 +10,41 @@
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h2 Events
     %ul
-      %li
-        .event-date
-          %span.event-date-day 11
-          %span.event-date-month MAY
-        .event-details
-          %span.event-title
-            Open Data Day
-          %span.event-location
-            Main Hall
-          %span.event-description
-            Open Data Day is a gathering of citizens in cities around the world to write applications, liberate data, create visualisations and publish analyses using open public data to show support for and encourage the adoption of open data policies by the world's local, regional and national governments.
-        %span.event-link
-          %a.glyphicon.glyphicon-chevron-right{:href => "events"}
-      %li
-        .event-date
-          %span.event-date-day 11
-          %span.event-date-month MAY
-        .event-details
-          %span.event-title
-            Open Data Day
-          %span.event-location
-            Main Hall
-            %span.event-time 
-              6pm
-          %span.event-description
-            Open Data Day is a gathering of citizens in cities around the world to write applications, liberate data, create visualisations and publish analyses using open public data to show support for and encourage the adoption of open data policies by the world's local, regional and national governments.
-        %span.event-link
-          %a.glyphicon.glyphicon-chevron-right{:href => "events"}
-      %li
-        .event-date
-          %span.event-date-day 11
-          %span.event-date-month MAY
-        .event-details
-          %span.event-title
-            Open Data Day
-          %span.event-location
-            Main Hall
-          %span.event-description
-            Open Data Day is a gathering of citizens in cities around the world to write applications, liberate data, create visualisations and publish analyses using open public data to show support for and encourage the adoption of open data policies by the world's local, regional and national governments.
-        %span.event-link
-          %a.glyphicon.glyphicon-chevron-right{:href => "events"}      
-  %a.side-link{:href => "events"} »
+      - @events.each do |event|
+        %li
+          .event-date
+            %span.event-date-day= event.start_at.strftime('%d')
+            %span.event-date-month= event.start_at.strftime('%^b')
+          .event-details
+            %span.event-title
+              = event.name
+            %span.event-location
+              = event.location
+            %span.event-description
+              = event.description
+          %span.event-link
+            %a.glyphicon.glyphicon-chevron-right{:href => event_path(event)}
+  %a.side-link{:href => events_path} »
 %section.members.no-bottom-padding
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h2 Recent Members
     %ul
-      %li
-        %img.member-image{:src => "https://pbs.twimg.com/profile_images/499303971962761216/A3Y3Br6e_400x400.jpeg"}
-        .member-details
-          %span.member-title
-            Ed Saperia
-          %span.member-description
-            Ed is a cool guy.
-          %span.member-links
-            %a{:href => "https://twitter.com/edsaperia"} Follow Ed on Twitter
-      %li
-        %img.member-image{:src => "https://pbs.twimg.com/profile_images/716186374089613313/pbHYz3DW_400x400.jpg"}
-        .member-details
-          %span.member-title
-            Eugen Rochko
-          %span.member-description
-            Eugen is a cool guy.
-          %span.member-links
-            %a{:href => "https://twitter.com/gargron"} Follow Eugen on Twitter
-      %li
-        %img.member-image{:src => "https://pbs.twimg.com/profile_images/378800000447457970/7246d8d893705501b78544b36054a901_400x400.jpeg"}
-        .member-details
-          %span.member-title
-            Kimi
-          %span.member-description
-            Kimi is a cool guy.
-          %span.member-links
-            %a{:href => "https://twitter.com/kimilawrie"} Follow Kimi on Twitter
+      - @members.each do |member|
+        %li
+          %img.member-image{:src => gravatar_url(member.email)}
+          .member-details
+            %span.member-title
+              = member.name
+            %span.member-description
+              = member.showcase_text
+            %span.member-links
+              %a{:href => member.twitter.try(:profile_url)} Follow #{member.name} on Twitter
   %a.side-link{:href => "events"} »
 .break
 %section.membership.no-top-padding
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h2 Membership
-    %p 
+    %p
       More Members = better events and facilities
     .progress
       .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "60", :role => "progressbar", :style => "width: 60%;"}
@@ -102,89 +58,27 @@
         %span.membership-progress-upper
           £400
         %span.membership-progress-lower
-          pledged 
+          pledged
       .progress-right
         %span.membership-progress-upper
-          100   
+          100
         %span.membership-progress-lower
-          members 
+          members
   %a.side-link{:href => ""} »
 %section.flip.fellows
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h2 Fellows
     .row
-      .col-xs-6.col-md-3
-        %a.thumbnail{:href => "#"}
-          %img{:src => "http://baconmockup.com/150/150"}
-        %span.fellow-name
-          James Knight
-        %span.fellow-description
-          Loves to dance
-        %span.fellow-link
-          %a{:href => "fellows"} Follow
-      .col-xs-6.col-md-3
-        %a.thumbnail{:href => "#"}
-          %img{:src => "http://baconmockup.com/150/150"}
-        %span.fellow-name
-          James Knight
-        %span.fellow-description
-          Loves to dance
-        %span.fellow-link
-          %a{:href => "fellows"} Follow
-      .col-xs-6.col-md-3
-        %a.thumbnail{:href => "#"}
-          %img{:src => "http://baconmockup.com/150/150"}
-        %span.fellow-name
-          James Knight
-        %span.fellow-description
-          Loves to dance
-        %span.fellow-link
-          %a{:href => "fellows"} Follow
-      .col-xs-6.col-md-3
-        %a.thumbnail{:href => "#"}
-          %img{:src => "http://baconmockup.com/350/350"}
-        %span.fellow-name
-          James Knight
-        %span.fellow-description
-          Loves to dance
-        %span.fellow-link
-          %a{:href => "fellows"} Follow
-      .col-xs-6.col-md-3
-        %a.thumbnail{:href => "#"}
-          %img{:src => "http://baconmockup.com/150/150"}
-        %span.fellow-name
-          James Knight
-        %span.fellow-description
-          Loves to dance
-        %span.fellow-link
-          %a{:href => "fellows"} Follow
-      .col-xs-6.col-md-3
-        %a.thumbnail{:href => "#"}
-          %img{:src => "http://baconmockup.com/150/150"}
-        %span.fellow-name
-          James Knight
-        %span.fellow-description
-          Loves to dance
-        %span.fellow-link
-          %a{:href => "fellows"} Follow
-      .col-xs-6.col-md-3
-        %a.thumbnail{:href => "#"}
-          %img{:src => "http://baconmockup.com/150/150"}
-        %span.fellow-name
-          James Knight
-        %span.fellow-description
-          Loves to dance
-        %span.fellow-link
-          %a{:href => "fellows"} Follow
-      .col-xs-6.col-md-3
-        %a.thumbnail{:href => "#"}
-          %img{:src => "http://baconmockup.com/150/150"}
-        %span.fellow-name
-          James Knight
-        %span.fellow-description
-          Loves to dance
-        %span.fellow-link
-          %a{:href => "fellows"} Follow
+      - @fellows.each do |fellow|
+        .col-xs-6.col-md-3
+          %a.thumbnail{:href => "#"}
+            %img{:src => gravatar_url(fellow.email)}
+          %span.fellow-name
+            = fellow.name
+          %span.fellow-description
+            = fellow.showcase_text
+          %span.fellow-link
+            %a{:href => "fellows"} Follow
   %a.side-link{:href => ""} »
 %section
   .contact.col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
@@ -194,7 +88,7 @@
     London E2 7DG
     %h2 Hire Newspeak house
     Newspeak House is available for hire. For enquiries please contact: Aisha Brady, Programme Assistant aisha@nwspk.com
-    %a{:href => ""} Brochure 
+    %a{:href => ""} Brochure
   %a.side-link{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} »
 %section.flip.no-padding
   .quotes.col-md-12
