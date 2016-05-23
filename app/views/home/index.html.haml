@@ -31,7 +31,7 @@
     %ul
       - @members.each do |member|
         %li
-          %img.member-image{:src => gravatar_url(member.email)}
+          %img.member-image{:src => twitter_profile_image_url(member)}
           .member-details
             %span.member-title
               = member.name
@@ -56,12 +56,12 @@
           independent
       .progress-center
         %span.membership-progress-upper
-          £400
+          = @total_pledged.format
         %span.membership-progress-lower
           pledged
       .progress-right
         %span.membership-progress-upper
-          100
+          = @total_members
         %span.membership-progress-lower
           members
   %a.side-link{:href => ""} »
@@ -72,7 +72,7 @@
       - @fellows.each do |fellow|
         .col-xs-6.col-md-3
           %a.thumbnail{:href => "#"}
-            %img{:src => gravatar_url(fellow.email)}
+            %img{:src => twitter_profile_image_url(fellow)}
           %span.fellow-name
             = fellow.name
           %span.fellow-description
