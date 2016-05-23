@@ -30,6 +30,7 @@ gem 'terminal-table'
 gem 'resque', "~> 1.22.0"
 gem 'icalendar'
 gem 'kramdown'
+gem 'best_in_place', '~> 3.0.1'
 
 group :development do
   gem 'rubocop', require: false

@@ -11,8 +11,8 @@
         %td.table-label Name
         %td= current_user.name
       %tr
-        %td.table-label Ring Size
-        %td= current_user.ring_size
+        %td.table-label Showcase text
+        %td= best_in_place current_user, :showcase_text, as: :input, url: user_path(format: 'json')
       %tr
         %td.table-label Email
         %td= current_user.email
