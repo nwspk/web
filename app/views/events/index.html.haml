@@ -26,7 +26,12 @@
                 = event.end_at.strftime('%l:%M%P')
               %td.eventdetails
                 %strong= link_to event.name, event.url
+                - unless event.public?
+                  %em (Private event)
                 %br/
                 %em= link_to event.organiser_name, event.organiser_url
                 %br/
                 = Kramdown::Document.new(event.description).to_html.html_safe
+                - if can? :update, event
+                  %br/
+                  = link_to 'Edit', edit_admin_event_path(event)
