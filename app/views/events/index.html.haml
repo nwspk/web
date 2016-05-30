@@ -1,7 +1,7 @@
 - content_for :page_title do
   Events
 
-%section.events-page 
+%section.events-page
   %a.back-link{:href => root_path + "#events"} «
   .wrap.table-responsive
     %h2 Events
@@ -24,4 +24,9 @@
                 = event.start_at.strftime('%l:%M%P')
                 \-
                 = event.end_at.strftime('%l:%M%P')
-              %td.eventdetails= link_to event.name, event_path(event)
+              %td.eventdetails
+                %strong= link_to event.name, event.url
+                %br/
+                %em= link_to event.organiser_name, event.organiser_url
+                %br/
+                = Kramdown::Document.new(event.description).to_html.html_safe
