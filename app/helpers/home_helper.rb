@@ -1,6 +1,6 @@
 module HomeHelper
-  def twitter_profile_image_url(user)
-    return '' if user.twitter.nil?
+  def profile_image_url(user)
+    return gravatar_url(user.email) if user.twitter.nil?
 
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['TWITTER_KEY']
@@ -10,5 +10,9 @@ module HomeHelper
     end
 
     client.user.profile_image_uri_https(:original)
+  end
+
+  def gravatar_url(email)
+    ["http://gravatar.com/avatar/", Digest::MD5.hexdigest(email)].join
   end
 end

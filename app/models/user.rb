@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
   scope :alumni,   -> { where(role: ROLES[:alumnus]) }
   scope :founders, -> { where(role: ROLES[:founder]) }
   scope :inactive, -> { where(role: ROLES[:inactive]) }
+  scope :recent,   -> { where(role: (ROLES.values - [ROLES[:inactive], ROLES[:guest]])) }
 
   scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
   scope :created_after_date, -> (date) { where('created_at > ?', date) }
@@ -67,6 +68,10 @@ class User < ActiveRecord::Base
 
   def excluded_from_graphs?
     admin_or_staff? || guest? || inactive?
+  end
+
+  def eligible_for_reminders?
+    !excluded_from_graphs?
   end
 
   def fellow?
