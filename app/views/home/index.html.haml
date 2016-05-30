@@ -21,9 +21,7 @@
             %span.event-location
               = event.location
             %span.event-description
-              = event.description
-          %span.event-link
-            %a.glyphicon.glyphicon-chevron-right{:href => event_path(event)}
+              = Kramdown::Document.new(event.short_description).to_html.html_safe
   %a.side-link{:href => events_path} »
 %section.members.no-bottom-padding
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
@@ -70,14 +68,12 @@
     .row
       - @fellows.each do |fellow|
         .col-xs-6.col-md-3
-          %a.thumbnail{:href => "#"}
+          %a.thumbnail{:href => fellow.twitter.try(:profile_url)}
             %img{:src => profile_image_url(fellow)}
           %span.fellow-name
             = fellow.name
           %span.fellow-description
             = fellow.showcase_text
-          %span.fellow-link
-            %a{:href => "fellows"} Follow
 %section
   .contact.col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h2 Visit Newspeak house

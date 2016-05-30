@@ -39,6 +39,10 @@ ActiveAdmin.register Event do
       row :organiser_email
       row :organiser_url
 
+      row :short_description do
+        Kramdown::Document.new(event.short_description).to_html.html_safe
+      end
+
       row :description do
         Kramdown::Document.new(event.description).to_html.html_safe
       end
@@ -60,6 +64,7 @@ ActiveAdmin.register Event do
       input :url
       input :start_at
       input :end_at
+      input :short_description, hint: 'You can use the Markdown syntax for rich text formatting'
       input :description, hint: 'You can use the Markdown syntax for rich text formatting'
     end
 
