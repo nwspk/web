@@ -5,18 +5,15 @@ Rails.application.routes.draw do
 
   get 'account',                  to: 'dashboard#index', as: 'dashboard'
   get '/auth/:provider/callback', to: 'connections#create'
-  get 'fellowship',               to: 'home#fellowship'
-  get 'contact',                  to: 'home#contact'
-  get 'calendar',                 to: 'home#calendar'
   get 'api/uid',                  to: 'api#uid'
   get 'api/dividends',            to: 'api#dividends'
   get 'api/events',               to: 'api#events'
-  get 'graphs/full'
-  get 'graphs/friends'
-  get 'graphs/strangers'
-  get 'graphs/access'
+  get 'graphs/full',              to: 'graphs#full'
+  get 'graphs/friends',           to: 'graphs#friends'
+  get 'graphs/strangers',         to: 'graphs#strangers'
+  get 'graphs/access',            to: 'graphs#access'
 
-  post 'webhooks',                   to: 'webhooks#index'
+  post 'webhooks',                to: 'webhooks#index'
 
   resources :connections, only: [:destroy] do
     collection do
@@ -30,8 +27,7 @@ Rails.application.routes.draw do
   end
 
   resource :user, only: :update
-
-  resources :events, only: [:index, :show]
+  resources :events, only: :index
 
   devise_for :users, path: 'account', controllers: { registrations: 'users/registrations' }
 
@@ -39,9 +35,11 @@ Rails.application.routes.draw do
     get 'membership', to: 'users/registrations#new'
   end
 
-  authenticate :user do
+  authenticate :user, lambda { |u| u.admin? } do
     mount Resque::Server.new, :at => "/resque"
   end
 
   root to: 'home#index'
+
+  get '*unmatched_route', to: 'application#route_not_found'
 end

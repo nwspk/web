@@ -8,14 +8,4 @@ class HomeController < ApplicationController
     @total_members = User.with_subscription.count
     @goal_percent  = (@total_pledged.cents / (200000 * 100)) * 100
   end
-
-  def fellowship
-  end
-
-  def contact
-  end
-
-  def calendar
-    redirect_to "https://hackpad.com/Newspeak-House-Events-Calendar-uNKMeHocJE9"
-  end
 end

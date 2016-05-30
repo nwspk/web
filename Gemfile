@@ -31,28 +31,34 @@ gem 'resque', "~> 1.22.0"
 gem 'icalendar'
 gem 'kramdown'
 gem 'best_in_place', '~> 3.0.1'
+gem 'dotenv-rails'
 
 group :development do
-  gem 'rubocop', require: false
   gem 'web-console', '~> 2.0'
+  gem 'better_errors'
+  gem 'quiet_assets'
+  gem 'brakeman', require: false
+  gem 'bundler-audit', require: false
+  gem 'rack-mini-profiler'
+  gem 'letter_opener'
 end
 
 group :development, :test do
-  gem 'byebug'
-  gem 'spring'
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'quiet_assets'
-  gem 'dotenv-rails'
-  gem 'nyan-cat-formatter'
+  gem 'pry'
   gem 'fabrication'
   gem 'faker'
+  gem 'rubocop', require: false
+  gem 'fuubar', require: false
 end
 
 group :test do
   gem 'rr', require: false
   gem 'stripe-ruby-mock', '~> 2.1.1', :require => 'stripe_mock'
   gem 'timecop'
+  gem 'simplecov', require: false
 end
 
 group :production do

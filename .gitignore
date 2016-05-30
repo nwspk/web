@@ -18,3 +18,4 @@
 
 # Local env
 .env
+/coverage/

@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def route_not_found
+    render 'errors/404', status: :not_found
+  end
+
   protected
 
   def access_denied(exception)

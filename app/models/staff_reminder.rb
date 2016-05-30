@@ -21,9 +21,7 @@ class StaffReminder < ActiveRecord::Base
 
       next_user = User.find(new_id)
 
-      if next_user.eligible_for_reminders?
-        raise UnwantedUser
-      end
+      raise UnwantedUser unless next_user.eligible_for_reminders?
     rescue ActiveRecord::RecordNotFound
       retry
     rescue UnwantedUser
