@@ -1,9 +1,6 @@
 - content_for :page_title do
   Account
 
-- if current_user.needs_ring_size?
-  = render partial: 'ring_form'
-
 .cf
   %table.table.table-border.extra-space.column-table
     %tbody
@@ -16,6 +13,9 @@
       %tr
         %td.table-label Email
         %td= current_user.email
+      %tr
+        %td.table-label Ring size
+        %td= best_in_place current_user, :ring_size, as: :select, collection: Hash[Ring::SIZES.map { |x| [x.to_s, x.to_s] }], url: user_path(format: 'json'), place_holder: 'Click here to select your ring size'
 
   %table.table.table-border.extra-space.column-table
     %tbody

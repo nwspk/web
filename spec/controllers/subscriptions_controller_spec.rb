@@ -18,6 +18,14 @@ RSpec.describe SubscriptionsController, type: :controller do
     let(:plan) { Fabricate(:plan, value: 5000) }
 
     before do
+      Stripe::Plan.create(
+        amount: plan.value.cents,
+        name: plan.name,
+        id: plan.stripe_id,
+        interval: 'month',
+        currency: plan.value.currency.iso_code
+      )
+
       user.build_subscription(plan: plan).save
     end
 

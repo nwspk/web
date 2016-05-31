@@ -22,4 +22,14 @@ class Subscription < ActiveRecord::Base
   def plan_name
     self.plan.try(:name)
   end
+
+  after_save :set_user_role
+
+  private
+
+  def set_user_role
+    if active? && self.user.applicant?
+      self.user.update(role: User::ROLES[:member])
+    end
+  end
 end

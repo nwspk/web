@@ -38,21 +38,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    checkout_subscription_path
-  end
-
-  def build_resource(hash=nil)
-    super
-
-    if self.resource.subscription.nil?
-      self.resource.build_subscription(plan_id: Plan.first.try(:id))
-    end
+    resource.applicant == "1" ? dashboard_path : checkout_subscription_path
   end
 
   private
 
   def sign_up_params
-    params.require(:user).permit(:name, :email, :url, :password, :password_confirmation, { subscription_attributes: [:plan_id] })
+    params.require(:user).permit(:name, :email, :url, :password, :password_confirmation, :sponsor, :applicant, :application_text)
   end
 
   def account_update_params

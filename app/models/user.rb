@@ -2,14 +2,15 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
   ROLES = {
-    admin:    'admin',
-    staff:    'staff',
-    fellow:   'fellow',
-    member:   'member',
-    guest:    'guest',
-    alumnus:  'alumnus',
-    founder:  'founder',
-    inactive: 'inactive',
+    admin:     'admin',
+    staff:     'staff',
+    fellow:    'fellow',
+    member:    'member',
+    guest:     'guest',
+    alumnus:   'alumnus',
+    founder:   'founder',
+    inactive:  'inactive',
+    applicant: 'applicant',
   }
 
   attr_accessor :community
@@ -94,6 +95,10 @@ class User < ActiveRecord::Base
     self.role == ROLES[:inactive]
   end
 
+  def applicant?
+    self.role == ROLES[:applicant]
+  end
+
   def overrides_entry_rules?
     admin_or_staff? || fellow? || guest? || alumnus? || founder?
   end
@@ -109,7 +114,7 @@ class User < ActiveRecord::Base
   private
 
   def set_default_role
-    self.role = ROLES[:member] if self.role.blank?
+    self.role = ROLES[:applicant] if self.role.blank?
   end
 
   def notify_admins

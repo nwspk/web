@@ -14,6 +14,16 @@ RSpec.describe ChangePlanService, type: :model do
     })
 
     subscription.customer_id = customer.id
+
+    [plan1, plan2].each do |plan|
+      Stripe::Plan.create(
+        amount: plan.value.cents,
+        name: plan.name,
+        id: plan.stripe_id,
+        interval: 'month',
+        currency: plan.value.currency.iso_code
+      )
+    end
   end
 
   describe 'creates a new Stripe subscription if none is on record' do

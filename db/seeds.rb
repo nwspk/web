@@ -37,4 +37,9 @@ ActiveRecord::Base.transaction do
   })
 
   f.save!(validate: false)
+
+  # Plans
+  (0..10).each do |i|
+    Plan.create!(name: i == 0 ? 'Basic' : "Sponsor #{i} additional memberships", value: (i + 1) * 25, stripe_id: "plan_#{i}", contribution: 0.5)
+  end
 end

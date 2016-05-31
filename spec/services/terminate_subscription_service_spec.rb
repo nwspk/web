@@ -7,6 +7,14 @@ RSpec.describe TerminateSubscriptionService, type: :model do
   let(:plan) { Fabricate(:plan, name: 'p') }
 
   before do
+    Stripe::Plan.create(
+      amount: plan.value.cents,
+      name: plan.name,
+      id: plan.stripe_id,
+      interval: 'month',
+      currency: plan.value.currency.iso_code
+    )
+
     customer = Stripe::Customer.create({
       email: 'johnny@appleseed.com',
       source: stripe_helper.generate_card_token
