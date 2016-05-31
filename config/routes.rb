@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   get 'graphs/friends',           to: 'graphs#friends'
   get 'graphs/strangers',         to: 'graphs#strangers'
   get 'graphs/access',            to: 'graphs#access'
-
+  get 'about',                    to: 'home#about', as: :about
+  get 'fellowship',               to: 'home#fellowship', as: :fellowship
   post 'webhooks',                to: 'webhooks#index'
 
   resources :connections, only: [:destroy] do

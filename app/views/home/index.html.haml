@@ -16,7 +16,7 @@
             %span.event-date-day= event.start_at.strftime('%d')
             %span.event-date-month= event.start_at.strftime('%^b')
           .event-details
-            %span.event-title
+            %a.event-title{ href: events_path(anchor: "event-#{event.id}") }
               = event.name
             %span.event-location
               = event.location
@@ -29,14 +29,14 @@
     %ul
       - @members.each do |member|
         %li
-          %img.member-image{:src => profile_image_url(member)}
+          %a{ href: social_media_url(member) }
+            %img.member-image{:src => profile_image_url(member)}
           .member-details
             %span.member-title
               = member.name
             %span.member-description
               = member.showcase_text
-            %span.member-links
-              %a{:href => member.twitter.try(:profile_url)} Follow #{member.name} on Twitter
+  %a.side-link{:href => graphs_full_path } »
 .break
 %section.membership.no-top-padding
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
@@ -68,12 +68,13 @@
     .row
       - @fellows.each do |fellow|
         .col-xs-6.col-md-3
-          %a.thumbnail{:href => fellow.twitter.try(:profile_url)}
+          %a.thumbnail{:href => social_media_url(fellow)}
             %img{:src => profile_image_url(fellow)}
           %span.fellow-name
             = fellow.name
           %span.fellow-description
             = fellow.showcase_text
+  %a.side-link{:href => fellowship_path} »
 %section
   .contact.col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h2 Visit Newspeak house

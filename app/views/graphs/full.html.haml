@@ -8,3 +8,5 @@
     = select_tag 'date_range', options_for_select([['All', 'all'], ['Past month', 'month'], ['Past week', 'week']], @date_range)
     = submit_tag 'Show connections'
     %a.select-mode{href: '#'} Select mode: Friends
+    - if user_signed_in?
+      = link_to 'Refresh social accounts', check_friends_connections_path

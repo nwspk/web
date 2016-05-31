@@ -15,4 +15,14 @@ module HomeHelper
   def gravatar_url(email)
     ["http://gravatar.com/avatar/", Digest::MD5.hexdigest(email)].join
   end
+
+  def social_media_url(user)
+    if !user.twitter.nil?
+      return user.twitter.profile_url
+    elsif !user.facebook.nil?
+      return user.facebook.profile_url
+    else
+      return graphs_full_url(focus: user.id)
+    end
+  end
 end

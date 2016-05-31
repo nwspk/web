@@ -25,6 +25,7 @@
                 \-
                 = event.end_at.strftime('%l:%M%P')
               %td.eventdetails
+                %a{ id: "event-#{event.id}" }/
                 %strong= link_to event.name, event.url
                 - unless event.public?
                   %em (Private event)
