@@ -16,6 +16,7 @@ ActiveAdmin.register User do
   scope :guests
   scope :founders
   scope :inactive
+  scope :applicants
 
   sidebar "User Details", only: [:show, :edit] do
     ul do

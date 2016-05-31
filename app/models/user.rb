@@ -35,14 +35,15 @@ class User < ActiveRecord::Base
   after_create :notify_admins
   before_destroy :terminate_subscription
 
-  scope :admins,   -> { where(role: ROLES[:admin]) }
-  scope :staff,    -> { where(role: ROLES[:staff]) }
-  scope :fellows,  -> { where(role: ROLES[:fellow]) }
-  scope :guests,   -> { where(role: ROLES[:guest]) }
-  scope :alumni,   -> { where(role: ROLES[:alumnus]) }
-  scope :founders, -> { where(role: ROLES[:founder]) }
-  scope :inactive, -> { where(role: ROLES[:inactive]) }
-  scope :recent,   -> { where(role: (ROLES.values - [ROLES[:inactive], ROLES[:guest]])) }
+  scope :admins,     -> { where(role: ROLES[:admin]) }
+  scope :staff,      -> { where(role: ROLES[:staff]) }
+  scope :fellows,    -> { where(role: ROLES[:fellow]) }
+  scope :guests,     -> { where(role: ROLES[:guest]) }
+  scope :alumni,     -> { where(role: ROLES[:alumnus]) }
+  scope :founders,   -> { where(role: ROLES[:founder]) }
+  scope :inactive,   -> { where(role: ROLES[:inactive]) }
+  scope :applicants, -> { where(role: ROLES[:applicant]) }
+  scope :recent,     -> { where(role: (ROLES.values - [ROLES[:inactive], ROLES[:guest], ROLES[:applicant]])) }
 
   scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
   scope :created_after_date, -> (date) { where('created_at > ?', date) }
@@ -68,7 +69,7 @@ class User < ActiveRecord::Base
   end
 
   def excluded_from_graphs?
-    admin_or_staff? || guest? || inactive?
+    admin_or_staff? || guest? || inactive? || applicant?
   end
 
   def eligible_for_reminders?

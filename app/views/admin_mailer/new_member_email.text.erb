@@ -6,4 +6,8 @@ Plan:     <%= @new_member.subscription.try(:plan_name) %>
 Twitter:  <%= @new_member.twitter.try(:profile_url) %>
 Facebook: <%= @new_member.facebook.try(:profile_url) %>
 
+Application text:
+
+<%= @new_member.application_text %>
+
 You are receiving these e-mails because you're an Admin of Newspeak House.

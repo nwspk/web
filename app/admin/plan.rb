@@ -1,12 +1,13 @@
 ActiveAdmin.register Plan do
   config.batch_actions = false
 
-  permit_params :name, :value, :visible, :contribution
+  permit_params :name, :value, :visible, :contribution, :stripe_id
 
   filter :name
 
   index do
     column :name, sortable: false
+    column :stripe_id
     column(:value, sortable: :value) { |p| p.value.format }
     column(:contribution) { |p| "#{p.contribution * 100}%" }
     column(:subscriptions) { |p| p.subscriptions.count }
@@ -28,6 +29,7 @@ ActiveAdmin.register Plan do
 
     inputs do
       input :name
+      input :stripe_id
       input :visible
       input :value, label: 'Value in cents' if f.object.new_record?
       input :contribution, label: 'Contribution between 0 and 1'
