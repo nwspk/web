@@ -2,6 +2,7 @@
 @import "bootstrap";
 @import "vis";
 @import "mixins";
+@import "font-awesome";
 
 @font-face {
   font-family: 'F25';
@@ -11,21 +12,66 @@
   font-style: normal;
 }
 
-* {
-  box-sizing: border-box;
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Libre Baskerville'), local('LibreBaskerville-Regular'), font-url('LibreBaskerville-Regular.ttf') format('truetype');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
 }
 
-body, html {
-  padding: 0;
-  margin: 0;
-  overflow-x: hidden;
-  font-family: 'F25';
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Libre Baskerville'), local('LibreBaskerville-Regular'), font-url('LibreBaskerville-Regular.ttf') format('truetype');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Libre Baskerville Bold'), local('LibreBaskerville-Bold'), font-url('LibreBaskerville-Bold') format('truetype');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Libre Baskerville Bold'), local('LibreBaskerville-Bold'), font-url('LibreBaskerville-Bold') format('truetype');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Libre Baskerville Italic'), local('LibreBaskerville-Italic'), font-url('LibreBaskerville-Italic') format('truetype');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Libre Baskerville Italic'), local('LibreBaskerville-Italic'), font-url('LibreBaskerville-Italic') format('truetype');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+body {
+  background: image-url('bg.jpg') repeat;
+  background-size: 103px 103px;
+  font-family: 'Libre Baskerville', serif;
+  text-rendering: optimizeLegibility;
 }
 
 .logo a {
-  font-family: 'F25';
   @include h-center;
   @include fast-transition;
+
+  font-family: 'F25';
   position: fixed;
   color: white;
   width: 250px;
@@ -37,8 +83,13 @@ body, html {
   background: #1c2f52;
   z-index: 999;
   cursor: pointer;
+
   &:hover {
     top: 0px;
+    text-decoration: none;
+  }
+
+  &:focus, &:active {
     text-decoration: none;
   }
 }
@@ -48,28 +99,119 @@ section {
   display: flex;
   width: 100vw;
   padding: 20px 0 40px;
+
   &.no-top-padding {
     padding-top: 0px !important;
   }
+
   &.no-bottom-padding {
     padding-bottom: 0px !important;
   }
+
   h2 {
+    font-family: 'F25', serif;
     margin-bottom: 40px;
+    font-size: 26px;
+
     &.top-margin {
       margin-top: 40px;
     }
   }
+
   &.flip {
-    background: #eee;
+    background: #ededed;
   }
+
   &.no-padding {
     padding: 0;
   }
-  &.house {
+}
+
+.side-link {
+  @include fast-transition;
+  @include v-center;
+
+  right: 10px;
+  left: auto;
+  width: 50px;
+  height: 45px;
+  line-height: 50px;
+  display: block;
+  text-align: center;
+  font-size: 2em;
+  color: white;
+  background: #1c2f52;
+
+  &:hover {
+    text-decoration: none;
+    right: 5px;
+    color: white;
+  }
+}
+
+.back-link {
+  @include fast-transition;
+  @include v-center;
+
+  left: 0;
+  width: 50px;
+  height: 45px;
+  line-height: 50px;
+  display: block;
+  text-align: center;
+  font-size: 2em;
+  color: white;
+  background: #1c2f52;
+
+  &:hover {
+    text-decoration: none;
+    left: -5px;
+    color: white;
+  }
+}
+
+.top-left-link {
+  position: absolute;
+  left: 0;
+  top: 40%;
+  transform: translateY(-40%);
+  -ms-transform: rotate(270deg);
+  -webkit-transform: rotate(270deg);
+  transform: rotate(270deg);
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #1c2f52;
+  @include fast-transition;
+  text-transform: uppercase;
+
+  &:hover {
+    left: -2px;
+    text-decoration: none;
+  }
+}
+
+.top-right-link {
+  position: absolute;
+  right: 24px;
+  top: 40%;
+  transform: translateY(-40%);
+  font-size: 20px;
+  color: #1c2f52;
+  text-decoration: none;
+  @include fast-transition;
+
+  &:hover {
+    right: 22px;
+    text-decoration: none;
+  }
+}
+.home {
+  .house {
     @include slow-transition;
     margin-top: 70px;
     position: relative;
+
     img {
       max-height: 600px;
       max-width: 60vw;
@@ -79,55 +221,28 @@ section {
          -o-animation: fadein 0.8s; /* Opera < 12.1 */
             animation: fadein 0.8s;
     }
-    .top-left-link {
-      position: absolute;
-      left: 0;
-      top: 40%;
-      transform: translateY(-40%);
-      -ms-transform: rotate(270deg);
-      -webkit-transform: rotate(270deg);
-      transform: rotate(270deg);
-      font-size: 14px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      color: #1c2f52;
-      @include fast-transition;
-      &:hover {
-        left: -2px;
-        text-decoration: none;
-      }
-    }
-    .top-right-link {
-      position: absolute;
-      right: 14px;
-      top: 40%;
-      transform: translateY(-40%);
-      font-size: 20px;
-      color: #1c2f52;
-      text-decoration: none;
-      @include fast-transition;
-      &:hover {
-        right:12px;
-        text-decoration: none;
-      }
-    }
   }
-  &.intro {
+
+  .intro {
     @include center;
     padding: 0 40px 40px;
+
     h4 {
       line-height: 24px;
       color: #1c2f52;
     }
   }
-  &.events ul {
+
+  .events ul {
     padding: 0;
     margin: 0;
     list-style: none;
+
     li {
       &:last-child {
         padding-bottom: 10px !important;
       }
+
       border-top: 1px solid #ccc;
       padding: 20px 0;
       display: -webkit-box;
@@ -136,34 +251,42 @@ section {
       display: flex;
       flex-wrap: wrap;
       position: relative;
+
       .event-date {
         display: flex;
         flex-direction: column;
         width: 100px;
+
         span {
           display: block;
           width: 100px;
           text-align: center;
           font-size: 20px;
+
           &.event-date-day {
             font-size: 50px;
             line-height: 50px;
           }
         }
       }
+
       .event-details {
         display: flex;
         flex-direction: column;
         width: calc(100% - 120px);
+
         .event-title {
           font-weight: bold;
           font-size: 1.2em;
           color: #1c2f52;
+          font-family: 'F25', serif;
         }
+
         .event-location {
           font-style: italic;
           color: #888;
           margin-bottom: 10px;
+
           .event-time {
             font-style: normal;
             color: #000;
@@ -171,6 +294,7 @@ section {
           }
         }
       }
+
       .event-link a {
         position: absolute;
         right: 0;
@@ -181,6 +305,7 @@ section {
         color: #1c2f52;
         font-size: 20px;
         @include fast-transition;
+
         &:hover {
           text-decoration: none;
           right: -2px;
@@ -188,10 +313,12 @@ section {
       }
     }
   }
-  &.members ul {
+
+  .members ul {
     list-style: none;
     padding: 0;
     margin: 0;
+
     li {
       margin-bottom: 20px;
       display: -webkit-box;
@@ -199,18 +326,22 @@ section {
       display: -ms-flexbox;
       display: flex;
       flex-wrap: wrap;
+
       .member-image {
         width: 100px;
         height: 100px;
         display: flex;
         flex-direction: column;
       }
+
       .member-details {
         display: flex;
         flex-direction: column;
         width: calc(100% - 110px);
         margin-left: 10px;
+
         .member-title {
+          font-family: 'F25', serif;
           display: block;
           width: 100%;
           border-bottom: 1px solid #ccc;
@@ -220,31 +351,44 @@ section {
           font-size: 1.2em;
           color: #1c2f52;
         }
+
         .member-description {
           display: block;
         }
+
         .member-links a {
           color: #1c2f52;
         }
       }
     }
   }
-  &.membership {
+
+  .membership {
+    .progress {
+      background: #fff;
+      box-shadow: none;
+    }
+
     .progress-bar {
       background-color: #1c2f52;
     }
+
     .progress-details {
       width: 100%;
+
       div {
         width: 33.33333%;
         float: left;
+
         span {
           display: block;
           width: 100%;
+
           &.membership-progress-upper {
             font-size: 50px;
             line-height: 50px;
           }
+
           &.membership-progress-lower {
             text-transform: uppercase;
           }
@@ -252,36 +396,48 @@ section {
       }
     }
   }
-  &.fellows {
+
+  .fellows {
     .row div {
       margin-bottom: 20px;
+
       .thumbnail {
         width: 100%;
+
         img {
           width: 100%;
           height: auto;
         }
+
         margin-bottom: 10px;
       }
+
       .fellow-name {
+        font-family: 'F25', serif;
         display: block;
         font-size: 1.2em;
         font-weight: bold;
         color: #1c2f52;
       }
+
       .fellow-description {
         display: block;
       }
+
       .fellow-link a {
         color: #1c2f52;
       }
     }
   }
+
   .quotes {
-    padding: 40px 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
+
     .carousel-inner {
       width: 66.66666667%;
     }
+
     .carousel-control {
       background-image: none;
       color: #1c2f52;
@@ -289,91 +445,79 @@ section {
       text-shadow: none;
     }
   }
-  .side-link {
-    @include fast-transition;
-    right: 0;
-    width: 50px;
-    height: 45px;
-    line-height: 50px;
-    display: block;
-    text-align: center;
-    font-size: 2em;
-    color: white;
-    background: #1c2f52;
-    @include v-center;
-    &:hover {
-      text-decoration: none;
-      right: -5px;
-      color: white;
-    }
-  }
-  .back-link {
-    @include fast-transition;
-    left: 0;
-    width: 50px;
-    height: 45px;
-    line-height: 50px;
-    display: block;
-    text-align: center;
-    font-size: 2em;
-    color: white;
-    background: #1c2f52;
-    @include v-center;
-    &:hover {
-      text-decoration: none;
-      left: -5px;
-      color: white;
-    }
-  }
-  &.events-page {
-    width: 100vw;
-    min-height: 100vh;
-    padding: 20px;
-    background: url('bg.jpg');
-    .wrap {
-      background: white;
-      width: 100%;
-      padding: 40px;
-      table {
-        margin-top: -20px;
-        width: 100%;
-        tbody {
-          border: 1px solid #ccc;
-        }
-        .eventdate {
-          width: 150px;
-          vertical-align: top;
-          .dayofmonth {
-            width: 40px;
-            font-size: 40px;
-            line-height: 36px;
-            float: left;
-            text-align: right;
-            margin-right: 10px;
-            margin-top: 4px;
-            color: #1c2f52;
-          }
-          .shortdate {
-            color: rgba(0,0,0,0.4);
-            font-size: 0.8em;
-          }
-        }
-        .eventtime {
-          width: 150px;
-          vertical-align: top;
-        }
-        .eventdetails {
-          vertical-align: top;
-        }
-      }
-    }
+}
+
+.footer {
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 180px;
+}
+
+.page {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 20px;
+  background: image-url('bg.jpg');
+
+  .wrap {
+    background: white;
+    width: 100%;
+    padding: 40px;
   }
 }
 
-.break {
-    width: 100%;
-    height: 10px;
-    text-align: center;
-    font-size: 40px;
-    color: #1c2f52;
+.events-table {
+  margin-top: -20px;
+  width: 100%;
+
+  tbody {
+    border: 1px solid #ccc;
+  }
+
+  .eventdate {
+    width: 150px;
+    vertical-align: top;
+    padding-top: 12px;
+
+    .dayofmonth {
+      width: 40px;
+      font-size: 40px;
+      line-height: 36px;
+      float: left;
+      text-align: right;
+      margin-right: 10px;
+      margin-top: 4px;
+      color: #1c2f52;
+    }
+
+    .shortdate {
+      color: rgba(0,0,0,0.4);
+      font-size: 0.8em;
+    }
+  }
+
+  .eventtime {
+    width: 150px;
+    vertical-align: top;
+    padding-top: 12px;
+  }
+
+  .eventdetails {
+    vertical-align: top;
+  }
+
+  .event-header {
+    margin-bottom: 20px;
+
+    h5 {
+      font-family: 'F25', serif;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .event-organiser a {
+      text-decoration: underline;
+    }
+  }
 }

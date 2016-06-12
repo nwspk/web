@@ -1,0 +1,14 @@
+%section.members.no-bottom-padding
+  .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
+    %h2 Recent Members
+
+    %ul
+      - @members.each do |member|
+        %li
+          = link_to social_media_url(member) do
+            = image_tag profile_image_url(member), class: 'member-image'
+          .member-details
+            %span.member-title= member.name
+            %span.member-description= member.showcase_text
+
+  = side_link_to graphs_full_path

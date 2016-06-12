@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  layout 'subpage'
   before_action :set_events, only: :index
 
   def index

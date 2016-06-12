@@ -1,38 +1,38 @@
 - content_for :page_title do
   Events
 
-%section.events-page
-  %a.back-link{:href => root_path + "#events"} «
-  .wrap.table-responsive
-    %h2 Events
-    %table.table-condensed.table-bordered
-      %thead
+%h2 Events
+
+%table.table-condensed.table-bordered.events-table
+  %thead
+    %tr
+      %th Date
+      %th Time
+      %th Details
+  %tbody
+    - @events.each_pair do |day, events|
+      %tr
+        %td.eventdate{ rowspan: events.size + 1 }
+          .dayofmonth= events.first.start_at.strftime('%e')
+          .dayofweek= events.first.start_at.strftime('%A')
+          .shortdate= events.first.start_at.strftime('%B, %Y')
+      - events.each do |event|
         %tr
-          %th Date
-          %th Time
-          %th Details
-      %tbody
-        - @events.each_pair do |day, events|
-          %tr
-            %td.eventdate{ rowspan: events.size + 1 }
-              .dayofmonth= events.first.start_at.strftime('%e')
-              .dayofweek= events.first.start_at.strftime('%A')
-              .shortdate= events.first.start_at.strftime('%B, %Y')
-          - events.each do |event|
-            %tr
-              %td.eventtime
-                = event.start_at.strftime('%l:%M%P')
-                \-
-                = event.end_at.strftime('%l:%M%P')
-              %td.eventdetails
-                %a{ id: "event-#{event.id}" }/
-                %strong= link_to event.name, event.url
+          %td.eventtime
+            = event.start_at.strftime('%l:%M%P')
+            \-
+            = event.end_at.strftime('%l:%M%P')
+          %td.eventdetails
+            %a{ id: "event-#{event.id}" }/
+            .event-header
+              %h5
+                = link_to event.name, event.url
                 - unless event.public?
-                  %em (Private event)
-                %br/
-                %em= link_to event.organiser_name, event.organiser_url
-                %br/
-                = Kramdown::Document.new(event.description).to_html.html_safe
-                - if can? :update, event
-                  %br/
-                  = link_to 'Edit', edit_admin_event_path(event)
+                  %small (Private event)
+
+              .event-organiser= link_to event.organiser_name, event.organiser_url
+
+            .event-description= Kramdown::Document.new(event.description).to_html.html_safe
+
+            - if can? :update, event
+              .event-actions= link_to 'Edit', edit_admin_event_path(event)

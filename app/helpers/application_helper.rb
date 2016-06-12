@@ -24,4 +24,16 @@ module ApplicationHelper
       return "+#{val.format(rule)}"
     end
   end
+
+  def top_left_link_to(text, path)
+    link_to text, path, class: 'top-left-link'
+  end
+
+  def top_right_link_to(path)
+    link_to fa_icon('chevron-right'), path, class: 'top-right-link'
+  end
+
+  def side_link_to(path)
+    link_to fa_icon('angle-double-right'), path, class: 'side-link'
+  end
 end

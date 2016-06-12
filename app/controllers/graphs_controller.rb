@@ -1,4 +1,5 @@
 class GraphsController < ApplicationController
+  layout 'subpage'
   before_filter :authenticate_user!, only: :friends
   before_action :parse_graph_options
   respond_to :html, :json, :gdf

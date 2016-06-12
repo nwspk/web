@@ -1,0 +1,15 @@
+%section.flip.fellows
+  .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
+    %h2 Fellows
+
+    .row
+      - @fellows.each do |fellow|
+        .col-xs-6.col-md-3
+          = link_to social_media_url(fellow), class: 'thumbnail' do
+            = image_tag profile_image_url(fellow)
+          %span.fellow-name
+            = fellow.name
+          %span.fellow-description
+            = fellow.showcase_text
+
+  = side_link_to fellowship_path

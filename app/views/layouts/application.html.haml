@@ -7,7 +7,6 @@
         \-
         = yield :page_title
 
-    %link{href: '//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700', rel: 'stylesheet', type: 'text/css'}/
     %link{href: canonical_path, rel: 'canonical'}/
     %link{type: 'text/plain', rel: 'author', href: root_url + 'humans.txt'}/
 
@@ -18,11 +17,9 @@
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1"}
   %body
     .logo
-      %a{:onclick => "$('html,body').animate({scrollTop:0},'fast');return false;"} NEWSPEAK HOUSE
+      = link_to 'NEWSPEAK HOUSE', root_url
 
-    = yield :pre_content
-
-    .container.padding
+    .container
       - if notice
         .alert.alert-success.alert-dismissible
           %button{type: "button", class: "close", data: { dismiss: "alert" } }
@@ -35,7 +32,10 @@
             %span &times;
           = alert
 
-    = yield
+    = content_for?(:content) ? yield(:content) : yield
+
+    .footer
+      = link_to image_tag('mono.png'), root_path
 
     - if Rails.env.production?
       :javascript

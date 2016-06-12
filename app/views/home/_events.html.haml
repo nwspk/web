@@ -1,0 +1,16 @@
+%section.flip.events#events
+  .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
+    %h2 Events
+
+    %ul
+      - @events.each do |event|
+        %li
+          .event-date
+            %span.event-date-day= event.start_at.strftime('%d')
+            %span.event-date-month= event.start_at.strftime('%^b')
+          .event-details
+            = link_to event.name, events_path(anchor: "event-#{event.id}"), class: 'event-title'
+            %span.event-location= event.location
+            %span.event-description= Kramdown::Document.new(event.short_description).to_html.html_safe
+
+  = side_link_to events_path

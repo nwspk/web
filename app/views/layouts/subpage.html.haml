@@ -1,0 +1,8 @@
+- content_for :content do
+  %section.page
+    = link_to fa_icon('angle-double-left'), root_path, class: 'back-link'
+
+    .wrap
+      = yield
+
+= render template: 'layouts/application'
