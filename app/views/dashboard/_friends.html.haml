@@ -1,24 +1,23 @@
-.panel.panel-default.extra-space
-  %table.table
-    %thead
+%table.table.table-bordered
+  %thead
+    %tr
+      %th Name
+      %th Network
+      %th Discount
+  %tfoot
+    %tr
+      %th.text-right{colspan: 2} Discount total:
+      %td= current_user.discount.format
+  %tbody
+    - if current_user.friends.count > 0
+      - current_user.friends.to_a.group_by(&:to_id).each_value do |friend|
+        - friend.each do |edge|
+          %tr
+            - if friend.first == edge
+              %td{rowspan: friend.size}= edge.to.name
+            %td= link_to edge.network.capitalize, edge.to.send(edge.network).try(:profile_url)
+            - if friend.first == edge
+              %td{rowspan: friend.size}= Money.new(100, 'GBP').format
+    - else
       %tr
-        %th Name
-        %th Network
-        %th Discount
-    %tfoot
-      %tr
-        %th.text-right{colspan: 2} Discount total:
-        %td= current_user.discount.format
-    %tbody
-      - if current_user.friends.count > 0
-        - current_user.friends.to_a.group_by(&:to_id).each_value do |friend|
-          - friend.each do |edge|
-            %tr
-              - if friend.first == edge
-                %td{rowspan: friend.size}= edge.to.name
-              %td= link_to edge.network.capitalize, edge.to.send(edge.network).try(:profile_url)
-              - if friend.first == edge
-                %td{rowspan: friend.size}= Money.new(100, 'GBP').format
-      - else
-        %tr
-          %td.text-muted.text-center{colspan: 3} No friends detected on Twitter or Facebook yet
+        %td.text-muted.text-center{colspan: 3} No friends detected on Twitter or Facebook yet

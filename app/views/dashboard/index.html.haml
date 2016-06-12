@@ -1,62 +1,61 @@
 - content_for :page_title do
   Account
 
-.cf
-  %table.table.table-border.extra-space.column-table
-    %tbody
-      %tr
-        %td.table-label Name
-        %td= current_user.name
-      %tr
-        %td.table-label Showcase text
-        %td= best_in_place current_user, :showcase_text, as: :input, url: user_path(format: 'json')
-      %tr
-        %td.table-label Email
-        %td= current_user.email
-      %tr
-        %td.table-label Ring size
-        %td= best_in_place current_user, :ring_size, as: :select, collection: Hash[Ring::SIZES.map { |x| [x.to_s, x.to_s] }], url: user_path(format: 'json'), place_holder: 'Click here to select your ring size'
+.row
+  .col-sm-2
+    .list-group
+      = link_to 'Refresh social accounts', check_friends_connections_path, class: 'list-group-item'
+      = link_to 'Change password', edit_user_registration_path, class: 'list-group-item'
+      - if can? :manage, :all
+        = link_to 'Admin UI', admin_root_path, class: 'list-group-item'
+      = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'list-group-item'
 
-  %table.table.table-border.extra-space.column-table
-    %tbody
-      %tr
-        %td.table-label Tier
-        - if !current_user.subscription.nil? && current_user.subscription.active?
-          %td
-            = current_user.subscription.plan.name
-            =link_to 'Change plan', edit_subscription_path
-        - else
-          %td
-            Inactive
-            (#{link_to('change', edit_subscription_path)})
-      %tr
-        %td.table-label Twitter
-        - if current_user.twitter
-          %td
-            - if current_user.twitter.expired?
-              = link_to 'Token expired, please re-authenticate', '/auth/twitter'
-            - else
-              = link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
-              = link_to '(Disconnect)', connection_path(current_user.twitter), method: :delete
-        - else
-          %td= link_to 'Connect', '/auth/twitter'
+  .col-sm-10
+    %table.table.table-border
+      %tbody
         %tr
-          %td.table-label Facebook
-          - if current_user.facebook
+          %th Name
+          %td= current_user.name
+        %tr
+          %th Showcase text
+          %td= best_in_place current_user, :showcase_text, as: :input, url: user_path(format: 'json')
+        %tr
+          %th Email
+          %td= current_user.email
+        %tr
+          %th Ring size
+          %td= best_in_place current_user, :ring_size, as: :select, collection: Hash[Ring::SIZES.map { |x| [x.to_s, x.to_s] }], url: user_path(format: 'json'), place_holder: 'Click here to select your ring size'
+        %tr
+          %th Tier
+          - if !current_user.subscription.nil? && current_user.subscription.active?
             %td
-              - if current_user.facebook.expired?
-                = link_to 'Token expired, please re-authenticate', '/auth/facebook'
-              - else
-                = link_to current_user.facebook.username, current_user.facebook.profile_url
-                = link_to '(Disconnect)', connection_path(current_user.facebook), method: :delete
+              = current_user.subscription.plan.name
+              = link_to 'Change plan', edit_subscription_path
           - else
-            %td= link_to 'Connect', '/auth/facebook'
-%span.table-label
-  = link_to 'Edit Details', edit_user_registration_path
-  |
-  = link_to 'Admin UI', admin_root_path
-  |
-  = link_to 'Refresh social accounts', check_friends_connections_path
-%span.pull-right.table-label=link_to 'Logout', destroy_user_session_path, method: :delete
+            %td
+              Inactive
+              (#{link_to('change', edit_subscription_path)})
+        %tr
+          %th Twitter
+          - if current_user.twitter
+            %td
+              - if current_user.twitter.expired?
+                = link_to 'Token expired, please re-authenticate', '/auth/twitter'
+              - else
+                = link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
+                = link_to '(Disconnect)', connection_path(current_user.twitter), method: :delete
+          - else
+            %td= link_to 'Connect', '/auth/twitter'
+          %tr
+            %th Facebook
+            - if current_user.facebook
+              %td
+                - if current_user.facebook.expired?
+                  = link_to 'Token expired, please re-authenticate', '/auth/facebook'
+                - else
+                  = link_to current_user.facebook.username, current_user.facebook.profile_url
+                  = link_to '(Disconnect)', connection_path(current_user.facebook), method: :delete
+            - else
+              %td= link_to 'Connect', '/auth/facebook'
 
-= render partial: 'friends'
+    = render partial: 'friends'
