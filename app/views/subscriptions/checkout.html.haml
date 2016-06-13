@@ -1,6 +1,9 @@
 - content_for :page_title do
   Checkout
 
+- content_for :back_link do
+  = dashboard_path
+
 - if @subscription.customer_id.blank?
   %h2 Become a member
 
