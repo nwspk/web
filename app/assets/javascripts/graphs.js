@@ -209,7 +209,7 @@ var initGraph = function (container, data, showAllNodes) {
       borderWidth: 4,
 
       font: {
-        face: 'akkuratRegular',
+        face: 'F25',
         size: 13,
         color: '#111'
       },
@@ -374,7 +374,7 @@ var initGraph = function (container, data, showAllNodes) {
         fontSize = minVisible / zoom;
       }
 
-      ctx.font = fontSize + 'px akkuratRegular';
+      ctx.font = fontSize + 'px F25';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
 
@@ -387,7 +387,7 @@ var initGraph = function (container, data, showAllNodes) {
       ctx.fillText(node.meta.name, pos.x, box.bottom + 3);
 
       if (node.meta.text.length > 0) {
-        ctx.font = (fontSize * 0.85) + 'px akkuratLight';
+        ctx.font = (fontSize * 0.85) + 'px F25';
         ctx.fillStyle = '#777';
 
         ctx.fillText(node.meta.text, pos.x, box.bottom + fontSize + 6);

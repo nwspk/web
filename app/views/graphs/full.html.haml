@@ -4,9 +4,11 @@
 = render partial: 'graph'
 
 .graph-panel
-  = form_tag graphs_full_path, method: :get do
-    = select_tag 'date_range', options_for_select([['All', 'all'], ['Past month', 'month'], ['Past week', 'week']], @date_range)
-    = submit_tag 'Show connections'
-    %a.select-mode{href: '#'} Select mode: Friends
-    - if user_signed_in?
-      = link_to 'Refresh social accounts', check_friends_connections_path
+  = form_tag graphs_full_path, method: :get, class: 'form-vertical' do
+    .form-group
+      = date_range_select
+    .form-group
+      = submit_tag 'Show connections', class: 'btn btn-default'
+      %a.select-mode{href: '#', class: 'btn btn-default'} Select mode: Friends
+      - if user_signed_in?
+        = link_to 'Refresh social accounts', check_friends_connections_path, class: 'btn btn-default'

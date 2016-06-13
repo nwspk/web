@@ -4,6 +4,8 @@
 = render partial: 'graph'
 
 .graph-panel
-  = form_tag graphs_full_path, method: :get do
-    = select_tag 'date_range', options_for_select([['All', 'all'], ['Past month', 'month'], ['Past week', 'week'], ['Past day', 'day']], @date_range)
-    = submit_tag 'Show connections'
+  = form_tag graphs_full_path, method: :get, class: 'form-vertical' do
+    .form-group
+      = date_range_select
+    .form-group
+      = submit_tag 'Show connections', class: 'btn btn-default'

@@ -15,6 +15,6 @@
             %span &times;
           = alert
 
-      = yield
+      = content_for?(:subpage_content) ? yield(:subpage_content) : yield
 
 = render template: 'layouts/application'

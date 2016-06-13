@@ -25,6 +25,10 @@ class UserGraph::Graph
     matrix
   end
 
+  def empty?
+    @nodes.size == 0
+  end
+
   def to_json
     {
       center: @center.nil? ? nil : "n#{@center.id}",

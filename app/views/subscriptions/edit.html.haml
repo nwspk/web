@@ -1,8 +1,10 @@
 - content_for :page_title do
   Change plan
 
-.page-header
-  %h2 Change subscription plan
+- content_for :back_link do
+  = dashboard_path
+
+%h2 Change subscription plan
 
 - if @subscription.needs_checkout?
   %p

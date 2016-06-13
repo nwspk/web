@@ -1,13 +1,13 @@
-= javascript_include_tag 'graphs'
+.graph-wrapper
+  - if @graph.empty?
+    .graph-error There's nothing to show here! (╯°□°）╯︵ ┻━┻
+  - else
+    .graph-container
+    .graph-loader.loader
 
-- if @graph.nodes.size == 0
-  %div.graph-error There's nothing to show here! (╯°□°）╯︵ ┻━┻
-- else
-  %div#sigma-container{ style: 'width: 100%; height: 600px; background: transparent; position: absolute; left: 0' }
-  %div.loader
-
+  = javascript_include_tag 'graphs'
 
   :javascript
     $(function () {
-      initGraph(document.getElementById('sigma-container'), #{@graph.to_json}, #{@show_all_nodes.to_json});
+      initGraph($('.graph-container')[0], #{@graph.to_json}, #{@show_all_nodes.to_json});
     });

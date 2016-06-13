@@ -13,7 +13,7 @@ module HomeHelper
   end
 
   def gravatar_url(email)
-    ["http://gravatar.com/avatar/", Digest::MD5.hexdigest(email)].join
+    ["http://gravatar.com/avatar/", Digest::MD5.hexdigest(email), "?s=250"].join
   end
 
   def social_media_url(user)

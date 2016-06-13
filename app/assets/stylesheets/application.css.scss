@@ -97,8 +97,9 @@ body {
 section {
   position: relative;
   display: flex;
-  width: 100vw;
+  width: 100%;
   padding: 20px 0 40px;
+  overflow: hidden;
 
   &.no-top-padding {
     padding-top: 0px !important;
@@ -131,7 +132,7 @@ section {
   @include fast-transition;
   @include v-center;
 
-  right: 10px;
+  right: 0;
   left: auto;
   width: 50px;
   height: 45px;
@@ -144,7 +145,7 @@ section {
 
   &:hover {
     text-decoration: none;
-    right: 5px;
+    right: -5px;
     color: white;
   }
 }
@@ -454,7 +455,7 @@ section {
 }
 
 .page {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   padding: 20px;
   background: image-url('bg.jpg');
@@ -520,4 +521,49 @@ section {
       text-decoration: underline;
     }
   }
+}
+
+.graph-error {
+  text-align: center;
+  padding-top: 40vh;
+  font-size: 16px;
+  color: #999;
+}
+
+.graph-wrapper {
+  position: relative;
+}
+
+.graph-panel {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 10px;
+  padding-bottom: 0;
+}
+
+.graph-loader {
+  position: absolute;
+  background: #fff image-url('loader.gif') no-repeat center center;
+  border-radius: 20px;
+  width: 150px;
+  height: 150px;
+  z-index: 100;
+  opacity: 0.5;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  margin-top: 40vh;
+}
+
+.vis-network-tooltip {
+  font-family: 'F25';
+  background: #111;
+  border-color: #000;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 15px;
+  padding: 6px 13px;
 }
