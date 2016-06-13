@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
 
   def route_not_found
-    render 'errors/404', status: :not_found
+    render 'errors/404', status: :not_found, layout: 'subpage'
   end
 
   protected
