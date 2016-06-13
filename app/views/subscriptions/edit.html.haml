@@ -7,32 +7,23 @@
 %h2 Change subscription plan
 
 - if @subscription.needs_checkout?
-  %p
+  .alert.alert-info
     It looks like you haven't checked out yet. You need to checkout to be an active member of Newspeak House. You can change your plan selection before proceeding.
-    = link_to 'Checkout now', checkout_subscription_path
+    %strong= link_to 'Checkout now', checkout_subscription_path
 
-= simple_form_for(@subscription, html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { radio_buttons: :horizontal_radio_and_checkboxes }) do |f|
-  = f.association :plan, as: :radio_buttons, collection: Plan.visible, label_method: :description
-
+= simple_vertical_form_for(@subscription, url: subscription_path) do |f|
+  = f.association :plan, collection: Plan.all_visible, label_method: :description, include_blank: false
   .form-group
-    .col-sm-3.col-sm-6
-      = f.button :submit, 'Change plan', class: 'btn-success'
+    = f.button :submit, 'Change plan'
 
-- if !@subscription.needs_checkout?
-  %hr/
-
-  %h3 Change credit card
+- unless @subscription.needs_checkout?
+  %h2.top-margin Change credit card
 
   %p
     If you would like to update the credit card that is being billed, you can use the
     = link_to 'Checkout page', checkout_subscription_path
     again
 
-%hr/
-
-%h3 Cancel subscription
-
 - if @subscription.active?
+  %h2.top-margin Cancel subscription
   %p= link_to 'Cancel subscription', subscription_path, data: { confirm: 'Are you sure?' }, method: :delete
-- else
-  %p.text-muted Your subscription is already terminated

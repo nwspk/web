@@ -31,6 +31,9 @@
             %td
               = current_user.subscription.plan.name
               = link_to 'Change plan', edit_subscription_path
+          - elsif current_user.subscription.nil?
+            %td
+              No subscription
           - else
             %td
               Inactive

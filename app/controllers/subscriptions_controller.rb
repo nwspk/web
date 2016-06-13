@@ -2,6 +2,7 @@ class SubscriptionsController < ApplicationController
   layout 'subpage'
   before_filter :authenticate_user!
   before_action :set_subscription
+  before_filter :require_selected_plan!
 
   def checkout
     @plan = @subscription.plan
@@ -13,7 +14,7 @@ class SubscriptionsController < ApplicationController
   def update
     new_plan_id = params[:subscription][:plan_id] if params[:subscription]
 
-    if @subscription.plan_id != new_plan_id
+    if @subscription.plan_id != new_plan_id && Plan.exists?(new_plan_id)
       service = ChangePlanService.new
       service.call(@subscription, new_plan_id)
 
@@ -65,5 +66,9 @@ class SubscriptionsController < ApplicationController
 
   def set_subscription
     @subscription = current_user.subscription
+  end
+
+  def require_selected_plan!
+    redirect_to(dashboard_path, alert: 'You do not have selected a plan to check out with') if @subscription.nil?
   end
 end

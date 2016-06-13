@@ -17,5 +17,6 @@ class Plan < ActiveRecord::Base
     self.value - [user.discount / 12, self.value].min
   end
 
-  scope :visible, -> { where(visible: true).order('id asc').offset(1) }
+  scope :visible,     -> { where(visible: true).order('id asc').offset(1) }
+  scope :all_visible, -> { where(visible: true).order('id asc') }
 end
