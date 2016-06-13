@@ -1,17 +1,16 @@
-%p.alt-title.space Password reminder form
+- content_for :page_title do
+  Password recovery
 
-= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form-horizontal' }, wrapper: :horizontal_form) do |f|
-  = f.error_notification
+- content_for :back_link do
+  = new_session_path(resource_name)
 
-  = f.input :email, required: true, autofocus: true
+.row
+  .col-sm-2
+    = render "devise/shared/links"
+  .col-sm-10
+    = simple_vertical_form_for(resource, as: resource_name, url: password_path(resource_name)) do |f|
+      = f.error_notification
+      = f.input :email, required: true, autofocus: true
 
-  .form-group.form-submit
-    .col-sm-6
-      = f.button :submit, "Send me reset password instructions"
-
-= render "devise/shared/links"
-
-.single-line.extra-space
-
-.footer
-  = link_to image_tag('mono.png'), root_path
+      .form-group
+        = f.button :submit, "Send me reset password instructions"

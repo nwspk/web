@@ -36,4 +36,9 @@ module ApplicationHelper
   def side_link_to(path)
     link_to fa_icon('angle-double-right'), path, class: 'side-link'
   end
+
+  def simple_vertical_form_for(resource, options = {}, &block)
+    options = options.merge(html: { class: 'form-vertical' }, wrapper: :vertical_form, wrapper_mappings: { boolean: :vertical_boolean })
+    simple_form_for(resource, options, &block)
+  end
 end
