@@ -11,20 +11,21 @@ class StaffReminder < ActiveRecord::Base
   def pop!
     new_id = self.last_id
     max_id = User.maximum('id')
+    loops  = 0
 
     begin
       new_id = new_id + 1
 
       if new_id > max_id
+        loops  = loops + 1
         new_id = 1
       end
 
       next_user = User.find(new_id)
 
       raise UnwantedUser unless next_user.eligible_for_reminders?
-    rescue ActiveRecord::RecordNotFound
-      retry
-    rescue UnwantedUser
+    rescue ActiveRecord::RecordNotFound, UnwantedUser
+      return nil if loops > 1
       retry
     end
 

@@ -2,11 +2,6 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'callbacks' do
-    it 'sets the default role on a user on creation' do
-      user = Fabricate(:user)
-      expect(user.role).to eq User::ROLES[:applicant]
-    end
-
     it 'terminates a user\'s subscription upon deletion' do
       user = Fabricate(:user)
       subscription = Fabricate(:subscription, user: user)

@@ -6,7 +6,7 @@ class ProcessStaffRemindersService
       next unless r.due?
 
       m = r.pop!
-      AdminMailer.staff_reminder_email(r, m).deliver_later
+      AdminMailer.staff_reminder_email(r, m).deliver_later unless m.nil?
     end
   end
 end
