@@ -1,7 +1,9 @@
 - content_for :page_title do
   Events
 
-%h2 Events
+%h2
+  Events
+  %small= link_to 'iCal', api_events_path
 
 %table.table-condensed.table-bordered.events-table
   %thead

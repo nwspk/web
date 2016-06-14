@@ -40,12 +40,12 @@ class ApiController < ApplicationController
 
     Event.public_and_confirmed.each do |ev|
       cal.event do |e|
-        e.dtstart = ev.start_at
-        e.dtend = ev.end_at
-        e.summary = ev.name
+        e.dtstart     = ev.start_at
+        e.dtend       = ev.end_at
+        e.summary     = ev.name
         e.description = ev.description
-        e.url = ev.url
-        e.organizer = Icalendar::Values::CalAddress.new("mailto:#{ev.organiser_email}", cn: ev.organiser_name)
+        e.url         = ev.url
+        e.organizer   = Icalendar::Values::CalAddress.new("mailto:#{ev.organiser_email}", cn: ev.organiser_name)
       end
     end
 

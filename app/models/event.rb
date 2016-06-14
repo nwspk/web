@@ -3,6 +3,7 @@ class Event < ActiveRecord::Base
   enum status: [:proposed, :confirmed, :rejected]
 
   scope :public_and_confirmed, -> { confirmed.where(public: true) }
+  scope :upcoming, -> { where('start_at > ?', Time.now) }
 
   def money_value
     Money.new(self.value, 'GBP')

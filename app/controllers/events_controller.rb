@@ -10,9 +10,9 @@ class EventsController < ApplicationController
 
   def set_events
     if user_signed_in? && current_user.admin_or_staff?
-      @events = Event.confirmed
+      @events = Event.confirmed.upcoming
     else
-      @events = Event.public_and_confirmed
+      @events = Event.public_and_confirmed.upcoming
     end
   end
 end

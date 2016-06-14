@@ -9,6 +9,7 @@ class UserMailer < ApplicationMailer
     @subscription        = user.subscription
     @num_connections     = @user.friends.count('distinct to_id')
     @num_new_connections = @user.friends.where('friend_edges.created_at > ?', time - 30.days).count('distinct to_id')
+    @upcoming_events     = Event.public_and_confirmed.upcoming
 
     unless @subscription.customer_id.blank?
       stripe_customer = Stripe::Customer.retrieve(@subscription.customer_id)
@@ -28,6 +29,8 @@ class UserMailer < ApplicationMailer
       ['Maven Discount:', "#{@num_connections} connections", positivize_zero_val(@user.discount / -12)],
       ['Total:', '', positivize_zero_val(@discounted_total)]
     ]
+
+    @ascii_events_table = Terminal::Table.new headings: ['Day', 'Time', 'Event'], rows: @upcoming_events.map { |e| [e.start_at.strftime('%e %A %B, %Y'), e.start_at.strftime('%l:%M%P'), e.name] }
 
     mail to: user.email, subject: "This month at Newspeak House"
   end

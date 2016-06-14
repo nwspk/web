@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   layout 'subpage', except: [:index]
 
   def index
-    @events  = Event.public_and_confirmed.limit(3)
+    @events  = Event.public_and_confirmed.upcoming.limit(3)
     @members = User.recent.limit(3)
     @fellows = User.fellows.limit(8)
 
