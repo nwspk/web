@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  layout 'subpage', except: [:index]
+
   def index
     @events  = Event.public_and_confirmed.limit(3)
     @members = User.recent.limit(3)

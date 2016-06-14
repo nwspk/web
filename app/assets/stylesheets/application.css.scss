@@ -315,59 +315,12 @@ section {
     }
   }
 
-  .members ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      margin-bottom: 20px;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      flex-wrap: wrap;
-
-      .member-image {
-        width: 100px;
-        height: 100px;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .member-details {
-        display: flex;
-        flex-direction: column;
-        width: calc(100% - 110px);
-        margin-left: 10px;
-
-        .member-title {
-          font-family: 'F25', serif;
-          display: block;
-          width: 100%;
-          border-bottom: 1px solid #ccc;
-          padding-bottom: 5px;
-          margin-bottom: 5px;
-          font-weight: bold;
-          font-size: 1.2em;
-          color: #1c2f52;
-        }
-
-        .member-description {
-          display: block;
-        }
-
-        .member-links a {
-          color: #1c2f52;
-        }
-      }
-    }
-  }
-
   .membership {
     .progress {
-      background: #fff;
+      background: #ededed;
       box-shadow: none;
+      border-radius: 0;
+      border: 1px solid #ccc;
     }
 
     .progress-bar {
@@ -566,4 +519,53 @@ section {
   color: #fff;
   font-size: 15px;
   padding: 6px 13px;
+}
+
+.members-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    margin-bottom: 20px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+
+    .member-image {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .member-details {
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - 110px);
+      margin-left: 10px;
+
+      .member-title {
+        font-family: 'F25', serif;
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #1c2f52;
+      }
+
+      .member-description {
+        display: block;
+      }
+
+      .member-links a {
+        color: #1c2f52;
+      }
+    }
+  }
 }

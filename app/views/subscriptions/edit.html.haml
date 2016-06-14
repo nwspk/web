@@ -13,6 +13,7 @@
 
 = simple_vertical_form_for(@subscription, url: subscription_path) do |f|
   = f.association :plan, collection: Plan.all_visible, label_method: :description, include_blank: false
+
   .form-group
     = f.button :submit, 'Change plan'
 

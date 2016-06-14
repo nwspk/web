@@ -1,1 +1,14 @@
-TODO
+- content_for :page_title do
+  Fellows and alumni
+
+%h2 Fellows
+
+%ul.members-list
+  - @fellows.each do |fellow|
+    = render partial: 'member', locals: { user: fellow }
+
+%h2.top-margin Alumni
+
+%ul.members-list
+  - @alumni.each do |alumnus|
+    = render partial: 'member', locals: { user: alumnus }

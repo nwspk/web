@@ -1,0 +1,6 @@
+%li
+  = link_to social_media_url(user) do
+    = image_tag profile_image_url(user), class: 'member-image'
+  .member-details
+    %span.member-title= user.name
+    %span.member-description= user.showcase_text
