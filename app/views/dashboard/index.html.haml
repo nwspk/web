@@ -23,9 +23,6 @@
           %th Email
           %td= current_user.email
         %tr
-          %th Ring size
-          %td= best_in_place current_user, :ring_size, as: :select, collection: Hash[Ring::SIZES.map { |x| [x.to_s, x.to_s] }], url: user_path(format: 'json'), place_holder: 'Click here to select your ring size'
-        %tr
           %th Tier
           - if !current_user.subscription.nil? && current_user.subscription.active?
             %td

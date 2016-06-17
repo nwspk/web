@@ -6,36 +6,24 @@
   %br/
   %small= link_to 'iCal', api_events_path
 
-%table.table-condensed.table-bordered.events-table
-  %thead
-    %tr
-      %th Date
-      %th Time
-      %th Details
-  %tbody
-    - @events.each_pair do |day, events|
-      %tr
-        %td.eventdate{ rowspan: events.size + 1 }
-          .dayofmonth= events.first.start_at.strftime('%e')
-          .dayofweek= events.first.start_at.strftime('%A')
-          .shortdate= events.first.start_at.strftime('%B, %Y')
-      - events.each do |event|
-        %tr
-          %td.eventtime
-            = event.start_at.strftime('%l:%M%P')
-            \-
-            = event.end_at.strftime('%l:%M%P')
-          %td.eventdetails
-            %a{ id: "event-#{event.id}" }/
-            .event-header
-              %h5
-                = link_to event.name, event.url
-                - unless event.public?
-                  %small (Private event)
+- @event.each do |event|
+  .row.event-table
+    %a{ id: "event-#{event.id}" }
+    .col-xs-6.col-sm-2.event-date
+      %span.event-date-day= event.start_at.strftime('%d')
+      %span.event-date-month= event.start_at.strftime('%^b')
+    .col-xs-6.col-sm-2.event-time
+      %span.eventtime= event.start_at.strftime('%l:%M%P')
+      %span.eventend= event.end_at.strftime('%l:%M%P')
+    .col-xs-12.col-sm-8.event-details
+      .event-header
+        = link_to event.name, event.url
+        - unless event.public?
+          %small (Private event)
 
-              .event-organiser= link_to event.organiser_name, event.organiser_url
+        .event-organiser= link_to event.organiser_name, event.organiser_url
 
-            .event-description= Kramdown::Document.new(event.description).to_html.html_safe
+      .event-description= Kramdown::Document.new(event.description).to_html.html_safe
 
-            - if can? :update, event
-              .event-actions= link_to 'Edit', edit_admin_event_path(event)
+      - if can? :update, event
+        .event-actions= link_to 'Edit', edit_admin_event_path(event)
