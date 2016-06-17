@@ -61,7 +61,7 @@
 }
 
 body {
-  background: image-url('bg.jpg') repeat;
+  background: white;
   background-size: 103px 103px;
   font-family: 'Libre Baskerville', serif;
   text-rendering: optimizeLegibility;
@@ -98,8 +98,9 @@ section {
   position: relative;
   display: flex;
   width: 100%;
-  padding: 20px 0 40px;
+  padding: 40px 0 40px;
   overflow: hidden;
+  color: #424242;
 
   &.no-top-padding {
     padding-top: 0px !important;
@@ -110,9 +111,13 @@ section {
   }
 
   h2 {
-    font-family: 'F25', serif;
+    font-family: 'Libre Baskerville';
     margin-bottom: 40px;
-    font-size: 26px;
+    font-size: 18px;
+    color: #1c2f52;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
 
     &.top-margin {
       margin-top: 40px;
@@ -130,52 +135,48 @@ section {
 
 .side-link {
   @include fast-transition;
-  @include v-center;
-
+  position: absolute;
+  top: 43px;
   right: 0;
   left: auto;
   width: 50px;
-  height: 45px;
+  height: 48px;
   line-height: 50px;
   display: block;
   text-align: center;
   font-size: 2em;
-  color: white;
-  background: #1c2f52;
+  color: #1c2f52;
 
   &:hover {
     text-decoration: none;
     right: -5px;
-    color: white;
+    color: #1c2f52;
   }
 }
 
 .back-link {
   @include fast-transition;
-  @include v-center;
-
-  left: 0;
+  position: absolute;
+  left: 20px;
   width: 50px;
   height: 45px;
   line-height: 50px;
   display: block;
   text-align: center;
   font-size: 2em;
-  color: white;
-  background: #1c2f52;
+  color: #1c2f52;
 
   &:hover {
     text-decoration: none;
-    left: -5px;
-    color: white;
+    left: 15px;
+    color: #1c2f52;
   }
 }
 
 .top-left-link {
   position: absolute;
   left: 0;
-  top: 40%;
-  transform: translateY(-40%);
+  @include v-center;
   -ms-transform: rotate(270deg);
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
@@ -189,14 +190,13 @@ section {
   &:hover {
     left: -2px;
     text-decoration: none;
+    color: #1c2f52;
   }
 }
 
 .top-right-link {
-  position: absolute;
+  @include v-center;
   right: 24px;
-  top: 40%;
-  transform: translateY(-40%);
   font-size: 20px;
   color: #1c2f52;
   text-decoration: none;
@@ -205,12 +205,15 @@ section {
   &:hover {
     right: 22px;
     text-decoration: none;
+    color: #1c2f52;
   }
 }
+
 .home {
   .house {
     @include slow-transition;
     margin-top: 70px;
+    margin-bottom: 40px;
     position: relative;
 
     img {
@@ -226,101 +229,114 @@ section {
 
   .intro {
     @include center;
-    padding: 0 40px 40px;
+    padding: 10px 0 70px;
 
     h4 {
-      line-height: 24px;
+      font-family: 'F25';
+      line-height: 30px;
+      font-size: 16px;
       color: #1c2f52;
+      text-align: justify;
     }
   }
 
-  .events ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  .events {
+    position: relative;
+    padding-top: 40px;
+    background: image-url('bg.jpg') repeat;
+    background-size: 200px 200px;
 
-    li {
-      &:last-child {
-        padding-bottom: 10px !important;
-      }
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
 
-      border-top: 1px solid #ccc;
-      padding: 20px 0;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      flex-wrap: wrap;
-      position: relative;
+      li {
+        &:last-child {
+          padding-bottom: 10px !important;
+        }
 
-      .event-date {
+        border-top: 1px solid #ccc;
+        padding: 20px 0;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex;
-        flex-direction: column;
-        width: 100px;
+        flex-wrap: wrap;
+        position: relative;
 
-        span {
-          display: block;
+        .event-date {
+          display: flex;
+          flex-direction: column;
           width: 100px;
-          text-align: center;
-          font-size: 20px;
 
-          &.event-date-day {
-            font-size: 50px;
-            line-height: 50px;
+          span {
+            display: block;
+            width: 100px;
+            text-align: center;
+            font-size: 20px;
+
+            &.event-date-day {
+              font-size: 50px;
+              line-height: 50px;
+            }
           }
         }
-      }
 
-      .event-details {
-        display: flex;
-        flex-direction: column;
-        width: calc(100% - 120px);
+        .event-details {
+          display: flex;
+          flex-direction: column;
+          width: calc(100% - 120px);
 
-        .event-title {
-          font-weight: bold;
-          font-size: 1.2em;
+          .event-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #1c2f52;
+            font-family: 'F25', serif;
+          }
+
+          .event-location {
+            font-style: italic;
+            color: #888;
+            margin-bottom: 10px;
+
+            .event-time {
+              font-style: normal;
+              color: #000;
+              margin-left: 6px;
+            }
+          }
+        }
+
+        .event-link a {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+          height: 20px;
           color: #1c2f52;
-          font-family: 'F25', serif;
-        }
+          font-size: 20px;
+          @include fast-transition;
 
-        .event-location {
-          font-style: italic;
-          color: #888;
-          margin-bottom: 10px;
-
-          .event-time {
-            font-style: normal;
-            color: #000;
-            margin-left: 6px;
+          &:hover {
+            text-decoration: none;
+            right: -2px;
           }
-        }
-      }
-
-      .event-link a {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        height: 20px;
-        color: #1c2f52;
-        font-size: 20px;
-        @include fast-transition;
-
-        &:hover {
-          text-decoration: none;
-          right: -2px;
         }
       }
     }
   }
 
   .membership {
+    background: image-url('bg.jpg') repeat;
+    padding-bottom: 60px;
     .progress {
-      background: #ededed;
+      background: white;
       box-shadow: none;
-      border-radius: 0;
-      border: 1px solid #ccc;
+      border-radius: 4px;
+      height: 30px;
+      margin-top: 20px;
     }
 
     .progress-bar {
@@ -331,80 +347,61 @@ section {
       width: 100%;
 
       div {
-        width: 33.33333%;
+        width: 50%;
         float: left;
 
         span {
           display: block;
           width: 100%;
 
-          &.membership-progress-upper {
-            font-size: 50px;
-            line-height: 50px;
-          }
-
-          &.membership-progress-lower {
-            text-transform: uppercase;
+          &.membership-progress {
+            font-size: 16px;
+            line-height: 16px;
           }
         }
       }
     }
+  }
+
+  .contact {
+    text-align: center;
   }
 
   .fellows {
-    .row div {
-      margin-bottom: 20px;
-
-      .thumbnail {
-        width: 100%;
-
-        img {
-          width: 100%;
-          height: auto;
-        }
-
-        margin-bottom: 10px;
-      }
-
-      .fellow-name {
-        font-family: 'F25', serif;
-        display: block;
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #1c2f52;
-      }
-
-      .fellow-description {
-        display: block;
-      }
-
-      .fellow-link a {
-        color: #1c2f52;
-      }
-    }
+    background: white;
   }
 
   .quotes {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 100px;
+    padding-bottom: 80px;
+    line-height: 30px;
 
     .carousel-inner {
       width: 66.66666667%;
+      text-align: center;
     }
 
     .carousel-control {
-      background-image: none;
-      color: #1c2f52;
-      opacity: 1;
       text-shadow: none;
+      color: #1c2f52;
+    }
+
+    span {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
     }
   }
 }
 
 .footer {
   text-align: center;
-  padding-top: 40px;
-  padding-bottom: 180px;
+  padding-bottom: 100px;
+  img {
+    display: none;
+  }
+  background: image-url('dashes.png') no-repeat center 10px #ededed;
+  background-size: 1024px auto;
 }
 
 .page {
@@ -521,45 +518,50 @@ section {
   padding: 6px 13px;
 }
 
-.members-list {
+.members-list, .fellows-list {
   list-style: none;
   padding: 0;
   margin: 0;
 
   li {
-    margin-bottom: 20px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 20px;
 
-    .member-image {
-      width: 100px;
-      height: 100px;
+    .member-image, .fellow-image {
+      position: relative;
+      width: 60px;
+      height: 60px;
       display: flex;
       flex-direction: column;
+      text-align: center;
+      img {
+        width: auto;
+        height: auto;
+        max-width: 60px;
+        max-height: 60px;
+      }
     }
 
-    .member-details {
+    .member-details, .fellow-details {
       display: flex;
       flex-direction: column;
       width: calc(100% - 110px);
       margin-left: 10px;
 
-      .member-title {
+      .member-title, .fellow-name {
         font-family: 'F25', serif;
         display: block;
         width: 100%;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 5px;
-        margin-bottom: 5px;
         font-weight: bold;
         font-size: 1.2em;
         color: #1c2f52;
       }
 
-      .member-description {
+      .member-description, .fellow-description {
         display: block;
       }
 
