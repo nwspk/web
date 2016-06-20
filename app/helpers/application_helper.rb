@@ -30,7 +30,7 @@ module ApplicationHelper
   end
 
   def top_right_link_to(path)
-    link_to fa_icon('chevron-right'), path, class: 'top-right-link'
+    link_to fa_icon('angle-double-right'), path, class: 'top-right-link'
   end
 
   def side_link_to(path)
