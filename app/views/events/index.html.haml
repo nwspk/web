@@ -9,13 +9,11 @@
 - @event.each do |event|
   .row.event-table
     %a{ id: "event-#{event.id}" }
-    .col-xs-6.col-sm-2.event-date
+    .col-xs-4.col-sm-2.event-date
       %span.event-date-day= event.start_at.strftime('%d')
       %span.event-date-month= event.start_at.strftime('%^b')
-    .col-xs-6.col-sm-2.event-time
       %span.eventtime= event.start_at.strftime('%l:%M%P')
-      %span.eventend= event.end_at.strftime('%l:%M%P')
-    .col-xs-12.col-sm-8.event-details
+    .col-xs-8.col-sm-10.event-details
       .event-header
         = link_to event.name, event.url
         - unless event.public?

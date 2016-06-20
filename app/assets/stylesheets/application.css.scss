@@ -575,6 +575,8 @@ section {
 
 .event-table {
   margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
   a {
     color: #1c2f52;
     font-weight: bold;
@@ -591,9 +593,36 @@ section {
       font-size: 20px;
 
       &.event-date-day {
-        font-size: 50px;
-        line-height: 50px;
+        font-size: 40px;
+        line-height: 40px;
+        color: #1c2f52;
       }
+
+      &.event-date-month {
+        color: #666;
+        font-size: 18px;
+      }
+
+      &.eventtime {
+        font-size: 14px;
+        margin-top: 10px;
+        color: #1c2f52;
+        font-weight: bold;
+      }
+    }
+  }
+  .event-details {
+    padding-left: 40px;
+    .event-header a:first-child {
+        display: block;
+        font-size: 20px;
+    }
+    .event-organiser a {
+      display: block;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 10px;
+      font-size: 14px !important;
     }
   }
 }
