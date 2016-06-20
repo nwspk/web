@@ -140,7 +140,8 @@ section {
   }
 
   &.flip {
-    background: #ededed;
+    background: image-url('bg.jpg') repeat #ededed;
+    background-size: 200px 200px;
   }
 
   &.no-padding {
@@ -413,8 +414,11 @@ section {
   img {
     display: none;
   }
-  background: image-url('dashes.png') no-repeat center 10px #ededed;
-  background-size: 1024px auto;
+  background-image: image-url('dashes.png'), image-url('bg.jpg');
+  background-repeat: no-repeat, repeat;
+  background-position: center center, center center;
+  background-color: #ededed;
+  background-size: 1024px auto, 200px 200px;
 }
 
 .page {
