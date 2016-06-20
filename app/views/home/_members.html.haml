@@ -2,7 +2,7 @@
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
     %h2 Recent Members
 
-    %ul.members-list
+    %ul.row.members-list
       - @members.each do |member|
         = render partial: 'member', locals: { user: member }
 
