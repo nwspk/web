@@ -170,7 +170,7 @@ section {
   line-height: 50px;
   display: block;
   text-align: center;
-  font-size: 2em;
+  font-size: 40px;
   color: #1c2f52;
 
   &:hover {
@@ -193,7 +193,6 @@ section {
   color: #1c2f52;
   @include fast-transition;
   text-transform: uppercase;
-  font-size: 40px;
 
   &:hover {
     left: -2px;
