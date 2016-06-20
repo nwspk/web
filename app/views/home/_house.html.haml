@@ -3,6 +3,6 @@
   = top_right_link_to about_path
 
   - if user_signed_in?
-    = top_left_link_to 'Dashboard', dashboard_path
+    = top_left_link_to 'Account', dashboard_path
   - else
     = top_left_link_to 'Sign in', new_user_session_path
