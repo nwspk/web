@@ -220,8 +220,8 @@ section {
   .house {
     @include slow-transition;
     margin-top: 70px;
-    margin-bottom: 40px;
     position: relative;
+    padding-bottom: 20px;
 
     img {
       max-height: 600px;
@@ -236,15 +236,9 @@ section {
 
   .intro {
     @include center;
-    padding: 10px 0 70px;
-
-    h4 {
-      font-family: 'F25';
-      line-height: 30px;
-      font-size: 16px;
-      color: #1c2f52;
-      text-align: justify;
-    }
+    padding: 10px 0 100px;
+    color: #1c2f52;
+    letter-spacing: 1px;
   }
 
   .events {
