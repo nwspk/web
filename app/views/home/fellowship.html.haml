@@ -3,7 +3,7 @@
 
 %h2 Fellows
 
-%ul.members-list
+%ul.members-list.clearfix
   - @fellows.each do |fellow|
     = render partial: 'member', locals: { user: fellow }
 
