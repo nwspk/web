@@ -585,6 +585,10 @@ section {
   }
 }
 
+.members-list {
+  margin-top: 40px
+}
+
 .event-table {
   margin-bottom: 20px;
   padding-bottom: 20px;
@@ -688,5 +692,17 @@ section {
     p {
       margin-bottom: 40px;
     }
+  }
+}
+h2.fellowship {
+  margin-top: 40px
+}
+p.fellowship {
+  width: 60vw;
+  margin: 20px auto 20px;
+  line-height: 24px;
+  a {
+    color: #1c2f52;
+    text-decoration: underline;
   }
 }
