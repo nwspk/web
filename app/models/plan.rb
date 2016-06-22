@@ -19,4 +19,9 @@ class Plan < ActiveRecord::Base
 
   scope :visible,     -> { where(visible: true).order('id asc').offset(1) }
   scope :all_visible, -> { where(visible: true).order('id asc') }
+
+  def self.total_pledged
+    # self.all.reduce(Money.new(0, 'GBP')) { |aggr, plan| aggr + plan.value * plan.subscriptions.active.count * plan.contribution }
+    Subscription.active.includes(:plan).reduce(Money.new(0, 'GBP')) { |aggr, subscription| aggr + subscription.plan.value * subscription.plan.contribution }
+  end
 end

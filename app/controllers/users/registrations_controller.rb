@@ -8,7 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @validatable = true
     @minimum_password_length = User.password_length.min
 
-    @total_pledged = Plan.all.reduce(Money.new(0, 'GBP')) { |aggr, plan| aggr + plan.value * plan.subscriptions.active.count * plan.contribution }
+    @total_pledged = Plan.total_pledged
     @total_members = User.with_subscription.count
     @goal_percent  = (@total_pledged.cents / (200000 * 100)) * 100
 

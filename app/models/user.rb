@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   scope :applicants, -> { where(role: ROLES[:applicant]) }
   scope :recent,     -> { where(role: (ROLES.values - [ROLES[:inactive], ROLES[:guest], ROLES[:applicant]])) }
 
-  scope :with_subscription, -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
+  scope :with_subscription,  -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
   scope :created_after_date, -> (date) { where('created_at > ?', date) }
 
   def facebook
