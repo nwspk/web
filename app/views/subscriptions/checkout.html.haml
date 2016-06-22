@@ -6,32 +6,11 @@
 
 - if @subscription.customer_id.blank?
   %h2 Become a member
+  %p One last step before you're a full member with a subscription! You need to checkout with Stripe.
 
-  .row
-    .col-sm-6
-      %p One last step before you're a full member with a subscription! You need to checkout with Stripe.
-      %p You can connect your social network accounts to check for discounts before checking out.
-      %hr/
-      = render partial: 'stripe'
-
-    .col-sm-6
-      %table.table.table-border
-        %tr
-          %th Twitter
-          - if current_user.twitter
-            %td= link_to "@#{current_user.twitter.username}", current_user.twitter.profile_url
-          - else
-            %td= link_to 'Connect your Twitter account', '/auth/twitter'
-        %tr
-          %th Facebook
-          - if current_user.facebook
-            %td= link_to current_user.facebook.username, current_user.facebook.profile_url
-          - else
-            %td= link_to 'Connect your Facebook account', '/auth/facebook'
-
-      = render partial: 'dashboard/friends'
 - else
   %h2 Change credit card
   %p Just click on the button below and enter your new credit card details into the Stripe form.
-  %hr/
-  = render partial: 'stripe'
+
+%hr/
+= render partial: 'stripe'

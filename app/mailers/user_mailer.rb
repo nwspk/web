@@ -18,16 +18,9 @@ class UserMailer < ApplicationMailer
       @card_num = 4242
     end
 
-    @discounted_total = @subscription.plan.value - (@user.discount / 12)
-
-    if @discounted_total.cents < 0
-      @discounted_total = Money.new(0, 'GBP')
-    end
-
     @ascii_table = Terminal::Table.new rows: [
-      ['Membership Tier:', @subscription.plan.name, positivize_zero_val(@subscription.plan.value)],
-      ['Maven Discount:', "#{@num_connections} connections", positivize_zero_val(@user.discount / -12)],
-      ['Total:', '', positivize_zero_val(@discounted_total)]
+      ['Membership Tier:', (@subscription.plan.try(:name) || 'None'), @subscription.plan.try(:value)],
+      ['Total:', '', @subscription.plan.try(:value)]
     ]
 
     @ascii_events_table = Terminal::Table.new headings: ['Day', 'Time', 'Event'], rows: @upcoming_events.map { |e| [e.start_at.strftime('%e %A %B, %Y'), e.start_at.strftime('%l:%M%P'), e.name] }

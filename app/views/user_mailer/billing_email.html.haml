@@ -32,15 +32,10 @@
       - unless u.showcase_text.blank?
         = ", #{u.showcase_text}"
 
-%p{ style: 'margin-bottom: 36px' }
+%p
   %a{ href: graphs_full_url } See all members
 
-%p
-  %u Billing Invoice
-
-%p
-  For each other member you connect to on Twitter or Facebook, your membership is discounted by £1 / yr.
-  %br/
+%p{ style: 'margin-bottom: 36px' }
   You've made #{@num_new_connections} new connections this month, and there are still #{@num_users - @num_connections} members you haven't connected to yet.
   %br/
   - if @user.facebook.try(:expired?) || @user.twitter.try(:expired?)
@@ -50,21 +45,20 @@
     To make sure this is up to date,
     %a{href: check_friends_connections_url} refresh your social accounts.
 
+%p
+  %u Billing Invoice
+
 %table{ style: 'border-collapse: collapse; font: 14px/18px monospace' }
   %tbody
     %tr
       %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Membership Tier:
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @subscription.plan.name
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= positivize_zero_val(@subscription.plan.value)
-    %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Maven Discount:
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= pluralize(@num_connections, 'connection')
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= positivize_zero_val(@user.discount / -12)
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @subscription.plan.try(:name) || 'None'
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @subscription.plan.try(:value)
   %tfoot
     %tr
       %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'} Total:
       %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}= positivize_zero_val(@discounted_total)
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}= @subscription.plan.try(:value)
 
 %p{ style: 'margin-bottom: 36px' }
   You will be billed with your card ending in #{@card_num} (
