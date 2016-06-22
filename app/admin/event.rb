@@ -10,6 +10,8 @@ ActiveAdmin.register Event do
   scope :proposed
   scope :confirmed
   scope :rejected
+  scope :upcoming
+  scope :archive
 
   index do
     selectable_column

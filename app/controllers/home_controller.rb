@@ -18,4 +18,7 @@ class HomeController < ApplicationController
 
   def about
   end
+
+  def hire
+  end
 end

@@ -4,18 +4,6 @@
 
     %p More members = better facilities, more events
 
-    .progress
-      .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => @goal_percent, :role => "progressbar", :style => "width: #{@goal_percent}%;"}
-
-    .progress-details
-      .progress-left
-        %span.membership-progress
-          #{@total_members}  members
-      /.progress-center
-      /  %span.membership-progress-upper= @total_pledged.format
-      /  %span.membership-progress-lower pledged
-      .progress-right
-        %span.membership-progress
-          #{@goal_percent}% independent
+    = render partial: 'progress'
 
   = side_link_to new_user_registration_path

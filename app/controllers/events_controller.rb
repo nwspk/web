@@ -1,18 +1,13 @@
 class EventsController < ApplicationController
   layout 'subpage'
-  before_action :set_events, only: :index
 
   def index
-    @event = Event.public_and_confirmed.upcoming
-  end
-
-  private
-
-  def set_events
     if user_signed_in? && current_user.admin_or_staff?
-      @event = Event.confirmed.upcoming
+      @events      = Event.confirmed.upcoming
+      @past_events = Event.confirmed.archive
     else
-      @event = Event.public_and_confirmed.upcoming
+      @events      = Event.public_and_confirmed.upcoming
+      @past_events = Event.public_and_confirmed.archive
     end
   end
 end

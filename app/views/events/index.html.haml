@@ -4,27 +4,17 @@
 %h2
   Events
   %br/
-  %small= link_to 'Subscribe with iCal', api_events_path 
-  \- 
+  %small= link_to 'Subscribe with iCal', api_events_path
+  \-
   %small
     = link_to 'Propose an event', 'mailto:ed@nwspk.com?subject=Newspeak%20House%20Event%20Proposal&body=Name:%20%0D%0ADate:%20%0D%0ATime:%20%0D%0AHow%20many%20people:%20%0D%0ADescription:'
 
-- @event.each do |event|
-  .row.event-table
-    %a{ id: "event-#{event.id}" }
-    .col-xs-4.col-sm-2.event-date
-      %span.event-date-day= event.start_at.strftime('%d')
-      %span.event-date-month= event.start_at.strftime('%^b')
-      %span.eventtime= event.start_at.strftime('%l:%M%P')
-    .col-xs-8.col-sm-10.event-details
-      .event-header
-        = link_to event.name, event.url
-        - unless event.public?
-          %small (Private event)
+- @events.each do |event|
+  = render partial: 'row', locals: { event: event }
 
-        .event-organiser= link_to event.organiser_name, event.organiser_url
+%hr/
 
-      .event-description= Kramdown::Document.new(event.description).to_html.html_safe
+%h2 Event archive
 
-      - if can? :update, event
-        .event-actions= link_to 'Edit', edit_admin_event_path(event)
+- @past_events.each do |event|
+  = render partial: 'row', locals: { event: event }
