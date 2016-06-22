@@ -10,6 +10,8 @@ module HomeHelper
     end
 
     client.user.profile_image_uri_https(:original)
+  rescue Twitter::Error
+    return gravatar_url(user.email)
   end
 
   def gravatar_url(email)
