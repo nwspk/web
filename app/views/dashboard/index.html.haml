@@ -23,14 +23,14 @@
           %th Email
           %td= best_in_place current_user, :email, as: :input, url: user_path(format: 'json')
         %tr
-          %th Tier
+          %th Subscription
           - if !current_user.subscription.nil? && current_user.subscription.active?
             %td
               = current_user.subscription.plan.name
               = link_to 'Change plan', edit_subscription_path
           - elsif current_user.subscription.nil?
             %td
-              No subscription
+              None
           - else
             %td
               Inactive
