@@ -8,7 +8,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     @total_pledged = Plan.total_pledged
     @total_members = User.with_subscription.count
-    @goal_percent  = (@total_pledged.cents / (200000 * 100)) * 100
 
     respond_with self.resource
   end

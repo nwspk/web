@@ -8,7 +8,6 @@ class HomeController < ApplicationController
 
     @total_pledged = Plan.total_pledged
     @total_members = User.with_subscription.count
-    @goal_percent  = (@total_pledged.cents / (200000 * 100)) * 100
   end
 
   def fellowship

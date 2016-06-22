@@ -1,6 +1,6 @@
 .membership-progress
   .progress
-    .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => @goal_percent, :role => "progressbar", :style => "width: #{@goal_percent}%;"}
+    .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => goal_percent(@total_pledged), :role => "progressbar", :style => "width: #{goal_percent(@total_pledged)}%;"}
 
   .progress-details
     .progress-left
@@ -11,4 +11,4 @@
     /  %span.membership-progress-lower pledged
     .progress-right
       %span.membership-progress
-        #{@goal_percent}% independent
+        #{goal_percent(@total_pledged)}% independent
