@@ -1,3 +1,5 @@
+require 'open-uri'
+
 module HomeHelper
   def profile_image_url(user)
     return gravatar_url(user.email) if user.twitter.nil?
@@ -15,7 +17,7 @@ module HomeHelper
   end
 
   def gravatar_url(email)
-    ["http://gravatar.com/avatar/", Digest::MD5.hexdigest(email), "?s=250"].join
+    ["https://gravatar.com/avatar/", Digest::MD5.hexdigest(email), "?s=250&d=", URI::encode(asset_url('default-face.jpg'))].join
   end
 
   def social_media_url(user)
