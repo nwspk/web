@@ -43,5 +43,5 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
-  #get '*unmatched_route', to: 'application#route_not_found'
+  get '*unmatched_route', to: 'application#route_not_found'
 end
