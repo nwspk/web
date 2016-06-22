@@ -6,7 +6,7 @@
 - if @upcoming_events.empty?
   %p{ style: 'margin-bottom: 36px' } No upcoming events currently
 - else
-  %table{ style: 'border-collapse: collapse; font: 14px/18px monospace; margin-bottom: 36px' }
+  %table{ style: 'border-collapse: collapse; font: 14px/18px monospace' }
     %thead
       %tr
         %th{ style: 'padding-right: 18px; font: 14px/18px monospace; border-bottom: 1px solid #000' } Day
@@ -18,6 +18,9 @@
           %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= e.start_at.strftime('%e %A %B, %Y')
           %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= e.start_at.strftime('%l:%M%P')
           %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= link_to e.name, events_url(anchor: "event-#{e.id}")
+
+%p{ style: 'margin-bottom: 36px' }
+  %a{ href: api_events_url } Subscribe via iCal
 
 %p
   %u New Members This Month
