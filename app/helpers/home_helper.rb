@@ -29,6 +29,6 @@ module HomeHelper
   end
 
   def goal_percent(pledge)
-    (pledge / base_plan_rate_raw) * 100
+    (pledge / (1000 * base_plan_rate_raw)) * 100
   end
 end
