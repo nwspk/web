@@ -26,7 +26,7 @@
 
   .row
     .col-sm-6
-      = f.input :sponsor, collection: Plan.visible, label: false
+      = f.input :sponsor, collection: Plan.visible, label: false, prompt: 'No additional memberships'
     .col-sm-6
       = f.input :applicant, as: :boolean, label: 'Apply for a sponsored membership'
 
