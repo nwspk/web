@@ -73,7 +73,7 @@ class UserGraph::Graph
 
   def plan_to_size(user)
     return 10 if (user.subscription.nil? || !user.subscription.active? || user.subscription.plan.nil?)
-    user.subscription.plan.value.cents + 100
+    user.subscription.plan.value + 100
   end
 
   def plan_type(user)

@@ -19,8 +19,8 @@ class UserMailer < ApplicationMailer
     end
 
     @ascii_table = Terminal::Table.new rows: [
-      ['Membership Tier:', (@subscription.plan.try(:name) || 'None'), @subscription.plan.try(:value)],
-      ['Total:', '', @subscription.plan.try(:value)]
+      ['Membership Tier:', (@subscription.plan.try(:name) || 'None'), @subscription.plan.try(:money_value)],
+      ['Total:', '', @subscription.plan.try(:money_value)]
     ]
 
     @ascii_events_table = Terminal::Table.new headings: ['Day', 'Time', 'Event'], rows: @upcoming_events.map { |e| [e.start_at.strftime('%e %A %B, %Y'), e.start_at.strftime('%l:%M%P'), e.name] }

@@ -53,12 +53,12 @@
     %tr
       %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Membership Tier:
       %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @subscription.plan.try(:name) || 'None'
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @subscription.plan.try(:value)
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @subscription.plan.try(:money_value)
   %tfoot
     %tr
       %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'} Total:
       %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}= @subscription.plan.try(:value)
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}= @subscription.plan.try(:money_value)
 
 %p{ style: 'margin-bottom: 36px' }
   You will be billed with your card ending in #{@card_num} (

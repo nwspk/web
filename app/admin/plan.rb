@@ -8,7 +8,7 @@ ActiveAdmin.register Plan do
   index do
     column :name, sortable: false
     column :stripe_id
-    column(:value, sortable: :value) { |p| p.value.format }
+    column(:value, sortable: :value) { |p| p.money_value.format }
     column(:subscriptions) { |p| p.subscriptions.count }
     column :visible
 

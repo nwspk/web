@@ -4,6 +4,6 @@ module UsersHelper
   end
 
   def base_plan_rate
-    Plan.first.nil? ? Money.new(0, 'GBP').format : Plan.first.value.format
+    Plan.first.nil? ? Money.new(0, 'GBP').format : Plan.first.money_value.format
   end
 end
