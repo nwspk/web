@@ -12,6 +12,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:showcase_text, :ring_size)
+    params.require(:user).permit(:showcase_text, :ring_size, :name, :email)
   end
 end
