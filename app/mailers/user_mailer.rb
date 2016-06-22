@@ -23,8 +23,6 @@ class UserMailer < ApplicationMailer
       ['Total:', '', @subscription.plan.try(:money_value)]
     ]
 
-    @ascii_events_table = Terminal::Table.new headings: ['Day', 'Time', 'Event'], rows: @upcoming_events.map { |e| [e.start_at.strftime('%e %A %B, %Y'), e.start_at.strftime('%l:%M%P'), e.name] }
-
     mail to: user.email, subject: "This month at Newspeak House"
   end
 

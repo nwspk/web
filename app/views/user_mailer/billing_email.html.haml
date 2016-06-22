@@ -6,18 +6,15 @@
 - if @upcoming_events.empty?
   %p{ style: 'margin-bottom: 36px' } No upcoming events currently
 - else
-  %table{ style: 'border-collapse: collapse; font: 14px/18px monospace' }
-    %thead
-      %tr
-        %th{ style: 'padding-right: 18px; font: 14px/18px monospace; border-bottom: 1px solid #000' } Day
-        %th{ style: 'padding-right: 18px; font: 14px/18px monospace; border-bottom: 1px solid #000' } Time
-        %th{ style: 'padding-right: 18px; font: 14px/18px monospace; border-bottom: 1px solid #000' } Event
-    %tbody
-      - @upcoming_events.each do |e|
-        %tr
-          %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= e.start_at.strftime('%e %A %B, %Y')
-          %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= e.start_at.strftime('%l:%M%P')
-          %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= link_to e.name, events_url(anchor: "event-#{e.id}")
+  %ul{ style: 'padding-left: 18px' }
+    - @upcoming_events.each do |e|
+      %li
+        %strong= e.start_at.strftime('%e %A %B, %Y')
+        %br/
+        = [e.start_at.strftime('%H:%M'), e.end_at.strftime('%H:%M')].join(' - ')
+        = "in #{e.location}:"
+        %strong= link_to e.name, events_url(anchor: "event-#{e.id}")
+        = Kramdown::Document.new(e.short_description).to_html.html_safe
 
 %p{ style: 'margin-bottom: 36px' }
   %a{ href: api_events_url } Subscribe via iCal

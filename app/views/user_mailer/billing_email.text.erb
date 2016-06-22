@@ -4,7 +4,12 @@ Hello <%= @user.name %>,
 Upcoming events
 ===============
 
-<%= @ascii_events_table %>
+<% @upcoming_events.each do |e| %>
+<%= e.start_at.strftime('%e %A %B, %Y') %>
+<%= [e.start_at.strftime('%H:%M'), e.end_at.strftime('%H:%M')].join(' - ') %> in <%= e.location %>: <%= e.name %>
+<%= e.short_description %>
+
+<% end %>
 
 For more details, see: <%= events_url %>
 Subscribe via iCal: <%= api_events_url %>
