@@ -9,7 +9,7 @@
             = link_to social_media_url(fellow), class: 'fellow-image' do
               = image_tag profile_image_url(fellow)
             .fellow-details
-              %span.fellow-name= fellow.name
+              %span.fellow-name= link_to fellow.name, social_media_url(fellow)
               %span.fellow-description= fellow.showcase_text
 
   = side_link_to fellowship_path

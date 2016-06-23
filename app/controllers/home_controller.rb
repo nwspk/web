@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   def index
     @events  = Event.public_and_confirmed.upcoming.limit(3)
     @members = User.recent.limit(4)
-    @fellows = User.fellows.limit(8)
+    @fellows = User.fellows
 
     @total_pledged = Plan.total_pledged
     @total_members = User.with_subscription.count

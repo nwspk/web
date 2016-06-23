@@ -1,5 +1,5 @@
 ActiveAdmin.register Event do
-  permit_params :name, :start_at, :end_at, :url, :location, :organiser_name, :organiser_email, :organiser_url, :description, :notes, :public, :status, :value
+  permit_params :name, :start_at, :end_at, :url, :location, :organiser_name, :organiser_email, :organiser_url, :description, :short_description, :notes, :public, :status, :value
 
   filter :start_at
   filter :location
