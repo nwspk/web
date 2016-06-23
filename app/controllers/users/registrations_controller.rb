@@ -1,13 +1,11 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :require_no_authentication, only: :new
+  before_action :set_progress, only: [:new, :create]
 
   def new
     build_resource
     @validatable = true
     @minimum_password_length = User.password_length.min
-
-    @total_pledged = Plan.total_pledged
-    @total_members = User.with_subscription.count
 
     respond_with self.resource
   end
@@ -51,5 +49,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def account_update_params
     params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :ring_size)
+  end
+
+  def set_progress
+    @total_pledged = Plan.total_pledged
+    @total_members = User.with_subscription.count
   end
 end
