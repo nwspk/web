@@ -36,7 +36,7 @@ ActiveAdmin.register User do
     column :email
     column(:role) { |u| status_tag u.role }
     column :showcase
-    column :url
+    column :showcase_text
     column(:subscription) { |u| status_tag u.subscription.try(:plan_name), (u.subscription.try(:active?) ? :active : :inactive) }
 
     actions
