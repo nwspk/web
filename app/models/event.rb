@@ -9,14 +9,4 @@ class Event < ActiveRecord::Base
   def money_value
     Money.new(self.value, 'GBP')
   end
-
-  after_initialize :preset_datetimes
-
-  private
-
-  def preset_datetimes
-    today = Time.now.utc.to_date
-    self.start_at = Time.new(today.year, today.month, today.day, 19, 00, 00, 00)
-    self.end_at   = Time.new(today.year, today.month, today.day, 22, 00, 00, 00)
-  end
 end

@@ -60,6 +60,12 @@ ActiveAdmin.register Event do
   form do |f|
     semantic_errors *f.object.errors.keys
 
+    if f.object.new_record?
+      today = Time.now.utc.to_date
+      f.object.start_at = Time.new(today.year, today.month, today.day, 19, 00, 00, 00)
+      f.object.end_at   = Time.new(today.year, today.month, today.day, 22, 00, 00, 00)
+    end
+
     inputs 'Event information' do
       input :name
       input :location, input_html: { rows: 2 }
