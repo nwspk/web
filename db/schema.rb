@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160531161404) do
+ActiveRecord::Schema.define(version: 20160625165924) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20160531161404) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  add_index "addresses", ["user_id"], name: "index_addresses_on_user_id"
 
   create_table "connections", force: :cascade do |t|
     t.integer  "user_id"
@@ -84,6 +86,9 @@ ActiveRecord::Schema.define(version: 20160531161404) do
     t.text     "short_description", default: "", null: false
   end
 
+  add_index "events", ["end_at"], name: "index_events_on_end_at"
+  add_index "events", ["start_at"], name: "index_events_on_start_at"
+
   create_table "friend_edges", force: :cascade do |t|
     t.integer  "from_id",                 null: false
     t.integer  "to_id",                   null: false
@@ -105,6 +110,7 @@ ActiveRecord::Schema.define(version: 20160531161404) do
     t.integer  "plan_id"
   end
 
+  add_index "payments", ["plan_id"], name: "index_payments_on_plan_id"
   add_index "payments", ["user_id"], name: "index_payments_on_user_id"
 
   create_table "plans", force: :cascade do |t|
@@ -147,6 +153,7 @@ ActiveRecord::Schema.define(version: 20160531161404) do
   end
 
   add_index "subscriptions", ["plan_id"], name: "index_subscriptions_on_plan_id"
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                   default: "",    null: false

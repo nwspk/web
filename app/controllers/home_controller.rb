@@ -3,16 +3,16 @@ class HomeController < ApplicationController
 
   def index
     @events  = Event.public_and_confirmed.upcoming.limit(3)
-    @members = User.recent.limit(4)
-    @fellows = User.fellows
+    @members = User.recent.limit(4).includes(:twitter, :facebook)
+    @fellows = User.fellows.includes(:twitter, :facebook)
 
     @total_pledged = Plan.total_pledged
     @total_members = User.with_subscription.count
   end
 
   def fellowship
-    @fellows = User.fellows
-    @alumni  = User.alumni
+    @fellows = User.fellows.includes(:twitter, :facebook)
+    @alumni  = User.alumni.includes(:twitter, :facebook)
   end
 
   def about

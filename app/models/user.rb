@@ -29,6 +29,9 @@ class User < ActiveRecord::Base
   has_many :friends, -> { includes(:to) }, class_name: 'FriendEdge', foreign_key: 'from_id', dependent: :destroy
   has_many :followers, class_name: 'FriendEdge', foreign_key: 'to_id', dependent: :destroy
 
+  has_one :twitter,  -> { where(provider: 'twitter') },  class_name: 'Connection'
+  has_one :facebook, -> { where(provider: 'facebook') }, class_name: 'Connection'
+
   accepts_nested_attributes_for :subscription
 
   before_validation :set_default_role
@@ -47,14 +50,6 @@ class User < ActiveRecord::Base
 
   scope :with_subscription,  -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
   scope :created_after_date, -> (date) { where('created_at > ?', date) }
-
-  def facebook
-    @facebook_cache ||= self.connections.find_by(provider: 'facebook')
-  end
-
-  def twitter
-    @twitter_cache ||= self.connections.find_by(provider: 'twitter')
-  end
 
   def admin?
     self.role == ROLES[:admin]
