@@ -64,6 +64,7 @@ end
 group :production do
   gem 'pg'
   gem 'rails_12factor'
+  gem 'lograge'
 end
 
 ruby "2.2.4"
