@@ -1,6 +1,6 @@
 %section.flip.events#events
   .col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
-    %h2 Events
+    %h2= link_to 'Events', events_path
 
     - if @events.empty?
       %p No upcoming events currently

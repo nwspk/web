@@ -246,6 +246,8 @@ section {
   .intro {
     @include center;
     padding: 10px 0 100px;
+    padding-left: 10px;
+    padding-right: 10px;
     color: #1c2f52;
     letter-spacing: 1px;
     font-family: 'F25';
@@ -345,7 +347,8 @@ section {
 
   .contact {
     text-align: center;
-    a {
+
+    p a {
       color: #1c2f52;
       text-decoration: underline;
     }
@@ -359,6 +362,7 @@ section {
     padding-top: 100px;
     padding-bottom: 80px;
     line-height: 30px;
+    min-height: 300px;
 
     .carousel-inner {
       width: 66.66666667%;
@@ -719,5 +723,16 @@ p.fellowship {
   a {
     color: #1c2f52;
     text-decoration: underline;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .blog {
+    width: 100%;
+
+    .blog-content {
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
 }
