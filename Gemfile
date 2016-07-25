@@ -20,6 +20,8 @@ gem 'money'
 gem 'chronic'
 gem 'activeadmin', '~> 1.0.0.pre1'
 gem 'cancancan', '~> 1.10'
+gem 'ruby-progressbar'
+gem 'parallel'
 
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'

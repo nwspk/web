@@ -1,24 +1,16 @@
 desc "Refresh friends for everyone"
 task :refresh_friends => :environment do
-  puts "Refreshing friends..."
+  users = User.where(id: Connection.pluck(:user_id))
 
-  users   = User.where(id: Connection.pluck(:user_id))
-  backlog = users.to_a
-
-  while backlog.size > 0
-    u = backlog.pop
-
+  Parallel.each(users.to_a, progress: 'Fetching connections', in_threads: 4) do |u|
     begin
-      service = CheckFriendsService.new
-      service.call(u)
-    rescue Koala::Facebook::AuthenticationError => e
-      puts "Could not authenticate with facebook for #{u.name}: #{e}"
-    rescue Twitter::Error::Unauthorized => e
-      puts "Could not authenticate with twitter for #{u.name}: #{e}"
+      ActiveRecord::Base.connection_pool.with_connection do
+        CheckFriendsService.new.call(u)
+      end
+    rescue Koala::Facebook::AuthenticationError, Twitter::Error::Unauthorized
+      #
     end
   end
-
-  puts "Done."
 end
 
 desc "Check for due staff reminders and send them"
