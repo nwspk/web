@@ -92,4 +92,6 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'www.nwspk.com' }
 
   config.lograge.enabled = true
+
+  config.active_record.logger.level = 1
 end
