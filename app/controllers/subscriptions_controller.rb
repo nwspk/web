@@ -14,7 +14,7 @@ class SubscriptionsController < ApplicationController
   def update
     new_plan_id = params[:subscription][:plan_id] if params[:subscription]
 
-    if @subscription.plan_id != new_plan_id && Plan.exists?(new_plan_id)
+    if @subscription.plan_id != new_plan_id && Plan.exists?(new_plan_id.to_i)
       service = ChangePlanService.new
       service.call(@subscription, new_plan_id)
 
