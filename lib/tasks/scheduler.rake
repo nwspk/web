@@ -13,6 +13,8 @@ task :refresh_friends => :environment do
       service.call(u)
     rescue Koala::Facebook::AuthenticationError => e
       puts "Could not authenticate with facebook for #{u.name}: #{e}"
+    rescue Twitter::Error::Unauthorized => e
+      puts "Could not authenticate with twitter for #{u.name}: #{e}"
     end
   end
 
