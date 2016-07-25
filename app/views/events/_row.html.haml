@@ -3,12 +3,17 @@
   .col-xs-4.col-sm-2.event-date
     %span.event-date-day= event.start_at.strftime('%d')
     %span.event-date-month= event.start_at.strftime('%^b')
-    %span.eventtime= event.start_at.strftime('%l:%M%P')
+    %span.eventtime
+      = event.start_at.strftime('%l:%M%P')
+      \-
+      = event.end_at.strftime('%l:%M%P')
   .col-xs-8.col-sm-10.event-details
     .event-header
       = link_to event.name, event.url
-      - unless event.public?
-        %small (Private event)
+      %small
+        = event.location
+        - unless event.public?
+          (Private event)
 
       .event-organiser= link_to event.organiser_name, event.organiser_url
 
