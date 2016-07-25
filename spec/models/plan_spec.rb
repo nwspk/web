@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe Plan, type: :model do
   let(:plan) { Fabricate(:plan, value: 1000) }
 
-  describe '#value' do
+  describe '#money_value' do
     it 'returns an instance of Money' do
-      expect(plan.value).to be_instance_of Money
+      expect(plan.money_value).to be_instance_of Money
     end
   end
 
@@ -21,7 +21,7 @@ RSpec.describe Plan, type: :model do
     end
 
     it 'returns the plan value minus user discount' do
-      expect(plan.value_with_discount(user).cents).to eq(plan.value.cents - (Money.new(500, 'GBP')/12).cents)
+      expect(plan.value_with_discount(user).cents).to eq(plan.money_value.cents - (Money.new(500, 'GBP')/12).cents)
     end
 
     it 'does not return a value less than 0' do

@@ -14,7 +14,7 @@ RSpec.describe GraphsController, type: :controller do
 
   describe "GET #friends" do
     before do
-      sign_in :user, Fabricate(:user)
+      sign_in Fabricate(:user), scope: :user
       get :friends
     end
 
@@ -25,7 +25,7 @@ RSpec.describe GraphsController, type: :controller do
 
   describe "GET #strangers" do
     before do
-      sign_in :user, Fabricate(:user)
+      sign_in Fabricate(:user), scope: :user
       get :strangers
     end
 

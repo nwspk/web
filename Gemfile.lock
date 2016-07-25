@@ -314,7 +314,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rr (1.2.0)
+    rr (1.1.2)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -465,7 +465,7 @@ DEPENDENCIES
   rails (= 4.2.5.1)
   rails_12factor
   resque (~> 1.22.0)
-  rr
+  rr (= 1.1.2)
   rspec-rails
   rubocop
   ruby-progressbar

@@ -57,7 +57,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rr', require: false
+  gem 'rr', '1.1.2', require: false
   gem 'stripe-ruby-mock', '~> 2.1.1', :require => 'stripe_mock'
   gem 'timecop'
   gem 'simplecov', require: false

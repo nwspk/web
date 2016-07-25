@@ -4,7 +4,7 @@ RSpec.describe DashboardController, type: :controller do
   let(:user) { Fabricate(:user) }
 
   before do
-    sign_in :user, user
+    sign_in user, scope: :user
   end
 
   describe "GET #index" do

@@ -4,7 +4,7 @@ RSpec.describe SubscriptionsController, type: :controller do
   let(:user) { Fabricate(:subscription).user }
 
   before do
-    sign_in :user, user
+    sign_in user, scope: :user
   end
 
   describe "GET #checkout" do
@@ -19,11 +19,11 @@ RSpec.describe SubscriptionsController, type: :controller do
 
     before do
       Stripe::Plan.create(
-        amount: plan.value.cents,
+        amount: plan.money_value.cents,
         name: plan.name,
         id: plan.stripe_id,
         interval: 'month',
-        currency: plan.value.currency.iso_code
+        currency: plan.money_value.currency.iso_code
       )
 
       user.build_subscription(plan: plan).save

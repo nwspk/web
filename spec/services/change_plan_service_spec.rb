@@ -17,11 +17,11 @@ RSpec.describe ChangePlanService, type: :model do
 
     [plan1, plan2].each do |plan|
       Stripe::Plan.create(
-        amount: plan.value.cents,
+        amount: plan.money_value.cents,
         name: plan.name,
         id: plan.stripe_id,
         interval: 'month',
-        currency: plan.value.currency.iso_code
+        currency: plan.money_value.currency.iso_code
       )
     end
   end
