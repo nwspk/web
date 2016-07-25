@@ -93,5 +93,5 @@ Rails.application.configure do
 
   config.lograge.enabled = true
 
-  config.active_record.logger.level = 1
+  config.active_record.logger = nil
 end
