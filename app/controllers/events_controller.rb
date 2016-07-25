@@ -9,5 +9,13 @@ class EventsController < ApplicationController
       @events      = Event.public_and_confirmed.upcoming
       @past_events = Event.public_and_confirmed.archive
     end
+
+    if params[:id]
+      @selected_event = @events.where(id: params[:id].to_i).take
+    end
+
+    if @selected_event.nil?
+      @selected_event = @events.first
+    end
   end
 end
