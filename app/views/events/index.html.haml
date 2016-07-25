@@ -4,7 +4,7 @@
 %h2
   Events
   %br/
-  %small= link_to 'Subscribe with iCal', api_events_path
+  %small= link_to 'Subscribe with iCal', api_events_url(protocol: 'webcal', format: :ics, only_path: false)
   \-
   %small
     = link_to 'Propose an event', 'mailto:ed@nwspk.com?subject=Newspeak%20House%20Event%20Proposal&body=Name:%20%0D%0ADate:%20%0D%0ATime:%20%0D%0AHow%20many%20people:%20%0D%0ADescription:'

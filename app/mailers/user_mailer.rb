@@ -4,7 +4,7 @@ class UserMailer < ApplicationMailer
 
   def billing_email(user, time = Time.now)
     @user                = user
-    @new_users           = User.created_after_date(time - 30.days)
+    @new_users           = User.recent.created_after_date(time - 30.days)
     @num_users           = User.count
     @subscription        = user.subscription
     @num_connections     = @user.friends.count('distinct to_id')
