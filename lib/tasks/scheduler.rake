@@ -15,10 +15,9 @@ end
 
 desc "Check for due staff reminders and send them"
 task :remind_staff => :environment do
-  puts "Reminding staff..."
-
-  s = ProcessStaffRemindersService.new
-  s.call
-
-  puts "Done."
+  Parallel.each(StaffReminder.all.to_a, progress: 'Reminding staff', in_threads: 4) do |r|
+    next unless r.due?
+    m = r.pop!
+    AdminMailer.staff_reminder_email(r, m).deliver_later unless m.nil?
+  end
 end
