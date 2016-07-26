@@ -39,7 +39,7 @@ class UserGraph::Graph
 
   def to_gdf(options = {})
     str = "nodedef> name VARCHAR, label VARCHAR, plan_type VARCHAR, size INT, twitter_url VARCHAR, facebook_url VARCHAR\n"
-    @nodes.each { |n| str << "#{n.id}, #{n.name}, #{plan_type(n)}, #{plan_to_size(n)}, #{n.twitter.profile_url}, #{n.facebook.profile_url}\n"}
+    @nodes.each { |n| str << "#{n.id}, #{n.name}, #{plan_type(n)}, #{plan_to_size(n)}, #{n.twitter.try(:profile_url)}, #{n.facebook.try(:profile_url)}\n"}
     str << "edgedef> user VARCHAR, friend VARCHAR\n"
     @edges.each { |e| str << "#{e[0]}, #{e[1]}\n"}
     str

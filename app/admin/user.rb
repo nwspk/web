@@ -18,13 +18,15 @@ ActiveAdmin.register User do
   scope :inactive
   scope :applicants
 
-  sidebar "User Details", only: [:show, :edit] do
+  sidebar "Extra User Details", only: [:show, :edit] do
     ul do
-      li link_to "Rings",    admin_user_rings_path(user)
+      li(link_to("Facebook", user.facebook.profile_url)) unless user.facebook.nil?
+      li(link_to("Twitter", user.twitter.profile_url)) unless user.twitter.nil?
+      li(link_to("Rings", admin_user_rings_path(user)))
       li(link_to("Subscription", admin_subscription_path(user.subscription))) unless user.subscription.nil?
 
       user.friends.each do |f|
-        li link_to f.to.name, admin_user_path(f.to)
+        li(link_to(f.to.name, admin_user_path(f.to)))
       end
     end
   end
@@ -40,6 +42,21 @@ ActiveAdmin.register User do
     column(:subscription) { |u| status_tag u.subscription.try(:plan_name), (u.subscription.try(:active?) ? :active : :inactive) }
 
     actions
+  end
+
+  show do
+    attributes_table do
+      row :name
+      row :email
+      row :created_at
+      row(:role) { |u| status_tag u.role }
+      row :showcase
+      row :url
+      row :showcase_text
+      row :application_text
+      row :ring_size
+      row(:subscription) { |u| status_tag u.subscription.try(:plan_name), (u.subscription.try(:active?) ? :active : :inactive) }
+    end
   end
 
   controller do
