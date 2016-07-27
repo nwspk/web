@@ -282,6 +282,11 @@ section {
           flex-direction: column;
           width: 100px;
 
+          a {
+            text-decoration: none;
+            color: inherit;
+          }
+
           span {
             display: block;
             width: 100px;
@@ -610,12 +615,15 @@ section {
 
 .event-table {
   margin-bottom: 20px;
+  padding-top: 53px;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
+
   a {
     color: #1c2f52;
     font-weight: bold;
   }
+
   .event-date {
 
 

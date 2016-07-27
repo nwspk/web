@@ -1,5 +1,4 @@
-.row.event-table
-  %a{ id: "event-#{event.id}" }
+.row.event-table{ id: "event-#{event.id}" }
   .col-xs-4.col-sm-2.event-date
     %span.event-date-day= event.start_at.strftime('%d')
     %span.event-date-month= event.start_at.strftime('%^b')

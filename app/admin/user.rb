@@ -8,6 +8,8 @@ ActiveAdmin.register User do
   filter :rings_uid_matches, as: :string, label: "Ring UID"
 
   scope :all
+  scope :with_rings
+  scope :without_rings
   scope :with_subscription
   scope :fellows
   scope :alumni
@@ -17,6 +19,12 @@ ActiveAdmin.register User do
   scope :founders
   scope :inactive
   scope :applicants
+
+  controller do
+    def scoped_collection
+      super.with_last_ring
+    end
+  end
 
   sidebar "Extra User Details", only: [:show, :edit] do
     ul do
@@ -40,6 +48,8 @@ ActiveAdmin.register User do
     column :showcase
     column :showcase_text
     column(:subscription) { |u| status_tag u.subscription.try(:plan_name), (u.subscription.try(:active?) ? :active : :inactive) }
+    column('Last ring', sortable: :last_ring_created_at) { |u| u.last_ring_created_at }
+    column(:social) { |u| [:twitter, :facebook].map { |n| [n, u.send(n).try(:profile_url)] }.keep_if { |t| !t.last.nil? }.map { |t| link_to(t.first.to_s.capitalize, t.last) }.join(' ').html_safe }
 
     actions
   end

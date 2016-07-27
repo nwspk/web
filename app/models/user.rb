@@ -50,8 +50,9 @@ class User < ActiveRecord::Base
 
   scope :with_subscription,  -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
   scope :created_after_date, -> (date) { where('created_at > ?', date) }
-  scope :with_rings,         -> { select('users.*, (SELECT created_at FROM rings WHERE user_id = users.id ORDER BY created_at desc LIMIT 1) AS last_ring_created_at').joins('LEFT OUTER JOIN rings ON rings.user_id = users.id ').group('users.id').having('count(rings.id) > 0') }
-  scope :without_rings,      -> { select('users.*').joins('LEFT OUTER JOIN rings ON rings.user_id = users.id ').group('users.id').having('count(rings.id) = 0') }
+  scope :with_last_ring,     -> { select('users.*, (SELECT created_at FROM rings WHERE user_id = users.id ORDER BY created_at desc LIMIT 1) AS last_ring_created_at') }
+  scope :with_rings,         -> { with_last_ring.joins('LEFT OUTER JOIN rings ON rings.user_id = users.id ').group('users.id').having('count(rings.id) > 0') }
+  scope :without_rings,      -> { with_last_ring.joins('LEFT OUTER JOIN rings ON rings.user_id = users.id ').group('users.id').having('count(rings.id) = 0') }
 
   def admin?
     self.role == ROLES[:admin]
