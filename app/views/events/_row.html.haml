@@ -20,3 +20,5 @@
 
     - if can? :update, event
       .event-actions= link_to 'Edit', edit_admin_event_path(event)
+
+  = side_link_to event.url
