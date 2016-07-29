@@ -22,6 +22,22 @@ ActiveAdmin.register Event do
     column :public
     column(:status) { |e| status_tag e.status }
     column(:value) { |e| e.money_value.format }
+
+    actions do |event|
+      item 'Copy', new_admin_event_path(copy_from: event.id), class: 'member_link'
+    end
+  end
+
+  controller do
+    def new
+      if params.has_key?(:copy_from)
+        original = Event.find(params.delete(:copy_from).to_i)
+        params[:event] = original.attributes
+        [:id, :created_at, :updated_at].each { |k| params[:event].delete(k) }
+      end
+
+      super
+    end
   end
 
   show do
@@ -60,7 +76,7 @@ ActiveAdmin.register Event do
   form do |f|
     semantic_errors *f.object.errors.keys
 
-    if f.object.new_record?
+    if f.object.new_record? && f.object.start_at.nil? && f.object.end_at.nil?
       today = Time.now.utc.to_date
       f.object.start_at = Time.new(today.year, today.month, today.day, 19, 00, 00, 00)
       f.object.end_at   = Time.new(today.year, today.month, today.day, 22, 00, 00, 00)
