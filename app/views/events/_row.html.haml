@@ -1,5 +1,5 @@
 .row.event-table{ id: "event-#{event.id}" }
-  .col-xs-4.col-sm-2.event-date
+  .col-sm-2.event-date
     %span.event-date-day= event.start_at.strftime('%d')
     %span.event-date-month= event.start_at.strftime('%^b')
     %span.eventtime
@@ -8,7 +8,7 @@
       = event.end_at.strftime('%l:%M%P')
       %br/
       = event.location
-  .col-xs-8.col-sm-10.event-details
+  .col-sm-10.event-details
     .event-header
       = link_to event.name, event.url
       - unless event.public?
