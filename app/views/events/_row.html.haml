@@ -6,13 +6,13 @@
       = event.start_at.strftime('%l:%M%P')
       \-
       = event.end_at.strftime('%l:%M%P')
+      %br/
+      = event.location
   .col-xs-8.col-sm-10.event-details
     .event-header
       = link_to event.name, event.url
-      %small
-        = event.location
-        - unless event.public?
-          (Private event)
+      - unless event.public?
+        %small (Private event)
 
       .event-organiser= link_to event.organiser_name, event.organiser_url
 
