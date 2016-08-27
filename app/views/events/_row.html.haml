@@ -1,13 +1,14 @@
 .row.event-table{ id: "event-#{event.id}" }
   .col-sm-2.event-date
-    %span.event-date-day= event.start_at.strftime('%d')
-    %span.event-date-month= event.start_at.strftime('%^b')
-    %span.eventtime
-      = event.start_at.strftime('%l:%M%P')
-      \-
-      = event.end_at.strftime('%l:%M%P')
-      %br/
-      = event.location
+    = link_to events_path(anchor: "event-#{event.id}", id: event.id) do
+      %span.event-date-day= event.start_at.strftime('%d')
+      %span.event-date-month= event.start_at.strftime('%^b')
+      %span.eventtime
+        = event.start_at.strftime('%l:%M%P')
+        \-
+        = event.end_at.strftime('%l:%M%P')
+        %br/
+        = event.location
   .col-sm-10.event-details
     .event-header
       = link_to event.name, event.url
