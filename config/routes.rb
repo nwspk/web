@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :subscription, only: [:edit, :update] do
+  resource :subscription, only: [:edit, :update, :destroy] do
     get :checkout
     post :process_card
   end
