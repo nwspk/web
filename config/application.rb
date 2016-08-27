@@ -30,5 +30,7 @@ module TomDoors
       g.test_framework      :rspec, fixture: true
       g.fixture_replacement :fabrication
     end
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

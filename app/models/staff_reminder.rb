@@ -5,7 +5,7 @@ class StaffReminder < ActiveRecord::Base
   before_validation :set_default_last_id
 
   def due?(time = Time.now)
-    self.last_run_at.nil? || self.last_run_at < (time - self.frequency.hours)
+    self.last_run_at.nil? || (self.last_run_at < (time - self.frequency.hours))
   end
 
   def pop!
@@ -25,7 +25,7 @@ class StaffReminder < ActiveRecord::Base
 
       raise UnwantedUser unless next_user.eligible_for_reminders?
     rescue ActiveRecord::RecordNotFound, UnwantedUser
-      return nil if loops > 1
+      return nil if loops > 2
       retry
     end
 

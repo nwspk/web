@@ -1,4 +1,4 @@
-require 'resque/server'
+require 'sidekiq/web'
 
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   end
 
   authenticate :user, lambda { |u| u.admin? } do
-    mount Resque::Server.new, :at => "/resque"
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   root to: 'home#index'

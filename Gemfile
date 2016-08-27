@@ -30,7 +30,8 @@ gem 'koala', '~> 2.0'
 gem 'stripe'
 gem 'louvian_ruby'
 gem 'terminal-table'
-gem 'resque', "~> 1.22.0"
+gem 'sidekiq'
+gem 'sinatra', :require => false
 gem 'icalendar'
 gem 'kramdown'
 gem 'best_in_place', '~> 3.0.1'

@@ -1,2 +1,2 @@
 web: bundle exec puma -t 0:5 -p $PORT
-resque: env TERM_CHILD=1 RESQUE_TERM_TIMEOUT=7 QUEUE=* bundle exec rake resque:work
+resque: bundle exec sidekiq -q default -q mailers -c 5

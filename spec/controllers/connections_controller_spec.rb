@@ -9,7 +9,7 @@ RSpec.describe ConnectionsController, type: :controller do
 
   describe "POST #check_friends" do
     it "returns http success" do
-      mock(Resque).enqueue(CheckFriendsJob, user.id)
+      mock(CheckFriendsWorker).perform_async(user.id)
 
       post :check_friends
 

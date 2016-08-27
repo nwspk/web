@@ -14,7 +14,7 @@ class ConnectionsController < ApplicationController
     connection.save!
 
     # Immediately check for friends
-    Resque.enqueue(CheckFriendsJob, current_user.id)
+    CheckFriendsWorker.perform_async(current_user.id)
 
     redirect_to redirect_path, notice: 'Successfully connected account'
   end
@@ -43,7 +43,7 @@ class ConnectionsController < ApplicationController
       return
     end
 
-    Resque.enqueue(CheckFriendsJob, current_user.id)
+    CheckFriendsWorker.perform_async(current_user.id)
     redirect_to dashboard_path, notice: 'Checking your friends, this may take a while'
   end
 
