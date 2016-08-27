@@ -1,3 +1,5 @@
+require 'icalendar/tzinfo'
+
 class ApiController < ApplicationController
   protect_from_forgery with: :null_session
 
@@ -37,11 +39,14 @@ class ApiController < ApplicationController
 
   def events
     cal = Icalendar::Calendar.new
+    tz  = TZInfo::Timezone.get 'UTC'
+    timezone = tz.ical_timezone Time.now
+    cal.add_timezone timezone
 
     Event.public_and_confirmed.each do |ev|
       cal.event do |e|
-        e.dtstart     = ev.start_at
-        e.dtend       = ev.end_at
+        e.dtstart     = Icalendar::Values::DateTime.new(ev.start_at, tzid: 'UTC')
+        e.dtend       = Icalendar::Values::DateTime.new(ev.end_at, tzid: 'UTC')
         e.summary     = ev.name
         e.description = ev.description
         e.url         = ev.url
