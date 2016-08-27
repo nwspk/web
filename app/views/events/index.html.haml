@@ -2,9 +2,10 @@
   Events
 
 - content_for :extra_tags do
-  %meta{property: 'og:url', content: events_url(anchor: "event-#{@selected_event.id}", id: @selected_event.id)}/
-  %meta{property: 'og:title', content: @selected_event.name}/
-  %meta{property: 'og:description', content: @selected_event.short_description}/
+  - unless @selected_event.nil?
+    %meta{property: 'og:url', content: events_url(anchor: "event-#{@selected_event.id}", id: @selected_event.id)}/
+    %meta{property: 'og:title', content: @selected_event.name}/
+    %meta{property: 'og:description', content: @selected_event.short_description}/
   %meta{property: 'og:image', content: asset_url('logo.png')}/
 
 %h2
@@ -24,3 +25,5 @@
 
 - @past_events.each do |event|
   = render partial: 'row', locals: { event: event }
+
+%p{ style: 'text-align: center'}= link_to 'Subscribe with iCal', api_events_url(protocol: 'webcal', format: :ics, only_path: false)
