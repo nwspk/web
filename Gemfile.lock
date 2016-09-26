@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    TimezoneParser (0.2.0)
+      insensitive_hash
+      tzinfo
     actionmailer (4.2.5.1)
       actionpack (= 4.2.5.1)
       actionview (= 4.2.5.1)
@@ -129,6 +132,10 @@ GEM
       ruby-progressbar (~> 1.4)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    google_calendar (0.5.2)
+      TimezoneParser (~> 0.2.0)
+      json (~> 1.8)
+      signet (~> 0.6)
     haml (4.0.7)
       tilt
     haml-rails (0.9.0)
@@ -162,6 +169,7 @@ GEM
       has_scope (~> 0.6.0.rc)
       railties (>= 3.2, < 5)
       responders
+    insensitive_hash (0.3.3)
     jbuilder (2.6.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -354,6 +362,11 @@ GEM
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       redis (~> 3.2, >= 3.2.1)
+    signet (0.7.3)
+      addressable (~> 2.3)
+      faraday (~> 0.9)
+      jwt (~> 1.5)
+      multi_json (~> 1.10)
     simple_form (3.2.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
@@ -439,6 +452,7 @@ DEPENDENCIES
   faker
   font-awesome-rails
   fuubar
+  google_calendar
   haml-rails
   icalendar
   jbuilder (~> 2.0)
@@ -482,4 +496,4 @@ RUBY VERSION
    ruby 2.2.4p230
 
 BUNDLED WITH
-   1.12.5
+   1.13.0

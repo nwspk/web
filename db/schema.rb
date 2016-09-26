@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160625165924) do
+ActiveRecord::Schema.define(version: 20160926121520) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -24,9 +27,9 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.datetime "updated_at"
   end
 
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace"
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "addresses", force: :cascade do |t|
     t.integer  "user_id"
@@ -39,7 +42,7 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "addresses", ["user_id"], name: "index_addresses_on_user_id"
+  add_index "addresses", ["user_id"], name: "index_addresses_on_user_id", using: :btree
 
   create_table "connections", force: :cascade do |t|
     t.integer  "user_id"
@@ -54,8 +57,8 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.string   "username",     default: "", null: false
   end
 
-  add_index "connections", ["provider", "uid"], name: "index_connections_on_provider_and_uid", unique: true
-  add_index "connections", ["user_id"], name: "index_connections_on_user_id"
+  add_index "connections", ["provider", "uid"], name: "index_connections_on_provider_and_uid", unique: true, using: :btree
+  add_index "connections", ["user_id"], name: "index_connections_on_user_id", using: :btree
 
   create_table "door_accesses", force: :cascade do |t|
     t.integer  "ring_id",    null: false
@@ -64,8 +67,8 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "door_accesses", ["ring_id"], name: "index_door_accesses_on_ring_id"
-  add_index "door_accesses", ["user_id"], name: "index_door_accesses_on_user_id"
+  add_index "door_accesses", ["ring_id"], name: "index_door_accesses_on_ring_id", using: :btree
+  add_index "door_accesses", ["user_id"], name: "index_door_accesses_on_user_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "name",              default: "", null: false
@@ -84,10 +87,11 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.text     "short_description", default: "", null: false
+    t.string   "gcal_id"
   end
 
-  add_index "events", ["end_at"], name: "index_events_on_end_at"
-  add_index "events", ["start_at"], name: "index_events_on_start_at"
+  add_index "events", ["end_at"], name: "index_events_on_end_at", using: :btree
+  add_index "events", ["start_at"], name: "index_events_on_start_at", using: :btree
 
   create_table "friend_edges", force: :cascade do |t|
     t.integer  "from_id",                 null: false
@@ -97,8 +101,8 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.datetime "updated_at",              null: false
   end
 
-  add_index "friend_edges", ["from_id"], name: "index_friend_edges_on_from_id"
-  add_index "friend_edges", ["to_id"], name: "index_friend_edges_on_to_id"
+  add_index "friend_edges", ["from_id"], name: "index_friend_edges_on_from_id", using: :btree
+  add_index "friend_edges", ["to_id"], name: "index_friend_edges_on_to_id", using: :btree
 
   create_table "payments", force: :cascade do |t|
     t.integer  "user_id"
@@ -110,8 +114,8 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.integer  "plan_id"
   end
 
-  add_index "payments", ["plan_id"], name: "index_payments_on_plan_id"
-  add_index "payments", ["user_id"], name: "index_payments_on_user_id"
+  add_index "payments", ["plan_id"], name: "index_payments_on_plan_id", using: :btree
+  add_index "payments", ["user_id"], name: "index_payments_on_user_id", using: :btree
 
   create_table "plans", force: :cascade do |t|
     t.string   "name",         default: "",   null: false
@@ -130,7 +134,7 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.datetime "updated_at",              null: false
   end
 
-  add_index "rings", ["user_id"], name: "index_rings_on_user_id"
+  add_index "rings", ["user_id"], name: "index_rings_on_user_id", using: :btree
 
   create_table "staff_reminders", force: :cascade do |t|
     t.string   "email",       default: "", null: false
@@ -152,8 +156,8 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.datetime "active_until"
   end
 
-  add_index "subscriptions", ["plan_id"], name: "index_subscriptions_on_plan_id"
-  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id"
+  add_index "subscriptions", ["plan_id"], name: "index_subscriptions_on_plan_id", using: :btree
+  add_index "subscriptions", ["user_id"], name: "index_subscriptions_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                   default: "",    null: false
@@ -177,7 +181,7 @@ ActiveRecord::Schema.define(version: 20160625165924) do
     t.text     "application_text",       default: "",    null: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

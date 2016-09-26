@@ -36,6 +36,7 @@ gem 'icalendar'
 gem 'kramdown'
 gem 'best_in_place', '~> 3.0.1'
 gem 'dotenv-rails'
+gem 'google_calendar'
 
 group :development do
   gem 'web-console', '~> 2.0'

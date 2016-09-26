@@ -6,12 +6,17 @@
     %meta{property: 'og:url', content: events_url(anchor: "event-#{@selected_event.id}", id: @selected_event.id)}/
     %meta{property: 'og:title', content: @selected_event.name}/
     %meta{property: 'og:description', content: @selected_event.short_description}/
+  - else
+    %meta{property: 'og:title', content: 'Newspeak House Calendar'}/
+    %meta{property: 'og:description', content: 'Upcoming Events at Newspeak House'}/
   %meta{property: 'og:image', content: asset_url('logo.png')}/
 
 %h2
   Events
   %br/
   %small= link_to 'Subscribe with iCal', api_events_url(protocol: 'webcal', format: :ics, only_path: false)
+  \-
+  %small= link_to 'Add to Google', "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}"
   \-
   %small
     = link_to 'Propose an event', 'mailto:ed@nwspk.com?subject=Newspeak%20House%20Event%20Proposal&body=Name:%20%0D%0ADate:%20%0D%0ATime:%20%0D%0AHow%20many%20people:%20%0D%0ADescription:'
