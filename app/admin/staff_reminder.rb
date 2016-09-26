@@ -4,12 +4,13 @@ ActiveAdmin.register StaffReminder do
 
   actions :index, :new, :create, :edit, :update, :destroy
 
-  permit_params :email, :frequency, :last_id
+  permit_params :email, :frequency, :last_id, :active
 
   index do
     column :email
     column :frequency
-
+    column :active
+    
     column :last_member do |r|
       begin
         User.find(r.last_id).name
@@ -36,6 +37,7 @@ ActiveAdmin.register StaffReminder do
       input :email
       input :frequency, label: 'Frequeny in whole hours'
       input :last_id, label: 'Last user ID'
+      input :active
     end
 
     actions

@@ -1,7 +1,7 @@
 ActiveAdmin.register User do
   config.batch_actions = false
 
-  permit_params :name, :email, :password, :password_confirmation, :showcase, :url, :showcase_text, :ring_size, :role
+  permit_params :name, :email, :password, :password_confirmation, :showcase, :url, :showcase_text, :ring_size, :role, :notes
 
   filter :name
   filter :email
@@ -66,6 +66,7 @@ ActiveAdmin.register User do
       row :application_text
       row :ring_size
       row(:subscription) { |u| status_tag u.subscription.try(:plan_name), (u.subscription.try(:active?) ? :active : :inactive) }
+      row :notes
     end
   end
 
@@ -104,6 +105,8 @@ ActiveAdmin.register User do
       if current_user.id != user.id
         input :role, as: :select, collection: User::ROLES
       end
+
+      input :notes
     end
 
     actions

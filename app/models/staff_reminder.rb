@@ -2,6 +2,8 @@ class StaffReminder < ActiveRecord::Base
   validates :email, :frequency, presence: true
   validates :last_id, :frequency, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  scope :active, -> { where(active: true) }
+
   before_validation :set_default_last_id
 
   def due?(time = Time.now)

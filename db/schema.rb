@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926121520) do
+ActiveRecord::Schema.define(version: 20160926133317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(version: 20160926121520) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.datetime "last_run_at"
+    t.boolean  "active"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -179,6 +180,7 @@ ActiveRecord::Schema.define(version: 20160926121520) do
     t.float    "ring_size"
     t.string   "showcase_text",          default: "",    null: false
     t.text     "application_text",       default: "",    null: false
+    t.text     "notes"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

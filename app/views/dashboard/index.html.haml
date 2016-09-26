@@ -15,13 +15,13 @@
       %tbody
         %tr
           %th Name
-          %td= best_in_place current_user, :name, as: :input, url: user_path(format: 'json')
+          %td= best_in_place current_user, :name, as: :input, url: user_path(format: 'json'), display_with: lambda { |v| "#{h(v)} #{fa_icon('pencil')}".html_safe }
         %tr
           %th Bio
-          %td= best_in_place current_user, :showcase_text, as: :input, url: user_path(format: 'json')
+          %td= best_in_place current_user, :showcase_text, as: :input, url: user_path(format: 'json'), display_with: lambda { |v| "#{h(v)} #{fa_icon('pencil')}".html_safe }
         %tr
           %th Email
-          %td= best_in_place current_user, :email, as: :input, url: user_path(format: 'json')
+          %td= best_in_place current_user, :email, as: :input, url: user_path(format: 'json'), display_with: lambda { |v| "#{h(v)} #{fa_icon('pencil')}".html_safe }
         %tr
           %th Subscription
           - if !current_user.subscription.nil? && current_user.subscription.active?

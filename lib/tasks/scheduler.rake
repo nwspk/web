@@ -15,9 +15,5 @@ end
 
 desc "Check for due staff reminders and send them"
 task :remind_staff => :environment do
-  StaffReminder.all.each do |r|
-    next unless r.due?
-    m = r.pop!
-    AdminMailer.staff_reminder_email(r, m).deliver_later unless m.nil?
-  end
+  ProcessStaffRemindersService.new.()
 end
