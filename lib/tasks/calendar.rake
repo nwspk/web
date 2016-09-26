@@ -4,7 +4,7 @@ namespace :calendar do
     cal = ExternalCalendar.instance.client
     puts 'Paste the following URL into your browser:'
     puts cal.authorize_url
-    puts 'Then pass the access code you get into `rake "calendar:refresh_code[THE CODE HERE]"`'
+    puts 'Then pass the access code you get into `rake "calendar:refresh_token[THE CODE HERE]"`'
   end
 
   desc 'Generate refresh token based on given access code'
@@ -21,12 +21,15 @@ namespace :calendar do
     cal = ExternalCalendar.instance.client
     
     Event.public_and_confirmed.find_each do |db_event|
+      escaped_desc = db_event.description.to_json
+      escaped_desc.gsub!(/\A"|"\Z/, '')
+
       if db_event.gcal_id.nil?
         gc_event = cal.create_event do |e|
           e.title       = db_event.name
           e.start_time  = db_event.start_at
           e.end_time    = db_event.end_at
-          e.description = db_event.description
+          e.description = escaped_desc
           e.location    = 'Newspeak House, 133 Bethnal Green Road, London, E2 7DG, UK'
         end
 
@@ -36,7 +39,7 @@ namespace :calendar do
           e.title       = db_event.name
           e.start_time  = db_event.start_at
           e.end_time    = db_event.end_at
-          e.description = db_event.description
+          e.description = escaped_desc
           e.location    = 'Newspeak House, 133 Bethnal Green Road, London, E2 7DG, UK'
         end
       end
