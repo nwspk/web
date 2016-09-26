@@ -89,7 +89,7 @@ ActiveAdmin.register User do
   end
 
   form do |f|
-    semantic_errors *f.object.errors.keys
+    semantic_errors(*f.object.errors.keys)
 
     inputs do
       input :name

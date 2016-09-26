@@ -74,10 +74,7 @@ class GraphsController < ApplicationController
     @focus = nil
 
     if params[:focus]
-      begin
-        @focus = User.find(params[:focus].to_i)
-      rescue ActiveRecord::RecordNotFound
-      end
+      @focus = User.where(id: params[:focus].to_i).first
     else
       @focus = current_user
     end

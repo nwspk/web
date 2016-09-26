@@ -3,7 +3,7 @@ require 'louvian'
 class DetectCommunitiesService
   def call(graph)
     nodes_list = graph.nodes.to_a
-    edge_list  = graph.edges.map { |e| e.take(2).map { |n| nodes_list.index { |_n| _n.id == n } } }
+    edge_list  = graph.edges.map { |e| e.take(2).map { |n| nodes_list.index { |m| m.id == n } } }
 
     Louvian::Community.reset
 
@@ -20,8 +20,8 @@ class DetectCommunitiesService
 
     node_map = {}
 
-    l.levels.each do |graph|
-      graph.communities.each do |comm|
+    l.levels.each do |level_graph|
+      level_graph.communities.each do |comm|
         node_map[comm.id] = comm
       end
     end

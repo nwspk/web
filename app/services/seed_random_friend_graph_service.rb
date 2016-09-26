@@ -10,14 +10,14 @@ class SeedRandomFriendGraphService
       }
     end
 
-    nodes_num.times do |i|
+    nodes_num.times do
       cluster = clusters.sample
       user = Fabricate(:user)
       nodes << user
       cluster[:nodes] << user
     end
 
-    edges_num.times do |i|
+    edges_num.times do
       if Random.rand < 0.5
         create_edge(nodes.sample, nodes.sample)
       else

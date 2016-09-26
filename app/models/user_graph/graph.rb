@@ -37,7 +37,7 @@ class UserGraph::Graph
     }.to_json
   end
 
-  def to_gdf(options = {})
+  def to_gdf
     str = "nodedef> name VARCHAR, label VARCHAR, plan_type VARCHAR, size INT, twitter_url VARCHAR, facebook_url VARCHAR\n"
     @nodes.each { |n| str << "#{n.id}, #{n.name}, #{plan_type(n)}, #{plan_to_size(n)}, #{n.twitter.try(:profile_url)}, #{n.facebook.try(:profile_url)}\n"}
     str << "edgedef> user VARCHAR, friend VARCHAR\n"
@@ -48,7 +48,7 @@ class UserGraph::Graph
   private
 
   def build_nodes_json
-    @nodes.to_a.sort { |x, y| x.showcase && !y.showcase ? 1 : (y.showcase ? -1 : 0) }.map.with_index do |x, i|
+    @nodes.to_a.sort { |x, y| x.showcase && !y.showcase ? 1 : (y.showcase ? -1 : 0) }.map do |x|
       {
         id: "n#{x.id}",
         label: (x.showcase || x.id == @center.try(:id)) ? "#{x.name}" : "",

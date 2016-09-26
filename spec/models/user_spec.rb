@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   describe 'callbacks' do
     it 'terminates a user\'s subscription upon deletion' do
       user = Fabricate(:user)
-      subscription = Fabricate(:subscription, user: user)
+      Fabricate(:subscription, user: user)
 
       any_instance_of(TerminateSubscriptionService) do |klass|
         stub(klass).call(is_a(Subscription))

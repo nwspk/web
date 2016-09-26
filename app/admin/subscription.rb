@@ -48,7 +48,7 @@ ActiveAdmin.register Subscription do
     end
   end
 
-  form do |f|
+  form do
     inputs do
       input :plan
     end

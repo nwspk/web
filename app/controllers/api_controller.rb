@@ -3,7 +3,7 @@ require 'icalendar/tzinfo'
 class ApiController < ApplicationController
   protect_from_forgery with: :null_session
 
-  rescue_from ActiveRecord::RecordNotFound do |exception|
+  rescue_from ActiveRecord::RecordNotFound do
     render json: { status: :no }, status: 401
   end
 

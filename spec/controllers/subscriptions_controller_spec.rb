@@ -38,7 +38,7 @@ RSpec.describe SubscriptionsController, type: :controller do
       token = StripeMock.generate_card_token(last4: "9191", exp_year: 1984)
 
       mock.proxy(Stripe::Customer).create.with_any_args do |customer|
-        expect(customer.account_balance).to eq (SIGNUP_FEE - 5000)
+        expect(customer.account_balance).to eq(SIGNUP_FEE - 5000)
         customer
       end
 

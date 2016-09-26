@@ -22,7 +22,7 @@ class WebhooksController < ApplicationController
     end
 
     render nothing: true, status: 200
-  rescue Stripe::InvalidRequestError => e
+  rescue Stripe::InvalidRequestError
     render nothing: true, status: 200
   end
 
@@ -45,7 +45,7 @@ class WebhooksController < ApplicationController
     UserMailer.billing_email(subscription.user).deliver_later
   end
 
-  def on_invoice_failed(subscription, invoice)
+  def on_invoice_failed(subscription, _invoice)
     subscription.update!(active_until: nil)
 
     AdminMailer.payment_failed_email(subscription.user).deliver_later

@@ -61,7 +61,7 @@ RSpec.describe WebhooksController, type: :controller do
         customer: subscription.customer_id
       })
 
-      admin_user = Fabricate(:user, role: User::ROLES[:admin])
+      Fabricate(:user, role: User::ROLES[:admin])
 
       stub(Stripe::Event).retrieve { event }
 

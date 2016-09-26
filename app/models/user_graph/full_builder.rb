@@ -8,7 +8,7 @@ class UserGraph::FullBuilder < UserGraph::Builder
       @range = false
     end
 
-    @blacklist = Set.new (options[:blacklist] || [])
+    @blacklist = Set.new(options[:blacklist] || [])
     @no_staff  = options[:no_staff]
   end
 
