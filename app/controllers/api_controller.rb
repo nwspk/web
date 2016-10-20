@@ -40,7 +40,7 @@ class ApiController < ApplicationController
   def events
     cal = Icalendar::Calendar.new
     tz  = TZInfo::Timezone.get 'UTC'
-    timezone = tz.ical_timezone Time.now
+    timezone = tz.ical_timezone Time.now.utc
     cal.add_timezone timezone
 
     Event.public_and_confirmed.each do |ev|
