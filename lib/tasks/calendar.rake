@@ -27,8 +27,8 @@ namespace :calendar do
       if db_event.gcal_id.nil?
         gc_event = cal.create_event do |e|
           e.title       = db_event.name
-          e.start_time  = db_event.start_at
-          e.end_time    = db_event.end_at
+          e.start_time  = db_event.start_at.to_datetime.change(offset: '+1000')
+          e.end_time    = db_event.end_at.to_datetime.change(offset: '+1000')
           e.description = escaped_desc
           e.location    = 'Newspeak House, 133 Bethnal Green Road, London, E2 7DG, UK'
         end
@@ -37,8 +37,8 @@ namespace :calendar do
       else
         cal.find_or_create_event_by_id(db_event.gcal_id) do |e|
           e.title       = db_event.name
-          e.start_time  = db_event.start_at
-          e.end_time    = db_event.end_at
+          e.start_time  = db_event.start_at.to_datetime.change(offset: '+1000')
+          e.end_time    = db_event.end_at.to_datetime.change(offset: '+1000')
           e.description = escaped_desc
           e.location    = 'Newspeak House, 133 Bethnal Green Road, London, E2 7DG, UK'
         end
