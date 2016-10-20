@@ -45,7 +45,7 @@ class ApiController < ApplicationController
 
     Event.public_and_confirmed.each do |ev|
       cal.event do |e|
-        e.dtstart     = Icalendar::Values::DateTime.new(ev.start_at..to_datetime.change(offset: '+1000'), tzid: 'UTC')
+        e.dtstart     = Icalendar::Values::DateTime.new(ev.start_at.to_datetime.change(offset: '+1000'), tzid: 'UTC')
         e.dtend       = Icalendar::Values::DateTime.new(ev.end_at.to_datetime.change(offset: '+1000'), tzid: 'UTC')
         e.summary     = ev.name
         e.description = ev.description
