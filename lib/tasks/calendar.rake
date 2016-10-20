@@ -19,7 +19,7 @@ namespace :calendar do
   desc 'Upload all events to Google Calendar'
   task :sync => :environment do
     cal = ExternalCalendar.instance.client
-    
+
     Event.public_and_confirmed.find_each do |db_event|
       escaped_desc = db_event.description.to_json
       escaped_desc.gsub!(/\A"|"\Z/, '')
@@ -27,8 +27,8 @@ namespace :calendar do
       if db_event.gcal_id.nil?
         gc_event = cal.create_event do |e|
           e.title       = db_event.name
-          e.start_time  = db_event.start_at
-          e.end_time    = db_event.end_at
+          e.start_time  = db_event.start_at.strftime('%Y-%m-%dT%H:%M:%S%Z')
+          e.end_time    = db_event.end_at.strftime('%Y-%m-%dT%H:%M:%S%Z')
           e.description = escaped_desc
           e.location    = 'Newspeak House, 133 Bethnal Green Road, London, E2 7DG, UK'
         end
@@ -37,8 +37,8 @@ namespace :calendar do
       else
         cal.find_or_create_event_by_id(db_event.gcal_id) do |e|
           e.title       = db_event.name
-          e.start_time  = db_event.start_at
-          e.end_time    = db_event.end_at
+          e.start_time  = db_event.start_at.strftime('%Y-%m-%dT%H:%M:%S%Z')
+          e.end_time    = db_event.end_at.strftime('%Y-%m-%dT%H:%M:%S%Z')
           e.description = escaped_desc
           e.location    = 'Newspeak House, 133 Bethnal Green Road, London, E2 7DG, UK'
         end
