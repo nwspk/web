@@ -5,7 +5,7 @@ RSpec.describe ProcessStaffRemindersService, type: :model do
 
   it 'sends out e-mails' do
     user     = Fabricate(:user)
-    reminder = StaffReminder.create!(email: 'foo@bar', frequency: 6, last_run_at: time - 7.hours)
+    reminder = StaffReminder.create!(email: 'foo@bar', frequency: 6, last_run_at: time - 7.hours, active: true)
 
     s = ProcessStaffRemindersService.new
     s.call
