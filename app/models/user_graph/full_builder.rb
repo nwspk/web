@@ -30,6 +30,8 @@ class UserGraph::FullBuilder < UserGraph::Builder
       graph.edges << [f.to_id, f.from_id, f.weight]
     end
 
+    User.recent.find_each { |user| graph.nodes << user }
+
     graph
   end
 end

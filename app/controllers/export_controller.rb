@@ -10,7 +10,7 @@ class ExportController < ApplicationController
       end
     end
 
-    render body: string
+    render body: string, content_type: 'text/csv'
   end
 
   def connections
@@ -22,7 +22,7 @@ class ExportController < ApplicationController
       end
     end
 
-    render body: string
+    render body: string, content_type: 'text/csv'
   end
 
   def entries
@@ -34,6 +34,6 @@ class ExportController < ApplicationController
       end
     end
 
-    render body: string
+    render body: string, content_type: 'text/csv'
   end
 end
