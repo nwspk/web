@@ -31,7 +31,6 @@ gem 'stripe'
 gem 'louvian_ruby'
 gem 'terminal-table'
 gem 'sidekiq'
-gem 'sinatra', :require => false
 gem 'icalendar'
 gem 'kramdown'
 gem 'best_in_place', '~> 3.0.1'
