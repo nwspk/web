@@ -18,7 +18,7 @@ class ExportController < ApplicationController
       csv << %w(From To Platform)
 
       FriendEdge.find_each do |edge|
-        csv << [edge.from_id, edge.to_id, edge.platform]
+        csv << [edge.from_id, edge.to_id, edge.network]
       end
     end
 
