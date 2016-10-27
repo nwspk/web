@@ -30,7 +30,10 @@ class UserGraph::FullBuilder < UserGraph::Builder
       graph.edges << [f.to_id, f.from_id, f.weight]
     end
 
-    User.recent.find_each { |user| graph.nodes << user }
+    User.recent.find_each do |user|
+      next if @blacklist.include? user.id || (@no_staff && user.excluded_from_graphs?)
+      graph.nodes << user
+    end
 
     graph
   end

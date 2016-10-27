@@ -6,7 +6,7 @@ class ExportController < ApplicationController
       csv << ['User ID', 'Name', 'E-mail', 'Role', 'Subscription Tier', 'Facebook', 'Twitter', 'Join Date']
 
       User.recent.includes(:connections, subscription: :plan).find_each do |user|
-        csv << [user.id, user.name, user.email, user.role, user.subscription.try(:plan_name), user.facebook.try(:username), user.twitter.try(:username), user.created_at.utc.iso8601]
+        csv << [user.id, user.name, user.email, user.role, user.subscription.try(:plan_name), user.facebook.try(:profile_url), user.twitter.try(:username), user.created_at.utc.iso8601]
       end
     end
 
@@ -15,10 +15,10 @@ class ExportController < ApplicationController
 
   def connections
     string = CSV.generate do |csv|
-      csv << %w(From To Platform)
+      csv << %w(From To Platform Timestamp)
 
       FriendEdge.find_each do |edge|
-        csv << [edge.from_id, edge.to_id, edge.network]
+        csv << [edge.from_id, edge.to_id, edge.network, edge.created_at.utc.iso8601]
       end
     end
 
