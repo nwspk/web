@@ -84,7 +84,7 @@ class GraphsController < ApplicationController
     @blacklist = params[:exclude].is_a?(Array) ? params[:exclude].map { |x| x.to_i } : [params[:exclude].to_i]
 
     if @blacklist == [0]
-      @blacklist = []
+      @blacklist = [User.find_by(email: DEFAULT_USER_EXCLUDE).try(:id)]
     end
   end
 end
