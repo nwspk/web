@@ -771,6 +771,10 @@ p.fellowship {
   color: #fff;
   text-decoration: none;
 
+  &:first-child {
+    margin-right: 5px;
+  }
+
   &:hover {
     background: lighten(#1c2f52, 15%);
     color: #fff;
