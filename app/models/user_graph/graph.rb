@@ -52,7 +52,7 @@ class UserGraph::Graph
       {
         id: "n#{x.id}",
         label: (x.showcase || x.id == @center.try(:id)) ? "#{x.name}" : "",
-        value: plan_to_size(x),
+        value: @edges.select { |e| e[0..1].include?(x.id) }.size,
         group: x.community,
         meta: {
           name: x.name,

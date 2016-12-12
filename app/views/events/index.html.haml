@@ -9,7 +9,7 @@
   - else
     %meta{property: 'og:title', content: 'Newspeak House Calendar'}/
     %meta{property: 'og:description', content: 'Upcoming Events at Newspeak House'}/
-  %meta{property: 'og:image', content: asset_url('logo.png')}/
+  %meta{property: 'og:image', content: asset_url('newlogo.png')}/
 
 %h2
   Events
@@ -26,9 +26,11 @@
 
 %hr/
 
-%h2 Event archive
+%h2
+  %a.collapse-link{ href: "#archive", data: { toggle: "collapse" } } Event archive
 
-- @past_events.each do |event|
-  = render partial: 'row', locals: { event: event }
+#archive.collapse
+  - @past_events.each do |event|
+    = render partial: 'row', locals: { event: event }
 
 %p{ style: 'text-align: center'}= link_to 'Subscribe with iCal', api_events_url(protocol: 'webcal', format: :ics, only_path: false)

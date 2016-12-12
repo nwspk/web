@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def plaintext_list_user_item(u)
-    [u.name, u.showcase_text, u.url].map { |x| x.strip.blank? ? nil : x.strip }.compact.join(", ")
+    [u.name, u.showcase_text, u.url, u.twitter.try(:profile_url)].map { |x| (x.nil? || x.strip.blank?) ? nil : x.strip }.compact.join(", ")
   end
 
   def positivize_zero_val(val)

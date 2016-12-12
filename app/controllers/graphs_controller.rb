@@ -6,7 +6,7 @@ class GraphsController < ApplicationController
 
   def full
     # Build graph
-    builder     = UserGraph::FullBuilder.new(user: @focus, start: @start_date, end: @end_date, blacklist: @blacklist, no_staff: (params[:no_staff] != 'false'))
+    builder     = UserGraph::FullBuilder.new(user: @focus, start: @start_date, end: @end_date, blacklist: @blacklist, no_staff: params[:no_staff].present?)
     @graph      = builder.build
 
     # Detect communities

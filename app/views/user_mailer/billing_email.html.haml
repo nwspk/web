@@ -18,6 +18,7 @@
 
 %p{ style: 'margin-bottom: 36px' }
   %a{ href: api_events_url } Subscribe via iCal
+  %a{ href: "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}" } Add to Google
 
 %p
   %u New Members This Month
@@ -31,6 +32,9 @@
         %a{ href: u.url }>= u.name
       - unless u.showcase_text.blank?
         = ", #{u.showcase_text}"
+      - if u.twitter
+        = surround "(", ")" do
+          %a{ href: u.twitter.profile_url}= "@#{u.twitter.username}"
 
 %p
   %a{ href: graphs_full_url } See all members

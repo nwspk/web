@@ -17,4 +17,12 @@
               %span.event-location= event.location
               %span.event-description= Kramdown::Document.new(event.short_description).to_html.html_safe
 
+    .calendar-links
+      = link_to api_events_url(protocol: 'webcal', format: :ics, only_path: false), class: 'calendar-link' do
+        = fa_icon('download')
+        Subscribe with iCal
+      = link_to "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}", class: 'calendar-link' do
+        = fa_icon('google-plus')
+        Add to Google
+
   = side_link_to events_path

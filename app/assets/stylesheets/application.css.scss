@@ -136,6 +136,12 @@ section {
       font-family: 'F25';
       text-transform: none;
       cursor: pointer;
+
+      &.collapse-link {
+        font-family: 'Libre Baskerville';
+        color: #1c2f52;
+        text-transform: uppercase;
+      }
     }
   }
 
@@ -748,4 +754,26 @@ p.fellowship {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.calendar-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.calendar-link {
+  display: inline-block;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-weight: 500;
+  background: #1c2f52;
+  color: #fff;
+  text-decoration: none;
+
+  &:hover {
+    background: lighten(#1c2f52, 15%);
+    color: #fff;
+    text-decoration: none;
+  }
 }

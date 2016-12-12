@@ -23,6 +23,9 @@
           %th Email
           %td= best_in_place current_user, :email, as: :input, url: user_path(format: 'json'), display_with: lambda { |v| "#{h(v)} #{fa_icon('pencil')}".html_safe }
         %tr
+          %th Website
+          %td= best_in_place current_user, :url, as: :input, url: user_path(format: 'json'), display_with: lambda { |v| "#{h(v)} #{fa_icon('pencil')}".html_safe }
+        %tr
           %th Subscription
           - if !current_user.subscription.nil? && current_user.subscription.active?
             %td
