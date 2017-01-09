@@ -793,3 +793,12 @@ p.fellowship {
     text-decoration: none;
   }
 }
+
+.avatar-cell {
+  overflow: hidden;
+
+  .avatar {
+    float: left;
+    margin-right: 10px;
+  }
+}
