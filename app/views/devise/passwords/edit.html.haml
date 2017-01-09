@@ -8,7 +8,7 @@
   .col-sm-2
     = render "devise/shared/links"
   .col-sm-10
-    = simple_vertical_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+    = simple_vertical_form_for(resource, as: resource_name, url: password_path(resource_name), method: :put) do |f|
       = f.error_notification
 
       = f.input :reset_password_token, as: :hidden

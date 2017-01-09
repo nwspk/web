@@ -6,6 +6,7 @@ class SubscriptionsController < ApplicationController
 
   def checkout
     @plan = @subscription.plan
+    redirect_to dashboard_path if @plan.nil?
   end
 
   def edit

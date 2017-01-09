@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
 
   attr_accessor :community
 
+  mount_uploader :avatar, AvatarUploader
+
   validates :name, presence: true
   validates :role, inclusion: ROLES.values
   validates_associated :subscription

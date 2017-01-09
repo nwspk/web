@@ -1,7 +1,7 @@
 ActiveAdmin.register User do
   config.batch_actions = false
 
-  permit_params :name, :email, :password, :password_confirmation, :showcase, :url, :showcase_text, :ring_size, :role, :notes
+  permit_params :name, :email, :password, :password_confirmation, :showcase, :url, :showcase_text, :ring_size, :role, :notes, :avatar
 
   filter :name
   filter :email
@@ -58,6 +58,7 @@ ActiveAdmin.register User do
     attributes_table do
       row :name
       row :email
+      row(:avatar) { |u| image_tag u.avatar_url }
       row :created_at
       row(:role) { |u| status_tag u.role }
       row :showcase
@@ -101,6 +102,7 @@ ActiveAdmin.register User do
       input :url
       input :showcase_text
       input :ring_size, as: :select, collection: Ring::SIZES
+      input :avatar, as: :file
 
       if current_user.id != user.id
         input :role, as: :select, collection: User::ROLES

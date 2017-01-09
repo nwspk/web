@@ -36,6 +36,7 @@ gem 'kramdown'
 gem 'best_in_place', '~> 3.0.1'
 gem 'dotenv-rails'
 gem 'google_calendar'
+gem 'carrierwave', '~> 1.0'
 
 group :development do
   gem 'web-console', '~> 2.0'

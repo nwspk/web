@@ -2,7 +2,7 @@ require 'open-uri'
 
 module HomeHelper
   def profile_image_url(user)
-    return gravatar_url(user.email)
+    user.avatar.file.nil? ? gravatar_url(user.email) : user.avatar_url
   end
 
   def gravatar_url(email)
@@ -11,11 +11,11 @@ module HomeHelper
 
   def social_media_url(user)
     if !user.twitter.nil?
-      return user.twitter.profile_url
+      user.twitter.profile_url
     elsif !user.facebook.nil?
-      return user.facebook.profile_url
+      user.facebook.profile_url
     else
-      return graphs_full_url(focus: user.id)
+      graphs_full_url(focus: user.id)
     end
   end
 

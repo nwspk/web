@@ -13,6 +13,11 @@ class ConnectionsController < ApplicationController
     connection.user         = current_user
     connection.save!
 
+    if current_user.avatar.file.nil?
+      current_user.remote_avatar_url = auth['info']['image']
+      current_user.save!
+    end
+
     # Immediately check for friends
     CheckFriendsWorker.perform_async(current_user.id)
 
