@@ -21,6 +21,14 @@ class ApiController < ApplicationController
     end
   end
 
+  def userByUid
+    uid  = params[:uid]
+    ring = Ring.find_by! uid: uid
+    user = ring.user
+    response = { status: :ok, user: user }
+    render json: response, status: 200
+  end
+
   def dividends
     start_date = Chronic::parse(params[:from] || '30 days ago')
     end_date   = Chronic::parse(params[:to]   || 'today')

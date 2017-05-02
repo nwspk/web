@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'account',                  to: 'dashboard#index', as: 'dashboard'
   get '/auth/:provider/callback', to: 'connections#create'
   get 'api/uid',                  to: 'api#uid'
+  get 'api/userUid',              to: 'api#userUid'
   get 'api/dividends',            to: 'api#dividends'
   get 'api/events',               to: 'api#events'
   get 'graphs/full',              to: 'graphs#full'
