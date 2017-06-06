@@ -19,7 +19,7 @@
       %br/
       = link_to 'Or come to one of our events', 'events'
 
-  = side_link_to "https://goo.gl/maps/Z8Sa4T6sb3n"
+  = link_to 'Open Map', "https://goo.gl/maps/Z8Sa4T6sb3n", class: 'action-btn btn btn-default'
 
 %section
   .contact.col-md-8.col-md-offset-2.col-xs-10.col-xs-offset-1
@@ -36,4 +36,4 @@
       %br/
       = link_to 'aisha@nwspk.com', 'mailto:aisha@nwspk.com'
 
-  = side_link_to asset_path('brochure.pdf')
+  = link_to 'View Hire Brochure', asset_path('brochure.pdf'), class: 'action-btn btn btn-default'

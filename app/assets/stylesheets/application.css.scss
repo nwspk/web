@@ -232,6 +232,18 @@ section {
 }
 
 .home {
+
+  .action-btn {
+    display: block;
+    width: 200px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    bottom: 20px;
+    top: auto;
+  }
+
   .house {
     @include slow-transition;
     margin-top: 70px;

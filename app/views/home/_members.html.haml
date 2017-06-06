@@ -6,4 +6,4 @@
       - @members.each do |member|
         = render partial: 'member', locals: { user: member }
 
-  = side_link_to graphs_full_path
+  = link_to 'See all Members', graphs_full_path, class: 'action-btn btn btn-default'
