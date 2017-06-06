@@ -1,6 +1,5 @@
 %section.house.center-block
   = image_tag('house.png')
-  = top_right_link_to about_path
 
   - if user_signed_in?
     = top_left_link_to 'Account', dashboard_path
