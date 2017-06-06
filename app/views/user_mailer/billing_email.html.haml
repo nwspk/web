@@ -32,6 +32,8 @@
         %a{ href: u.url }>= u.name
       - unless u.showcase_text.blank?
         = ", #{u.showcase_text}"
+      - else
+        = " "
       - if u.twitter
         = surround "(", ")" do
           %a{ href: u.twitter.profile_url}= "@#{u.twitter.username}"
