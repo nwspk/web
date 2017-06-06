@@ -6,7 +6,11 @@
 
 - if @subscription.customer_id.blank?
   %h2 Become a member
-  %p One last step before you're a full member with a subscription! You need to checkout with Stripe.
+  %p
+    One last step before you're a full member with a subscription! You need to checkout with Stripe.
+    %strong
+      You will be charged a one-time joining fee of
+      = Money.new(SIGNUP_FEE, 'GBP').format
 
 - else
   %h2 Change credit card

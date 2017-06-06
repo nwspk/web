@@ -24,6 +24,15 @@ New Members This Month
 
 See all members: <%= graphs_full_url %>
 
+Current Fellows
+======================
+
+<% @fellows.each do |u| %>
+• <%= plaintext_list_user_item(u) %>
+<% end %>
+
+See all fellows: <%= fellowship_path %>
+
 You've made <%= @num_new_connections %> new connections this month, and there are still <%= @num_users - @num_connections %> members you haven't connected to yet.
 <% if @user.facebook.try(:expired?) || @user.twitter.try(:expired?) %>
 Some of your social accounts have expired and need to be re-connected here: <%= check_friends_connections_url %>

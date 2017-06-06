@@ -46,5 +46,5 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
-  get '*unmatched_route', to: 'application#route_not_found', constraints: { format: :html }
+  #get '*unmatched_route', to: 'application#route_not_found', constraints: { format: :html }
 end

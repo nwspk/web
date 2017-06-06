@@ -5,18 +5,18 @@
   Newspeak House is now accepting applications for residential fellowships. Fellows live in Newspeak House, immersed in the community and developing a network of users, supporters and mentors.
 
 %p.fellowship
-  If you're interested in spending some time at Newspeak House, contact 
-  = link_to 'ed@nwspk.com', 'mailto:ed@nwspk.com' 
+  If you're interested in spending some time at Newspeak House, contact
+  = link_to 'ed@nwspk.com', 'mailto:ed@nwspk.com'
   to find out more.
 
 %h2.fellowship Fellows
 
 %ul.members-list.clearfix
   - @fellows.each do |fellow|
-    = render partial: 'member', locals: { user: fellow }
+    = render partial: 'member', locals: { user: fellow, links: true }
 
 %h2.top-margin Alumni
 
 %ul.members-list
   - @alumni.each do |alumnus|
-    = render partial: 'member', locals: { user: alumnus }
+    = render partial: 'member', locals: { user: alumnus, links: true }

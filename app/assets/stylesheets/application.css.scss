@@ -623,7 +623,7 @@ section {
   margin-bottom: 20px;
   padding-top: 53px;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  //border-bottom: 1px solid rgba(0,0,0,0.1);
   position: relative;
 
   a {
@@ -672,6 +672,14 @@ section {
       font-size: 14px !important;
     }
   }
+}
+
+.archive-empty {
+  text-align: center;
+  padding: 20px 0;
+  padding-bottom: 80px;
+  font-size: 16px;
+  color: #999;
 }
 
 .blog {
@@ -756,7 +764,7 @@ p.fellowship {
   .home .quotes {
     padding-top: 60px;
   }
-  .home .membership { 
+  .home .membership {
     padding-bottom: 60px;
   }
 }
@@ -800,5 +808,17 @@ p.fellowship {
   .avatar {
     float: left;
     margin-right: 10px;
+  }
+}
+
+.archive-area {
+  background: #dedede;
+  padding: 20px;
+  margin-bottom: 20px;
+
+  h2 {
+    font-family: 'Libre Baskerville';
+    color: #1c2f52;
+    text-transform: uppercase;
   }
 }

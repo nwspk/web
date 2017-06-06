@@ -36,8 +36,27 @@
         = surround "(", ")" do
           %a{ href: u.twitter.profile_url}= "@#{u.twitter.username}"
 
-%p
+%p{ style: 'margin-bottom: 36px' }
   %a{ href: graphs_full_url } See all members
+
+%p
+  %u Current Fellows
+
+%ul{ style: 'padding-left: 18px' }
+  - @fellows.each do |u|
+    %li
+      - if u.url.blank?
+        %span>= u.name
+      - else
+        %a{ href: u.url }>= u.name
+      - unless u.showcase_text.blank?
+        = ", #{u.showcase_text}"
+      - if u.twitter
+        = surround "(", ")" do
+          %a{ href: u.twitter.profile_url}= "@#{u.twitter.username}"
+
+%p{ style: 'margin-bottom: 36px' }
+  %a{ href: fellowship_path } See all fellows
 
 %p{ style: 'margin-bottom: 36px' }
   You've made #{@num_new_connections} new connections this month, and there are still #{@num_users - @num_connections} members you haven't connected to yet.

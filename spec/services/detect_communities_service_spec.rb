@@ -26,7 +26,7 @@ RSpec.describe DetectCommunitiesService, type: :model do
 
       graph.nodes.each { |n| communities.add(n.community) unless communities.include?(n.community) }
 
-      expect(communities.size).to eq 2
+      expect(communities.size).to eq 3
     end
 
     it 'detect connected communities' do

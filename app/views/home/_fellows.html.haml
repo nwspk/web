@@ -12,4 +12,7 @@
               %span.fellow-name= link_to fellow.name, social_media_url(fellow)
               %span.fellow-description= fellow.showcase_text
 
+              - if fellow.twitter
+                %a.twitter-follow-button{ href: fellow.twitter.profile_url } Follow
+
   = side_link_to fellowship_path

@@ -1,3 +1,5 @@
+- links ||= false
+
 .col-xs-12.col-sm-6
   %li
     = link_to social_media_url(user) do
@@ -5,3 +7,6 @@
     .member-details
       %span.member-title= link_to user.name, social_media_url(user)
       %span.member-description= user.showcase_text
+
+      - if links && user.twitter
+        %a.twitter-follow-button{ href: user.twitter.profile_url } Follow

@@ -7,8 +7,8 @@ class AdminMailer < ApplicationMailer
 
   def new_member_email(new_member)
     @new_member = new_member
-    return if no_admins
-    mail to: admins, subject: "New member signed up: #{new_member.name}"
+    return if no_admins && no_fellows
+    mail to: admins + fellows, subject: "New member signed up: #{new_member.name}"
   end
 
   def new_subscriber_email(new_subscriber)
@@ -30,7 +30,15 @@ class AdminMailer < ApplicationMailer
     User.admins.pluck(:email)
   end
 
+  def fellows
+    User.fellows.pluck(:email)
+  end
+
   def no_admins
-    User.admins.count < 1
+    User.admins.count.zero?
+  end
+
+  def no_fellows
+    User.fellows.count.zero?
   end
 end

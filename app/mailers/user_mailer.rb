@@ -10,6 +10,7 @@ class UserMailer < ApplicationMailer
     @num_connections     = @user.friends.count('distinct to_id')
     @num_new_connections = @user.friends.where('friend_edges.created_at > ?', time - 30.days).count('distinct to_id')
     @upcoming_events     = Event.public_and_confirmed.upcoming
+    @fellows             = User.fellows
 
     unless @subscription.customer_id.blank?
       stripe_customer = Stripe::Customer.retrieve(@subscription.customer_id)

@@ -20,9 +20,9 @@
     .calendar-links
       = link_to api_events_url(protocol: 'webcal', format: :ics, only_path: false), class: 'calendar-link' do
         = fa_icon('download')
-        Subscribe with iCal
+        Subscribe with Apple Calendar
       = link_to "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}", class: 'calendar-link' do
         = fa_icon('google-plus')
-        Add to Google
+        Subscribe with Google Calendar
 
   = side_link_to events_path
