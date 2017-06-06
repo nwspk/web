@@ -8,5 +8,5 @@
       %span.member-title= link_to user.name, social_media_url(user)
       %span.member-description= user.showcase_text
 
-      - if links && user.twitter
-        %a.twitter-follow-button{ href: user.twitter.profile_url } Follow
+      - if user.twitter
+        %a.twitter-follow-button{ href: user.twitter.profile_url, data: { 'show-count': 'false', 'show-screen-name': 'false' } } Follow
