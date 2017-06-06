@@ -17,8 +17,8 @@
         = Kramdown::Document.new(e.short_description).to_html.html_safe
 
 %p{ style: 'margin-bottom: 36px' }
-  %a{ href: api_events_url } Subscribe via iCal
-  %a{ href: "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}" } Add to Google
+  %a{ href: api_events_url } Subscribe with Apple Calendar
+  %a{ href: "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}" } Subscribe with Google Calendar
 
 %p
   %u New Members This Month
