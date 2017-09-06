@@ -23,10 +23,12 @@ namespace :calendar do
     Event.public_and_confirmed.find_each do |db_event|
       escaped_desc = db_event.description.to_json
       escaped_desc.gsub!(/\A"|"\Z/, '')
+      escaped_title = db_event.name.to_json
+      escaped_title.gsub!(/\A"|"\Z/, '')
 
       if db_event.gcal_id.nil?
         gc_event = cal.create_event do |e|
-          e.title       = db_event.name
+          e.title       = escaped_title
           e.start_time  = db_event.start_at.utc
           e.end_time    = db_event.end_at.utc
           e.description = escaped_desc
@@ -36,7 +38,7 @@ namespace :calendar do
         db_event.update(gcal_id: gc_event.id)
       else
         cal.find_or_create_event_by_id(db_event.gcal_id) do |e|
-          e.title       = db_event.name
+          e.title       = escaped_title
           e.start_time  = db_event.start_at.utc
           e.end_time    = db_event.end_at.utc
           e.description = escaped_desc
