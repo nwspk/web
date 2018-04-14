@@ -42,7 +42,7 @@
   %a{ href: graphs_full_url } See all members
 
 %p
-  %u Current Fellows
+  %u Resident Fellows
 
 %ul{ style: 'padding-left: 18px' }
   - @fellows.each do |u|
@@ -71,25 +71,61 @@
     %a{href: check_friends_connections_url} refresh your social accounts.
 
 %p
-  %u Billing Invoice
+  %u Tax Invoice
 
 %table{ style: 'border-collapse: collapse; font: 14px/18px monospace' }
   %tbody
     %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Membership Tier:
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @subscription.plan.try(:name) || 'None'
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= @subscription.plan.try(:money_value)
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Invoice For 
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }=@user.name
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }=@user.email
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Reference : 
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } #{@subscription.customer_id}#{Time.now.strftime('%Y%m%d')}
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= Time.now.strftime("%B %d, %Y")
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } 
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Newspeak House Memebership
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Rate
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } #{@subscription.plan.try(:money_value)} GBP
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } #{@subscription.plan.try(:name) || 'None'}, #{Time.now.strftime("%B %Y")}
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } VAT
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } 20%
   %tfoot
     %tr
       %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'} Total:
       %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}= @subscription.plan.try(:money_value)
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}=@subscription.plan.try(:money_value)
 
 %p{ style: 'margin-bottom: 36px' }
   You will be billed with your card ending in #{@card_num} (
   %a{href: edit_subscription_url }> change payment details
   )
 
+%table{ style: 'border-collapse: collapse; font: 14px/18px monospace' }
+  %tbody
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } VAT SUMMARY
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } VAT
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }=@vat_amount
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Rate   VAT @ 20%
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } NET
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }=@net_amount
+    %tr
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } 
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }
+
+%p{ style: 'color: #555'}
+  Newspeak House, 133-135 Bethnal Green Road, London, E2 7DG
+%p{ style: 'color: #555'}
+  VAT Registration GB138 1544 17
+  
 %p{ style: 'color: #555'}
   Any problems with your membership, or if you see anything funny with this email, please contact
   %a{ href: 'mailto:ed@nwspk.com' } ed@nwspk.com
