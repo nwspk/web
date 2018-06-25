@@ -90,7 +90,7 @@
     %tr
       %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Newspeak House Membership
       %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Rate
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } #{@subscription.plan.try(:money_value)} GBP
+      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } #{@total_amount_with_vat} GBP
     %tr
       %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } #{@subscription.plan.try(:name) || 'None'}, #{Time.now.strftime("%B %Y")}
       %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } VAT
@@ -99,7 +99,7 @@
     %tr
       %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'} Total:
       %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}=@subscription.plan.try(:money_value)
+      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}=@total_amount_with_vat
 
 %p{ style: 'margin-bottom: 36px' }
   You will be billed with your card ending in #{@card_num} (
