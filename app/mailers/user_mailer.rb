@@ -12,8 +12,8 @@ class UserMailer < ApplicationMailer
     @upcoming_events       = Event.public_and_confirmed.upcoming
     @fellows               = User.fellows
     @total_amount          = @subscription.plan.value.to_f / 100
-    @total_amount_with_vat = (@total_amount * 1.2).round(2)
-    @vat_amount            = ( (@total_amount_with_vat * 0.2)  / 1.2).round(2)
+    #@total_amount_with_vat = (@total_amount * 1.2).round(2)
+    @vat_amount            = (@total_amount / 1.2).round(2)
     @net_amount            = (@total_amount - @vat_amount) .round(2)
     
     unless @subscription.customer_id.blank?
