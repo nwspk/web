@@ -1,6 +1,21 @@
 %section.fellows
   .col-md-8.col-md-offset-2.col-xs-12
-    %h2= link_to 'Current Fellows', fellowship_path
+    %h2= link_to 'Faculty', fellowship_path
+
+    %h4 Dean
+
+    %ul.row.fellows-list
+      .col-xs-12.col-sm-6
+        %li
+          = link_to "social_media_url", class: 'ed-image' do
+            = image_tag('ed_cropped_200.jpg')
+          .fellow-details
+            %span.fellow-name=link_to "Edward Saperia", "https://www.twitter.com/nwspk"
+            %span.fellow-description= link_to "@nwspk", "https://www.twitter.com/nwspk"
+            %span.fellow-description= link_to "ed@newspeak.house", 'mailto:ed@newspeak.house'
+            %span.fellow-description= link_to "newsletter", "http://www.tinyletter.com/edsaperia"
+
+    %h4 Resident Fellows
 
     %ul.row.fellows-list
       - @fellows.each do |fellow|

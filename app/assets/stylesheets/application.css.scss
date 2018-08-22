@@ -75,6 +75,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+p {
+  margin: 0 0 7px;
+}
+
 .logo a {
   @include h-center;
   @include fast-transition;
@@ -145,6 +149,14 @@ section {
     }
   }
 
+  h4 {
+    text-transform: none;
+    font-weight: bold;
+    text-align: center;
+    color: #1c2f52;
+    font-family: 'F25';
+  }
+
   &.flip {
     background: image-url('bg.jpg') repeat #ededed;
     background-size: 200px 200px;
@@ -197,7 +209,7 @@ section {
 
 .top-left-link {
   position: absolute;
-  left: 0;
+  left: -40px;
   @include v-center;
   -ms-transform: rotate(270deg);
   -webkit-transform: rotate(270deg);
@@ -263,11 +275,12 @@ section {
 
   .intro {
     @include center;
-    padding: 10px 0 100px;
+    padding: 10px 0 10px;
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 60px;
+    padding-bottom: 10px;
     color: #1c2f52;
+    font-size: 22px;
     letter-spacing: 1px;
     font-family: 'F25';
   }
@@ -365,7 +378,7 @@ section {
   }
 
   .membership {
-    background: image-url('bg.jpg') repeat;
+    
     padding-bottom: 100px;
   }
 
@@ -379,7 +392,7 @@ section {
   }
 
   .fellows {
-    background: white;
+    background: image-url('bg.jpg') repeat;
   }
 
   .quotes {
@@ -410,7 +423,7 @@ section {
   .progress {
     background: white;
     box-shadow: none;
-    border-radius: 4px;
+    border: 1px solid grey;
     height: 30px;
     margin-top: 20px;
   }
@@ -602,6 +615,22 @@ section {
       }
     }
 
+    .ed-image {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      img {
+        width: auto;
+        height: auto;
+        max-width: 100px;
+        max-height: 100px;
+      }
+    }
+
+
     .member-details, .fellow-details {
       display: flex;
       flex-direction: column;
@@ -773,7 +802,7 @@ p.fellowship {
     padding: 30px 10px 60px;
   }
   .home .intro {
-    padding: 10px 0 60px;
+    padding: 10px 0 10px;
   }
   .home .quotes {
     padding-top: 60px;
@@ -801,10 +830,12 @@ p.fellowship {
   border-radius: 4px;
   padding: 5px 10px;
   font-weight: 500;
-  background: #1c2f52;
-  color: #fff;
+  background: #fff;
+  color: #333;
   text-decoration: none;
   margin: 2px 0;
+  border-color: #ccc;
+  border: 1px solid #ccc;
 
   &:first-child {
     margin-right: 5px;
@@ -833,7 +864,28 @@ p.fellowship {
 
   h2 {
     font-family: 'Libre Baskerville';
+    margin-bottom: 60px;
+    font-size: 22px;
     color: #1c2f52;
+    font-weight: bold;
+    text-align: center;
     text-transform: uppercase;
+
+  }
+}
+
+.archive-area-index {
+  padding: 20px;
+  margin-bottom: 20px;
+  background: white;
+
+  h2 {
+    font-size: 22px;
+    color: #1c2f52;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'F25';
+    text-transform: none;
+
   }
 }
