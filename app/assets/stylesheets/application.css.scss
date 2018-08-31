@@ -73,6 +73,7 @@ body {
   background-size: 103px 103px;
   font-family: 'Libre Baskerville', serif;
   text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
 }
 
 p {
@@ -222,7 +223,6 @@ section {
   text-transform: uppercase;
 
   &:hover {
-    left: -2px;
     text-decoration: none;
     color: #1c2f52;
   }
@@ -293,21 +293,23 @@ section {
     ul {
       padding: 0;
       margin: 0;
-      list-style: none;
+      //list-style: none;
 
       li {
-        &:last-child {
-          padding-bottom: 10px !important;
-        }
+        //&:last-child {
+        //  padding-bottom: 10px !important;
+        //}
 
-        border-top: 1px solid #ccc;
-        padding: 20px 0;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        flex-wrap: wrap;
-        position: relative;
+        //border-top: 1px solid #ccc;
+        //padding: 20px 0;
+        //display: -webkit-box;
+        //display: -webkit-flex;
+        //display: -ms-flexbox;
+        //display: flex;
+        //flex-wrap: wrap;
+        //position: relative;
+        padding-left: 40px;
+        list-style-position: inside;
 
         .event-date {
           display: flex;
@@ -887,6 +889,14 @@ p.fellowship {
     font-family: 'F25';
     text-transform: none;
 
+  }
+
+  h4 {
+    text-transform: none;
+    font-weight: bold;
+    text-align: center;
+    color: #1c2f52;
+    font-family: 'F25';
   }
 }
 
