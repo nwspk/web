@@ -26,7 +26,6 @@ class AdminMailer < ApplicationMailer
   def staff_reminder_email(reminder, member)
     @member   = member
     @reminder = reminder
-    @twitter_bio = ""
     if @member.twitter
       @twitter_username = @member.twitter.try(:username)
       get_twitter_info
