@@ -30,7 +30,7 @@ class AdminMailer < ApplicationMailer
       @twitter_username = @member.twitter.try(:username)
       get_twitter_info
     end
-    mail to: "aga.sumowska@gmail.com", subject: "Member reminder: #{@member.name}"
+    mail to: @reminder.email, subject: "Member reminder: #{@member.name}"
   end
 
   private
