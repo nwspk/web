@@ -26,7 +26,10 @@ class AdminMailer < ApplicationMailer
   def staff_reminder_email(reminder, member)
     @member   = member
     @reminder = reminder
-
+    if @member.twitter
+      @twitter_username = @member.twitter.try(:username)
+      get_twitter_info
+    end
     mail to: @reminder.email, subject: "Member reminder: #{@member.name}"
   end
 
@@ -47,4 +50,28 @@ class AdminMailer < ApplicationMailer
   def no_fellows
     User.fellows.count.zero?
   end
+
+  #def get_friends
+  #  FriendEdge.find_or_create_by(from: user, to: friend, network: 'twitter')
+  #  FriendEdge.find_or_create_by(from: friend, to: user, network: 'twitter')
+  #end
+
+  def get_client
+    @client ||= Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['TWITTER_KEY']
+      config.consumer_secret     = ENV['TWITTER_SECRET']
+    end
+    @client
+  end
+
+  def get_twitter_info
+    begin
+      twitter_user = get_client.user(@twitter_username)
+      @twitter_bio = twitter_user.description
+      @twitter_photo = twitter_user.profile_image_url
+    rescue Twitter::Error => e
+      ""
+    end
+  end
+
 end
