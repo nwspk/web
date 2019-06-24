@@ -19,15 +19,12 @@
 
     %ul.row.fellows-list
       - @fellows.each do |fellow|
-        .col-xs-12.col-sm-6
+        .col-xs-12.col-sm-12
           %li
-            = link_to social_media_url(fellow), class: 'fellow-image' do
+            = link_to social_media_url(fellow), class: 'ed-image' do
               = image_tag profile_image_url(fellow)
             .fellow-details
               %span.fellow-name= link_to fellow.name, social_media_url(fellow)
-              %span.fellow-description= fellow.showcase_text
-
-              - if fellow.twitter
-                %a.twitter-follow-button{ href: fellow.twitter.profile_url } Follow
+              = Kramdown::Document.new(fellow.showcase_text).to_html.html_safe
 
   = link_to 'More about Fellowship', fellowship_path, class: 'action-btn btn btn-default'
