@@ -5,15 +5,18 @@
     %h4 Dean
 
     %ul.row.fellows-list
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-12
         %li
           = link_to "social_media_url", class: 'ed-image' do
             = image_tag('ed_cropped_200.jpg')
           .fellow-details
             %span.fellow-name=link_to "Edward Saperia", "https://www.twitter.com/nwspk"
-            %span.fellow-description= link_to "@nwspk", "https://www.twitter.com/nwspk"
-            %span.fellow-description= link_to "ed@newspeak.house", 'mailto:ed@newspeak.house'
+            %p Edward is Dean of The London College of Political Technologists at Newspeak House. Community strategist and game designer.
             %span.fellow-description= link_to "newsletter", "http://www.tinyletter.com/edsaperia"
+            %span.fellow-description= link_to "@nwspk", "https://www.twitter.com/nwspk"
+            %span.fellow-descrion= link_to "linkedin", "https://www.linkedin.com/edsaperia"
+            %span.fellow-description= link_to "ed@newspeak.house", 'mailto:ed@newspeak.house'
+            
 
     %h4 Resident Fellows
 
@@ -21,10 +24,10 @@
       - @fellows.each do |fellow|
         .col-xs-12.col-sm-12
           %li
-            = link_to social_media_url(fellow), class: 'ed-image' do
+            = link_to fellow.url, class: 'ed-image' do
               = image_tag profile_image_url(fellow)
             .fellow-details
-              %span.fellow-name= link_to fellow.name, social_media_url(fellow)
+              %span.fellow-name= link_to fellow.name, fellow.url
               = Kramdown::Document.new(fellow.showcase_text).to_html.html_safe
 
   = link_to 'More about Fellowship', fellowship_path, class: 'action-btn btn btn-default'
