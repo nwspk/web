@@ -15,6 +15,6 @@ class PublicUser < User
   def set_subscription_options
     # Default to "basic" plan (first plan created)
     # But don't bother creating a subscription for an applicant
-    self.build_subscription(plan_id: sponsor.blank? ? Plan.first.try(:id) : sponsor) unless applicant == "1"
+    self.build_subscription(plan_id: sponsor.blank? ? Plan.all_visible.first.try(:id) : sponsor) unless applicant == "1"
   end
 end
