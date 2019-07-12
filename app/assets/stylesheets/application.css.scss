@@ -815,7 +815,6 @@ p.fellowship {
 }
 
 .member-title, .member-description, .fellow-name, .fellow-description {
-  white-space: nowrap;
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
