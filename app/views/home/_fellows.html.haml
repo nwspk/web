@@ -10,12 +10,8 @@
           = link_to "social_media_url", class: 'ed-image' do
             = image_tag('ed_cropped_200.jpg')
           .fellow-details
-            %span.fellow-name=link_to "Edward Saperia", "https://www.twitter.com/nwspk"
-            %p Edward is Dean of The London College of Political Technologists at Newspeak House. Community strategist and game designer.
-            %span.fellow-description= link_to "newsletter", "http://www.tinyletter.com/edsaperia"
-            %span.fellow-description= link_to "@nwspk", "https://www.twitter.com/nwspk"
-            %span.fellow-descrion= link_to "linkedin", "https://www.linkedin.com/edsaperia"
-            %span.fellow-description= link_to "ed@newspeak.house", 'mailto:ed@newspeak.house'
+            %span.fellow-name= link_to @dean.name, @dean.url
+            = Kramdown::Document.new(@dean.showcase_text).to_html.html_safe
             
 
     %h4 Resident Fellows
