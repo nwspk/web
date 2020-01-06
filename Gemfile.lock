@@ -97,7 +97,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    concurrent-ruby (1.0.2)
+    concurrent-ruby (1.0.5)
     connection_pool (2.2.0)
     dante (0.2.0)
     debug_inspector (0.0.2)
@@ -267,7 +267,7 @@ GEM
     puma (3.6.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
-    rack (1.6.8)
+    rack (1.6.10)
     rack-mini-profiler (0.10.1)
       rack (>= 1.2.0)
     rack-protection (1.5.3)
@@ -293,11 +293,6 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
-    rails_serve_static_assets (0.0.5)
-    rails_stdout_logging (0.0.5)
     railties (4.2.5.1)
       actionpack (= 4.2.5.1)
       activesupport (= 4.2.5.1)
@@ -384,7 +379,7 @@ GEM
     simplecov-html (0.10.0)
     sixarm_ruby_unaccent (1.1.1)
     slop (3.6.0)
-    sprockets (3.7.0)
+    sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.1.1)
@@ -476,7 +471,6 @@ DEPENDENCIES
   quiet_assets
   rack-mini-profiler
   rails (= 4.2.5.1)
-  rails_12factor
   rr (= 1.1.2)
   rspec-rails
   rubocop
@@ -499,4 +493,4 @@ RUBY VERSION
    ruby 2.2.4p230
 
 BUNDLED WITH
-   1.13.0
+   1.16.0

@@ -1,0 +1,7 @@
+.archive-area-index.col-md-8.col-md-offset-2.col-xs-12
+
+  %h2 Event Archive
+
+  #archive
+    - @past_events.each do |event|
+      = render partial: 'events/row', locals: { event: event }

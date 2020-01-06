@@ -1,14 +1,13 @@
 - content_for :extra_tags do
   %meta{property: 'og:title', content: 'Newspeak House'}/
-  %meta{property: 'og:description', content: 'A Community Space for Political Technologists'}/
+  %meta{property: 'og:description', content: 'The London College of Political Technologists'}/
   %meta{property: 'og:image', content: asset_url('newlogo.png')}/
 
 .home
   = render partial: 'house'
   = render partial: 'intro'
-  = render partial: 'events'
   = render partial: 'fellows'
   = render partial: 'membership'
-  = render partial: 'members'
-  = render partial: 'contact'
+  = render partial: 'events'
+  = render partial: 'archive'
   = render partial: 'quotes'

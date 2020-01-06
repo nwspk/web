@@ -38,6 +38,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
+    AdminMailer.new_sponsored_member(resource).deliver_later if resource.applicant == "1"
     resource.applicant == "1" ? dashboard_path : checkout_subscription_path
   end
 

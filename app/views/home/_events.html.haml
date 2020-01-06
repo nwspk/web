@@ -1,28 +1,19 @@
 %section.flip.events#events
   .col-md-8.col-md-offset-2.col-xs-12
-    %h2= link_to 'Events', events_path
+    %h2= link_to 'Public Events', events_path
+    .calendar-links
+      = link_to api_events_url(protocol: 'webcal', format: :ics, only_path: false), class: 'calendar-link' do
+        Subscribe
+    .calendar-links
+      = link_to 'Propose a Community Event', events_path, class: 'calendar-link'
+      = link_to 'Hire for a Private Event', "https://www.appearhere.co.uk/spaces/london/shoreditch/shoreditch-large-retail-space", class: 'calendar-link'
 
     - if @events.empty?
       %p No upcoming events currently
     - else
       %ul
         - @events.each do |event|
-          %li
-            .event-date
-              = link_to events_path(anchor: "event-#{event.id}", id: event.id) do
-                %span.event-date-day= event.start_at.strftime('%d')
-                %span.event-date-month= event.start_at.strftime('%^b')
-            .event-details
-              = link_to event.name, events_path(anchor: "event-#{event.id}", id: event.id), class: 'event-title'
-              %span.event-location= event.location
-              %span.event-description= Kramdown::Document.new(event.short_description).to_html.html_safe
+          = render partial: 'events/row', locals: { event: event }
 
-    .calendar-links
-      = link_to api_events_url(protocol: 'webcal', format: :ics, only_path: false), class: 'calendar-link' do
-        = fa_icon('download')
-        Subscribe with Apple Calendar
-      = link_to "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}", class: 'calendar-link' do
-        = fa_icon('google-plus')
-        Subscribe with Google Calendar
 
-  = link_to 'View all Events', events_path, class: 'action-btn btn btn-default'
+  

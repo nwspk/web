@@ -1,5 +1,5 @@
 = simple_form_for(@subscription, url: process_card_subscription_path, method: :post) do |f|
   - if @subscription.customer_id.blank?
-    = stripe_button @plan.name, @plan.description, current_user.email, SIGNUP_FEE + @plan.value_with_discount(current_user).cents, 'Pay'
+    = stripe_button @plan.name, @plan.description, current_user.email, @plan.value_with_discount(current_user).cents, 'Pay'
   - else
     = stripe_button @plan.name, @plan.description, current_user.email, 0, 'Update card'

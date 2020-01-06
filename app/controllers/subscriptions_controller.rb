@@ -40,10 +40,11 @@ class SubscriptionsController < ApplicationController
         source: token,
         email: current_user.email,
         description: current_user.name,
-        account_balance: SIGNUP_FEE - @subscription.plan.value
+        account_balance: 0
       )
 
-      subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
+      #subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
+      subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id, tax_percent: 20)
 
       @subscription.customer_id     = customer.id
       @subscription.subscription_id = subscription.id
