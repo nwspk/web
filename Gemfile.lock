@@ -216,7 +216,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.8.2)
     mime-types (2.99.2)
-    mini_magick (4.6.0)
+    mini_magick (4.9.4)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
     money (6.7.1)
