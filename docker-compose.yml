@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  web:
+    platform: "linux/amd64"
+    build:
+      context: .
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - gem_cache:/usr/local/bundle/gems
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: "postgresql://postgres:postgres@database/nwspk_development"
+      REDIS_URL: "redis://redis:6379/0"
+      DEAN_USER_ID: 2
+
+  database:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: /usr/bin/pg_isready -U postgres
+      interval: 5s
+      timeout: 10s
+      retries: 120
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    platform: "linux/amd64"
+    image: redis:5.0
+
+  sidekiq:
+    platform: "linux/amd64"
+    build:
+      context: .
+    depends_on:
+      - web
+      - database
+      - redis
+    volumes:
+      - .:/app
+      - gem_cache:/usr/local/bundle/gems
+    environment:
+      RAILS_ENV: development
+      REDIS_URL: "redis://redis:6379/0"
+    entrypoint: ./sidekiq-entrypoint.sh
+
+volumes:
+  gem_cache:
+  postgres_data:
