@@ -8,17 +8,9 @@ Rails.application.routes.draw do
   get 'api/uid',                  to: 'api#uid'
   get 'api/dividends',            to: 'api#dividends'
   get 'api/events',               to: 'api#events'
-  get 'graphs/full',              to: 'graphs#full'
-  get 'graphs/friends',           to: 'graphs#friends'
-  get 'graphs/strangers',         to: 'graphs#strangers'
-  get 'graphs/access',            to: 'graphs#access'
   get 'about',                    to: 'home#about', as: :about
   get 'fellowship',               to: 'home#fellowship', as: :fellowship
-  get 'hire',                     to: 'home#hire', as: :hire
   post 'webhooks',                to: 'webhooks#index'
-  get 'export/users',             to: 'export#users'
-  get 'export/connections',       to: 'export#connections'
-  get 'export/entries',           to: 'export#entries'
 
   resources :connections, only: [:destroy] do
     collection do
