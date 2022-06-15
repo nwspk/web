@@ -20,3 +20,4 @@
 .env
 /coverage/
 /public/uploads
+/public/assets
