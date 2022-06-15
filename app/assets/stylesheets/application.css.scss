@@ -2,9 +2,38 @@
 // @import "bootstrap";
 @import "vis";
 @import "reset";
-@import "fonts";
 
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@font-face {
+  font-family: 'Copernicus';
+  src: url('GalaxieCopernicus-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: 'Copernicus';
+  src: url('GalaxieCopernicus-MediumItalic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: 'Copernicus-Semi';
+  src: url('GalaxieCopernicus-Semibold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: 'Copernicus-Semi';
+  src: url('GalaxieCopernicus-SemiboldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-stretch: normal;
+}
 
 body {
   background: white;
