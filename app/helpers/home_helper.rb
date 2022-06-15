@@ -18,8 +18,4 @@ module HomeHelper
       graphs_full_url(focus: user.id)
     end
   end
-
-  def goal_percent(pledge)
-    ((pledge / (500 * base_plan_rate_raw)) * 100).round(1)
-  end
 end
