@@ -49,4 +49,4 @@ jobs:
         run: ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake assets:precompile"
 
       - name: Reload server
-        eun: ssh nwspk-duck-root 'systemctl restart nwspk-*'
+        run: ssh nwspk-duck-root 'systemctl restart nwspk-*'

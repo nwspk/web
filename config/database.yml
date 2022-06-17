@@ -2,18 +2,17 @@ default: &default
   adapter: postgresql
   pool: 10
   encoding: unicode
-  password: password1
 
 development:
   <<: *default
-  database: nswpk_house_development
+  url:  <%= ENV["DATABASE_URL"] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: nwspk_house_test
+  database: nwspk_test
 
 production:
   url:  <%= ENV["DATABASE_URL"] %>
