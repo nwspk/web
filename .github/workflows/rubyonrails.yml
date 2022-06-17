@@ -35,10 +35,10 @@ jobs:
           ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH RAILS_ENV=production RACK_ENV=production bundle install --deployment --jobs 2 --without development test"
 
       - name: Run migrations
-        run: ssh nwspk-duck "cd /home/deploy/live && /home/deploy/live/bin/rake db:migrate"
+        run: ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake db:migrate"
         
       - name: Compile assets
-        run: ssh nwspk-duck "cd /home/deploy/live && /home/deploy/live/bin/rake assets:precompile"
+        run: ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake assets:precompile"
 
       - name: Reload server
         run: ssh nwspk-duck 'systemctl restart nwspk-*'
