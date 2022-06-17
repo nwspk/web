@@ -40,7 +40,7 @@ jobs:
 
       - name: Install requirements
         run: |
-          ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH RAILS_ENV=production RACK_ENV=production bundle install --deployment --jobs 2 --without development test"
+          ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH RAILS_ENV=development RACK_ENV=development bundle install --deployment --jobs 2 --without development test"
 
       - name: Run migrations
         run: ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake db:migrate"
