@@ -15,16 +15,24 @@ jobs:
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/nwspk-duck.key
+          echo "$ROOT_SSH_KEY" > ~/.ssh/nwspk-duck-root.key
           chmod 600 ~/.ssh/nwspk-duck.key
+          chmod 600 ~/.ssh/nwspk-duck-root.key
           cat >> ~/.ssh/config << EOF
           Host nwspk-duck
             HostName duck.newspeak.house
             User deploy
             IdentityFile ~/.ssh/nwspk-duck.key
             StrictHostKeyChecking no
+          Host nwspk-duck-root
+            HostName duck.newspeak.house
+            User root
+            IdentityFile ~/.ssh/nwspk-duck-root.key
+            StrictHostKeyChecking no
           EOF
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
+          ROOT_SSH_KEY: ${{ secrets.ROOT_SSH_KEY }}
 
       - name: Pull latest changes
         run: |
@@ -41,4 +49,4 @@ jobs:
         run: ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake assets:precompile"
 
       - name: Reload server
-        run: ssh nwspk-duck 'systemctl restart nwspk-*'
+        eun: ssh nwspk-duck-root 'systemctl restart nwspk-*'
