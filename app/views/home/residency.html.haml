@@ -1,0 +1,57 @@
+- content_for :extra_tags do
+  %meta{property: 'og:title', content: 'Newspeak House'}/
+  %meta{property: 'og:description', content: 'The London College of Political Technologists'}/
+  %meta{property: 'og:image', content: asset_url('newlogo.png')}/
+
+/ left side of the screen
+.screen-side{:style => "background-color: #2e2e2e;"}
+
+/ middle of the screen
+.main
+  .center-column
+    .head-title
+      = image_tag('book-logo-black-2.png')
+      .head-text
+        %h1 Newspeak House
+        %h3 The London College of Political Technology
+
+    .nav
+      %a{:href => "/index.html"} home
+      %a{:href => "/about.html"} about
+      %a{:href => "/fellowship.html"} fellowship
+      %a{:href => "/membership.html"} membership
+      %a{:href => "/scholarships"} scholarships
+      %a{:href => "/events.html"} events
+      %a{:href => "/visit.html"} visit
+
+    %p
+      %a.inline-link{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
+      •
+      %a.inline-link{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
+      •
+      %a.inline-link{:href => "https://twitter.com/nwspk"} @nwspk
+      
+    %h2 Residential Programme
+    %p
+      = image_tag('rufus.jpg')
+      %strong “For better or for worse, technology shapes society, but we can - and must - influence the path it takes. Newspeak House is the place to tackle this head on.” - 
+      %a.inline-link{:href => "https://rufuspollock.com/"}> &nbsp;Dr Rufus Pollock
+      , Founder & President, Open Knowledge, Fellow of Newspeak House
+    %p
+      = image_tag('lisa.png')
+      %strong “A residency at Newspeak House is a unique opportunity to connect with communities and ideas from across domains of politics, technology and social science.” - 
+      %a.inline-link{:href => "https://www.linkedin.com/in/lisa-murphy-982bb1b9"}> &nbsp;Dr Lisa Murphy
+      , Senior Policy Manager, NHSX Centre for Improving Data Collaboration, Fellow of Newspeak House
+ 
+ 
+ 
+ .foot
+    %a{:href => "/about.html"} about
+    %a{:href => "/fellowship.html"} fellowship
+    %a{:href => "/membership.html"} membership
+    %a{:href => "/scholarships"} scholarships
+    %a{:href => "/events.html"} events
+    %a{:href => "/visit.html"} visit
+
+/ right side of the screen
+.screen-side
