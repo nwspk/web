@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'api/events',               to: 'api#events'
   get 'about',                    to: 'home#about', as: :about
   get 'fellowship',               to: 'home#fellowship', as: :fellowship
+  get 'visit',                    to: 'home#visit', as: :visit
   post 'webhooks',                to: 'webhooks#index'
 
   resources :connections, only: [:destroy] do
