@@ -8,7 +8,6 @@
         = yield :page_title
 
     %link{href: canonical_path, rel: 'canonical'}/
-    %link{type: 'text/plain', rel: 'author', href: root_url + 'humans.txt'}/
 
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
@@ -19,4 +18,36 @@
     = yield :extra_tags
   %body
 
-    = content_for?(:content) ? yield(:content) : yield
+    / left side of the screen
+    .screen-side{:style => "background-color: #2e2e2e;"}
+
+    / middle of the screen
+    .main
+      .center-column
+        .head-title
+          = image_tag('book-logo-black-2.png')
+          .head-text
+            %h1 Newspeak House
+            %h3 The London College of Political Technology
+
+        .nav
+          %a{:href => "/"} home
+          %a{:href => "/about"} about
+          %a{:href => "/fellowship"} fellowship
+          %a{:href => "/membership"} membership
+          %a{:href => "/scholarships"} scholarships
+          %a{:href => "/events"} events
+          %a{:href => "/visit"} visit
+
+        = content_for?(:content) ? yield(:content) : yield
+
+      .foot
+        %a{:href => "/about"} about
+        %a{:href => "/fellowship"} fellowship
+        %a{:href => "/membership"} membership
+        %a{:href => "/scholarships"} scolarships
+        %a{:href => "/events"} events
+        %a{:href => "/visit"} visit
+
+    / right side of the screen
+    .screen-side
