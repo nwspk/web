@@ -30,6 +30,13 @@
             %h1 Newspeak House
             %h3 The London College of Political Technology
 
+        %p
+          %a.inline-link{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
+          •
+          %a.inline-link{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
+          •
+          %a.inline-link{:href => "https://twitter.com/nwspk"} @nwspk
+
         .nav
           %a{:href => "/"} home
           %a{:href => "/about"} about
@@ -39,13 +46,6 @@
           %a{:href => "/fellowship"} fellowship
           %a{:href => "/membership"} membership
           %a{:href => "/scholarships"} scholarships
-
-        %p
-          %a.inline-link{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
-          •
-          %a.inline-link{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
-          •
-          %a.inline-link{:href => "https://twitter.com/nwspk"} @nwspk
 
         = content_for?(:content) ? yield(:content) : yield
 
