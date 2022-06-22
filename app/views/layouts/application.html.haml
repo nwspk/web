@@ -40,12 +40,12 @@
         .nav
           %a{:href => "/"} home
           %a{:href => "/about"} about
-          %a{:href => "/visit"} visit
           %a{:href => "/events"} events
-          %a{:href => "/residency"} fellowship
+          %a{:href => "/residency"} residency
           %a{:href => "/fellowship"} fellowship
           %a{:href => "/membership"} membership
           %a{:href => "/scholarships"} scholarships
+          %a{:href => "/visit"} visit
 
         = content_for?(:content) ? yield(:content) : yield
 
