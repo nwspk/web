@@ -213,6 +213,24 @@ li {
   font-size: 155%;
 }
 
+.profile{
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-pic {
+    width: 200px;
+    height: 200px;
+    background-color: #cccccc;
+    background-origin: 0;
+    background-position: center;
+    background-size: cover;
+}
+
+.profile-text{
+	padding-left: 1em;
+}
+
 .foot {
   border-top: solid 1px #2e2e2e;
   padding: 2em 0 5em 0;
