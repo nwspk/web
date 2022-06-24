@@ -115,6 +115,7 @@
   If you would like to know more about our pastoral provisions, please contact [pastoral email goes here]
 
 %h2.fellowship Current Residents
-%ul.members-list.clearfix
-  - @fellows.each do |fellow|
-    = render partial: 'member', locals: { user: fellow, links: true }
+
+%ul.members-list
+  - @alumni.each do |alumnus|
+    = render partial: 'member', locals: { user: alumnus, links: true }
