@@ -116,6 +116,6 @@
 
 %h2.fellowship Current Residents
 
-%ul.members-list
-  - @alumni.each do |alumnus|
-    = render partial: 'member', locals: { user: alumnus, links: true }
+/ %ul.members-list.clearfix
+/   - @fellows.each do |fellow|
+/     = render partial: 'member', locals: { user: fellow, links: true }
