@@ -101,6 +101,16 @@ small,
 }
 
 a {
+  font-family: 'Copernicus', 'Georgia', serif;
+  text-decoration: none;
+  color: #fd433e;
+}
+
+a:hover {
+  color: #da3531;
+}
+
+.section-link {
   font-family: 'Lato', sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -111,16 +121,8 @@ a {
   letter-spacing: 0.1em;
 }
 
-a:hover {
+.section-link:hover {
   color: #da3531;
-}
-
-.inline-link {
-  padding: 0;
-  border: 0;
-  text-transform: none;
-  font-family: 'Copernicus', 'Georgia', serif;
-  letter-spacing: normal;
 }
 
 img {
@@ -199,10 +201,10 @@ label {
 }
 
 .nav a {
-  font-family: 'Copernicus', 'Georgia', serif;
-  border: none;
+  padding: 0.5em;
+  font-weight: 400;
+  letter-spacing: 0.1em;
   font-style: italic;
-  text-transform: lowercase;
 }
 
 .head-image {
