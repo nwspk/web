@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'fellowship',               to: 'home#fellowship', as: :fellowship
   get 'visit',                    to: 'home#visit', as: :visit
   get 'residency',                to: 'home#residency', as: :residency
+  get 'scholarships',             to: 'home#scholarships', as: :scholarships
   post 'webhooks',                to: 'webhooks#index'
 
   resources :connections, only: [:destroy] do
