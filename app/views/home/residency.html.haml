@@ -116,6 +116,5 @@
 
 %h2.fellowship Current Residents
 
-/ %ul.members-list.clearfix
-/   - @fellows.each do |fellow|
-/     = render partial: 'member', locals: { user: fellow, links: true }
+- @fellows.each do |fellow|
+  = render partial: 'member', locals: { user: fellow, links: true }

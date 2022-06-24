@@ -1,9 +1,0 @@
-%section.members
-  .col-md-8.col-md-offset-2.col-xs-12
-    %h2= link_to 'Recent Members', graphs_full_path
-
-    %ul.row.members-list
-      - @members.each do |member|
-        = render partial: 'member', locals: { user: member }
-
-  = link_to 'See all Members', graphs_full_path, class: 'action-btn btn btn-default'
