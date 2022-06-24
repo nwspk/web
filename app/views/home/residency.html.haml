@@ -86,7 +86,7 @@
 
 %h3 How to Apply
 %p
-  There is a short application form, primarily serving to give us an idea of what your interests are, and to start a conversation with us as to whether a residency might be the right thing for you. We encourage you to submit your application even if you're not sure if you want to take the course, or if you feel you don't have time to complete the form to your satisfaction.
+  There is a short application form, primarily serving to give us an idea of what your interests are, and to start a conversation with us as to whether a residency might be the right thing for you. We encourage you to submit your application even if you're not sure if you want to take the course, or if you feel you don't have time to complete the form to your satisfaction.  
 %p
   %a{:href => "https://forms.gle/M98A5nBcweRGSnJEA"} Application Form
 %p
@@ -113,3 +113,8 @@
   During the first month of residency we will host a series of cultural onboarding sessions designed to help create a culture of care and mutual support, as well as harm prevention and response.
 %p
   If you would like to know more about our pastoral provisions, please contact [pastoral email goes here]
+
+%h2.fellowship Current Residents
+%ul.members-list.clearfix
+  - @fellows.each do |fellow|
+    = render partial: 'member', locals: { user: fellow, links: true }
