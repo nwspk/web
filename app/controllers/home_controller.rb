@@ -13,6 +13,7 @@ class HomeController < ApplicationController
     @alumni  = User.alumni
   end
 
-  def about
+  def residency
+    @fellows = User.fellows
   end
 end
