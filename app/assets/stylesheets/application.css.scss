@@ -126,8 +126,7 @@ a:hover {
 }
 
 img {
-  max-width: 100%; 
-  width: 400px;
+  max-width: 100%;
 }
 
 ul {
@@ -251,6 +250,15 @@ label {
 
 .profile-pic {
     width: 400px;
+    height: 200px;
+    background-color: #cccccc;
+    background-origin: 0;
+    background-position: center;
+    background-size: cover;
+}
+
+.wide-pic {
+    width: 100%;
     height: 200px;
     background-color: #cccccc;
     background-origin: 0;
