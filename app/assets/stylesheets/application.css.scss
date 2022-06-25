@@ -246,10 +246,11 @@ label {
 .profile{
     display: flex;
     flex-direction: row;
+    padding-bottom: 1em;
 }
 
 .profile-pic {
-    width: 400px;
+    flex: 0 0 160px;
     height: 200px;
     background-color: #cccccc;
     background-origin: 0;
@@ -266,8 +267,8 @@ label {
     background-size: cover;
 }
 
-.profile-text{
-	padding-left: 1em;
+.profile-text p{
+    margin-bottom:0;
 }
 
 .foot {
