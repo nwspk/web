@@ -1,25 +1,23 @@
-.row.event-table{ id: "event-#{event.id}" }
-  .col-sm-2.event-date
+.event{ id: "event-#{event.id}" }
+  .event-details
     = link_to events_path(anchor: "event-#{event.id}", id: event.id) do
-      %span.event-date-day= event.start_at.strftime('%d')
-      %span.event-date-month= event.start_at.strftime('%^b')
-      %span.eventtime
-        = event.start_at.strftime('%l:%M%P')
-        \-
-        = event.end_at.strftime('%l:%M%P')
-        %br/
-        = event.location
-  .col-sm-10.event-details
-    .event-header
-      = link_to event.name, event.url
-      - unless event.public?
-        %small (Private event)
+      = event.start_at.strftime('%d') + event.start_at.strftime('%^b')
+      %br/
+      = event.start_at.strftime('%l:%M%P')
+      \-
+      = event.end_at.strftime('%l:%M%P')
+      %br/
+      = event.location
 
-      .event-organiser= link_to event.organiser_name, event.organiser_url
+  .event-title= link_to event.name, event.url
+  - unless event.public?
+    %small (Private event)
 
-    .event-description= Kramdown::Document.new(event.description).to_html.html_safe
+  .event-host= link_to event.organiser_name, event.organiser_url
 
-    - if can? :update, event
-      .event-actions= link_to 'Edit', edit_admin_event_path(event)
+  = Kramdown::Document.new(event.description).to_html.html_safe
 
-  = side_link_to event.url
+  = link_to "more information", event.organiser_url, class: 'section-link'
+
+  - if can? :update, event
+    .event-actions= link_to 'Edit', edit_admin_event_path(event)

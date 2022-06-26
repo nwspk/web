@@ -118,31 +118,5 @@
 
 
 %h3 What's On
-.event
-  .event-details
-    June 15
-    %br/
-    7:00pm-10:00pm
-    %br/
-    Lounge / Terrace
-  .event-title Ration Club
-  .event-host Edward Saperia
-  %p
-    Communal meals at Newspeak House, run by volunteers from the community and open to members and non-members alike. A great chance to meet the fellows and get the latest tech  politics gossip.
-  %p
-    BYOB, suggested donation £5.
-  %a.section-link{:href => ""} more information
-.event
-  .event-details
-    June 15
-    %br/
-    7:00pm-10:00pm
-    %br/
-    Lounge / Terrace
-  .event-title Ration Club
-  .event-host Edward Saperia
-  %p
-    Communal meals at Newspeak House, run by volunteers from the community and open to members and non-members alike. A great chance to meet the fellows and get the latest tech  politics gossip.
-  %p
-    BYOB, suggested donation £5.
-  %a.section-link{:href => ""} more information
+- @events.each do |event|
+  = render partial: 'events/row', locals: { event: event }
