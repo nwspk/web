@@ -18,7 +18,7 @@
 
   = Kramdown::Document.new(event.description).to_html.html_safe
 
-  = link_to "more information", event.organiser_url, class: 'section-link'
+  = link_to "Register ↗", event.url, class: 'section-link'
 
   - if can? :update, event
     .event-actions= link_to 'Edit', edit_admin_event_path(event)
