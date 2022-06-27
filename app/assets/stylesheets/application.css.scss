@@ -284,6 +284,22 @@ label {
   background-size: cover;
 }
 
+.member {
+  margin-bottom: 1em;
+  display: grid;
+  grid-template-columns: 120px auto;
+}
+
+.member img {
+  object-fit: cover;
+  width: 120px;
+  height: 120px;
+}
+
+.member-text {
+  padding-left: 1em;
+}
+
 .wide-pic {
   width: 100%;
   height: 200px;
