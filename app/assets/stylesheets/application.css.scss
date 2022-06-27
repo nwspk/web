@@ -319,7 +319,8 @@ label {
   margin-bottom: 2em;
 }
 
-.event-details a {
+.event-details {
+  display: inline-block;
   font-family: 'Lato', sans-serif;
   text-transform: uppercase;
   font-weight: 400;

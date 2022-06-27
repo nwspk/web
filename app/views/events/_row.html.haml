@@ -1,10 +1,10 @@
 .event{ id: "event-#{event.id}" }
-  .event-details
-    = link_to events_path(anchor: "event-#{event.id}", id: event.id) do
+  = link_to events_path(anchor: "event-#{event.id}", id: event.id) do
+    .event-details
       = event.start_at.strftime('%d') + event.start_at.strftime('%^b')
       %br/
       = event.start_at.strftime('%l:%M%P')
-      \-
+      \–
       = event.end_at.strftime('%l:%M%P')
       %br/
       = event.location
