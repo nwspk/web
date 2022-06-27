@@ -268,38 +268,31 @@ label {
   font-size: 155%;
 }
 
-.profile{
-    display: flex;
-    flex-direction: row;
-    padding-bottom: 1em;
+.profile {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1em;
 }
 
 .profile-pic {
-    flex: 0 0 160px;
-    margin: 0.5em;
-    height: 200px;
-    background-color: #cccccc;
-    background-origin: 0;
-    background-position: center;
-    background-size: cover;
+  flex: 0 0 160px;
+  margin: 0.5em;
+  height: 200px;
+  background-color: #ccc;
+  background-position: center;
+  background-size: cover;
 }
 
 .wide-pic {
-    width: 100%;
-    height: 200px;
-    background-color: #cccccc;
-    background-origin: 0;
-    background-position: center;
-    background-size: cover;
+  width: 100%;
+  height: 200px;
+  background-color: #ccc;
+  background-position: center;
+  background-size: cover;
 }
 
-.profile-text p{
-    margin-bottom:0;
-}
-
-.foot {
-  border-top: solid 1px #2e2e2e;
-  padding: 2em 0 5em 0;
+.profile-text p {
+  margin-bottom: 0;
 }
 
 .event {
@@ -365,4 +358,9 @@ label {
     width: auto;
   }
 
+}
+
+footer {
+  margin-top: 6em;
+  padding-bottom: 2em;
 }
