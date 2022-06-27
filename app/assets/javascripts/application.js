@@ -9,3 +9,12 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
+//
+//= require jquery
+//= require jquery_ujs
+//= require best_in_place
+//= require best_in_place.jquery-ui
+//= require bootstrap-sprockets
+$(document).ready(function() {
+  $(".best_in_place").best_in_place();
+});
