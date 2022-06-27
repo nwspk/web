@@ -7,6 +7,6 @@
   %a{:href => "/residency"} residential programme
   become Fellows of Newspeak House. We now have over 80 fellows in our network and they can be found in significant positions across many prominent institutions. As fellows of the college, they have the right to attend college ceremonies and access certain special fellowship activities.
 
-%ul.members-list
+%div
   - @alumni.each do |alumnus|
     = render partial: 'member', locals: { user: alumnus, links: true }
