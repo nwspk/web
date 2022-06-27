@@ -1,17 +1,18 @@
 .event{ id: "event-#{event.id}" }
-  = link_to events_path(anchor: "event-#{event.id}", id: event.id) do
-    .event-details
-      = event.start_at.strftime('%d') + event.start_at.strftime('%^b')
-      %br/
-      = event.start_at.strftime('%l:%M%P')
-      \–
-      = event.end_at.strftime('%l:%M%P')
-      %br/
-      = event.location
 
   .event-title= link_to event.name, event.url
   - unless event.public?
     %small (Private event)
+
+  = link_to events_path(anchor: "event-#{event.id}", id: event.id) do
+    .event-details
+      = event.start_at.strftime('%d') + event.start_at.strftime('%^b')
+      •
+      = event.start_at.strftime('%l:%M%P')
+      \–
+      = event.end_at.strftime('%l:%M%P')
+      •
+      = event.location
 
   .event-host= link_to event.organiser_name, event.organiser_url
 
