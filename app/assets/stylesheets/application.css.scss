@@ -271,17 +271,22 @@ label {
 
 .profile {
   display: flex;
-  flex-direction: row;
   padding-bottom: 1em;
+  margin: 1em 0;
 }
 
 .profile-pic {
   flex: 0 0 160px;
-  margin: 0.5em;
   height: 200px;
-  background-color: #ccc;
   background-position: center;
   background-size: cover;
+  box-shadow: 8px 8px 0px 0px #000;
+}
+
+.profile-text p {
+  margin-top: 0;
+  margin-left: 1.5em;
+  margin-bottom: 0;
 }
 
 .member {
@@ -307,10 +312,6 @@ label {
   background-color: #ccc;
   background-position: center;
   background-size: cover;
-}
-
-.profile-text p {
-  margin-bottom: 0;
 }
 
 .event {

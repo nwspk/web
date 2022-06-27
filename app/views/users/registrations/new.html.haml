@@ -30,11 +30,8 @@
   .form-group
     %p.help-block You can also sponsor memberships for others:
 
-  .row
-    .col-sm-6
-      = f.input :sponsor, collection: Plan.visible, label: false, prompt: 'No additional memberships'
-    .col-sm-6
-      = f.input :applicant, as: :boolean, label: 'Apply for a sponsored membership'
+  = f.input :sponsor, collection: Plan.visible, label: false, prompt: 'No additional memberships'
+  = f.input :applicant, as: :boolean, label: 'Apply for a sponsored membership'
 
   .form-group
     %p.help-block Tell us briefly why you'd like to join Newspeak House - if you can, please include details of past & current projects, activism, relevant skills, organisational affiliations, etc

@@ -1,10 +1,10 @@
 - content_for :content do
   - if notice
-    .alert.alert-success.alert-dismissible
+    .alert.alert-success
       = notice
 
   - if alert
-    .alert.alert-danger.alert-dismissible
+    .alert.alert-danger
       = alert
 
   = content_for?(:subpage_content) ? yield(:subpage_content) : yield
