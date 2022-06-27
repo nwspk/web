@@ -294,10 +294,11 @@ label {
   object-fit: cover;
   width: 120px;
   height: 120px;
+  box-shadow: 8px 8px 0px 0px #000;
 }
 
 .member-text {
-  padding-left: 1em;
+  padding-left: 2em;
 }
 
 .wide-pic {
