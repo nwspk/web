@@ -1,8 +1,8 @@
 - links ||= false
 
 .profile{:style => 'margin-bottom: 16px;'}
-  = link_to user.url, class: 'inline-link' do
+  = link_to user.url do
     = image_tag profile_image_url(user), class: 'profile-pic', style: 'width: 120px; height: 120px;'
   .profile-text
-    = link_to user.name, user.url, class: 'inline-link'
+    = link_to user.name, user.url
     = Kramdown::Document.new(user.showcase_text).to_html.html_safe
