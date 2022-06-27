@@ -6,7 +6,7 @@
 
   = link_to events_path(anchor: "event-#{event.id}", id: event.id) do
     .event-details
-      = event.start_at.strftime('%d') + event.start_at.strftime('%^b')
+      = event.start_at.strftime('%d') + " " + event.start_at.strftime('%^b')
       •
       = event.start_at.strftime('%l:%M%P')
       \–
