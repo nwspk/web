@@ -16,47 +16,42 @@
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1"}
 
     = yield :extra_tags
+
   %body
 
-    / left side of the screen
-    .screen-side{:style => "background-color: #2e2e2e;"}
+    %aside
+      %nav
+        %a{:href => "/"} home
+        %a{:href => "/about"} about
+        %a{:href => "/events"} events
+        %a{:href => "/residency"} residency
+        %a{:href => "/fellowship"} fellowship
+        %a{:href => "/membership"} membership
+        %a{:href => "/scholarships"} scholarships
+        %a{:href => "/visit"} visit
+        %a{:href => "/account/sign_in"} login
 
-    / middle of the screen
-    .main
-      .center-column
-        .head-title
-          = image_tag('book-logo-black-2.png')
-          .head-text
-            %h1 Newspeak House
-            %h3 The London College of Political Technology
+    %header
+      .head-title
+        = image_tag('book-logo-black-2.png')
+        .head-text
+          %h1 Newspeak House
+          %h3 The London College of Political Technology
 
-        %p
-          %a{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
-          •
-          %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
-          •
-          %a{:href => "https://twitter.com/nwspk"} @nwspk
+      %p
+        %a{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
+        •
+        %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
+        •
+        %a{:href => "https://twitter.com/nwspk"} @nwspk
 
-        .nav
-          %a{:href => "/"} home
-          %a{:href => "/about"} about
-          %a{:href => "/events"} events
-          %a{:href => "/residency"} residency
-          %a{:href => "/fellowship"} fellowship
-          %a{:href => "/membership"} membership
-          %a{:href => "/scholarships"} scholarships
-          %a{:href => "/visit"} visit
-          %a{:href => "/account/sign_in"} login
+    %main
+      = content_for?(:content) ? yield(:content) : yield
 
-        = content_for?(:content) ? yield(:content) : yield
-
-        %footer
-          %p
-            %a{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
-            •
-            %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
-            •
-            %a{:href => "https://twitter.com/nwspk"} @nwspk
-
-    / right side of the screen
-    .screen-side
+    %footer
+      %p
+        %a{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
+        •
+        %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
+        •
+        %a{:href => "https://twitter.com/nwspk"} @nwspk
