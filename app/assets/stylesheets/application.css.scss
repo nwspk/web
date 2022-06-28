@@ -218,7 +218,7 @@ label {
   flex-direction: column;
   position: relative;
   left: -13em;
-  top: -3em;
+  top: -3.5em;
   margin-bottom: -23em;
   width: 9em;
   text-align: right;
@@ -279,7 +279,8 @@ label {
   height: 200px;
   background-position: center;
   background-size: cover;
-  box-shadow: 8px 8px 0px 0px #000;
+  box-shadow: 8px 8px 0px 0px #2e2e2e;
+  margin-right: 0.5em;
 }
 
 .profile-text p {
@@ -311,6 +312,8 @@ label {
   background-color: #ccc;
   background-position: center;
   background-size: cover;
+  margin-bottom: 2em;
+margin-top: 1em;
 }
 
 .event {
@@ -376,6 +379,10 @@ label {
     flex-wrap: wrap;
     width: auto;
   }
+
+.profile{
+  flex-direction: column;
+}
 
 }
 
