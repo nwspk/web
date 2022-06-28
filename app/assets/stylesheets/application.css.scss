@@ -176,6 +176,11 @@ th {
   font-family: var(--sans-serif-font);
   font-weight: 700;
 }
+@media (max-width: 800px) {
+  th {
+    padding: 2px;
+  }
+}
 
 p {
   font-size: 1em;
@@ -409,6 +414,12 @@ label {
   display: grid;
   grid-template-columns: 120px auto;
 }
+@media (max-width: 600px) {
+  .member {
+    display: block;
+    margin-top: 2em;
+  }
+}
 
 .member img {
   object-fit: cover;
@@ -419,6 +430,18 @@ label {
 
 .member-text {
   padding-left: 2em;
+}
+@media (max-width: 600px) {
+  .member-text {
+    padding-left: 0;
+    margin-top: 1em;
+  }
+}
+
+@media (max-width: 600px) {
+  .member-text p {
+    margin-left: 0;
+  }
 }
 
 .wide-pic {
