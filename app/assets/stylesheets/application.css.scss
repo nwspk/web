@@ -459,6 +459,11 @@ label {
   padding-left: 1em;
   margin-bottom: 3em;
 }
+@media (max-width: 600px) {
+  .event {
+    word-break: break-word;
+  }
+}
 
 .event-details {
   display: inline-block;
