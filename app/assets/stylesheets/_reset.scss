@@ -1,44 +1,148 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+// https://github.com/sirodoht/cssmonoculture
+
+html {
+  /* fix line height in all browsers */
+  line-height: 1.15;
+  /* prevent adjustments of font size after orientation changes in iOS */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  /* remove margin in all browsers */
   margin: 0;
-  padding: 0;
-  border: 0;
+}
+
+hr {
+  /* fix height in Firefox */
+  height: 0;
+  /* fix inheritance of border color in Firefox */
+  color: inherit;
+}
+
+abbr[title] {
+  /* fix text decoration in Chrome, Edge, Safari. */
+  text-decoration: underline dotted;
+}
+
+b,
+strong {
+  /* fix font weight in Edge and Safari */
+  font-weight: bolder;
+}
+
+code,
+kbd,
+samp,
+pre {
+  /* improve consistency of default fonts in all browsers */
+  font-family: monospace;
+  /* correct the odd 'em' font sizing in all browsers */
+  font-size: 1em;
+}
+
+small {
+  /* fix font size in all browsers */
+  font-size: 80%;
+}
+
+/* prevent sub and sup from affecting the line height in all browsers */
+sub,
+sup {
+font-size: 75%;
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
+
+sub {
+bottom: -0.25em;
+}
+
+sup {
+top: -0.5em;
+}
+
+table {
+  /* remove text indentation from table contents in Chrome and Safari */
+  text-indent: 0;
+  /* fix table border color inheritance in Chrome and Safari */
+  border-color: inherit;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  /* fix font styles in all browsers */
+  font-family: inherit;
   font-size: 100%;
-  font: inherit;
+  line-height: 1.15;
+  /* remove margin in Firefox and Safari */
+  margin: 0;
+}
+
+button,
+select {
+  /* remove inheritance of text transform in Edge and Firefox */
+  text-transform: none;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  /* fix inability to style clickable types in iOS and Safari */
+  -webkit-appearance: button;
+}
+
+/* remove inner border and padding in Firefox */
+::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+:-moz-focusring {
+  /* restore focus styles unset by the previous rule */
+  outline: 1px dotted ButtonText;
+}
+
+:-moz-ui-invalid {
+  /* remove additional ':invalid' styles in Firefox */
+  box-shadow: none;
+}
+
+progress {
+  /* fix vertical alignment in Chrome and Firefox */
   vertical-align: baseline;
 }
 
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-  display: block;
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  /* fix cursor style of increment and decrement buttons in Safari */
+  height: auto;
 }
-body {
-  line-height: 1;
+
+[type='search'] {
+  /* fix appearance in Chrome and Safari */
+  -webkit-appearance: textfield;
+  /* fix outline in Safari */
+  outline-offset: -2px;
 }
-ol, ul {
-  list-style: none;
+
+::-webkit-search-decoration {
+  /* remove inner padding in Chrome and Safari on macOS */
+  -webkit-appearance: none;
 }
-blockquote, q {
-  quotes: none;
+
+::-webkit-file-upload-button {
+  /* fix inability to style clickable types in iOS and Safari */
+  -webkit-appearance: button;
+  /* change font properties to 'inherit' in Safari. */
+  font: inherit;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
-  content: none;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
+
+summary {
+  /* fix display in Chrome and Safari */
+  display: list-item;
 }
