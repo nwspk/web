@@ -132,6 +132,11 @@ h2 {
   padding-top: 0.852em;
   margin-bottom: 0.0984em;
 }
+@media (max-width: 800px) {
+  h2 {
+    font-size: 3em;
+  }
+}
 
 h3 {
   font-size: 2.28em;
@@ -363,10 +368,6 @@ label {
   }
 }
 
-.quote {
-  font-style: italic;
-}
-
 .profile-pic {
   flex: 0 0 160px;
   height: 200px;
@@ -375,11 +376,32 @@ label {
   box-shadow: 8px 8px 0px 0px var(--almost-black);
   margin-right: 0.5em;
 }
+@media (max-width: 800px) {
+  .profile-pic {
+    flex: 0 0 200px;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 800px) {
+    .profile-text {
+      margin-top: 1em;
+  }
+}
 
 .profile-text p {
   margin-top: 0;
   margin-left: 1.5em;
   margin-bottom: 0;
+}
+@media (max-width: 800px) {
+  .profile-text p {
+    margin-left: 0;
+  }
+}
+
+.quote {
+  font-style: italic;
 }
 
 .member {
