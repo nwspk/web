@@ -53,39 +53,38 @@ h4,
 h5 {
   margin: 3rem 0 1.38rem;
   font-family: 'Copernicus', 'Georgia', serif;
-  line-height: 1.3;
+  /*line-height: 1.3;*/
+  font-weight: 700;
 }
 
+ 
+
 h1 {
-  font-size: 3.19em;
-  font-weight: 700;
-  line-height: 1.18em;
-  padding-top: 0.843em;
-  margin-bottom: 0.333em;
+  font-size: 5.06em;
+  line-height: 1.27em;
+  padding-top: 0.615em;
+  margin-bottom: 0.0220em;
 }
 
 h2 {
-  font-size: 2.38em;
-  font-weight: 700;
-  line-height: 1.58em;
-  padding-top: 0em;
-  margin-bottom: 0.342em;
+  font-size: 3.39em;
+  line-height: 1.43em;
+  padding-top: 0.852em;
+  margin-bottom: 0.0984em;
 }
 
 h3 {
-  font-size: 1.75em;
-  font-weight: 700;
-  line-height: 1.07em;
-  padding-top: 0em;
-  margin-bottom: 0.893em;
+  font-size: 2.28em;
+  line-height: 1.41em;
+  padding-top: 1.07em;
+  margin-bottom: 0.341em;
 }
 
 h4 {
-  font-size: 1.31em;
-  font-weight: 700;
-  line-height: 1.43em;
-  padding-top: 0em;
-  margin-bottom: 1.05em;
+  font-size: 1.50em;
+  line-height: 1.07em;
+  padding-top: 1.26em;
+  margin-bottom: 0.889em;
 }
 
 table {
@@ -115,9 +114,9 @@ th {
 
 p {
   font-size: 1.00em;
-  line-height: 1.88em;
-  padding-top: 0.625em;
-  margin-bottom: 1.25em;
+  line-height: 1.61em;
+  padding-top: 0.444em;
+  margin-bottom: 1.17em;
 }
 
 small,
@@ -220,7 +219,7 @@ label {
   position: relative;
   left: -13em;
   top: -3em;
-  margin-bottom: -21em;
+  margin-bottom: -23em;
   width: 9em;
   text-align: right;
 }
