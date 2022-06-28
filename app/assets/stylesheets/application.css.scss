@@ -188,6 +188,30 @@ footer{
   padding-top: 0.5em;
 }
 
+input[type=submit] {
+  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid;
+  padding: 0.5em;
+  color: #fd433e;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  background: none;
+}
+
+input[type=select]{
+  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid;
+  padding: 0.5em;
+  color: #fd433e;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  background: none;
+}
+
 .form-group {
   margin-bottom: 16px;
 }
