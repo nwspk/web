@@ -183,6 +183,13 @@ label {
   font-weight: 700;
 }
 
+footer{
+  margin-top: 6em;
+  margin-bottom: 6em;
+  border-top: 1px solid;
+  padding-top: 0.5em;
+}
+
 .form-group {
   margin-bottom: 16px;
 }
@@ -239,7 +246,7 @@ label {
 
 .head-title {
   width: 100%;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #2e2e2e;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -266,12 +273,17 @@ label {
   font-weight: 700;
   font-style: italic;
   font-size: 155%;
+  line-height: 0.8em;
 }
 
 .profile {
   display: flex;
   padding-bottom: 1em;
   margin: 1em 0;
+}
+
+.quote{
+  font-style: italic;
 }
 
 .profile-pic {
@@ -334,7 +346,7 @@ margin-top: 1em;
   font-weight: 700;
   font-size: 1.31em;
   line-height: 1.43em;
-  padding-top: 0.8em;
+  /*padding-top: 0.8em;*/
 }
 
 .event-host {
