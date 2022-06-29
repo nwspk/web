@@ -1,9 +1,9 @@
 name: "Ruby on Rails CI"
 on:
   push:
-    branches: [ "master", "duck" ]
+    branches: [ master, duck ]
   pull_request:
-    branches: [ "master", "duck" ]
+    branches: [ master, duck ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -49,7 +49,7 @@ jobs:
       - name: Reload server
         run: ssh nwspk-root 'systemctl restart nwspk-*'
 
-  deploy:
+  deploy_duck:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/duck'
     steps:
