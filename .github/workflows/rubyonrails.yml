@@ -1,21 +1,63 @@
-# This workflow will install a prebuilt Ruby version, install dependencies, and
-# run tests and linters.
 name: "Ruby on Rails CI"
 on:
   push:
-    branches: [ "new-design" ]
+    branches: [ "master", "duck" ]
   pull_request:
-    branches: [ "new-design" ]
+    branches: [ "master", "duck" ]
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/new-design'
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/nwspk-duck.key
-          echo "$ROOT_SSH_KEY" > ~/.ssh/nwspk-duck-root.key
+          echo "$SSH_KEY" > ~/.ssh/nwspk.key
+          echo "$ROOT_SSH_KEY" > ~/.ssh/nwspk-root.key
+          chmod 600 ~/.ssh/nwspk.key
+          chmod 600 ~/.ssh/nwspk-root.key
+          cat >> ~/.ssh/config << EOF
+          Host nwspk
+            HostName 139.59.188.50
+            User deploy
+            IdentityFile ~/.ssh/nwspk.key
+            StrictHostKeyChecking no
+          Host nwspk-root
+            HostName 139.59.188.50
+            User root
+            IdentityFile ~/.ssh/nwspk-root.key
+            StrictHostKeyChecking no
+          EOF
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          ROOT_SSH_KEY: ${{ secrets.ROOT_SSH_KEY }}
+
+      - name: Pull latest changes
+        run: |
+          ssh nwspk "cd /home/deploy/live && git pull"
+
+      - name: Install requirements
+        run: |
+          ssh nwspk "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH RAILS_ENV=production RACK_ENV=production bundle install --deployment --jobs 2 --without development test"
+
+      - name: Run migrations
+        run: ssh nwspk "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake db:migrate"
+        
+      - name: Compile assets
+        run: ssh nwspk "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake assets:precompile"
+
+      - name: Reload server
+        run: ssh nwspk-root 'systemctl restart nwspk-*'
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/duck'
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$DUCK_SSH_KEY" > ~/.ssh/nwspk-duck.key
+          echo "$DUCK_ROOT_SSH_KEY" > ~/.ssh/nwspk-duck-root.key
           chmod 600 ~/.ssh/nwspk-duck.key
           chmod 600 ~/.ssh/nwspk-duck-root.key
           cat >> ~/.ssh/config << EOF
@@ -31,8 +73,8 @@ jobs:
             StrictHostKeyChecking no
           EOF
         env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          ROOT_SSH_KEY: ${{ secrets.ROOT_SSH_KEY }}
+          DUCK_SSH_KEY: ${{ secrets.DUCK_SSH_KEY }}
+          DUCK_ROOT_SSH_KEY: ${{ secrets.DUCK_ROOT_SSH_KEY }}
 
       - name: Pull latest changes
         run: |
