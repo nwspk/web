@@ -1,21 +1,56 @@
 - content_for :page_title do
   Membership
 
-%h2 Support Newspeak House with Membership
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "giselle.jpg"})"}
+  %div.profile-text
+    %p.quote
+      "Spaces to come together are so important for movements and communities like DataKind. The value comes from both the physical infrastructure that NH makes available to the network, and the social infrastructure that NH is part of and strengthens - people that can contribute, share experiences, connect the dots. NH is a major location on the map for the communities that are using tech and data for social change. We are more connected, and have more impact, because it exists."
+    %p
+      %a{:href => "https://twitter.com/gisellecory"}> Giselle Cory
+    %p
+      CEO of Datakind UK
+      %br/
+      Member of Newspeak House
 
-%p Help Newspeak House stay independent, and join a network of people pioneering novel approaches across UK public sector and civil society.
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "hannah.jpg"})"}
+  %div.profile-text
+    %p.quote
+      "Being a member has been invaluable in helping us start Campaign Lab. As well as providing us with space to organise and convene, access to the network of fellows and other members was incredibly useful. For anyone working in politics or technology this space and its network is essential!"
+    %p
+      %a{:href => "https://www.campaignlab.uk/"}> Hannah O'Rourke
+    %p
+      Co-Founder of Campaign Lab
+      %br/
+      Member of Newspeak House
 
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "bill.png"})"}
+  %div.profile-text
+    %p.quote
+      "As we shuffle towards a dystopian future, Newspeak House dares to offer a space where we can consider alternative visions."
+    %p
+      %a{:href => "https://twitter.com/billt"}> Bill Thompson
+    %p
+      Principal Research Engineer at BBC R&D
+      %br/
+      Member of Newspeak House
 
-.progress-well
-  = render partial: 'home/progress'
-
-%p Memberships are #{base_plan_rate} per month, charged by monthly subscription.
-
-%hr/
+%h2 Membership
+%div.wide-pic{:style => "background-image: url(#{image_path "empower.png"})"}
+%p
+  Our members are people working across politics, government, academia, civil society, charities, and activism, who recognise the importance of the field of political technology. As a member you become part of a network of people making practical steps towards re-imagining how society functions.
+%p
+  Since our founding in 2015, Newspeak House has been entirely independent, not relying on funding from any other institution. This is only possible thanks to our generous members. However, this is a critical time; the pandemic has wiped out our reserves, leaving our core activities restricted and putting us at risk of closing. If there ever was a time to become a member, it is now. If you want to ensure your community can continue to benefit from the facilities at Newspeak House, please consider joining. 
+%p
+  Memberships are #{base_plan_rate} per month, charged by monthly subscription. You'll be able to access to members' only events, and have the right to book our spaces for events aligned with our mission.
+%p
+  If you are interested in supporting the college on a longer term basis through an endowing a scholarship, see &ensp;
+  %a{:href => "scholarships"}> scholarships
 
 = simple_vertical_form_for(resource, as: resource_name, url: user_registration_path) do |f|
   = f.error_notification
-
   = f.input :name, required: true
   = f.input :email, required: true
   = f.input :url, wrapper_html: { style: 'display: none' }
@@ -25,11 +60,8 @@
   .form-group
     %p.help-block You can also sponsor memberships for others:
 
-  .row
-    .col-sm-6
-      = f.input :sponsor, collection: Plan.visible, label: false, prompt: 'No additional memberships'
-    .col-sm-6
-      = f.input :applicant, as: :boolean, label: 'Apply for a sponsored membership'
+  = f.input :sponsor, collection: Plan.visible, label: false, prompt: 'No additional memberships'
+  = f.input :applicant, as: :boolean, label: 'Apply for a sponsored membership'
 
   .form-group
     %p.help-block Tell us briefly why you'd like to join Newspeak House - if you can, please include details of past & current projects, activism, relevant skills, organisational affiliations, etc
@@ -39,15 +71,4 @@
   .form-group
     = f.button :submit, 'Submit'
     
-.form-group
-  %p.help-block Newspeak House may collect data from you across our website, http://www.nwspk.com, and other sites we own and operate. It is Newspeak House’s policy to use your data to further its mission - for example, connecting you with other users, or to better understand your needs.
-  %p.help-block
-    We collect data only by fair and lawful means, and what data we store, we’ll protect within commercially acceptable means to prevent loss and theft, as well as unauthorised access, disclosure, copying, use or modification.
-  %p.help-block
-    You are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services.
-  %p.help-block
-    Our website may link to external sites that are not operated by us. Please be aware that we have no control over the content and practices of these sites, and cannot accept responsibility or liability for their respective privacy policies.
-  %p.help-block
-    Your continued use of our website will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us.
-  %p.help-block
-    This policy is effective as of 1 August 2018.
+%p Privacy Policy: Newspeak House will collect and store data that you submit to us, and use it to further its mission - for example, connecting you with other members that may share your interests.

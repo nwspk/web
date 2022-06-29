@@ -11,15 +11,19 @@
     %meta{property: 'og:description', content: 'Upcoming Events at Newspeak House'}/
   %meta{property: 'og:image', content: asset_url('newlogo.png')}/
 
-%h2
-  Events
-  %br/
-  %small= link_to 'Subscribe with Apple Calendar', api_events_url(protocol: 'webcal', format: :ics, only_path: false)
-  \-
-  %small= link_to 'Subscribe with Google Calendar', "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}"
-  \-
-  %small
-    = link_to 'Propose an event', 'mailto:ed@nwspk.com?subject=Newspeak%20House%20Event%20Proposal&body=Name:%20%0D%0ADate:%20%0D%0ATime:%20%0D%0AHow%20many%20people:%20%0D%0ADescription:'
+%h2.no-topping Events
+%p
+  As part of our research we offer our spaces for civic communities of practice to convene. Since opening in 2015 we have hosted over a thousand events, including lectures, meetups, hackathons, conferences, unconferences, workshops, roundtables, screenings, fundraisers, launches, and exhibitions.
+%p  
+  = image_tag('Empty Space (front).jpg')
+%p
+  To keep up with the event programme you can 
+  %a{:href => "webcal://newspeak.house/api/events.ics"}> &nbsp;subscribe to our event calendar
+  \. If you’d like to host an event in our space, you can
+  %a{:href => "https://www.appearhere.co.uk/spaces/london/shoreditch/shoreditch-large-retail-space"}> &nbsp;hire it outright
+  , or if you’re convening a civic community of practice do get in touch (
+  %a{:href => "mailto:contact@newspeak.house"}> contact@newspeak.house
+  ) to see if it could fit into our programme.
 
 - if @events.empty?
   .archive-empty Nothing at the moment!
@@ -34,8 +38,3 @@
   #archive
     - @past_events.each do |event|
       = render partial: 'row', locals: { event: event }
-
-%p{ style: 'text-align: center'}
-  = link_to 'Subscribe with Apple Calendar', api_events_url(protocol: 'webcal', format: :ics, only_path: false)
-  \-
-  = link_to 'Subscribe with Google Calendar', "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}"

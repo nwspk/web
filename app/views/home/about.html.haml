@@ -1,38 +1,246 @@
-%h2 About
+- content_for :extra_tags do
+  %meta{property: 'og:title', content: 'Newspeak House'}/
+  %meta{property: 'og:description', content: 'The London College of Political Technologists'}/
+  %meta{property: 'og:image', content: asset_url('newlogo.png')}/
 
-.blog
-	.blog-header
-		= image_tag('ed.jpg')
-		%span.name Edward Saperia
-		%span.title Founder, Newspeak House
-		%span.date June 23rd, 2016
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "areeq.png"})"}
+  %div.profile-text
+    %p.quote
+      “It's a factory which produces transformational ideas, people, and action - the beating heart of the UK's technology and democracy scene”
+    %p
+      %a{:href => "https://areeqchowdhury.com/"}> Areeq Chowdhury
+    %p
+      Head of Policy at The Royal Society
+      %br/
+      Fellow of Newspeak House
 
-	.blog-content
-		%p TL;DR I am trying to set up a hackspace for politics. I own a building, but I need help with running costs. It's a shop with flats above, the idea is to have activist residencies in the flats, and community space + events downstairs.
-		= image_tag('techforgood.jpg')
-		%p I am increasingly worried about the way that we make collective decisions as a country, and about the effectiveness of the institutions that govern public life in Britain - our government, our political parties, our newspapers, our unions, our universities, our schools. The status quo causes unnecessary suffering.
-		%p These are hard, systemic problems, and ideology only gets us so far. I believe we will not fix this by getting angrier, but by getting smarter.
-		= image_tag('blog2.jpg')
-		%p We live in a time of unprecedented technological upheaval. Only 10% of the companies listed on the Fortune 500 in 1955 are still there today. This creative destruction brings us the innovations that surround us in our daily lives.
-		%p However, the public and civic institutions that shape society change on a much slower timescale. We find ourselves surrounded by antiquated organisations whose influence we cannot escape.
-		= image_tag('blog3.jpg') 
-		%p I am fortunate enough to own a building in Bethnal Green, and I am proposing to use it to launch a new institution to focus on this problem. At the core of this will be a fellowship programme. From an open application process, the best technologists will be selected for 6 month residencies. They will spend that time researching and experimenting, seeking out failings in the current system that can be improved and gaps that can be filled, and help to break silos between organisations that are already working on these problems. The space will also host relevant meetups and events, where they can get input from the community and discuss their findings.
-		= image_tag('blog4.jpg')
-		%p 
-			In fact, I quietly started doing this a year ago. In that time, I've hosted over a hundred pro-bono events and I've attracted a 
-			= link_to 'motley crew of agitators', 'fellowship' 
-			into the flats. However, I've been doing this on the side while running a business, which means activist events have to fit around commercial hires, the residents need day jobs to pay rent, and I can't devote my full attention to either. It could be so much more.
-		%p So, I am asking for help. Now you can become a member of Newspeak House for £25 a month. With about 250 members, the fellowships can be free, and with 500 cover living costs. With about 1000, the shop can be a hub full time. Every member that joins helps us focus more on activism and less on paying the bills. There are still details to be figured out, e.g. I'd like the fellows to be chosen by the membership somehow - but these will be worked out over the next few months.
-		= image_tag('blog5.jpg')
-		%p 
-			So if you're a political technologist who wants a hub to meet likeminded people, or just someone who believes that technology has the power to improve society, please consider 
-			= link_to 'becoming a member.', 'membership'
-			= link_to 'Here are some other people', 'graphs/full' 
-			that have done so already.
-		%p 
-			Any questions, comments or offers of help, please get in touch: 
-			%br/
-			= link_to 'ed@nwspk.com,', 'mailto:ed@nwspk.com'
-			= link_to '@edsaperia,', 'http://www.twitter.com/edsaperia' 
-			=link_to 'www.facebook.com/edsaperia', 'http://www.facebook.com/edsaperia'
-		= image_tag('blog6.jpg')
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "aleksi.png"})"}
+  %div.profile-text
+    %p.quote
+      “An invaluable space for practitioners and advocates to make unexpected connections, discover shared interests and to plot new actions”
+    %p
+      %a{:href => "https://www.oii.ox.ac.uk/people/profiles/knuutila-aleksi/"}> Dr Aleksi Knuutila
+    %p
+      Postdoctoral Researcher in Computational Propaganda at the Oxford Internet Institute
+      %br/
+      Fellow of Newspeak House
+
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "tom.jpg"})"}
+  %div.profile-text
+    %p.quote
+      “Everyone in the UK who has any interest in tech mixed with politics, government, journalism or social change should spend time here ASAP”
+    %p
+      %a{:href => "http://tomsteinberg.co.uk/"}> Tom Steinberg
+    %p
+      Founder of mySociety
+      %br/
+      Member of Newspeak House
+
+%h2 What is Newspeak House?
+%p
+  Newspeak House, The London College of Political Technology, is an independent residential college founded in 2015. Our mission is to study, nurture and inspire emerging communities of practice across civil society and the public sector in the UK.
+%p
+  Newspeak House has two core activities; it hosts a busy calendar of 
+  = link_to 'events', 'events'
+  at its campus in central London, as well as a one year
+  = link_to 'residential programme', 'residency'
+  for emerging leaders in the field. Those who have graduated from the residential programme - over 80 now - become
+  %a{:href => "/fellowship"}> &nbsp;Fellows&nbsp;of&nbsp;Newspeak&nbsp;House
+  \, and can be found in significant positions across many prominent institutions.
+  
+%h2 What is Political Technology?
+%p
+  Society is made up of an ecosystem of institutions, and the sum of their actions shape the world that we live in. For better or for worse, these actions are deeply influenced by the infrastructures that they choose to use - they determine what is measured, what is decided, and what can be done. What infrastructures lead to what outcomes? How are these choices made, and by whom? How can we create new technologies that lead to the social outcomes that we want?
+%p
+  Political Technology is the study of institutions founded with a purpose (civic, political, public sector, charitable, activist, etc), the communities that surround them, and in particular the novel digital infrastructures that they produce and deploy. This is a diverse and dynamic field that is affecting society in complex ways. To give an idea of the range and variety of projects, some examples:
+%p
+  %a{:href => "https://www.wikidata.org/"}> Wikidata
+  , 
+  %a{:href => "https://dogooder.co/"}> &thinsp;do-gooder
+  , 
+  %a{:href => "https://www.organise.network/"}> &thinsp;Organise
+  , 
+  %a{:href => "https://fullfact.org/about/automated/"}> &thinsp;FullFact&thinsp;Automated&thinsp;Fact&thinsp;Checking
+  , 
+  %a{:href => "https://openreferraluk.org/"}> &thinsp;Open&thinsp;Referral
+  , 
+  %a{:href => "https://policykit.org/"}> &thinsp;PolicyKit
+  , 
+  %a{:href => "https://www.globaleaks.org/"}> &thinsp;GlobaLeaks
+  , 
+  %a{:href => "https://oa.works/"}> &thinsp;OA.Works
+  , 
+  %a{:href => "https://pol.is/"}> &thinsp;Polis
+  , 
+  %a{:href => "https://en.wikipedia.org/wiki/Prediction_market"}> &thinsp;Prediction&thinsp;Markets
+  , 
+  %a{:href => "https://sci-hub.41610.org/"}> &thinsp;Sci-Hub
+  , 
+  %a{:href => "https://www.crowdjustice.com/"}> &thinsp;CrowdJustice
+  , 
+  %a{:href => "https://loomio.com/"}> &thinsp;Loomio
+  , 
+  %a{:href => "https://www.theyworkforyou.com/"}> &thinsp;They&thinsp;Work&thinsp;For&thinsp;You
+  , 
+  %a{:href => "https://alaveteli.org/"}> &thinsp;Alaveteli
+  , 
+  %a{:href => "https://opencollective.com/"}> &thinsp;Open&thinsp;Collective
+  , 
+  %a{:href => "https://quadraticvote.co/"}> &thinsp;Quadratic&thinsp;Vote
+  , 
+  %a{:href => "https://www.maltego.com/"}> &thinsp;Maltego
+  , 
+  %a{:href => "https://www.opensanctions.org/"}> &thinsp;OpenSanctions
+  , 
+  %a{:href => "https://ckan.org/"}> &thinsp;CKAN
+  , 
+  %a{:href => "https://aragon.org/"}> &thinsp;Aragon
+  ,
+  %a{:href => "https://www.coops.tech/"}> &thinsp;CoTech
+  ,
+  %a{:href => "https://www.notifications.service.gov.uk/"}> &thinsp;Notify
+  , 
+  %a{:href => "https://benefits-calculator.turn2us.org.uk/"}> &thinsp;Turn2us&thinsp;Benefits&thinsp;Calculator
+  , 
+  %a{:href => "https://data.humdata.org/"}> &thinsp;Humanitarian&thinsp;Data&thinsp;Exchange
+  , 
+  %a{:href => "https://charitybase.uk"}> &thinsp;CharityBase
+  , 
+  %a{:href => "https://www.teachingpublicservice.digital/"}> &thinsp;Teaching&thinsp;Public&thinsp;Service&thinsp;in&thinsp;the&thinsp;Digital&thinsp;Age
+  , 
+  %a{:href => "https://www.casmtechnology.com/"}> &thinsp;CASM
+  , 
+  %a{:href => "https://democracyclub.org.uk/"}> &thinsp;Democracy&thinsp;Club
+  , 
+  %a{:href => "https://www.threesixtygiving.org/"}> &thinsp;360Giving
+  , 
+  %a{:href => "https://littlesis.org/"}> &thinsp;LittleSis
+  , 
+  %a{:href => "https://perspectiveapi.com/"}> &thinsp;Perspective
+  , 
+  %a{:href => "https://whotargets.me/"}> &thinsp;Who&thinsp;Targets&thinsp;Me?
+  , 
+  %a{:href => "https://turkopticon.net/"}> &thinsp;Turkopticon
+  , 
+  %a{:href => "https://policymogul.com/"}> &thinsp;PolicyMogul
+  , 
+  %a{:href => "http://www.datasciencepublicpolicy.org/our-work/tools-guides/aequitas/"}> &thinsp;Aequitas
+  , 
+  %a{:href => "https://en.wikipedia.org/wiki/Bluesky_(protocol)"}> &thinsp;Bluesky
+  , 
+  %a{:href => "https://en.wikipedia.org/wiki/Self-sovereign_identity"}> &thinsp;Self-sovereign&thinsp;Identity
+  , 
+  %a{:href => "https://12ft.io/"}> &thinsp;12ft
+  , 
+  %a{:href => "https://www.overton.io/"}> &thinsp;Overton
+  , 
+  %a{:href => "https://coralproject.net/"}> &thinsp;Coral
+  , 
+  %a{:href => "https://www.kialo.com/"}> &thinsp;Kialo
+  , 
+  %a{:href => "https://matrix.org/"}> &thinsp;Matrix
+  \.
+  
+  %p
+    Newspeak House is a home for people working on or studying projects like these. By bringing these important communities together, we hope to support the growth and sophistication of this new field.
+  %p
+    If this sounds like you, consider&thinsp;
+    %a{:href => "/residency"}> studying with us
+    !
+  
+%h2 Faculty & Staff
+
+%h3 Edward Saperia
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "edward.jpg"})"}
+%p
+  %a{:href => "mailto:ed@newspeak.house"} ed@newspeak.house
+  •
+  %a{:href => "https://twitter.com/edsaperia"} @edsaperia
+  •
+  %a{:href => "https://tinyletter.com/edsaperia"} newsletter
+%p
+  Edward is dean of Newspeak House, responsible for setting its research direction as well as the day-to-day running of the college. His area of study is infrastructure for organising and network development, and he spends his time trying to connect up bits of civil society, or making tools to do so: chair 
+  %a{:href => "https://centrefordemocracy.org.uk/"} Centre for Democracy
+  , board member 
+  %a{:href => "https://www.compassonline.org.uk/"} Compass
+  , curator 
+  %a{:href => "https://twitter.com/lcptuk"} LCPT Library
+  , steward 
+  %a{:href => "https://docs.plus"} docs.plus
+  , co-author 
+  %a{:href => "https://www.reorganise.work/"} Reorganise
+  , co-founder 
+  %a{:href => "https://data-collective.org.uk/"} Data Collective
+  , co-founder 
+  %a{:href => "https://www.techforgoodorganisers.uk/"} Tech for Good Organisers Network
+  , founder Environmental Permit Data Service (coming soon!)
+
+%h3 Dr Zarinah Agnew
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "Zarinah-Colour.png"})"}
+%p
+  %a{:href => "mailto:zarinah@newspeak.house"} zarinah@newspeak.house
+  •
+  %a{:href => "http://www.zarinahagnew.com"} zarinahagnew.com
+  •
+  %a{:href => "https://twitter.com/zarinahagnew"} @zarinahagnew
+%p
+  Zarinah is a neuroscientist by training. After spending over a decade in academia, they left to study the science of groups of brains - that is, humans in collectivity.
+%p
+  Alongside their work with the college, Zarinah runs three nonprofits aimed at experimental aspects of society, collective transformation and para-institutions. The  
+  %a{:href => "https://www.socialobservatory.space"} Social Science Observatory
+  is dedicated to the study of social science in the wild, 
+  %a{:href => "https://www.alternativejustices.com/"} Alternative Justices
+  works towards abolitionist community-based harm prevention and response, and 
+  %a{:href => "https://www.districtcommons.org/"} District Commons
+  engineers experimental spaces where humans can ‘be otherwise’. Together, these strands allow both the prefiguration of new social configurations, as well as the study of their transformational potential.
+
+%h3 Stephanie Sherman
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "Stephanie.png"})"}
+%p
+  %a{:href => "mailto:stephanie@newspeak.house"} stephanie@newspeak.house
+  •
+  %a{:href => "https://stephaniesherman.info"} stephaniesherman.info
+  •
+  %a{:href => "https://twitter.com/detectiveyes"} @detectiveyes
+%p
+  Stephanie is a design director, strategist, writer, and producer working across urbanism, technology, and culture.
+%p
+  She is director of the 
+  %a{:href => "https://www.arts.ac.uk/subjects/architecture-spatial-and-interior-design/postgraduate/ma-narrative-environments-csm"} MA Narrative Environments
+  program at Central Saint Martin’s, collaborates with The UC San Diego
+  %a{:href => "http://www.designgeopolitics.org/"} Center for Design and Geopolitics
+  and&thinsp;
+  %a{:href => "https://designlab.ucsd.edu/"}> Design Lab Automation Team 
+  , and the future of work thinktank&thinsp;
+  %a{:href => "https://autonomy.work/"}> Autonomy
+  \.
+%p
+  She is co-founder of
+  %a{:href => "https://goelsewhere.org/"} Elsewhere
+  and
+  %a{:href => "http://commonfield.org/"} Common Field
+  , and has taught at Strelka Institute Moscow, Neon Foundation Athens, Sandberg Institute Amsterdam, Cambridge University, Bauhaus University Weimar, Minneapolis College of Art and Design, Institut Hyperwerk Switzerland, and CCA San Francisco. 
+
+%h3 Declan Pattison
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "declan.jpg"})"}
+%p
+  %a{:href => "mailto:declan@newspeak.house"} declan@newspeak.house
+%p
+  Declan is head of facilities at Newspeak House, responsible for the material components of the building and event production. He comes from a background in touring theatre, puppetry, and education. If something is leaking or on fire, let him know!
+
+%h3 Mark Wainwright
+%div.profile
+  %div.profile-pic{:style => "background-image: url(#{image_path "mark.jpg"})"}
+%p
+  %a{:href => "mailto:minister.mark.wainwright@gmail.com"} minister.mark.wainwright@gmail.com
+  •
+  %a{:href => "https://onespiritinterfaithministers.com/mark-wainwright"} onespiritinterfaithministers.com/mark-wainwright
+%p
+  Mark is chaplain of Newspeak House, responsible for psycho-spiritual wellbeing of its community. He trained with the OneSpirit Interfaith Foundation, and also works in a hospital chaplaincy, providing a sensitive and non-judgemental listening presence to patients and families. He is available to talk confidentially to Newspeak House residents and fellows on pastoral or almost any other subjects.

@@ -1,20 +1,12 @@
 - content_for :content do
-  %section.page
-    = link_to fa_icon('angle-double-left'), content_for?(:back_link) ? yield(:back_link) : root_path, class: 'back-link'
+  - if notice
+    .alert.alert-success
+      = notice
 
-    .wrap
-      - if notice
-        .alert.alert-success.alert-dismissible
-          %button{type: "button", class: "close", data: { dismiss: "alert" } }
-            %span &times;
-          = notice
+  - if alert
+    .alert.alert-danger
+      = alert
 
-      - if alert
-        .alert.alert-danger.alert-dismissible
-          %button{type: "button", class: "close", data: { dismiss: "alert" } }
-            %span &times;
-          = alert
-
-      = content_for?(:subpage_content) ? yield(:subpage_content) : yield
+  = content_for?(:subpage_content) ? yield(:subpage_content) : yield
 
 = render template: 'layouts/application'

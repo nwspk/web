@@ -1,9 +1,8 @@
 - links ||= false
 
-.col-xs-12.col-sm-12
-  %li
-    = link_to user.url do
-      = image_tag profile_image_url(user), class: 'ed-image'
-    .member-details
-      %span.member-title= link_to user.name, user.url
-      %span.member-description= Kramdown::Document.new(user.showcase_text).to_html.html_safe
+.member
+  = link_to user.url do
+    = image_tag profile_image_url(user)
+  .member-text
+    = link_to user.name, user.url
+    = Kramdown::Document.new(user.showcase_text).to_html.html_safe

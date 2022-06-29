@@ -1,0 +1,52 @@
+# This workflow will install a prebuilt Ruby version, install dependencies, and
+# run tests and linters.
+name: "Ruby on Rails CI"
+on:
+  push:
+    branches: [ "new-design" ]
+  pull_request:
+    branches: [ "new-design" ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/new-design'
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/nwspk-duck.key
+          echo "$ROOT_SSH_KEY" > ~/.ssh/nwspk-duck-root.key
+          chmod 600 ~/.ssh/nwspk-duck.key
+          chmod 600 ~/.ssh/nwspk-duck-root.key
+          cat >> ~/.ssh/config << EOF
+          Host nwspk-duck
+            HostName duck.newspeak.house
+            User deploy
+            IdentityFile ~/.ssh/nwspk-duck.key
+            StrictHostKeyChecking no
+          Host nwspk-duck-root
+            HostName duck.newspeak.house
+            User root
+            IdentityFile ~/.ssh/nwspk-duck-root.key
+            StrictHostKeyChecking no
+          EOF
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          ROOT_SSH_KEY: ${{ secrets.ROOT_SSH_KEY }}
+
+      - name: Pull latest changes
+        run: |
+          ssh nwspk-duck "cd /home/deploy/live && git pull"
+
+      - name: Install requirements
+        run: |
+          ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH RAILS_ENV=production RACK_ENV=production bundle install --deployment --jobs 2 --without development test"
+
+      - name: Run migrations
+        run: ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake db:migrate"
+        
+      - name: Compile assets
+        run: ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake assets:precompile"
+
+      - name: Reload server
+        run: ssh nwspk-duck-root 'systemctl restart nwspk-*'

@@ -1,27 +1,12 @@
 - content_for :page_title do
   Fellows and alumni
 
-%h2 Newspeak House Fellowship
+%h2.no-topping Newspeak House Fellowship
+%p
+  Those who successfully complete the
+  %a{:href => "/residency"} residential programme
+  become Fellows of Newspeak House. We now have over 80 fellows in our network and they can be found in significant positions across many prominent institutions. As fellows of the college, they have the right to attend college ceremonies and access certain special fellowship activities.
 
-%p.fellowship
-  Newspeak House is an independent residential college founded in 2015 to study, nurture and inspire emerging communities of practice across UK public sector and civil society. This is broad ranging, covering people pioneering novel approaches across charities, government, local & national politics, journalism, education, activism, policy research, unions, community groups, etc, with the aim of cross fertilising innovations between these groups and creating unlikely collaborations.
-
-%p.fellowship
-  A Newspeak House fellowship is a 6 month period of residency in Newspeak House exploring this mission. There's no project requirement; instead it involves an intense programme of networking and engaging with various communities both online and offline. It's designed for socially-minded mid-career technologists considering their next move, and wanting to develop an overview of the sector so they can take more of a strategic/systemic approach. 
-
-%p.fellowship
-  If you’d like to find out more, please contact
-  = link_to 'Edward Saperia', 'mailto:ed@nwspk.com'
-  the dean of Newspeak House.
-
-%h2.fellowship Resident Fellows
-
-%ul.members-list.clearfix
-  - @fellows.each do |fellow|
-    = render partial: 'member', locals: { user: fellow, links: true }
-
-%h2.top-margin Alumni
-
-%ul.members-list
+%div
   - @alumni.each do |alumnus|
     = render partial: 'member', locals: { user: alumnus, links: true }

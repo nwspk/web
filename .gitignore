@@ -7,6 +7,8 @@
 # Ignore bundler config.
 /.bundle
 
+/vendor/bundle
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
@@ -20,3 +22,4 @@
 .env
 /coverage/
 /public/uploads
+/public/assets
