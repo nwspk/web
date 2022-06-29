@@ -21,6 +21,7 @@ body {
   line-height: 1.75;
   color: #171717;
   background: #f1f1f1;
+  min-height: 100vh;
 }
 @media (max-width: 940px) {
   body {
@@ -198,6 +199,7 @@ a {
   font-family: var(--serif-font);
   text-decoration: none;
   color: var(--red);
+  font-style: italic;
 }
 
 a:hover {
@@ -213,6 +215,7 @@ a:hover {
   color: var(--red);
   font-weight: 400;
   letter-spacing: 0.1em;
+  font-style: inherit;
 }
 
 .section-link:hover {
@@ -323,6 +326,11 @@ label {
   justify-content: space-between;
   padding-top: 5em;
   padding-bottom: 10px;
+}
+@media(max-width: 940px) {
+  .head-title {
+    padding-top: 2em;
+  }
 }
 
 .head-title img {
