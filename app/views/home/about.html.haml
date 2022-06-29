@@ -244,9 +244,3 @@
   %a{:href => "https://onespiritinterfaithministers.com/mark-wainwright"} onespiritinterfaithministers.com/mark-wainwright
 %p
   Mark is chaplain of Newspeak House, responsible for psycho-spiritual wellbeing of its community. He trained with the OneSpirit Interfaith Foundation, and also works in a hospital chaplaincy, providing a sensitive and non-judgemental listening presence to patients and families. He is available to talk confidentially to Newspeak House residents and fellows on pastoral or almost any other subjects.
-
-%h2 Newspeak House Fellowship
-
-%ul.members-list
-  - @alumni.each do |alumnus|
-    = render partial: 'member', locals: { user: alumnus, links: true }
