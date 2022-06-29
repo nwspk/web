@@ -328,6 +328,7 @@ label {
 .head-title img {
   width: 16%;
   height: auto;
+  align-self: center;
 }
 @media(max-width: 940px) {
   .head-title img {
@@ -344,7 +345,8 @@ label {
 }
 @media(max-width: 940px) {
   .head-text h1 {
-    font-size: 6.5vw;
+    font-size: 6.4vw;
+    white-space: nowrap;
   }
 }
 
@@ -358,7 +360,8 @@ label {
 }
 @media(max-width: 940px) {
   .head-text h3 {
-    font-size: 3.3vw;
+    font-size: 3.2vw;
+    white-space: nowrap;
   }
 }
 
