@@ -226,7 +226,7 @@ img {
 }
 
 ul {
-  margin-left: 2em;
+  /*margin-left: 2em;*/
   list-style: initial;
 }
 @media (max-width: 800px) {
@@ -475,9 +475,6 @@ label {
   }
 }
 
-.event ul{
-  margin-left: 0;
-}
 
 .event-details {
   display: inline-block;
