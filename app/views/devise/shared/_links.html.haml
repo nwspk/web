@@ -1,9 +1,11 @@
-.list-group
+%div{:style => 'margin-bottom: 1em;'}
   - if controller_name != 'sessions'
     = link_to "Log in", new_session_path(resource_name), class: 'list-group-item'
+    •
 
   - if devise_mapping.registerable? && controller_name != 'registrations'
     = link_to "Sign up", new_user_registration_path, class: 'list-group-item'
 
   - if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
+    •
     = link_to "Forgot your password?", new_password_path(resource_name), class: 'list-group-item'
