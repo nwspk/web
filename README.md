@@ -55,6 +55,11 @@ Add a new line just under the last `home` controller line (the fellowship one in
 get 'newproject',               to: 'home#newproject', as: :newproject
 ```
 
+### Styling
+
+The main CSS styling file is
+[/app/assets/stylesheets/application.css.scss](/app/assets/stylesheets/application.css.scss).
+
 ## Development
 
 Using Docker:
@@ -71,7 +76,7 @@ docker-compose exec web bundle exec rake db:setup db:migrate
 
 To have sidekiq under Docker, create this file `config/initializers/sidekiq.rb`:
 
-```
+```rb
 Sidekiq.configure_server do |config|
   config.redis = { url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0") }
 end
