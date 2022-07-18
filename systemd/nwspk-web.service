@@ -1,0 +1,16 @@
+[Unit]
+Description=nwspk-web
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/live
+Environment="RAILS_ENV=production"
+Environment="PORT=3000"
+ExecStart=/home/deploy/.rbenv/shims/bundle exec puma -C config/puma.rb
+TimeoutSec=15
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
