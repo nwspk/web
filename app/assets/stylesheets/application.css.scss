@@ -109,6 +109,12 @@ nav a {
   letter-spacing: 0.1em;
   font-style: italic;
 }
+@media (max-width: 940px) {
+  nav a {
+    padding-left: 0;
+    padding-right: 1em;
+  }  
+}
 
 h1,
 h2,
@@ -298,13 +304,6 @@ label {
   padding: 0.5em;
   border: 1px solid;
   background: #fff;
-}
-
-.nav a {
-  padding: 0.5em;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  font-style: italic;
 }
 
 .alert {
