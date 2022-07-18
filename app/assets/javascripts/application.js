@@ -14,6 +14,14 @@
 //= require jquery_ujs
 //= require best_in_place
 //= require best_in_place.jquery-ui
+
 $(document).ready(function() {
+  // Initialise best_in_place
   $(".best_in_place").best_in_place();
+
+  // Initialise viewport-units-buggyfill
+  // vw and vw units do not work well in iOS
+  // This is a JS hack to fix them.
+  // Source: https://github.com/rodneyrehm/viewport-units-buggyfill
+  window.viewportUnitsBuggyfill.init();
 });
