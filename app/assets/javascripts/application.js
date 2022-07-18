@@ -23,5 +23,7 @@ $(document).ready(function() {
   // vw and vw units do not work well in iOS
   // This is a JS hack to fix them.
   // Source: https://github.com/rodneyrehm/viewport-units-buggyfill
-  window.viewportUnitsBuggyfill.init();
+  window.viewportUnitsBuggyfill.init({
+    hacks: viewportUnitsBuggyfillHacks,
+  });
 });
