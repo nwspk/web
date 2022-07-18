@@ -24,6 +24,8 @@ $(document).ready(function() {
   // This is a JS hack to fix them.
   // Source: https://github.com/rodneyrehm/viewport-units-buggyfill
   window.viewportUnitsBuggyfill.init({
-    hacks: viewportUnitsBuggyfillHacks,
+    force: true,
+    hacks: window.viewportUnitsBuggyfillHacks,
   });
+  window.viewportUnitsBuggyfill.refresh();
 });
