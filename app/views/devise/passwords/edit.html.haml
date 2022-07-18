@@ -4,18 +4,15 @@
 - content_for :back_link do
   = new_session_path(resource_name)
 
-.row
-  .col-sm-2
-    = render "devise/shared/links"
-  .col-sm-10
-    = simple_vertical_form_for(resource, as: resource_name, url: password_path(resource_name), method: :put) do |f|
-      = f.error_notification
+= render "devise/shared/links"
+= simple_vertical_form_for(resource, as: resource_name, url: password_path(resource_name), method: :put) do |f|
+  = f.error_notification
 
-      = f.input :reset_password_token, as: :hidden
-      = f.full_error :reset_password_token
+  = f.input :reset_password_token, as: :hidden
+  = f.full_error :reset_password_token
 
-      = f.input :password, label: "New password", required: true, autofocus: true
-      = f.input :password_confirmation, label: "Confirm your new password", required: true
+  = f.input :password, label: "New password", required: true, autofocus: true
+  = f.input :password_confirmation, label: "Confirm your new password", required: true
 
-      .form-group
-        = f.button :submit, "Change my password"
+  .form-group
+    = f.button :submit, "Change my password"

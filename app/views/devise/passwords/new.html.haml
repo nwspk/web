@@ -4,13 +4,10 @@
 - content_for :back_link do
   = new_session_path(resource_name)
 
-.row
-  .col-sm-2
-    = render "devise/shared/links"
-  .col-sm-10
-    = simple_vertical_form_for(resource, as: resource_name, url: password_path(resource_name)) do |f|
-      = f.error_notification
-      = f.input :email, required: true, autofocus: true
+= render "devise/shared/links"
+= simple_vertical_form_for(resource, as: resource_name, url: password_path(resource_name)) do |f|
+  = f.error_notification
+  = f.input :email, required: true, autofocus: true
 
-      .form-group
-        = f.button :submit, "Send me reset password instructions"
+  .form-group
+    = f.button :submit, "Send me reset password instructions"

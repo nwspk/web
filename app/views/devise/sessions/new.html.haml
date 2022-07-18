@@ -1,14 +1,12 @@
 - content_for :page_title do
   Log in
 
-.row
-  .col-sm-2
-    = render "devise/shared/links"
-  .col-sm-10
-    = simple_vertical_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-      = f.input :email, required: false, autofocus: true
-      = f.input :password, required: false
-      = f.input :remember_me, as: :boolean
+= render "devise/shared/links"
 
-      .form-group
-        = f.button :submit, "Log in"
+= simple_vertical_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  = f.input :email, required: false, autofocus: true
+  = f.input :password, required: false
+  = f.input :remember_me, as: :boolean
+
+  .form-group
+    = f.button :submit, "Log in"
