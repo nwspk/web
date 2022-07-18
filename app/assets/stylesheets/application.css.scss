@@ -308,6 +308,15 @@ label {
   font-style: italic;
 }
 
+.alert {
+  margin-bottom: 1em;
+}
+
+.alert-danger {
+  color: var(--red);
+  font-weight: 700;
+}
+
 .head-image {
   width: 100%;
   border-bottom: 1px solid;
