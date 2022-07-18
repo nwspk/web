@@ -251,6 +251,7 @@ input[type="password"] {
 }
 
 input[type="submit"] {
+  cursor: pointer;
   font-family: var(--sans-serif-font);
   text-transform: uppercase;
   text-decoration: none;
