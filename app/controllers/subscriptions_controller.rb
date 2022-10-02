@@ -60,8 +60,6 @@ class SubscriptionsController < ApplicationController
 
       redirect_to dashboard_path, notice: 'Credit card successfully changed!'
     end
-  rescue Stripe::CardError => e
-    render action: 'checkout', alert: e
   end
 
   private
