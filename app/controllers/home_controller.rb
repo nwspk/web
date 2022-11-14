@@ -16,4 +16,8 @@ class HomeController < ApplicationController
   def residency
     @fellows = User.fellows
   end
+
+  def residents
+    @fellows = User.fellows
+  end
 end
