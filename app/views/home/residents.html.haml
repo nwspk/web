@@ -3,7 +3,7 @@
   %meta{property: 'og:description', content: 'The London College of Political Technology'}/
   %meta{property: 'og:image', content: asset_url('book-logo-black-2-sq.jpg')}/
   
-%h1.fellowship Current Cohort
+%h2.fellowship Current Cohort
 
 - @fellows.each do |fellow|
   = render partial: 'member', locals: { user: fellow, links: true }
