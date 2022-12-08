@@ -1,4 +1,4 @@
-class CreateStaffReminders < ActiveRecord::Migration
+class CreateStaffReminders < ActiveRecord::Migration[4.2]
   def change
     create_table :staff_reminders do |t|
       t.string :email, :string, null: false, default: ""
