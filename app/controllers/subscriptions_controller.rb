@@ -1,8 +1,8 @@
 class SubscriptionsController < ApplicationController
   layout 'subpage'
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :set_subscription
-  before_filter :require_selected_plan!
+  before_action :require_selected_plan!
 
   def checkout
     @plan = @subscription.plan
