@@ -29,9 +29,6 @@ class WebhooksController < ApplicationController
   private
 
   def on_invoice_created(subscription, invoice)
-    # friends_service = CheckFriendsService.new
-    # friends_service.call(subscription.user)
-
     items = Stripe::Invoice.retrieve(invoice.id).lines.all()
     return if items.data.size > 1
 
