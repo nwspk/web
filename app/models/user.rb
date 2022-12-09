@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :role, inclusion: ROLES.values
   validates_associated :subscription
-  validates :ring_size, inclusion: Ring::SIZES, unless: 'ring_size.nil?'
+  validates :ring_size, inclusion: Ring::SIZES, unless: -> { ring_size.nil? }
 
   has_one :address, dependent: :destroy
   has_one :subscription, dependent: :destroy
