@@ -3,24 +3,22 @@ export RAILS_ENV=development
 export DATABASE_URL=postgresql://nwspk@127.0.0.1/nwspk_development
 export REDIS_URL=redis://127.0.0.1:6379/0
 
-export DEAN_USER_ID=2
+export SECRET_KEY_BASE="xxx"
+
+export CANONICAL_HOST="https://newspeak.house"
+export MAILGUN_SMTP_LOGIN="xxx"
+export MAILGUN_SMTP_PASSWORD="xxx"
+export MAILGUN_SMTP_PORT="587"
+export MAILGUN_SMTP_SERVER="smtp.mailgun.org"
 export STRIPE_KEY="xxx"
 export STRIPE_PUBLIC_KEY="xxx"
 
-use nix
-
-export CANONICAL_HOST="https://newspeak.house"
 export DEFAULT_USER_EXCLUDE="someone@example.com"
 export GOOGLE_CALENDAR_ID=xxx@group.calendar.google.com
 export GOOGLE_CLIENT_ID=xxx
 export GOOGLE_CLIENT_SECRET=xxx
 export GOOGLE_REFRESH_TOKEN=xxx
 export GOOGLE_UA="UA-xxx"
-export MAILGUN_API_KEY="xxx"
-export MAILGUN_SMTP_LOGIN="xxx"
-export MAILGUN_SMTP_PASSWORD="xxx"
-export MAILGUN_SMTP_PORT="587"
-export MAILGUN_SMTP_SERVER="smtp.mailgun.org"
+
 export MAX_THREADS="16"
-export SECRET_KEY_BASE="xxx"
 export SEND_REMINDERS=1
