@@ -1,5 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  skip_before_filter :require_no_authentication, only: :new
+  skip_before_action :require_no_authentication, only: :new
   before_action :set_progress, only: [:new, :create]
 
   def new
@@ -38,8 +38,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    AdminMailer.new_sponsored_member(resource).deliver_later if resource.applicant == "1"
-    resource.applicant == "1" ? dashboard_path : checkout_subscription_path
+    AdminMailer.new_sponsored_member(resource).deliver_later if resource.applicant == '1'
+    resource.applicant == '1' ? dashboard_path : checkout_subscription_path
   end
 
   private
