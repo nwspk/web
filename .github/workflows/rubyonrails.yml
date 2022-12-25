@@ -77,8 +77,8 @@ jobs:
       - name: Run migrations
         run: ssh nwspk-staging "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && rails db:migrate"
 
-      # - name: Compile static assets
-      #   run: ssh nwspk-staging "cd /var/www/web && export PATH=/home/deploy/.rbenv/shims:$PATH && rails assets:precompile"
+      - name: Compile static assets
+        run: ssh nwspk-staging "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && rails assets:precompile"
 
       # - name: Reload server
       #   run: ssh nwspk-staging "systemctl restart nwspk-*"
