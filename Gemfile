@@ -23,8 +23,6 @@ gem "carrierwave"
 gem "icalendar"
 gem "kramdown"
 gem "stripe"
-# gem "google_calendar"
-# gem "terminal-table"
 
 group :development do
   gem "letter_opener"
@@ -32,10 +30,7 @@ group :development do
   gem "rubocop-rails", require: false
   gem "rubocop", require: false
   gem "web-console"
-  # gem "better_errors"
-  # gem "quiet_assets"
   # gem "brakeman", require: false
-  # gem "bundler-audit", require: false
   # gem "rack-mini-profiler"
 end
 
