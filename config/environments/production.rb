@@ -90,4 +90,9 @@ Rails.application.configure do
   config.lograge.enabled = true
 
   config.active_record.logger = nil
+
+  config.hosts << 'nwspk.com'
+  config.hosts << 'www.nwspk.com'
+  config.hosts << 'newspeak.house'
+  config.hosts << 'staging.newspeak.house'
 end
