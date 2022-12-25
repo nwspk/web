@@ -2,16 +2,16 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
   ROLES = {
-    admin:     'admin',
-    staff:     'staff',
-    fellow:    'fellow',
-    member:    'member',
-    guest:     'guest',
-    alumnus:   'alumnus',
-    founder:   'founder',
-    inactive:  'inactive',
-    applicant: 'applicant',
-  }
+    admin: 'admin',
+    staff: 'staff',
+    fellow: 'fellow',
+    member: 'member',
+    guest: 'guest',
+    alumnus: 'alumnus',
+    founder: 'founder',
+    inactive: 'inactive',
+    applicant: 'applicant'
+  }.freeze
 
   attr_accessor :community
 

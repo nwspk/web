@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  helper  ApplicationHelper
+  helper ApplicationHelper
   include ApplicationHelper
 
   def billing_email(user, time = Time.now)
@@ -12,10 +12,9 @@ class UserMailer < ApplicationMailer
     @upcoming_events       = Event.public_and_confirmed.upcoming
     @fellows               = User.fellows
     @total_amount          = @subscription.plan.value.to_f / 100
-    #@total_amount_with_vat = (@total_amount * 1.2).round(2)
     @vat_amount            = (@total_amount / 1.2).round(2)
     @net_amount            = (@total_amount - @vat_amount) .round(2)
-    
+
     unless @subscription.customer_id.blank?
       stripe_customer = Stripe::Customer.retrieve(@subscription.customer_id)
       @card_num       = stripe_customer.sources.retrieve(stripe_customer.default_source).last4

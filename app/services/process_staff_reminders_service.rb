@@ -1,7 +1,6 @@
 class ProcessStaffRemindersService
   def call
-    #Ensure this key exists on the production server
-    if ENV.has_key?("SEND_REMINDERS")
+    if ENV.key?('SEND_REMINDERS')
       StaffReminder.active.find_each do |r|
         next unless r.due?(Time.now)
 
