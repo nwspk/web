@@ -28,7 +28,7 @@ class AdminMailer < ApplicationMailer
   end
 
   def staff_reminder_email(reminder, member)
-    @member   = member
+    @member = member
     @reminder = reminder
     mail to: @reminder.email, subject: "Member reminder: #{@member.name}"
   end

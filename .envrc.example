@@ -5,20 +5,11 @@ export REDIS_URL=redis://127.0.0.1:6379/0
 
 export SECRET_KEY_BASE="xxx"
 
-export CANONICAL_HOST="https://newspeak.house"
 export MAILGUN_SMTP_LOGIN="xxx"
 export MAILGUN_SMTP_PASSWORD="xxx"
 export MAILGUN_SMTP_PORT="587"
 export MAILGUN_SMTP_SERVER="smtp.mailgun.org"
-export STRIPE_KEY="xxx"
-export STRIPE_PUBLIC_KEY="xxx"
-
-export DEFAULT_USER_EXCLUDE="someone@example.com"
-export GOOGLE_CALENDAR_ID=xxx@group.calendar.google.com
-export GOOGLE_CLIENT_ID=xxx
-export GOOGLE_CLIENT_SECRET=xxx
-export GOOGLE_REFRESH_TOKEN=xxx
-export GOOGLE_UA="UA-xxx"
-
-export MAX_THREADS="16"
 export SEND_REMINDERS=1
+export STRIPE_KEY="sk_xxx"
+export STRIPE_PUBLIC_KEY="pk_xxx"
+export STRIPE_TAX_RATE_ID="txr_xxx"
