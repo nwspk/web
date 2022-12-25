@@ -1,16 +1,41 @@
 [Unit]
 Description=nwspk-sidekiq
-After=network.target
+After=syslog.target network.target redis-server.service
 
 [Service]
-Type=simple
+Type=notify
+WatchdogSec=10
+
+WorkingDirectory=/var/www/web
+ExecStart=/bin/bash -lc 'exec /home/deploy/.rbenv/shims/bundle exec sidekiq -e production -q default -q mailers'
+
 User=deploy
-WorkingDirectory=/home/deploy/live
+Group=deploy
+UMask=0002
+
+# reduce ruby memory fragmentation and heap usage
+# https://www.mikeperham.com/2018/04/25/taming-rails-memory-bloat/
+Environment="MALLOC_ARENA_MAX=2"
+
 Environment="RAILS_ENV=production"
-Environment="DB_POOL=5"
-ExecStart=/home/deploy/.rbenv/shims/bundle exec sidekiq -c 5 -q default -q mailers
-TimeoutSec=15
+Environment="DATABASE_URL=postgresql://nwspk@127.0.0.1/nwspk_production"
+Environment="REDIS_URL=redis://127.0.0.1:6379/0"
+Environment="SECRET_KEY_BASE="xxx""
+Environment="MAILGUN_SMTP_LOGIN="xxx""
+Environment="MAILGUN_SMTP_PASSWORD="xxx""
+Environment="MAILGUN_SMTP_PORT="587""
+Environment="MAILGUN_SMTP_SERVER="smtp.mailgun.org""
+Environment="SEND_REMINDERS=1"
+Environment="STRIPE_KEY="xxx""
+Environment="STRIPE_PUBLIC_KEY="xxx""
+
+RestartSec=1
 Restart=always
+
+StandardOutput=syslog
+StandardError=syslog
+# default is bundler
+SyslogIdentifier=sidekiq
 
 [Install]
 WantedBy=multi-user.target

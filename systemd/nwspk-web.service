@@ -1,15 +1,30 @@
 [Unit]
 Description=nwspk-web
-After=network.target
+After=network.target redis-server.service
 
 [Service]
-Type=simple
+Type=notify
+WatchdogSec=10
+
+WorkingDirectory=/var/www/web
+ExecStart=/bin/bash -lc 'exec /home/deploy/.rbenv/shims/bundle exec puma -C /var/www/web/config/puma.rb'
+
 User=deploy
-WorkingDirectory=/home/deploy/live
+Group=deploy
+
 Environment="RAILS_ENV=production"
-Environment="PORT=3000"
-ExecStart=/home/deploy/.rbenv/shims/bundle exec puma -C config/puma.rb
-TimeoutSec=15
+Environment="DATABASE_URL=postgresql://nwspk@127.0.0.1/nwspk_production"
+Environment="REDIS_URL=redis://127.0.0.1:6379/0"
+Environment="SECRET_KEY_BASE="xxx""
+Environment="MAILGUN_SMTP_LOGIN="xxx""
+Environment="MAILGUN_SMTP_PASSWORD="xxx""
+Environment="MAILGUN_SMTP_PORT="587""
+Environment="MAILGUN_SMTP_SERVER="smtp.mailgun.org""
+Environment="SEND_REMINDERS=1"
+Environment="STRIPE_KEY="sk_xxx""
+Environment="STRIPE_PUBLIC_KEY="pk_xxx""
+Environment="STRIPE_TAX_RATE_ID="txr_xxx""
+
 Restart=always
 
 [Install]
