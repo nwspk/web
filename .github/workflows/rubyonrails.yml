@@ -1,12 +1,12 @@
 name: "Ruby on Rails CI"
 on:
   push:
-    branches: [ master, duck ]
+    branches: [ master, staging ]
   pull_request:
-    branches: [ master, duck ]
+    branches: [ master, staging ]
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/master'
     steps:
       - name: Configure SSH
@@ -49,46 +49,36 @@ jobs:
       - name: Reload server
         run: ssh nwspk-root 'systemctl restart nwspk-*'
 
-  deploy_duck:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/duck'
+  deploy_staging:
+    runs-on: ubuntu-22.04
+    if: github.ref == 'refs/heads/staging'
     steps:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$DUCK_SSH_KEY" > ~/.ssh/nwspk-duck.key
-          echo "$DUCK_ROOT_SSH_KEY" > ~/.ssh/nwspk-duck-root.key
-          chmod 600 ~/.ssh/nwspk-duck.key
-          chmod 600 ~/.ssh/nwspk-duck-root.key
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_nwspk_staging
+          chmod 600 ~/.ssh/id_nwspk_staging
           cat >> ~/.ssh/config << EOF
-          Host nwspk-duck
-            HostName duck.newspeak.house
+          Host nwspk-staging
+            HostName staging.newspeak.house
             User deploy
-            IdentityFile ~/.ssh/nwspk-duck.key
-            StrictHostKeyChecking no
-          Host nwspk-duck-root
-            HostName duck.newspeak.house
-            User root
-            IdentityFile ~/.ssh/nwspk-duck-root.key
+            IdentityFile ~/.ssh/id_nwspk_staging
             StrictHostKeyChecking no
           EOF
         env:
-          DUCK_SSH_KEY: ${{ secrets.DUCK_SSH_KEY }}
-          DUCK_ROOT_SSH_KEY: ${{ secrets.DUCK_ROOT_SSH_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.STAGING_SSH_PRIVATE_KEY }}
 
       - name: Pull latest changes
-        run: |
-          ssh nwspk-duck "cd /home/deploy/live && git pull"
+        run: ssh nwspk-staging "cd /var/www/web && git pull"
 
-      - name: Install requirements
-        run: |
-          ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH RAILS_ENV=production RACK_ENV=production bundle install --deployment --jobs 2 --without development test"
+      - name: Install dependencies
+        run: ssh nwspk-staging "cd /var/www/web && source .envrc && bundle install"
 
       - name: Run migrations
-        run: ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake db:migrate"
+        run: ssh nwspk-staging "cd /var/www/web && source .envrc && rails db:migrate"
         
-      - name: Compile assets
-        run: ssh nwspk-duck "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake assets:precompile"
+      - name: Compile static assets
+        run: ssh nwspk-staging "cd /var/www/web && export PATH=/home/deploy/.rbenv/shims:$PATH && rails assets:precompile"
 
       - name: Reload server
-        run: ssh nwspk-duck-root 'systemctl restart nwspk-*'
+        run: ssh nwspk-staging "systemctl restart nwspk-*"
