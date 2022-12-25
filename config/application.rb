@@ -27,5 +27,6 @@ module Nwspk
     end
 
     config.active_job.queue_adapter = :sidekiq
+    config.active_record.legacy_connection_handling = false
   end
 end
