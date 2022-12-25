@@ -3,8 +3,7 @@ Description=nwspk-web
 After=network.target redis-server.service
 
 [Service]
-Type=notify
-WatchdogSec=10
+Type=Simple
 
 WorkingDirectory=/var/www/web
 ExecStart=/bin/bash -lc 'exec /home/deploy/.rbenv/shims/bundle exec puma -C /var/www/web/config/puma.rb'
@@ -25,6 +24,7 @@ Environment="STRIPE_KEY="sk_xxx""
 Environment="STRIPE_PUBLIC_KEY="pk_xxx""
 Environment="STRIPE_TAX_RATE_ID="txr_xxx""
 
+TimeoutSec=15
 Restart=always
 
 [Install]
