@@ -18,14 +18,22 @@ services:
       RAILS_ENV: development
       DATABASE_URL: "postgresql://postgres:postgres@database/nwspk_development"
       REDIS_URL: "redis://redis:6379/0"
-      DEAN_USER_ID: 2
+      SECRET_KEY_BASE: "xxx"
+      MAILGUN_SMTP_LOGIN: "896e1902-98fc-4176-8266-43cba5d6f2d3"
+      MAILGUN_SMTP_PASSWORD: "896e1902-98fc-4176-8266-43cba5d6f2d3"
+      MAILGUN_SMTP_PORT: "587"
+      MAILGUN_SMTP_SERVER: "smtp.postmarkapp.com"
+      SEND_REMINDERS: 1
+      STRIPE_KEY: "sk_xxx"
+      STRIPE_PUBLIC_KEY: "pk_xxx"
+      STRIPE_TAX_RATE_ID: "txr_xxx"
 
   database:
-    image: postgres:9.5
+    image: postgres:14
     environment:
       - POSTGRES_PASSWORD=postgres
     healthcheck:
-      test: /usr/bin/pg_isready -U postgres
+      test: "pg_isready -U postgres"
       interval: 5s
       timeout: 10s
       retries: 120
