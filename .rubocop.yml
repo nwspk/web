@@ -6,7 +6,6 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'db/**/*'
-    - 'config/**/*'
     - 'script/**/*'
     - 'bin/{rails,rake}'
     - '**/Gemfile'
