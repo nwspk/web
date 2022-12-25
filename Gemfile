@@ -23,13 +23,15 @@ gem 'stripe'
 gem 'sidekiq'
 gem 'icalendar'
 gem 'kramdown'
-# gem 'dotenv-rails'
 # gem 'google_calendar'
 # gem 'mini_magick'
 gem 'carrierwave'
 
 group :development do
   gem "web-console"
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-performance', require: false
   # gem 'better_errors'
   # gem 'quiet_assets'
   # gem 'brakeman', require: false
@@ -43,7 +45,6 @@ end
   # gem 'pry'
   # gem 'fabrication'
   # gem 'faker'
-  # gem 'rubocop', require: false
   # gem 'fuubar', require: false
 # end
 
