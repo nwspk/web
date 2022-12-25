@@ -72,10 +72,10 @@ jobs:
         run: ssh nwspk-staging "cd /var/www/web && git pull"
 
       - name: Install dependencies
-        run: ssh nwspk-staging "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && bundle install'
+        run: ssh nwspk-staging "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && bundle install"
 
       - name: Run migrations
-        run: ssh nwspk-staging "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && rails db:migrate'
+        run: ssh nwspk-staging "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && rails db:migrate"
 
       # - name: Compile static assets
       #   run: ssh nwspk-staging "cd /var/www/web && export PATH=/home/deploy/.rbenv/shims:$PATH && rails assets:precompile"
