@@ -1,59 +1,58 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.1.3"
 
 gem "rails", "~> 7.0.4"
-gem "sprockets-rails"
+gem "pg"
 gem "puma", "~> 5.0"
-gem 'pg'
+gem "sidekiq"
+gem "sprockets-rails"
 
-gem 'jquery-rails'
-gem 'devise'
-gem 'simple_form'
-gem 'haml-rails'
-# gem 'bootstrap-sass'
-# gem 'font-awesome-rails'
-gem 'money'
-gem 'activeadmin'
-gem 'cancancan'
+gem "activeadmin"
+gem "cancancan"
+gem "devise"
+gem "haml-rails"
+gem "jquery-rails"
+gem "money"
+gem "simple_form"
+# gem "bootstrap-sass"
+# gem "font-awesome-rails"
 
-gem 'stripe'
-# gem 'terminal-table'
-gem 'sidekiq'
-gem 'icalendar'
-gem 'kramdown'
-# gem 'google_calendar'
-# gem 'mini_magick'
-gem 'carrierwave'
+gem "carrierwave"
+gem "icalendar"
+gem "kramdown"
+gem "stripe"
+# gem "google_calendar"
+# gem "terminal-table"
 
 group :development do
+  gem "letter_opener"
+  gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop", require: false
   gem "web-console"
-  gem 'rubocop', require: false
-  gem 'rubocop-rails', require: false
-  gem 'rubocop-performance', require: false
-  # gem 'better_errors'
-  # gem 'quiet_assets'
-  # gem 'brakeman', require: false
-  # gem 'bundler-audit', require: false
-  # gem 'rack-mini-profiler'
-  # gem 'letter_opener'
+  # gem "better_errors"
+  # gem "quiet_assets"
+  # gem "brakeman", require: false
+  # gem "bundler-audit", require: false
+  # gem "rack-mini-profiler"
 end
 
 # group :development, :test do
-  # gem 'rspec-rails'
-  # gem 'pry'
-  # gem 'fabrication'
-  # gem 'faker'
-  # gem 'fuubar', require: false
+  # gem "rspec-rails"
+  # gem "pry"
+  # gem "fabrication"
+  # gem "faker"
+  # gem "fuubar", require: false
 # end
 
 # group :test do
-  # gem 'rr', '1.1.2', require: false
-  # gem 'timecop'
-  # gem 'simplecov', require: false
+  # gem "rr", "1.1.2", require: false
+  # gem "timecop"
+  # gem "simplecov", require: false
 # end
 
 group :production do
-  gem 'lograge'
+  gem "lograge"
 end
