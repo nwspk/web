@@ -19,7 +19,12 @@
 /tmp
 
 # Local env
+.envrc
 .env
 /coverage/
 /public/uploads
 /public/assets
+
+# database files
+postgres-data/
+dump.rdb

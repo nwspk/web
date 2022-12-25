@@ -1,4 +1,4 @@
-require 'icalendar/tzinfo'
+require 'icalendar'
 
 class ApiController < ApplicationController
   protect_from_forgery with: :null_session
@@ -21,27 +21,8 @@ class ApiController < ApplicationController
     end
   end
 
-  def dividends
-    start_date = Chronic::parse(params[:from] || '30 days ago')
-    end_date   = Chronic::parse(params[:to]   || 'today')
-
-    s = CalculatePayrollService.new
-
-    dividend = s.call(start_date, end_date)
-    dividend = Money.new(dividend, 'GBP').format
-
-    str = "Total dividends\n#{dividend}"
-
-    respond_to do |format|
-      format.csv { render body: str, content_type: 'text/csv' }
-    end
-  end
-
   def events
     cal = Icalendar::Calendar.new
-    # tz  = TZInfo::Timezone.get 'UTC'
-    # timezone = tz.ical_timezone Time.now.utc
-    # cal.add_timezone timezone
 
     Event.public_and_confirmed.each do |ev|
       cal.event do |e|

@@ -1,6 +1,5 @@
-@import "vis";
-@import "reset";
-@import "fonts";
+/* = require reset */
+/* = require fonts */
 
 :root {
   --serif-font: 'Copernicus', 'Georgia', serif;
@@ -483,7 +482,6 @@ label {
     word-break: break-word;
   }
 }
-
 
 .event-details {
   display: inline-block;

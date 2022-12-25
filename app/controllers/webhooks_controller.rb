@@ -9,9 +9,6 @@ class WebhooksController < ApplicationController
       event        = Stripe::Event.retrieve(event_json['id'])
 
       case event.type
-      when 'invoice.created'
-        # subscription = Subscription.find_by!(customer_id: event.data.object.customer)
-        # on_invoice_created(subscription, event.data.object) unless event.data.object.closed
       when 'invoice.payment_succeeded'
         subscription = Subscription.find_by!(customer_id: event.data.object.customer)
         on_invoice_paid(subscription, event.data.object)
@@ -21,23 +18,12 @@ class WebhooksController < ApplicationController
       end
     end
 
-    render nothing: true, status: 200
+    render nothing: true, status: :ok
   rescue Stripe::InvalidRequestError
-    render nothing: true, status: 200
+    render nothing: true, status: :ok
   end
 
   private
-
-  def on_invoice_created(subscription, invoice)
-    # friends_service = CheckFriendsService.new
-    # friends_service.call(subscription.user)
-
-    items = Stripe::Invoice.retrieve(invoice.id).lines.all()
-    return if items.data.size > 1
-
-    discount_service = AddDiscountService.new
-    discount_service.call(invoice, subscription, subscription.user)
-  end
 
   def on_invoice_paid(subscription, invoice)
     subscription.update!(active_until: 30.days.from_now)

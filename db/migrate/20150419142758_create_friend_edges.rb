@@ -1,4 +1,4 @@
-class CreateFriendEdges < ActiveRecord::Migration
+class CreateFriendEdges < ActiveRecord::Migration[4.2]
   def change
     create_table :friend_edges do |t|
       t.belongs_to :from, index: true

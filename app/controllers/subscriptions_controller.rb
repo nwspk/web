@@ -1,16 +1,15 @@
 class SubscriptionsController < ApplicationController
   layout 'subpage'
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :set_subscription
-  before_filter :require_selected_plan!
+  before_action :require_selected_plan!
 
   def checkout
     @plan = @subscription.plan
     redirect_to dashboard_path if @plan.nil?
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     new_plan_id = params[:subscription][:plan_id] if params[:subscription]
@@ -39,12 +38,20 @@ class SubscriptionsController < ApplicationController
       customer = Stripe::Customer.create(
         source: token,
         email: current_user.email,
-        description: current_user.name,
-        account_balance: 0
+        description: current_user.name
       )
 
-      #subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id)
-      subscription = customer.subscriptions.create(plan: @subscription.plan.stripe_id, tax_percent: 20)
+      subscription = Stripe::Subscription.create(
+        {
+          customer: customer.id,
+          items: [
+            {
+              price: @subscription.plan.stripe_id,
+              tax_rates: [STRIPE_TAX_RATE_ID]
+            }
+          ]
+        }
+      )
 
       @subscription.customer_id     = customer.id
       @subscription.subscription_id = subscription.id

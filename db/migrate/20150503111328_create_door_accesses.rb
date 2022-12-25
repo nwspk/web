@@ -1,4 +1,4 @@
-class CreateDoorAccesses < ActiveRecord::Migration
+class CreateDoorAccesses < ActiveRecord::Migration[4.2]
   def change
     create_table :door_accesses do |t|
       t.belongs_to :ring, index: true, null: false
