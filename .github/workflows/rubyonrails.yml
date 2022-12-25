@@ -69,13 +69,13 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.STAGING_SSH_PRIVATE_KEY }}
 
       - name: Pull latest changes
-        run: ssh nwspk-staging bash --login -c "cd /var/www/web && git pull"
+        run: ssh nwspk-staging "cd /var/www/web && git pull"
 
       - name: Install dependencies
-        run: ssh nwspk-staging bash --login -c 'cd /var/www/web && source .envrc && bundle install'
+        run: ssh nwspk-staging "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && bundle install'
 
       - name: Run migrations
-        run: ssh nwspk-staging bash --login -c 'cd /var/www/web && source .envrc && rails db:migrate'
+        run: ssh nwspk-staging "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && rails db:migrate'
 
       # - name: Compile static assets
       #   run: ssh nwspk-staging "cd /var/www/web && export PATH=/home/deploy/.rbenv/shims:$PATH && rails assets:precompile"
