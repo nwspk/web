@@ -1,0 +1,12 @@
+staging.newspeak.house:443 {
+	route {
+		file_server /public/* {
+			root /var/www/web
+		}
+		reverse_proxy 127.0.0.1:3000
+	}
+
+	tls zf+nwspk@sirodoht.com
+
+	encode zstd gzip
+}
