@@ -47,9 +47,8 @@ ActiveAdmin.register User do
     column(:role) { |u| status_tag u.role }
     column :showcase
     column :showcase_text
-    column(:subscription) { |u| status_tag u.subscription.try(:plan_name), (u.subscription.try(:active?) ? :active : :inactive) }
-    column('Last ring', sortable: :last_ring_created_at) { |u| u.last_ring_created_at }
-    column(:social) { |u| [:twitter, :facebook].map { |n| [n, u.send(n).try(:profile_url)] }.keep_if { |t| !t.last.nil? }.map { |t| link_to(t.first.to_s.capitalize, t.last) }.join(' ').html_safe }
+    column(:subscription) { |u| status_tag u.subscription.try(:plan_name), class: (u.subscription.try(:active?) ? :active : :inactive) }
+    column('Last ring', sortable: :last_ring_created_at, &:last_ring_created_at)
 
     actions
   end
@@ -58,7 +57,7 @@ ActiveAdmin.register User do
     attributes_table do
       row :name
       row :email
-      row(:avatar) { |u| image_tag u.avatar_url }
+      row(:avatar) { |u| image_tag u.avatar_url || 'stock-profile-image.jpg' }
       row :created_at
       row(:role) { |u| status_tag u.role }
       row :showcase
@@ -66,7 +65,7 @@ ActiveAdmin.register User do
       row :showcase_text
       row :application_text
       row :ring_size
-      row(:subscription) { |u| status_tag u.subscription.try(:plan_name), (u.subscription.try(:active?) ? :active : :inactive) }
+      row(:subscription) { |u| status_tag u.subscription.try(:plan_name), class: (u.subscription.try(:active?) ? :active : :inactive) }
       row :notes
     end
   end
