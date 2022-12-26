@@ -2,11 +2,11 @@ require 'open-uri'
 
 module HomeHelper
   def profile_image_url(user)
-    user.avatar.file.nil? ? default_avatar(user.email) : user.avatar_url
+    user.avatar.file.nil? ? default_avatar : user.avatar_url
   end
 
-  def default_avatar(email)
-    ActionController::Base.helpers.asset_url("default-face.jpg", type: :image)
+  def default_avatar
+    ActionController::Base.helpers.asset_url('default-face.jpg', type: :image)
   end
 
   def social_media_url(user)
