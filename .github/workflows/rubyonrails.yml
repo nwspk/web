@@ -80,5 +80,7 @@ jobs:
       - name: Compile static assets
         run: ssh nwspk-staging "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && rails assets:precompile"
 
-      # - name: Reload server
-      #   run: ssh nwspk-staging "systemctl restart nwspk-*"
+      - name: Reload application
+        run: |
+        ssh nwspk-staging "sudo /usr/bin/systemctl restart nwspk-web.service"
+        ssh nwspk-staging "sudo /usr/bin/systemctl restart nwspk-sidekick.service"
