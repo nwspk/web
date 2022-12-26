@@ -14,15 +14,14 @@ Group=deploy
 Environment="RAILS_ENV=production"
 Environment="DATABASE_URL=postgresql://nwspk:postgres@127.0.0.1/nwspk_production"
 Environment="REDIS_URL=redis://127.0.0.1:6379/0"
-Environment="SECRET_KEY_BASE="xxx""
-Environment="MAILGUN_SMTP_LOGIN="xxx""
-Environment="MAILGUN_SMTP_PASSWORD="xxx""
-Environment="MAILGUN_SMTP_PORT="587""
-Environment="MAILGUN_SMTP_SERVER="smtp.mailgun.org""
+Environment="SECRET_KEY_BASE=xxx"
 Environment="SEND_REMINDERS=1"
-Environment="STRIPE_KEY="sk_xxx""
-Environment="STRIPE_PUBLIC_KEY="pk_xxx""
-Environment="STRIPE_TAX_RATE_ID="txr_xxx""
+Environment="SMTP_PASSWORD=xxx"
+Environment="SMTP_SERVER=smtp.mailgun.org"
+Environment="SMTP_USER=xxx"
+Environment="STRIPE_KEY=sk_xxx"
+Environment="STRIPE_PUBLIC_KEY=pk_xxx"
+Environment="STRIPE_TAX_RATE_ID=txr_xxx"
 
 TimeoutSec=15
 Restart=always
