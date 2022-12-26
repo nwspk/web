@@ -29,7 +29,10 @@
         %a{:href => "/scholarships"} scholarships
         %a{:href => "https://donate.stripe.com/cN25lPeUe3qO5zyfYY"} donate
         %a{:href => "/visit"} visit
-        %a{:href => "/account/sign_in"} login
+        -if current_user.present?
+          %a{:href => "/account"} account
+        -else
+          %a{:href => "/account/sign_in"} login
 
     %header
       .head-title
