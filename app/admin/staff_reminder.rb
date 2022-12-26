@@ -10,20 +10,18 @@ ActiveAdmin.register StaffReminder do
     column :email
     column :frequency
     column :active
-    
+
     column :last_member do |r|
-      begin
-        User.find(r.last_id).name
-      rescue ActiveRecord::RecordNotFound
-        "None yet"
-      end
+      User.find(r.last_id).name
+    rescue ActiveRecord::RecordNotFound
+      'None yet'
     end
 
     column :last_run do |r|
       if r.last_run_at.nil?
-        "Never"
+        'Never'
       else
-        time_ago_in_words(r.last_run_at) + " ago"
+        "#{time_ago_in_words(r.last_run_at)} ago"
       end
     end
 
