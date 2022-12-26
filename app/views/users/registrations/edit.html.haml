@@ -4,7 +4,7 @@
 - content_for :back_link do
   = dashboard_path
 
-%h2.no-topping Change password
+%h3.no-topping Change password
 
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }, wrapper: :vertical_form) do |f|
   = f.error_notification
@@ -16,7 +16,7 @@
 
   = f.button :submit, "Save changes"
 
-%h2 Cancel account
+%h3 Cancel account
 %p
   Unhappy?
   = link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
