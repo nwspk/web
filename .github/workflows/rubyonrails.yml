@@ -82,5 +82,5 @@ jobs:
 
       - name: Reload application
         run: |
-        ssh nwspk-staging "sudo /usr/bin/systemctl restart nwspk-web.service"
-        ssh nwspk-staging "sudo /usr/bin/systemctl restart nwspk-sidekick.service"
+          ssh nwspk-staging "sudo systemctl restart nwspk-web.service"
+          ssh nwspk-staging "sudo systemctl restart nwspk-sidekick.service"
