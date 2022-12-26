@@ -18,7 +18,7 @@ UMask=0002
 Environment="MALLOC_ARENA_MAX=2"
 
 Environment="RAILS_ENV=production"
-Environment="DATABASE_URL=postgresql://nwspk@127.0.0.1/nwspk_production"
+Environment="DATABASE_URL=postgresql://nwspk:postgres@127.0.0.1/nwspk_production"
 Environment="REDIS_URL=redis://127.0.0.1:6379/0"
 Environment="SECRET_KEY_BASE="xxx""
 Environment="MAILGUN_SMTP_LOGIN="xxx""
