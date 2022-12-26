@@ -3,7 +3,7 @@ Description=nwspk-web
 After=network.target redis-server.service
 
 [Service]
-Type=Simple
+Type=simple
 
 WorkingDirectory=/var/www/web
 ExecStart=/bin/bash -lc 'exec /home/deploy/.rbenv/shims/bundle exec puma -C /var/www/web/config/puma.rb'
