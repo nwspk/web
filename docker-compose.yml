@@ -19,8 +19,8 @@ services:
       DATABASE_URL: "postgresql://postgres:postgres@database/nwspk_development"
       REDIS_URL: "redis://redis:6379/0"
       SECRET_KEY_BASE: "xxx"
-      MAILGUN_SMTP_LOGIN: "896e1902-98fc-4176-8266-43cba5d6f2d3"
-      MAILGUN_SMTP_PASSWORD: "896e1902-98fc-4176-8266-43cba5d6f2d3"
+      MAILGUN_SMTP_LOGIN: "xxx"
+      MAILGUN_SMTP_PASSWORD: "xxx"
       MAILGUN_SMTP_PORT: "587"
       MAILGUN_SMTP_SERVER: "smtp.postmarkapp.com"
       SEND_REMINDERS: 1
