@@ -5,11 +5,10 @@ export REDIS_URL=redis://127.0.0.1:6379/0
 
 export SECRET_KEY_BASE="xxx"
 
-export MAILGUN_SMTP_LOGIN="xxx"
-export MAILGUN_SMTP_PASSWORD="xxx"
-export MAILGUN_SMTP_PORT="587"
-export MAILGUN_SMTP_SERVER="smtp.mailgun.org"
 export SEND_REMINDERS=1
+export SMTP_PASSWORD="xxx"
+export SMTP_SERVER="smtp.mailgun.org"
+export SMTP_USER="xxx"
 export STRIPE_KEY="sk_xxx"
 export STRIPE_PUBLIC_KEY="pk_xxx"
 export STRIPE_TAX_RATE_ID="txr_xxx"
