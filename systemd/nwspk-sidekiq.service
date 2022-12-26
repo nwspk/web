@@ -11,11 +11,6 @@ ExecStart=/bin/bash -lc 'exec /home/deploy/.rbenv/shims/bundle exec sidekiq -e p
 
 User=deploy
 Group=deploy
-UMask=0002
-
-# reduce ruby memory fragmentation and heap usage
-# https://www.mikeperham.com/2018/04/25/taming-rails-memory-bloat/
-Environment="MALLOC_ARENA_MAX=2"
 
 Environment="RAILS_ENV=production"
 Environment="DATABASE_URL=postgresql://nwspk:postgres@127.0.0.1/nwspk_production"
