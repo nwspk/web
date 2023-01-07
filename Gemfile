@@ -17,8 +17,6 @@ gem "jquery-rails"
 gem "money"
 gem "simple_form"
 gem "carrierwave"
-# gem "bootstrap-sass"
-# gem "font-awesome-rails"
 
 gem "icalendar"
 gem "kramdown"
