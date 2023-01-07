@@ -13,7 +13,7 @@
 !/tmp/pids/
 !/tmp/pids/.keep
 
-# Local env
+# local env
 .envrc
 /coverage/
 /public/uploads
