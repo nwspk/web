@@ -20,3 +20,6 @@ dump.rdb
 # systemd
 /systemd/nwspk-web.service
 /systemd/nwspk-sidekiq.service
+
+# caddy
+Caddyfile

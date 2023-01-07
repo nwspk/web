@@ -1,4 +1,4 @@
-staging.newspeak.house:443 {
+newspeak.house:443 {
 	route {
 		file_server /public/* {
 			root /var/www/web
@@ -6,7 +6,7 @@ staging.newspeak.house:443 {
 		reverse_proxy 127.0.0.1:3000
 	}
 
-	tls zf+nwspk@sirodoht.com
+	tls someone@example.com
 
 	encode zstd gzip
 }
