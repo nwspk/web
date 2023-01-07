@@ -1,3 +1,6 @@
+# In production:
+# .envrc is useful only when running rake commands during CI runs
+
 export RAILS_ENV=development
 
 export DATABASE_URL=postgresql://nwspk@127.0.0.1/nwspk_development
