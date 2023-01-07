@@ -58,7 +58,7 @@ get 'newproject',               to: 'home#newproject', as: :newproject
 ### Styling
 
 The main CSS styling file is
-[/app/assets/stylesheets/application.css.scss](/app/assets/stylesheets/application.css).
+[/app/assets/stylesheets/application.css](/app/assets/stylesheets/application.css).
 
 ## Development
 
