@@ -2,10 +2,15 @@
 /.bundle
 /vendor/bundle
 
-# logfiles and tempfiles
+# logfiles
 /log/*
 !/log/.keep
-/tmp
+
+# tempfiles
+/tmp/*
+!/tmp/.keep
+!/tmp/pids/
+!/tmp/pids/.keep
 
 # Local env
 .envrc
