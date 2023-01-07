@@ -6,7 +6,7 @@ We have auto-deployment through GitHub Actions from this repository, so we can
 make changes to the website directly from here.
 
 * `master` branch deploys to production
-* `duck` branch deploys to the duck environment
+* `staging` branch deploys to the staging environment
 
 ### Texts
 
@@ -58,7 +58,7 @@ get 'newproject',               to: 'home#newproject', as: :newproject
 ### Styling
 
 The main CSS styling file is
-[/app/assets/stylesheets/application.css.scss](/app/assets/stylesheets/application.css.scss).
+[/app/assets/stylesheets/application.css.scss](/app/assets/stylesheets/application.css).
 
 ## Development
 
@@ -73,37 +73,3 @@ Set up database:
 ```sh
 docker-compose exec web bundle exec rake db:setup db:migrate
 ```
-
-To have sidekiq under Docker, create this file `config/initializers/sidekiq.rb`:
-
-```rb
-Sidekiq.configure_server do |config|
-  config.redis = { url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0") }
-end
-
-Sidekiq.configure_client do |config|
-  config.redis = { url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0") }
-end
-```
-
-## Deployment
-
-This is deployed on an Ubuntu LTS server without Docker.
-
-Steps to set up server:
-
-1. Install PostgreSQL
-1. Install Ruby required dependencies:
-    * git curl autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev
-1. Install [rbenv](https://github.com/rbenv/rbenv)
-1. Install Ruby 2.2.4 using rbenv
-1. Install bundler v1.17.1
-1. Install this repository's ruby dependencies:
-    * `bundle install`
-1. Copy [.env.example](.env.example) into `.env` and populate environment variables
-1. Copy [systemd/](systemd/) files into `/etc/systemd/system/`
-1. Enable and start nwspk systemd services:
-    * `systemctl enable nwspk-*`
-    * `systemctl start nwspk-*`
-
-Tested on Ubuntu 16.04 LTS.
