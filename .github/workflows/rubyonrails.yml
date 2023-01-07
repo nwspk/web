@@ -5,49 +5,41 @@ on:
   pull_request:
     branches: [ master, staging ]
 jobs:
-  deploy:
+  deploy_production:
     runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/master'
     steps:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/nwspk.key
-          echo "$ROOT_SSH_KEY" > ~/.ssh/nwspk-root.key
-          chmod 600 ~/.ssh/nwspk.key
-          chmod 600 ~/.ssh/nwspk-root.key
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_nwspk_production
+          chmod 600 ~/.ssh/id_nwspk_production
           cat >> ~/.ssh/config << EOF
-          Host nwspk
-            HostName 139.59.188.50
+          Host nwspk-production
+            HostName 167.99.205.98
             User deploy
-            IdentityFile ~/.ssh/nwspk.key
-            StrictHostKeyChecking no
-          Host nwspk-root
-            HostName 139.59.188.50
-            User root
-            IdentityFile ~/.ssh/nwspk-root.key
+            IdentityFile ~/.ssh/id_nwspk_production
             StrictHostKeyChecking no
           EOF
         env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          ROOT_SSH_KEY: ${{ secrets.ROOT_SSH_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
 
       - name: Pull latest changes
-        run: |
-          ssh nwspk "cd /home/deploy/live && git pull"
+        run: ssh nwspk-production "cd /var/www/web && git pull"
 
-      - name: Install requirements
-        run: |
-          ssh nwspk "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH RAILS_ENV=production RACK_ENV=production bundle install --deployment --jobs 2 --without development test"
+      - name: Install dependencies
+        run: ssh nwspk-production "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && bundle install"
 
       - name: Run migrations
-        run: ssh nwspk "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake db:migrate"
-        
-      - name: Compile assets
-        run: ssh nwspk "cd /home/deploy/live && PATH=/home/deploy/.rbenv/shims:$PATH /home/deploy/live/bin/rake assets:precompile"
+        run: ssh nwspk-production "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && rails db:migrate"
 
-      - name: Reload server
-        run: ssh nwspk-root 'systemctl restart nwspk-*'
+      - name: Compile static assets
+        run: ssh nwspk-production "cd /var/www/web && source .envrc && export PATH=/home/deploy/.rbenv/shims:$PATH && rails assets:precompile"
+
+      - name: Reload application
+        run: |
+          ssh nwspk-production "sudo systemctl restart nwspk-web.service"
+          ssh nwspk-production "sudo systemctl restart nwspk-sidekiq.service"
 
   deploy_staging:
     runs-on: ubuntu-22.04
