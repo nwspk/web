@@ -18,3 +18,6 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Rails/I18nLocaleTexts:
+  Enabled: false
