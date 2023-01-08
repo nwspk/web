@@ -53,9 +53,9 @@ class SubscriptionsController < ApplicationController
         }
       )
 
-      @subscription.customer_id     = customer.id
+      @subscription.customer_id = customer.id
       @subscription.subscription_id = subscription.id
-      @subscription.active_until    = subscription.current_period_end
+      @subscription.active_until = subscription.current_period_end
       @subscription.save!
 
       AdminMailer.new_subscriber_email(current_user).deliver_later
