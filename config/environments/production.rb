@@ -94,5 +94,6 @@ Rails.application.configure do
   config.hosts << 'nwspk.com'
   config.hosts << 'www.nwspk.com'
   config.hosts << 'newspeak.house'
+  config.hosts << 'www.newspeak.house'
   config.hosts << 'staging.newspeak.house'
 end

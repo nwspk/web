@@ -47,5 +47,9 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  config.hosts << 'nwspk.com'
+  config.hosts << 'www.nwspk.com'
+  config.hosts << 'newspeak.house'
+  config.hosts << 'www.newspeak.house'
   config.hosts << 'staging.newspeak.house'
 end
