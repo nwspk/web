@@ -75,7 +75,7 @@ ActiveAdmin.register Event do
   end
 
   form do |f|
-    semantic_errors(*f.object.errors.keys)
+    f.semantic_errors(*f.object.errors.attribute_names)
 
     if f.object.new_record? && f.object.start_at.nil? && f.object.end_at.nil?
       today = Time.now.utc.to_date

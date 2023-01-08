@@ -5,7 +5,7 @@ ActiveAdmin.register User do
 
   filter :name
   filter :email
-  filter :rings_uid_matches, as: :string, label: "Ring UID"
+  filter :rings_uid_matches, as: :string, label: 'Ring UID'
 
   scope :all
   scope :with_rings
@@ -26,12 +26,12 @@ ActiveAdmin.register User do
     end
   end
 
-  sidebar "Extra User Details", only: [:show, :edit] do
+  sidebar 'Extra User Details', only: [:show, :edit] do
     ul do
-      li(link_to("Facebook", user.facebook.profile_url)) unless user.facebook.nil?
-      li(link_to("Twitter", user.twitter.profile_url)) unless user.twitter.nil?
-      li(link_to("Rings", admin_user_rings_path(user)))
-      li(link_to("Subscription", admin_subscription_path(user.subscription))) unless user.subscription.nil?
+      li(link_to('Facebook', user.facebook.profile_url)) unless user.facebook.nil?
+      li(link_to('Twitter', user.twitter.profile_url)) unless user.twitter.nil?
+      li(link_to('Rings', admin_user_rings_path(user)))
+      li(link_to('Subscription', admin_subscription_path(user.subscription))) unless user.subscription.nil?
 
       user.friends.each do |f|
         li(link_to(f.to.name, admin_user_path(f.to)))
@@ -85,12 +85,12 @@ ActiveAdmin.register User do
         attributes[0].delete(:password_confirmation)
       end
 
-      object.update_attributes(*attributes)
+      object.update(*attributes)
     end
   end
 
   form do |f|
-    semantic_errors(*f.object.errors.keys)
+    f.semantic_errors(*f.object.errors.attribute_names)
 
     inputs do
       input :name
@@ -103,9 +103,7 @@ ActiveAdmin.register User do
       input :ring_size, as: :select, collection: Ring::SIZES
       input :avatar, as: :file
 
-      if current_user.id != user.id
-        input :role, as: :select, collection: User::ROLES
-      end
+      input :role, as: :select, collection: User::ROLES if current_user.id != user.id
 
       input :notes
     end

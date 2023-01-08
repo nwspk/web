@@ -24,7 +24,7 @@ ActiveAdmin.register Plan do
   end
 
   form do |f|
-    semantic_errors(*f.object.errors.keys)
+    f.semantic_errors(*f.object.errors.attribute_names)
 
     inputs do
       input :name
@@ -35,5 +35,4 @@ ActiveAdmin.register Plan do
 
     actions
   end
-
 end

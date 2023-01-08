@@ -29,7 +29,7 @@ ActiveAdmin.register StaffReminder do
   end
 
   form do |f|
-    semantic_errors(*f.object.errors.keys)
+    f.semantic_errors(*f.object.errors.attribute_names)
 
     inputs do
       input :email
