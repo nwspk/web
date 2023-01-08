@@ -62,6 +62,8 @@ The main CSS styling file is
 
 ## Development
 
+### With Docker
+
 Using Docker:
 
 ```sh
@@ -72,4 +74,16 @@ Set up database:
 
 ```sh
 docker-compose exec web bundle exec rake db:setup db:migrate
+```
+
+### Without Docker
+
+Prerequisites:
+
+* rbenv
+* ruby 3.1.3
+
+```sh
+bundle install
+rails server
 ```
