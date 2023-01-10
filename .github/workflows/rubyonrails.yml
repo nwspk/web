@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ master, staging ]
 jobs:
-  deploy_production:
+  deploy-production:
     runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/master'
     steps:
@@ -41,7 +41,7 @@ jobs:
           ssh nwspk-production "sudo systemctl restart nwspk-web.service"
           ssh nwspk-production "sudo systemctl restart nwspk-sidekiq.service"
 
-  deploy_staging:
+  deploy-staging:
     runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/staging'
     steps:
@@ -52,7 +52,7 @@ jobs:
           chmod 600 ~/.ssh/id_nwspk_staging
           cat >> ~/.ssh/config << EOF
           Host nwspk-staging
-            HostName staging.newspeak.house
+            HostName 165.232.96.89
             User deploy
             IdentityFile ~/.ssh/id_nwspk_staging
             StrictHostKeyChecking no
