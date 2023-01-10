@@ -26,6 +26,7 @@ services:
       STRIPE_KEY: "sk_xxx"
       STRIPE_PUBLIC_KEY: "pk_xxx"
       STRIPE_TAX_RATE_ID: "txr_xxx"
+      STRIPE_WEBHOOK_SECRET: "whsec_xxx"
 
   database:
     image: postgres:14

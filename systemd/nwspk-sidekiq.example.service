@@ -23,6 +23,7 @@ Environment="SMTP_USER=xxx"
 Environment="STRIPE_KEY=sk_xxx"
 Environment="STRIPE_PUBLIC_KEY=pk_xxx"
 Environment="STRIPE_TAX_RATE_ID=txr_xxx"
+Environment="STRIPE_WEBHOOK_SECRET=whsec_xxx"
 
 RestartSec=1
 Restart=always
