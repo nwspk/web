@@ -19,10 +19,6 @@ class UserMailer < ApplicationMailer
     else
       @card_num = 4242
     end
-    @ascii_table = Terminal::Table.new rows: [
-      ['Membership Tier:', (@subscription.plan.try(:name) || 'None'), @subscription.plan.try(:money_value)],
-      ['Total:', '', @subscription.plan.try(:money_value)]
-    ]
     mail to: user.email, subject: 'This month at Newspeak House'
   end
 
