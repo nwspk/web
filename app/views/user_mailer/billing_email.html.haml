@@ -17,8 +17,7 @@
         = Kramdown::Document.new(e.short_description).to_html.html_safe
 
 %p{ style: 'margin-bottom: 36px' }
-  %a{ href: api_events_url } Subscribe with Apple Calendar
-  %a{ href: "https://calendar.google.com/calendar/embed?src=#{ENV['GOOGLE_CALENDAR_ID']}" } Subscribe with Google Calendar
+  %a{ href: api_events_url } Subscribe to our event Calendar
 
 %p
   %u New Members This Month
@@ -37,9 +36,6 @@
       - if u.twitter
         = surround "(", ")" do
           %a{ href: u.twitter.profile_url}= "@#{u.twitter.username}"
-
-%p{ style: 'margin-bottom: 36px' }
-  %a{ href: graphs_full_url } See all members
 
 %p
   %u Resident Fellows

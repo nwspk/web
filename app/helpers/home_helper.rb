@@ -15,7 +15,7 @@ module HomeHelper
     elsif !user.facebook.nil?
       user.facebook.profile_url
     else
-      graphs_full_url(focus: user.id)
+      ''
     end
   end
 end
