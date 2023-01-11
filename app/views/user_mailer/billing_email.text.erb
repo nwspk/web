@@ -33,13 +33,6 @@ Current Fellows
 
 See all fellows: <%= fellowship_path %>
 
-You've made <%= @num_new_connections %> new connections this month, and there are still <%= @num_users - @num_connections %> members you haven't connected to yet.
-<% if @user.facebook.try(:expired?) || @user.twitter.try(:expired?) %>
-Some of your social accounts have expired and need to be re-connected here: <%= check_friends_connections_url %>
-<% else %>
-To make sure this is up to date, refresh your social accounts: <%= check_friends_connections_url %>
-<% end %>
-
 Billing Invoice
 ===============
 
