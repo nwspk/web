@@ -13,11 +13,12 @@ class UserMailer < ApplicationMailer
     @vat_amount = (@total_amount / 1.2).round(2)
     @net_amount = (@total_amount - @vat_amount).round(2)
 
-    @card_num = if @subscription.customer_id.present?
-                  Stripe::Customer.retrieve_source(@subscription.customer_id, default_source).last4
-                else
-                  4242
-                end
+    if @subscription.customer_id.present?
+      stripe_customer = Stripe::Customer.retrieve(@subscription.customer_id)
+      @card_num = Stripe::Customer.retrieve_source(@subscription.customer_id, stripe_customer.default_source).last4
+    else
+      @card_num = 4242
+    end
     @ascii_table = Terminal::Table.new rows: [
       ['Membership Tier:', (@subscription.plan.try(:name) || 'None'), @subscription.plan.try(:money_value)],
       ['Total:', '', @subscription.plan.try(:money_value)]
