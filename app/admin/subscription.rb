@@ -25,7 +25,7 @@ ActiveAdmin.register Subscription do
     column :active_until
 
     actions defaults: false do |s|
-      links = ""
+      links = ''
       links << link_to('Change plan', edit_admin_subscription_path(s), class: 'member_link')
       links << link_to('Terminate subscription', terminate_admin_subscription_path(s), method: :post, class: 'member_link')
       links.html_safe
@@ -48,7 +48,7 @@ ActiveAdmin.register Subscription do
     end
   end
 
-  form do
+  form do |f|
     inputs do
       input :plan
     end
