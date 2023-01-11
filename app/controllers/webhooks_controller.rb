@@ -22,10 +22,10 @@ class WebhooksController < ApplicationController
 
     case event.type
     when 'invoice.payment_succeeded'
-      subscription = Subscription.find_by!(customer_id: event.data.object.customer)
+      subscription = Subscription.find_by!(customer_id: event.data.object.id)
       on_invoice_paid(subscription, event.data.object)
     when 'invoice.payment_failed'
-      subscription = Subscription.find_by!(customer_id: event.data.object.customer)
+      subscription = Subscription.find_by!(customer_id: event.data.object.id)
       on_invoice_failed(subscription, event.data.object)
     end
 
