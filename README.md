@@ -87,3 +87,8 @@ Prerequisites:
 bundle install
 rails server
 ```
+
+```
+redis-server &
+sidekiq -e development -q default -q mailers
+```
