@@ -3,15 +3,15 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
-  get 'account',                  to: 'dashboard#index', as: 'dashboard'
-  get 'api/events',               to: 'api#events'
-  get 'about',                    to: 'home#about', as: :about
-  get 'fellowship',               to: 'home#fellowship', as: :fellowship
-  get 'visit',                    to: 'home#visit', as: :visit
-  get 'residency',                to: 'home#residency', as: :residency
-  get 'residents',                to: 'home#residents', as: :residents
-  get 'scholarships',             to: 'home#scholarships', as: :scholarships
-  post 'webhooks',                to: 'webhooks#index'
+  get 'account', to: 'dashboard#index', as: 'dashboard'
+  get 'api/events', to: 'api#events'
+  get 'about', to: 'home#about', as: :about
+  get 'fellowship', to: 'home#fellowship', as: :fellowship
+  get 'visit', to: 'home#visit', as: :visit
+  get 'residency', to: 'home#residency', as: :residency
+  get 'residents', to: 'home#residents', as: :residents
+  get 'scholarships', to: 'home#scholarships', as: :scholarships
+  post 'webhooks', to: 'webhooks#index'
 
   resource :subscription, only: [:edit, :update, :destroy] do
     get :checkout
