@@ -5,6 +5,7 @@
   --serif-font: 'Copernicus', 'Georgia', serif;
   --sans-serif-font: 'Lato', sans-serif;
   --almost-black: #2e2e2e;
+  --danger: #901714;
   --red: #fd433e;
   --red-accent: #da3531;
   --grey-1: #ccc;
@@ -310,7 +311,7 @@ label {
 }
 
 .alert-danger {
-  color: var(--red);
+  color: var(--danger);
   font-weight: 700;
 }
 
