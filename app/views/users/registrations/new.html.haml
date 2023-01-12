@@ -51,7 +51,7 @@
   %a{:href => "scholarships"}> scholarships
   \.
 
-= simple_vertical_form_for(resource, as: resource_name, url: user_registration_path) do |f|
+= simple_form_for(resource, as: resource_name, url: user_registration_path) do |f|
   = f.error_notification
   = f.input :name, required: true
   = f.input :email, required: true

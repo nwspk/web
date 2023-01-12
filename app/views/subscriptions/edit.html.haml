@@ -11,7 +11,7 @@
     It looks like you haven't checked out yet. You need to checkout to be an active member of Newspeak House. You can change your plan selection before proceeding.
     %strong= link_to 'Checkout now', checkout_subscription_path
 
-= simple_vertical_form_for(@subscription, url: subscription_path) do |f|
+= simple_form_for(@subscription, url: subscription_path) do |f|
   = f.association :plan, collection: Plan.all_visible, label_method: :description, include_blank: false
 
   .form-group
