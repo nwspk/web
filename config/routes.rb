@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resource :subscription, only: [:edit, :update, :destroy] do
     get :checkout
-    post :process_card
+    get :process_card
   end
 
   resource :user, only: :update
@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get 'membership', to: 'users/registrations#new'
+    post 'create-checkout-session', to: 'subscriptions#create_checkout_session', as: :create_checkout_session
   end
 
   authenticate :user, lambda { |u| u.admin? } do

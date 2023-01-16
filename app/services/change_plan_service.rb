@@ -4,19 +4,17 @@ class ChangePlanService
 
     return if subscription_record.customer_id.blank?
 
-    customer = Stripe::Customer.retrieve(subscription_record.customer_id)
-
     if subscription_record.subscription_id.blank?
-      create_new_subscription(customer, subscription_record)
+      create_new_subscription(subscription_record)
     else
       begin
-        subscription = customer.subscriptions.retrieve(subscription_record.subscription_id)
+        subscription = Stripe::Subscription.retrieve(subscription_record.subscription_id)
       rescue Stripe::InvalidRequestError
         subscription = nil
       end
 
       if subscription.nil?
-        create_new_subscription(customer, subscription_record)
+        create_new_subscription(subscription_record)
       else
         change_plan_on_existing_subscription(subscription, subscription_record)
       end
@@ -25,8 +23,8 @@ class ChangePlanService
 
   private
 
-  def create_new_subscription(customer, subscription_record)
-    subscription = customer.subscriptions.create(plan: subscription_record.plan.stripe_id)
+  def create_new_subscription(subscription_record)
+    subscription = Stripe::Subscription.create(plan: subscription_record.plan.stripe_id)
     subscription_record.update!(subscription_id: subscription.id, active_until: arbitrary_future_date)
   end
 

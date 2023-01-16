@@ -4,6 +4,30 @@ class SubscriptionsController < ApplicationController
   before_action :set_subscription
   before_action :require_selected_plan!
 
+  def create_checkout_session
+    begin
+      session = Stripe::Checkout::Session.create(
+        {
+          mode: 'subscription',
+          line_items: [
+            {
+              quantity: 1,
+              price: @subscription.plan.stripe_id,
+              tax_rates: [STRIPE_TAX_RATE_ID]
+            }
+          ],
+          success_url: "#{CANONICAL_URL}#{process_card_subscription_path}?session_id={CHECKOUT_SESSION_ID}",
+          cancel_url: "#{CANONICAL_URL}#{process_card_subscription_path}?cancel=true"
+        }
+      )
+    rescue StandardError => e
+      response = { error: { message: e.error.message } }.to_json
+      render json: response, status: :bad_request
+    end
+
+    redirect_to session.url, status: :see_other
+  end
+
   def checkout
     @plan = @subscription.plan
     redirect_to dashboard_path if @plan.nil?
@@ -32,41 +56,18 @@ class SubscriptionsController < ApplicationController
   end
 
   def process_card
-    token = params[:stripeToken]
+    stripe_session_id = params[:session_id]
+    checkout = Stripe::Checkout::Session.retrieve(stripe_session_id)
+    @subscription.customer_id = checkout.customer
+    @subscription.subscription_id = checkout.subscription
 
-    if @subscription.customer_id.blank?
-      customer = Stripe::Customer.create(
-        source: token,
-        email: current_user.email,
-        description: current_user.name
-      )
+    stripe_subscription = Stripe::Subscription.retrieve(@subscription.subscription_id)
+    @subscription.active_until = Time.zone.at(stripe_subscription.current_period_end).to_fs(:db)
+    @subscription.save!
 
-      subscription = Stripe::Subscription.create(
-        {
-          customer: customer.id,
-          items: [
-            {
-              price: @subscription.plan.stripe_id,
-              tax_rates: [STRIPE_TAX_RATE_ID]
-            }
-          ]
-        }
-      )
+    AdminMailer.new_subscriber_email(current_user).deliver_later
 
-      @subscription.customer_id = customer.id
-      @subscription.subscription_id = subscription.id
-      @subscription.active_until = subscription.current_period_end
-      @subscription.save!
-
-      AdminMailer.new_subscriber_email(current_user).deliver_later
-
-      redirect_to dashboard_path, notice: 'Congratulations!'
-    else
-      service = ChangeCardService.new
-      service.call(@subscription.customer_id, token)
-
-      redirect_to dashboard_path, notice: 'Credit card successfully changed!'
-    end
+    redirect_to dashboard_path, notice: 'Congratulations!'
   end
 
   private

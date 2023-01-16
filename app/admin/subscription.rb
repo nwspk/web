@@ -41,14 +41,14 @@ ActiveAdmin.register Subscription do
 
   controller do
     def update_resource(object, attributes)
-      if attributes[0][:plan_id] != object.plan_id
-        service = ChangePlanService.new
-        service.call(object, attributes[0][:plan_id])
-      end
+      return unless attributes[0][:plan_id] != object.plan_id
+
+      service = ChangePlanService.new
+      service.call(object, attributes[0][:plan_id])
     end
   end
 
-  form do |f|
+  form do |_|
     inputs do
       input :plan
     end
