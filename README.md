@@ -92,3 +92,7 @@ rails server
 redis-server &
 sidekiq -e development -q default -q mailers
 ```
+
+## Deployment
+
+Check out the [Server Playbook](server-playbook.md) document.
