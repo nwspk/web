@@ -8,19 +8,19 @@ class Subscription < ActiveRecord::Base
   scope :active, -> { where.not(subscription_id: '', active_until: nil) }
 
   def active?
-    !self.subscription_id.blank? && !self.active_until.nil? && self.active_until > Time.now
+    subscription_id.present? && !active_until.nil? && active_until > Time.zone.now
   end
 
   def grace_period?
-    !self.active_until.nil? && self.active_until < Time.now
+    !active_until.nil? && active_until < Time.zone.now
   end
 
   def needs_checkout?
-    self.customer_id.blank?
+    customer_id.blank?
   end
 
   def plan_name
-    self.plan.try(:name)
+    plan.try(:name)
   end
 
   after_save :set_user_role
@@ -28,8 +28,8 @@ class Subscription < ActiveRecord::Base
   private
 
   def set_user_role
-    if active? && self.user.applicant?
-      self.user.update(role: User::ROLES[:member])
-    end
+    return unless active? && user.applicant?
+
+    user.update(role: User::ROLES[:member])
   end
 end
