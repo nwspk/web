@@ -17,7 +17,7 @@ class SubscriptionsController < ApplicationController
             }
           ],
           success_url: "#{CANONICAL_URL}#{process_card_subscription_path}?session_id={CHECKOUT_SESSION_ID}",
-          cancel_url: "#{CANONICAL_URL}#{process_card_subscription_path}?cancel=true"
+          cancel_url: "#{CANONICAL_URL}#{process_card_subscription_path}"
         }
       )
     rescue StandardError => e
@@ -57,6 +57,9 @@ class SubscriptionsController < ApplicationController
 
   def process_card
     stripe_session_id = params[:session_id]
+
+    return if stripe_session_id.blank?
+
     checkout = Stripe::Checkout::Session.retrieve(stripe_session_id)
     @subscription.customer_id = checkout.customer
     @subscription.subscription_id = checkout.subscription
