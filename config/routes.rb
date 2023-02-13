@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'membership', to: 'users/registrations#new'
     post 'create-checkout-session', to: 'subscriptions#create_checkout_session', as: :create_checkout_session
+    post 'customer-portal', to: 'subscriptions#customer_portal', as: :customer_portal
   end
 
   authenticate :user, lambda { |u| u.admin? } do

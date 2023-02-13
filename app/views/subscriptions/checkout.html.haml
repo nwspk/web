@@ -13,6 +13,9 @@
   %h2 Change credit card
   %p Just click on the button below and enter your new credit card details into the Stripe form.
 
-= simple_form_for(@subscription, url: create_checkout_session_path, method: :post) do |f|
-  - if @subscription.customer_id.blank?
+- if @subscription.customer_id.blank?
+  = simple_form_for(@subscription, url: create_checkout_session_path, method: :post) do |f|
     %button{:id => "checkout-and-portal-button", :type => :submit} Checkout
+- else
+  = simple_form_for(@subscription, url: customer_portal_path, method: :post) do |f|
+    %button{:id => "checkout-and-portal-button", :type => :submit} Change card

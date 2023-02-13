@@ -28,6 +28,17 @@ class SubscriptionsController < ApplicationController
     redirect_to session.url, status: :see_other
   end
 
+  def customer_portal
+    session = Stripe::BillingPortal::Session.create(
+      {
+        customer: @subscription.customer_id,
+        return_url: "#{CANONICAL_URL}#{dashboard_path}"
+      }
+    )
+
+    redirect_to session.url, status: :see_other
+  end
+
   def checkout
     @plan = @subscription.plan
     redirect_to dashboard_path if @plan.nil?
