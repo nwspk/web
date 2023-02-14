@@ -9,6 +9,7 @@ class SubscriptionsController < ApplicationController
       session = Stripe::Checkout::Session.create(
         {
           mode: 'subscription',
+          customer_email: current_user.email,
           line_items: [
             {
               quantity: 1,
