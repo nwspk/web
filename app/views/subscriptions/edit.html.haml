@@ -4,7 +4,7 @@
 - content_for :back_link do
   = dashboard_path
 
-%h2 Change subscription plan
+%h3.no-topping Change subscription plan
 
 - if @subscription.needs_checkout?
   .alert.alert-info
@@ -18,13 +18,16 @@
     = f.button :submit, 'Change plan'
 
 - unless @subscription.needs_checkout?
-  %h2.top-margin Change credit card
+  %h3 Change credit card
 
   %p
-    If you would like to update the credit card that is being billed, you can use the
-    = link_to 'Checkout page', checkout_subscription_path
-    again
+    Click
+    = link_to 'here', checkout_subscription_path
+    to change your credit card that is being billed.
 
 - if @subscription.active?
-  %h2.top-margin Cancel subscription
-  %p= link_to 'Cancel subscription', subscription_path, data: { confirm: 'Are you sure?' }, method: :delete
+  %h3 Cancel subscription
+  %p
+    Click
+    = link_to 'here', subscription_path, data: { confirm: 'Are you sure?' }, method: :delete
+    to cancel.
