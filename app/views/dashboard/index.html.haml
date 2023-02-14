@@ -3,6 +3,8 @@
 
 %div{:style => 'margin-bottom: 1em;'}
   = link_to 'Change password', edit_user_registration_path
+  •
+  = link_to 'Billing', edit_subscription_path
   - if can? :manage, :all
     •
     = link_to 'Admin UI', admin_root_path
@@ -28,7 +30,6 @@
       - if !current_user.subscription.nil? && current_user.subscription.active?
         %td
           = current_user.subscription.plan.name
-          = link_to 'Change plan', edit_subscription_path
       - elsif current_user.subscription.nil?
         %td
           None
