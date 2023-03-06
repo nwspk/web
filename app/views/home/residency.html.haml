@@ -66,7 +66,7 @@
     these days - but you're not put off by the idea that you might have to spend time figuring out how to build something.
   %li You enjoy meeting new people. Your best work is done in a communal setting in close proximity to others. You go to meetups for fun, perhaps you have organised one. You’re excited by the idea of spending several nights of the week attending events. You have some kind of online presence, and contribute to various online communities. You’re enthusiastic about sharing your knowledge and networks, as well as developing mentoring relationships.
   %li You bring with you a network that's not yet well represented at Newspeak House. We are looking for a diverse, interdisciplinary group that brings a mix of backgrounds, methodologies, fields, and professions — practitioners, organisers, researchers, developers, lawyers, advocates, activists, educators, entrepreneurs, journalists, technology industry actors, field builders, those coming out of a government office or position, policy analysts, public intellectuals, and those whose practice doesn’t fit squarely into conventional categories. If you’re not sure if you should apply, feel free to get in touch for a conversation about whether a residency might be right for you:
-  %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
+    %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
   
 %h3 Key Dates
 %table
@@ -110,7 +110,8 @@
     %tr
       %td End July
       %td Graduation
-  
+
+
 %h3 Fees
 %p
   The course fee for the entire year is £2400, payable upon acceptance of your offer.
@@ -118,6 +119,7 @@
   Living in college accommodation is a mandatory part of the residency, and costs £1000 per calendar month, payable from October 2023 until August 2024 inclusive. This is inclusive of all bills and includes a full time facilities manager and a cleaner for common areas.
 %p
   Thanks to generous gifts from fellows and community members, there are some full and partial scholarships available. Please indicate in your application if your participation is contingent on a scholarship.
+
 
 %h3 How to Apply
 %p
@@ -141,7 +143,8 @@
   or
   %a{:href => "https://twitter.com/nwspk"}> &ensp;@nwspk
   \. Questions about the opportunity or process will not reflect negatively on an application.
-  
+
+
 %h3 Pastoral Care
 %p
   The wellbeing of our residents is of great importance to us. Newspeak House employs a chaplain and retains a pastoral board who are there to provide support for the emotional and psychological health of those who stay with us.
@@ -151,18 +154,18 @@
   If you would like to know more about our pastoral provisions, please contact
   %a{:href => "mailto:mark@newspeak.house"} mark@newspeak.house
 
-%h2.fellowship 2022 Cohort
 
-- @fellows.each do |fellow|
-  = render partial: 'member', locals: { user: fellow, links: true }
+%h2 2022 Cohort
+%div
+  - @fellows.each do |fellow|
+    = render partial: 'member', locals: { user: fellow, links: true }
 
-%h2.fellowship Newspeak House Fellowship
 
+%h2 Newspeak House Fellowship
 %p
   Those who successfully complete the
   %a{:href => "/residency"} residential programme
   become Fellows of Newspeak House. We now have over 90 fellows in our network and they can be found in significant positions across many prominent institutions. As fellows of the college, they have the right to attend college ceremonies and access certain special fellowship activities.
-  
 %div
   - @alumni.each do |alumnus|
     = render partial: 'member', locals: { user: alumnus, links: true }
