@@ -14,6 +14,7 @@ class HomeController < ApplicationController
 
   def residency
     @fellows = User.fellows
+    @alumni  = User.alumni
   end
 
   def residents
