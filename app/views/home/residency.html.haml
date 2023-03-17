@@ -53,7 +53,7 @@
   %a{:href => "/fellowship"} Newspeak House fellowship
   the start of a lifelong relationship with the institution and its networks.
 
-%div.wide-pic{:style => "background-image: url(#{image_path "terrace-table.jpg"})"}
+%div.wide-pic{:style => "background-image: url(#{image_path "computing.jpg"})"}
 
 
 %h3 You should apply if...
@@ -155,12 +155,6 @@
 %p
   If you would like to know more about our pastoral provisions, please contact
   %a{:href => "mailto:mark@newspeak.house"} mark@newspeak.house
-
-
-%h2 2022 Cohort
-%div
-  - @fellows.each do |fellow|
-    = render partial: 'member', locals: { user: fellow, links: true }
 
 
 %h2 Newspeak House Fellowship
