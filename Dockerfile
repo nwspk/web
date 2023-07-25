@@ -1,5 +1,5 @@
-FROM ruby:2.2.4
-RUN gem install bundler -v 1.17.1
+FROM ruby:3.1.3
+RUN gem install bundler
 
 WORKDIR /app
 COPY Gemfile .
