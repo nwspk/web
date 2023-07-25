@@ -424,6 +424,15 @@ label {
   }
 }
 
+.profile-title {
+  margin-bottom: 0;
+}
+
+.profile-subtitle {
+  color: #737373;
+  font-size: 1.3em;
+}
+
 .quote {
   font-style: italic;
 }
