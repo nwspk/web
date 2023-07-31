@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get 'residency', to: 'home#residency', as: :residency
   get 'residents', to: 'home#residents', as: :residents
   get 'scholarships', to: 'home#scholarships', as: :scholarships
-  get '2023', to: 'home#course_2023_2024', as: :course_2023_2024
+  get '2023', to: 'home#2023', as: :2023
   post 'webhooks', to: 'webhooks#index'
 
   resource :subscription, only: [:edit, :update, :destroy] do
