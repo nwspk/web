@@ -1,0 +1,2 @@
+module LcptHelper
+end

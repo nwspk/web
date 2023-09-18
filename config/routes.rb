@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   get '2023', to: 'home#course2023', as: :course2023
   post 'webhooks', to: 'webhooks#index'
 
+  # LCPT routes
+  get 'lcpt', to: 'lcpt#index', as: :lcpt
+
   resource :subscription, only: [:edit, :update, :destroy] do
     get :checkout
     get :process_card
