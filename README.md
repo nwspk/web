@@ -67,13 +67,13 @@ The main CSS styling file is
 Using Docker:
 
 ```sh
-docker-compose up --build
+docker compose up --build
 ```
 
 Set up database:
 
 ```sh
-docker-compose exec web bundle exec rake db:setup db:migrate
+docker compose exec web bundle exec rake db:setup db:migrate
 ```
 
 ### Without Docker
