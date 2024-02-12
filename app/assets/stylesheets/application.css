@@ -537,6 +537,6 @@ summary::marker {
 summary {
   list-style-position: outside;
   margin-left: 30px;
-  padding: 0px 0px 0px 10px;
+  padding: 50px 0px 0px 10px;
   border-radius: 5px;
 }
