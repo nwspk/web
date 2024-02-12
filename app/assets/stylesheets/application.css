@@ -522,6 +522,13 @@ label {
 
 details summary { 
   cursor: pointer;
+}
+
+details summary > * {
+  display: inline;
+}
+
+summary {
   list-style-position: outside;
   margin-left: 20px;
   padding: 10px 10px 10px 20px;
