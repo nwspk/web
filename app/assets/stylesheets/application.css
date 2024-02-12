@@ -529,15 +529,6 @@ details summary {
   cursor: pointer;
 }
 
-/*
-  font-size: 36.48px;
-}
-
-details summary h3 { 
-  font-size: 36.48px;
-}
-*/
-
 summary::marker {
   color: #fd433e;
   font-size: 36.48px;
@@ -545,7 +536,7 @@ summary::marker {
 
 summary {
   list-style-position: outside;
-  margin-left: 15px;
-  padding: 10px 10px 10px 20px;
+  margin-left: 30px;
+  padding: 0px 0px 0px 10px;
   border-radius: 5px;
 }
