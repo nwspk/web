@@ -14,26 +14,19 @@
 %p
   At Newspeak House we approach education in an agile way, tailoring activities to the needs and interest of the students, as well as adapting to events in the world as they unfold. Therefore this handbook is a constant work in progress, starting as just an outline with new material and activities added as the course progresses.
 
-%h3 Fellowship Candidates: 2023 Cohort
-%ul
-  %li Tom Cares
-  %li Richard Hames
-  %li Lefke Kerr
-  %li Andy McDonald
-  %li Aleksandr Putilin
-  %li Jethro Reeve
-  %li Ted Roberts
-  %li Ella Shoup 
-  %li Julia Taranova
-
 %h3 Orientation
 %p 
   Please mark the weekend of Saturday 30th September & Sunday 1st October on your calendar. These dates are reserved for orientation and introductory sessions, providing a chance to meet your fellow students and faculty and get an overview of the course this year.
-
 %a.section-link{:href => "https://lu.ma/nwspk-orientation-2023"} Register ↗️
 %br
 %br
 %a.section-link{:href => "https://docs.google.com/document/d/1vRMLusgAqtHniidpw_hpLQE_70nGhUq3nam_X0PLVBc/edit?usp=sharing"} Agenda ↗️
+
+%details
+  %summary
+    %h3 Fellowship Candidates: 2023 Cohort
+  - @fellows.each do |fellow|
+    = render partial: 'member', locals: { user: fellow, links: true }
 
 %details
   %summary
@@ -368,6 +361,8 @@
   
   %a.section-link{:href => "https://designatnewspeak.notion.site/designatnewspeak/Service-Design-at-Newspeak-02f60c83a9664092bb14bf7d0e8243c3"} Module Guide
 
-%h2 Pastoral Care
-%p Even in communities where everyone has the best of intentions, things can sometimes go wrong. Our pastoral team are experienced in community harm prevention and response, and we will proactively deal with any conflicts or pastoral issues should they arise. Please take time to familiarise yourself with our pastoral care programme, as we all have a role to play in keeping community members safe.
-%a.section-link{:href => "https://docs.google.com/document/d/1yz388BWWtUA1F-dPNmG0aCcKXmqBnst-AUv1DU3X3tQ"} Pastoral Care Guide for Students
+%details
+  %summary
+    %h2 Pastoral Care
+  %p Even in communities where everyone has the best of intentions, things can sometimes go wrong. Our pastoral team are experienced in community harm prevention and response, and we will proactively deal with any conflicts or pastoral issues should they arise. Please take time to familiarise yourself with our pastoral care programme, as we all have a role to play in keeping community members safe.
+  %a.section-link{:href => "https://docs.google.com/document/d/1yz388BWWtUA1F-dPNmG0aCcKXmqBnst-AUv1DU3X3tQ"} Pastoral Care Guide for Students
