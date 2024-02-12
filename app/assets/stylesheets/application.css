@@ -520,22 +520,32 @@ label {
   margin-top: 1em;
 }
 
+
+details summary > * {
+  display: inline;
+}
+
 details summary { 
   cursor: pointer;
+}
+
+/*
   font-size: 36.48px;
 }
 
 details summary h3 { 
   font-size: 36.48px;
 }
+*/
 
-details summary > * {
-  display: inline;
+summary::marker {
+  color: #fd433e;
+  font-size: 1em;
 }
 
 summary {
   list-style-position: outside;
-  margin-left: 10px;
+  margin-left: 15px;
   padding: 10px 10px 10px 20px;
   border-radius: 5px;
 }
