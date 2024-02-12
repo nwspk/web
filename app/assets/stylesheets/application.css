@@ -526,6 +526,7 @@ details summary {
 
 details summary > * {
   display: inline;
+  font-size: 2.28em; /* Increase font size to make the triangle larger */
 }
 
 summary {
@@ -533,11 +534,4 @@ summary {
   margin-left: 20px;
   padding: 10px 10px 10px 20px;
   border-radius: 5px;
-}
-
-details summary::before {
-  content: ''; /* Ensure content is empty to prevent duplication */
-  display: inline-block;
-  margin-right: 0.5em; /* Adjust spacing between marker and text */
-  font-size: 2.28em; /* Increase font size to make the triangle larger */
 }
