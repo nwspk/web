@@ -522,16 +522,16 @@ label {
 
 details summary { 
   cursor: pointer;
+  font-size: 2.28em; /* Increase font size to make the triangle larger */
 }
 
 details summary > * {
   display: inline;
-  font-size: 2.28em; /* Increase font size to make the triangle larger */
 }
 
 summary {
   list-style-position: outside;
-  margin-left: 20px;
+  margin-left: 0px;
   padding: 10px 10px 10px 20px;
   border-radius: 5px;
 }
