@@ -520,6 +520,10 @@ label {
   margin-top: 1em;
 }
 
-details summary::-webkit-details-marker {
-  display: none;
+details summary { 
+  cursor: pointer;
+}
+
+details summary > * {
+  display: inline;
 }
