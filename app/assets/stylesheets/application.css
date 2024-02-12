@@ -520,19 +520,6 @@ label {
   margin-top: 1em;
 }
 
-/* Accordion triangle styling */
-
 details summary::-webkit-details-marker {
-  display: none; /* Hide default triangle marker for WebKit browsers */
-}
-
-details summary::before {
-  content: '\25B6'; /* Unicode character for right-pointing triangle */
-  display: inline-block;
-  margin-right: 0.5em; /* Adjust spacing between marker and text */
-}
-
-/* Change triangle marker when details are open */
-details[open] summary::before {
-  content: '\25BC'; /* Unicode character for down-pointing triangle */
+  display: none;
 }
