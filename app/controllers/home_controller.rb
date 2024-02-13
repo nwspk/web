@@ -17,6 +17,11 @@ class HomeController < ApplicationController
     @alumni  = User.alumni
   end
 
+  def course2023
+    @fellows = User.fellows
+    @alumni  = User.alumni
+  end
+
   def residents
     @fellows = User.fellows
   end
