@@ -22,7 +22,11 @@
 %br
 %a.section-link{:href => "https://docs.google.com/document/d/1vRMLusgAqtHniidpw_hpLQE_70nGhUq3nam_X0PLVBc/edit?usp=sharing"} Agenda ↗️
 
-%h3 Fellowship Candidates: 2023 Cohort
+%details
+  %summary
+    %h3 2023 Fellowship Candidates
+  - @fellows.each do |fellow|
+    = render partial: 'member', locals: { user: fellow, links: true }
 
 %details
   %summary
