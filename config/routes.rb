@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get 'about', to: 'home#about', as: :about
   get 'fellowship', to: 'home#fellowship', as: :fellowship
   get 'visit', to: 'home#visit', as: :visit
-  get 'study-with-us', to: 'home#study-with-us', as: :study-with-us
+  get 'study-with-us', to: 'home#study-with-us', as: :study_with_us
   get 'residency', to: 'home#residency', as: :residency
   get 'residents', to: 'home#residents', as: :residents
   get 'scholarships', to: 'home#scholarships', as: :scholarships
