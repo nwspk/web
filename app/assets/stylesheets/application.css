@@ -159,6 +159,20 @@ h4 {
   margin-bottom: 0.889em;
 }
 
+h5 {
+  font-size: 1.25em;
+  line-height: 1.1em;
+  padding-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+h6 {
+  font-size: 1.125em;
+  line-height: 1.1em;
+  padding-top: 1.125em;
+  margin-bottom: 0.5em;
+}
+
 table {
   border-collapse: collapse;
   border: 1px solid var(--grey-1);
