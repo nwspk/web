@@ -548,6 +548,11 @@ summary::marker {
   font-size: 36.48px;
 }
 
+summary::-webkit-details-marker {
+   color: #fd433e;
+   font-size: 36.48px;
+}
+
 summary {
   list-style-position: outside;
   margin-left: 30px;
