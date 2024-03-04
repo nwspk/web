@@ -6,13 +6,13 @@
 %p
   Newspeak House is a hub for communities working to change society with technology, spanning all kinds of civic institutions, from government, politics, activism, charities, journalism, thinktanks, NGOs, philanthropy, to academia.
 %p
-  At the heart of Newspeak House is its
-  = link_to 'residential programme', 'residency'
-  , running since 2015. Seven residents spend a year immersed in these communities, enjoying the chance to meet thousands of people and attend
+  At the heart of Newspeak House is its one year course 
+  = link_to 'Introduction to Political Technology', 'study_with_us'
+  , running since 2015. Participants spend a year immersed in these communities, enjoying the chance to meet thousands of people and attend
   = link_to 'events', 'events'
   held on their doorstep.
   
-%h2.fellowship 2022-2023 Cohort
+%h2.fellowship Current Fellowship Candidates
 
 - @fellows.each do |fellow|
   = render partial: 'member', locals: { user: fellow, links: true }
