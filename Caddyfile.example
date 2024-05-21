@@ -1,4 +1,4 @@
-newspeak.house:443 {
+newspeak.house {
 	route {
 		file_server /public/* {
 			root /var/www/web
