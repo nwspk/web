@@ -2,7 +2,9 @@
   Account
 
 %div{:style => 'margin-bottom: 1em;'}
-  = link_to 'Change password', edit_user_registration_path
+  = link_to 'Edit', edit_user_path
+  •
+  = link_to 'Password', edit_user_registration_path
   •
   = link_to 'Billing', edit_subscription_path
   - if can? :manage, :all

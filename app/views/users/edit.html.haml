@@ -1,0 +1,16 @@
+- content_for :page_title do
+  Account settings
+
+- content_for :back_link do
+  = dashboard_path
+
+%h3.no-topping Update Profile
+
+= simple_form_for(current_user, url: user_path) do |f|
+  = f.error_notification
+
+  = f.input :name, required: true
+  = f.input :showcase_text, as: :text, label: "Bio", required: false
+  = f.input :url, label: "Website", required: false
+
+  = f.button :submit, "Save changes"

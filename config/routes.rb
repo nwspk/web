@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     get :process_card
   end
 
-  resource :user, only: :update
+  resource :user, only: [:edit, :update]
   resources :events, only: :index
 
   devise_for :users, path: 'account', controllers: { registrations: 'users/registrations' }
