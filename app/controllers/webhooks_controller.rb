@@ -25,6 +25,13 @@ class WebhooksController < ApplicationController
       subscription = Subscription.find_by!(customer_id: event.data.object.customer)
       on_invoice_paid(subscription, event.data.object)
     when 'invoice.payment_failed'
+
+      # Do not trigger webhook if it's a subscription create webhook, which means
+      # it was triggered by 3D Secure.
+      if event.data.object.billing_reason == 'subscription_create'
+        return
+      end
+
       subscription = Subscription.find_by!(customer_id: event.data.object.customer)
       on_invoice_failed(subscription, event.data.object)
     end
