@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'residents', to: 'home#residents', as: :residents
   get 'scholarships', to: 'home#scholarships', as: :scholarships
   get '2023', to: 'home#course2023', as: :course2023
+  get '2024', to: 'home#course2024', as: :course2024
   get 'donate', to: redirect('https://donate.stripe.com/cN25lPeUe3qO5zyfYY'), as: :donate_redirect
   post 'webhooks', to: 'webhooks#index'
 
