@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '2024', to: 'home#course2024', as: :course2024
   get 'donate', to: redirect('https://donate.stripe.com/cN25lPeUe3qO5zyfYY'), as: :donate_redirect
   get 'shop', to: redirect('https://nwspk.myshopify.com/'), as: :shop
+  get 'feedback', to: redirect('https://forms.gle/NLZ8JQdDFeuToWgF6'), as: :feedback
   post 'webhooks', to: 'webhooks#index'
 
   # LCPT routes
