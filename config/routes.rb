@@ -18,8 +18,8 @@ Rails.application.routes.draw do
   get 'shop', to: redirect('https://nwspk.myshopify.com/'), as: :shop
   get 'feedback', to: redirect('https://forms.gle/NLZ8JQdDFeuToWgF6'), as: :feedback
   get 'rationclub', to: redirect('https://forms.gle/T3rXorsrb4gXKazv9'), as: :rationclub
-  get 'library', to: home#library, as: :library
-  get 'jobs', to: home#jobs, as: :jobs
+  get 'library', to: 'home#library', as: :library
+  get 'jobs', to: 'home#jobs', as: :jobs
   post 'webhooks', to: 'webhooks#index'
 
   # LCPT routes
