@@ -89,12 +89,16 @@ footer {
 }
 
 nav {
+  position: fixed;
+  top: 12em;
+  left: 1em;
   display: flex;
   flex-direction: column;
   align-items: end;
 }
 @media (max-width: 940px) {
   nav {
+    position: static;
     flex-direction: row;
     flex-wrap: wrap;
   }
