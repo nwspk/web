@@ -91,7 +91,7 @@ footer {
 nav {
   position: fixed;
   top: 12em;
-  left: 1em;
+  left: calc((100vw - 768px) / 2 - 1em);
   display: flex;
   flex-direction: column;
   align-items: end;
