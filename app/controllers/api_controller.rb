@@ -36,6 +36,22 @@ class ApiController < ApplicationController
       end
     end
 
+    # Add weekly Ration Club (Wednesdays, 7–10pm)
+    now_utc = Time.now.utc
+    days_until_wed = (3 - now_utc.wday) % 7
+    ration_start = (now_utc.to_date + days_until_wed).to_time + 19.hours
+    ration_end   = ration_start + 3.hours
+
+    cal.event do |e|
+      e.dtstart     = Icalendar::Values::DateTime.new(ration_start, tzid: 'UTC')
+      e.dtend       = Icalendar::Values::DateTime.new(ration_end, tzid: 'UTC')
+      e.summary     = 'Ration Club'
+      e.description = "Register: https://forms.gle/T3rXorsrb4gXKazv9\n\nEach week Newspeak House hosts a community dinner called Ration Club, open to anyone who'd like to find out more about the college and its work."
+      e.location    = 'Newspeak House, 133 Bethnal Green Road, London, E2 7DG, UK'
+      e.url         = 'https://forms.gle/T3rXorsrb4gXKazv9'
+      e.rrule       = Icalendar::Values::Recur.new('FREQ=WEEKLY;BYDAY=WE')
+    end
+
     render body: cal.to_ical, content_type: 'text/calendar'
   end
 end
