@@ -29,7 +29,7 @@ class ApiController < ApplicationController
         e.dtstart     = Icalendar::Values::DateTime.new(ev.start_at.utc, tzid: 'UTC')
         e.dtend       = Icalendar::Values::DateTime.new(ev.end_at.utc, tzid: 'UTC')
         e.summary     = ev.name
-        e.description = "Register: #{ev.url}\n\n#{ev.description}"
+        e.description = "Register: #{ev.url}\n\n#{ev.description_plaintext}"
         e.location    = 'Newspeak House, 133 Bethnal Green Road, London, E2 7DG, UK'
         e.url         = ev.url
         e.organizer   = Icalendar::Values::CalAddress.new("mailto:#{ev.organiser_email}", cn: ev.organiser_name)

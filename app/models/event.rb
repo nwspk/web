@@ -24,4 +24,24 @@ class Event < ActiveRecord::Base
       "#{start_date} • #{start_time} – #{end_time} • #{location}"
     end
   end
+
+  def description_plaintext
+    text = description.to_s.dup
+    # Convert Markdown links and images to "text (url)"
+    text.gsub!(/!\[([^\]]*)\]\(([^\)]+)\)/, '\\1 (\\2)')
+    text.gsub!(/\[([^\]]+)\]\(([^\)]+)\)/, '\\1 (\\2)')
+    # Remove emphasis/strong/code markers
+    text.gsub!(/[*_]{1,3}([^*_]+)[*_]{1,3}/, '\\1')
+    text.gsub!(/`{1,3}([^`]+)`{1,3}/m, '\\1')
+    # Strip headings and blockquotes markers
+    text.gsub!(/^\s{0,3}#+\s*/, '')
+    text.gsub!(/^>\s?/, '')
+    # Normalize list markers
+    text.gsub!(/^\s*[-*+]\s+/, '- ')
+    text.gsub!(/^\s*\d+\.\s+/, '- ')
+    # Collapse excessive blank lines
+    text.gsub!(/\r\n?/, "\n")
+    text.gsub!(/\n{3,}/, "\n\n")
+    text.strip
+  end
 end
