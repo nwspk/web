@@ -1,4 +1,5 @@
 require 'icalendar'
+require 'tzinfo'
 
 class ApiController < ApplicationController
   protect_from_forgery with: :null_session
@@ -23,6 +24,13 @@ class ApiController < ApplicationController
 
   def events
     cal = Icalendar::Calendar.new
+    # Hint to clients (including Apple Calendar) that the calendar's canonical timezone is Europe/London
+    cal.append_custom_property('X-WR-CALNAME', 'Newspeak House Events')
+    cal.append_custom_property('X-WR-TIMEZONE', 'Europe/London')
+
+    # Provide a full VTIMEZONE definition for Europe/London to ensure correct DST handling
+    london_tz = TZInfo::Timezone.get('Europe/London')
+    cal.add_timezone(london_tz.ical_timezone(Time.now))
 
     Event.public_and_confirmed.each do |ev|
       cal.event do |e|
