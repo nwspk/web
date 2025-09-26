@@ -108,6 +108,7 @@ nav a {
   font-weight: 400;
   letter-spacing: 0.1em;
   font-style: italic;
+  text-align: right;
 }
 @media (max-width: 940px) {
   nav a {
