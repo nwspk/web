@@ -1,4 +1,5 @@
 require 'icalendar'
+require 'icalendar/tzinfo'
 require 'tzinfo'
 
 class ApiController < ApplicationController
@@ -45,10 +46,12 @@ class ApiController < ApplicationController
     end
 
     # Add weekly Ration Club (Wednesdays, 7–10pm London time)
-    now_london = Time.now.in_time_zone('Europe/London')
-    days_until_wed = (3 - now_london.wday) % 7
-    ration_start = (now_london.to_date + days_until_wed).to_time.in_time_zone('Europe/London') + 19.hours
-    ration_end   = ration_start + 3.hours
+    now_london = Time.zone.now.in_time_zone('Europe/London') 
+    days_until_wed = (3 - now_london.wday) % 7 
+    wednesday = (now_london + days_until_wed.days) 
+
+    ration_start = wednesday.change(hour: 19, min: 0, sec: 0) 
+    ration_end = ration_start + 3.hours
 
     cal.event do |e|
       e.dtstart     = Icalendar::Values::DateTime.new(ration_start, tzid: 'Europe/London')
