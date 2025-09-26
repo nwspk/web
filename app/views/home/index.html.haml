@@ -34,14 +34,13 @@
   %ul
     %li
       %a{:href => "#event-ration-club"}
-        %span.event-details Wednesdays • 7:00pm – 10:00pm • Lounge
-        \ – Ration Club
+        %span.toc-event-details Wednesdays • 7:00pm – 10:00pm • Lounge
+        %span.toc-event-title Ration Club
     - @events.each do |event|
       %li
         %a{:href => "#event-#{event.id}"}
-          %span.event-details= event.formatted_date_details
-          \ –
-          = event.name
+          %span.toc-event-details= event.formatted_date_details
+          %span.toc-event-title= event.name
 .event{ id: "event-ration-club" }
   %a.event-title{:href => "https://forms.gle/T3rXorsrb4gXKazv9"} Ration Club
   %br/

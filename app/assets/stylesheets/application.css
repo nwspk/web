@@ -245,6 +245,45 @@ img {
   max-width: 100%;
 }
 
+/* What's On TOC */
+.events-toc {
+  margin: 1em 0 2em;
+}
+
+.events-toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.events-toc li {
+  margin: 0.5em 0;
+}
+
+.events-toc a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.events-toc a:hover {
+  color: var(--red-accent);
+}
+
+.events-toc .toc-event-details {
+  display: block;
+  font-family: var(--sans-serif-font);
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #555;
+}
+
+.events-toc .toc-event-title {
+  display: block;
+  font-weight: 700;
+  color: #171717;
+}
+
 ul {
   list-style: initial;
 }
