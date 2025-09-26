@@ -35,6 +35,7 @@ aside {
   grid-column: 1;
   background: var(--almost-black);
   padding: 12em 1em;
+  position: fixed;
 }
 @media (max-width: 940px) {
   aside {
