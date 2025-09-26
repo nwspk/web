@@ -29,9 +29,6 @@ class ApiController < ApplicationController
     cal.append_custom_property('X-WR-CALNAME', 'Newspeak House Events')
     cal.append_custom_property('X-WR-TIMEZONE', 'Europe/London')
 
-    # Provide a full VTIMEZONE definition for Europe/London to ensure correct DST handling
-    london_tz = TZInfo::Timezone.get('Europe/London')
-    cal.add_timezone(london_tz.ical_timezone(Time.now))
 
     Event.public_and_confirmed.each do |ev|
       cal.event do |e|
