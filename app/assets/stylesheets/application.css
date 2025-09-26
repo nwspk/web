@@ -44,6 +44,8 @@ aside {
     grid-row: 2;
     background: inherit;
     padding: 0 1em;
+    height: auto;
+    position: relative;
   }
 }
 
