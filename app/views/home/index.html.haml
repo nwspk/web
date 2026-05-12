@@ -43,11 +43,20 @@
 
 %h3#events What's On
 %div.wide-pic{:style => "background-image: url(#{image_path "techforgood.jpg"})"}
+- special_ration_club_date = Date.new(2026, 5, 13)
+- show_special_ration_club = Time.zone.today <= special_ration_club_date
+- ration_club_link = show_special_ration_club ? "https://luma.com/vocnx4on" : "https://forms.gle/T3rXorsrb4gXKazv9"
+- ration_club_details = show_special_ration_club ? "Wednesday 13 May • 7:00pm – 10:00pm • Lounge" : "Wednesdays • 7:00pm – 10:00pm • Lounge"
+- ration_club_description = if show_special_ration_club
+  "Special edition: Ration Club Cohort Reunion ('24 & '25). Join us at Newspeak House on Wednesday 13 May for a cross-cohort evening with activities, trivia, and dinner."
+else
+  "Each week the college hosts a community dinner called Ration Club. It's open to anyone who'd like to find out more about the college and its work. To find out more or if you'd like to attend, please register."
+end
 .events-toc
   %ul
     %li
       %a{:href => "#event-ration-club"}
-        %span.toc-event-details Wednesdays • 7:00pm – 10:00pm • Lounge
+        %span.toc-event-details= ration_club_details
         %span.toc-event-title Ration Club
     - @events.each do |event|
       %li
@@ -57,13 +66,13 @@
 
 %h3 Event Details
 .event{ id: "event-ration-club" }
-  %a.event-title{:href => "https://forms.gle/T3rXorsrb4gXKazv9"} Ration Club
+  %a.event-title{:href => ration_club_link} Ration Club
   %br/
-  %div.event-details Wednesdays • 7:00pm – 10:00pm • Lounge
+  %div.event-details= ration_club_details
   %br/
   %a.event-host{:href => "https://bit.ly/edsaperia"} Edward Saperia
-  %p Each week the college hosts a community dinner called Ration Club. It's open to anyone who'd like to find out more about the college and its work. To find out more or if you'd like to attend, please register.
-  %a.section-link{:href => "https://forms.gle/T3rXorsrb4gXKazv9"} Register ↗
+  %p= ration_club_description
+  %a.section-link{:href => ration_club_link} Register ↗
 
 - @events.each do |event|
   = render partial: 'events/row', locals: { event: event }
