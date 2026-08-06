@@ -73,6 +73,14 @@ class SubscriptionsController < ApplicationController
     return if stripe_session_id.blank?
 
     checkout = Stripe::Checkout::Session.retrieve(stripe_session_id)
+
+    # Guard against binding someone else's checkout session (e.g. a leaked
+    # success URL) to this account. The session is created with the user's own
+    # email (see #create_checkout_session), so it must match.
+    unless checkout.customer_email.present? && checkout.customer_email.casecmp?(current_user.email)
+      redirect_to(dashboard_path, alert: 'That checkout session does not belong to your account') and return
+    end
+
     @subscription.customer_id = checkout.customer
     @subscription.subscription_id = checkout.subscription
 

@@ -19,7 +19,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def update_resource(resource, params)
-    if params[:password].blank?
+    email_changing = params[:email].present? && params[:email] != resource.email
+
+    # Allow no-password updates for low-risk fields (e.g. ring_size), but require
+    # the current password whenever the password OR the email is being changed —
+    # otherwise an open session could silently take over the account by swapping
+    # the email and triggering a password reset.
+    if params[:password].blank? && !email_changing
       params.delete(:password)
       params.delete(:password_confirmation)
       params.delete(:current_password)

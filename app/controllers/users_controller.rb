@@ -16,6 +16,8 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:showcase_text, :ring_size, :name, :email, :url, :avatar)
+    # :email is intentionally excluded — email changes must go through account
+    # settings, which requires the current password (see Users::RegistrationsController).
+    params.require(:user).permit(:showcase_text, :ring_size, :name, :url, :avatar)
   end
 end
