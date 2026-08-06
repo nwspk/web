@@ -111,7 +111,7 @@
 - name: Yung-Hsuan Wu
   cohort: 2024 Cohort
   status: Fellow
-  image: fellows/yung-hsuan-wu.jpeg
+  image: fellows/yung-hsuan-wu.jpg
   bio: |-
     <a href="https://yunghsuanwu.com/">Yung-Hsuan</a> is a social studies researcher on AI dedicated to portraying the co-constitutive relationship between technology and society. During the day, he works as an algorithmic auditor at <a href="https://eticas.ai/">Eticas</a>. Outside of work, he likes roaming around the city aimlessly, writes people around him into stories, and works on secret side projects. Check them out <a href="https://linktr.ee/yunghsuanwu">here</a>.
     Created <a href="https://bit.ly/4lwBJ19">Immigration Email Drafter</a>.
@@ -119,7 +119,7 @@
 - name: Simon Wisdom
   cohort: 2024 Cohort
   status: Fellow
-  image: fellows/simon-wisdom.jpeg
+  image: fellows/simon-wisdom.jpg
   bio: |-
     <a href="https://simonwisdom.com">Simon</a> combines analytical thinking and creative experimentation to bring joy to his small corner of the world. Currently focused on AI, exploring technical alignment, governance, and policy. He enjoys tinkering on creative projects and facilitates connection workshops at festivals and workplaces.
     Created <a href="https://chatlinks.xyz/">ChatLinks</a> and <a href="https://whirlpool.buzz/">Whirlpool</a>.
@@ -127,7 +127,7 @@
 - name: Casimir Jan Wanot
   cohort: 2024 Cohort
   status: Fellowship Candidate
-  image: fellows/casimir-jan-wanot.jpeg
+  image: fellows/casimir-jan-wanot.jpg
   bio: Software engineer at ExpressVPN, exploring game development and meditation.
     Interested in large-scale human systems, AI safety, and how individual actions
     shape them. Practices Global Wayfinding meditation and writes about spirituality
@@ -136,7 +136,7 @@
 - name: Melissa Tranfield
   cohort: 2024 Cohort
   status: Fellow
-  image: fellows/melissa-tranfield.jpeg
+  image: fellows/melissa-tranfield.jpg
   bio: |-
     Software engineer focused on using technology, education, and policy to build a better society. Contributes to Campaign Lab on progressive tech and election tools, and organizes for codebar, teaching programming to minority groups. Passionate about exploring well-designed political tech to drive social change.
     Created <a href="https://wealth-watch-clarity.lovable.app/">Wealth Watch</a>.
@@ -144,7 +144,7 @@
 - name: Tristan Spill
   cohort: 2024 Cohort
   status: Fellowship Candidate
-  image: fellows/tristan-spill.jpeg
+  image: fellows/tristan-spill.jpg
   bio: "Graphic designer interested in making hyper local Zines and floating wonders.
     Exploring Green issues, energy policy and neurodiversity as well as new methods
     to deal with overwhelm, infoglut and linkrot. \nCreated <a href=\"https://comicspill.neocities.org\">for
@@ -159,7 +159,7 @@
 - name: Dorcas Nyamwaya
   cohort: 2024 Cohort
   status: Fellowship Candidate
-  image: fellows/dorcas-nyamwaya.jpeg
+  image: fellows/dorcas-nyamwaya.jpg
   bio: Governance specialist researching digital technologies, democratic processes,
     and justice. Focused on using data and technology to promote equity and address
     global challenges. Background in law with experience in urban development and
@@ -168,7 +168,7 @@
 - name: David Norton
   cohort: 2024 Cohort
   status: Fellow
-  image: fellows/david-norton.jpeg
+  image: fellows/david-norton.jpg
   bio: Leads research, development, and innovation at Ekō, mobilizing millions to
     hold corporations accountable. Previously worked in Washington, D.C., Brussels,
     and London, including roles at the ITUC. Studied sociology, political science,
@@ -179,7 +179,7 @@
 - name: Claddagh NicLochlainn
   cohort: 2024 Cohort
   status: Fellow
-  image: fellows/claddagh-niclochlainn.jpeg
+  image: fellows/claddagh-niclochlainn.jpg
   bio: ''
   url: 
 - name: Ilya Mouzykantskii
@@ -191,7 +191,7 @@
 - name: Paulina Wisdom
   cohort: 2024 Cohort
   status: Fellowship Candidate
-  image: fellows/paulina-marron.jpeg
+  image: fellows/paulina-marron.jpg
   bio: |-
     Data analyst with degrees in Applied Mathematics and Data Analytics, shifting to public health to apply behavioral science and game theory. Experienced in community-building and connecting students with non-profits. Passionate about leveraging technology, science, and art for positive change.
     Created <a href="https://spare-change.lovable.app/">Spare Change</a> and <a href="https://how-we-doin.lovable.app/">How We Doin</a>.
@@ -199,7 +199,7 @@
 - name: Richard Kemp
   cohort: 2024 Cohort
   status: Fellowship Candidate
-  image: fellows/richard-kemp.jpeg
+  image: fellows/richard-kemp.jpg
   bio: |-
     Focused on cultural evolution, coordination problems, spirituality, and optimism. Interested in recreating the positive effects of religious faith in a distributed way and reforming democracy for a complex world. Background in engineering and financial services; enjoys programming, fantasy, science fiction, and music.
     Created <a href="https://community.richardkemp.uk">Community Platform</a>.
@@ -207,7 +207,7 @@
 - name: Jyotsna Iyer
   cohort: 2024 Cohort
   status: Fellowship Candidate
-  image: fellows/jyotsna-iyer.jpeg
+  image: fellows/jyotsna-iyer.jpg
   bio: <a href="https://jyotsna-iy.github.io/">Jyo</a> is a Research Assistant at
     The Alan Turing Institute in the Trustworthy Digital Infrastructures for Identity
     Systems project. She is currently interested in producing research/projects in
@@ -218,7 +218,7 @@
 - name: Ollie Bream McIntosh
   cohort: 2024 Cohort
   status: Fellow
-  image: fellows/ollie-bream-mcintosh.jpeg
+  image: fellows/ollie-bream-mcintosh.jpg
   bio: Researcher and designer at the intersections of sustainability transitions
     and collective intelligence. PhD Candidate at Brussels School of Governance; Principal
     Consultant at Raincoatfish; Associate Researcher at Mútua Systems.
@@ -226,7 +226,7 @@
 - name: Heather McRobie Allansdottir
   cohort: 2024 Cohort
   status: Fellowship Candidate
-  image: fellows/heather-mcrobie-allansdottir.jpeg
+  image: fellows/heather-mcrobie-allansdottir.jpg
   bio: Law scholar and writer at the intersections of public international law and
     political technologies. Doctorate in Law from Oxford University; Lecturer in international
     and human rights law in Iceland, Australia, and the UK; Researcher in space law
@@ -330,7 +330,7 @@
 - name: Richard Ng
   cohort: 2022 Cohort
   status: Fellow
-  image: fellows/richard-ng.jpeg
+  image: fellows/richard-ng.jpg
   bio: climate × edtech <br> co-founder &amp; CTO, <a href="https://greenworkx.org">greenworkx</a>
     <br> <a href="/cdn-cgi/l/email-protection#512338323930233511362334343f263e233a297f3e2336"><span
     class="__cf_email__" data-cfemail="a7d5cec4cfc6d5c3e7c0d5c2c2c9d0c8d5ccdf89c8d5c0">[email protected]</span></a>,
@@ -411,7 +411,7 @@
 - name: Lewis Jones
   cohort: 2020 Cohort
   status: Fellow
-  image: fellows/lewis-jones.jpeg
+  image: fellows/lewis-jones.jpg
   bio: Systems, software and bioengineer; technologist; environmentalist - currently
     working as Head of Software at <a href="https://twitter.com/LITHO">Litho</a> to
     redefine the paradigm of education using AR EdTech. <a href="https://twitter.com/la_jones21">@la_jones21</a>
@@ -522,7 +522,7 @@
 - name: Sabrina Kavanaugh
   cohort: Season 13
   status: Fellow
-  image: fellows/sabrina-kavanagh.jpeg
+  image: fellows/sabrina-kavanagh.jpg
   bio: Reach out if you’re interested in the future of work, food systems, platforms
     &amp; communities, housing projects, adult education, ethical consumerism, representation,
     protest, parliament. <a href="https://www.twitter.com/sabkava">@sabkava</a>, <a
@@ -569,13 +569,13 @@
 - name: Dee Harding
   cohort: Season 11
   status: Fellow
-  image: fellows/dee-harding.jpeg
+  image: fellows/dee-harding.jpg
   bio: Open Tech Lead, NHS England
   url: https://www.twitter.com/deltaechoecho
 - name: Paul Powlesland
   cohort: Season 10
   status: Fellow
-  image: fellows/paul-powlesland.jpeg
+  image: fellows/paul-powlesland.jpg
   bio: Barrister, Garden Court Chambers, Founder, Lawyers for Nature
   url: https://www.linkedin.com/in/paul-powlesland-448a3482/
 - name: Jo Kerr
@@ -599,7 +599,7 @@
 - name: Lisa Murphy
   cohort: Season 9
   status: Fellow
-  image: fellows/lisa-murphy.jpeg
+  image: fellows/lisa-murphy.jpg
   bio: Senior Policy Manager, NHSX Centre for Improving Data Collaboration
   url: https://twitter.com/LisaMurphy107
 - name: Anouk Ruhaak
@@ -639,7 +639,7 @@
 - name: Irina Bolyshevski
   cohort: Season 8
   status: Fellow
-  image: fellows/irina-bolychevsky.jpeg
+  image: fellows/irina-bolychevsky.jpg
   bio: Director of Standards and Interoperability, NHSX, Founder, Redecentralize.org
   url: http://shevski.com/
 - name: John Bryden
@@ -683,7 +683,7 @@
 - name: Imeh Akpan
   cohort: Season 6
   status: Fellow
-  image: fellows/imeh-akpan.jpeg
+  image: fellows/imeh-akpan.jpg
   bio: Head of Design Research, FutureGov/TPXimpact, prev GOV.UK User Research Lead,
     Government Digital Service
   url: 
@@ -762,7 +762,7 @@
 - name: Brandon Jackson
   cohort: Season 2
   status: Fellow
-  image: fellows/brandon-jackson.jpeg
+  image: fellows/brandon-jackson.jpg
   bio: Design &amp; Neuroscience, Lingumi
   url: https://twitter.com/glassboxed
 - name: James Moulding
@@ -781,7 +781,7 @@
 - name: Shad Jahangir
   cohort: Season 2
   status: Fellow
-  image: fellows/shad-jahangir.jpeg
+  image: fellows/shad-jahangir.jpg
   bio: Designer. Building Vouch, a new way to get hired.<br><a href="https://twitter.com/systemantix">@systemantix</a>
   url: https://twitter.com/systemantix
 - name: Jonathan Penn
