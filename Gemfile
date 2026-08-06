@@ -5,7 +5,7 @@ ruby "3.1.3"
 
 gem "rails", "~> 7.0.4"
 gem "pg"
-gem "puma", "~> 5.0"
+gem "puma", "~> 5.6.9"
 gem "sidekiq"
 gem "sprockets-rails"
 
@@ -16,7 +16,7 @@ gem "haml-rails"
 gem "jquery-rails"
 gem "money"
 gem "simple_form"
-gem "carrierwave"
+gem "carrierwave", "~> 2.2.7"
 
 gem "icalendar"
 gem "kramdown"

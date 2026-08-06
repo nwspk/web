@@ -9,11 +9,11 @@ class AvatarUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  def extension_whitelist
+  def extension_allowlist
     %w(jpg jpeg gif png)
   end
 
-  def content_type_whitelist
+  def content_type_allowlist
     /image\//
   end
 end
