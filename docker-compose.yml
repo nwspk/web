@@ -44,7 +44,7 @@ services:
 
   redis:
     platform: "linux/amd64"
-    image: redis:5.0
+    image: redis:7
 
   sidekiq:
     platform: "linux/amd64"
