@@ -167,8 +167,13 @@ nav {
   flex-direction: column;
   align-items: end;
 }
-/* on short screens a fixed 12em offset would push the last links off-screen */
-@media (max-height: 800px) {
+/* On short screens, move the nav up so the last links aren't cut off. The
+   sticky `top` must stay equal to the aside's padding-top, otherwise the nav
+   slides from its natural offset down to `top` before sticking. */
+@media (max-height: 760px) {
+  aside {
+    padding-top: 1em;
+  }
   nav {
     top: 1em;
   }
