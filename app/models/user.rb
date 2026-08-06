@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :lockable
 
   ROLES = {
     admin: 'admin',
@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true
   validates :role, inclusion: ROLES.values
+  validates :url, format: { with: %r{\Ahttps?://}i, message: 'must start with http:// or https://' }, allow_blank: true
   validates_associated :subscription
   validates :ring_size, inclusion: Ring::SIZES, unless: -> { ring_size.nil? }
 

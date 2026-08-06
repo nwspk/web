@@ -25,10 +25,11 @@
 %ul{ style: 'padding-left: 18px' }
   - @new_users.each do |u|
     %li
-      - if u.url.blank?
+      - member_url = safe_external_url(u.url)
+      - if member_url.blank?
         %span>= u.name
       - else
-        %a{ href: u.url }>= u.name
+        %a{ href: member_url }>= u.name
       - unless u.showcase_text.blank?
         = ", #{u.showcase_text}"
       - else
@@ -43,12 +44,14 @@
 %ul{ style: 'padding-left: 18px' }
   - @fellows.each do |u|
     %li
-      - if u.url.blank?
+      - fellow_url = safe_external_url(u.url)
+      - if fellow_url.blank?
         %span>= u.name
       - else
-        %a{ href: u.url }>= u.name
+        %a{ href: fellow_url }>= u.name
       - unless u.showcase_text.blank?
-        = ", #{Kramdown::Document.new(u.showcase_text).to_html.html_safe}"
+        = ", "
+        = safe_markdown(u.showcase_text)
       - if u.twitter
         = surround "(", ")" do
           %a{ href: u.twitter.profile_url}= "@#{u.twitter.username}"
