@@ -39,13 +39,81 @@ aside {
 }
 @media (max-width: 940px) {
   aside {
-    grid-column: 1;
-    text-align: center;
-    grid-row: 2;
-    background: inherit;
-    padding: 0 1em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(75vw, 300px);
+    box-sizing: border-box;
     height: auto;
-    position: relative;
+    padding: 5em 1.5em 2em;
+    overflow-y: auto;
+    z-index: 20;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  #nav-toggle:checked ~ aside {
+    transform: translateX(0);
+  }
+}
+
+/* Mobile nav drawer controls */
+#nav-toggle,
+.nav-toggle-button,
+.nav-overlay {
+  display: none;
+}
+
+@media (max-width: 940px) {
+  .nav-toggle-button {
+    display: block;
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    z-index: 30;
+    width: 44px;
+    height: 44px;
+    padding: 13px 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: #f1f1f1;
+    border: 1px solid var(--almost-black);
+  }
+  .nav-toggle-button span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--almost-black);
+    transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+  }
+  .nav-toggle-button span + span {
+    margin-top: 6px;
+  }
+  #nav-toggle:checked ~ .nav-toggle-button {
+    background: var(--almost-black);
+    border-color: #f1f1f1;
+  }
+  #nav-toggle:checked ~ .nav-toggle-button span {
+    background: #f1f1f1;
+  }
+  #nav-toggle:checked ~ .nav-toggle-button span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  #nav-toggle:checked ~ .nav-toggle-button span:nth-child(2) {
+    opacity: 0;
+  }
+  #nav-toggle:checked ~ .nav-toggle-button span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+  #nav-toggle:checked ~ .nav-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 15;
   }
 }
 
@@ -94,16 +162,22 @@ footer {
 
 nav {
   position: sticky;
-  top: 1em;
+  top: 12em; /* matches aside's top padding, so the nav never appears to move */
   display: flex;
   flex-direction: column;
   align-items: end;
 }
+/* on short screens a fixed 12em offset would push the last links off-screen */
+@media (max-height: 800px) {
+  nav {
+    top: 1em;
+  }
+}
 @media (max-width: 940px) {
   nav {
     position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
@@ -117,8 +191,8 @@ nav a {
 @media (max-width: 940px) {
   nav a {
     padding-left: 0;
-    padding-right: 1em;
-  }  
+    text-align: left;
+  }
 }
 
 h1,

@@ -18,6 +18,13 @@
 
   %body
 
+    %input#nav-toggle{:type => "checkbox"}
+    %label.nav-toggle-button{:for => "nav-toggle", "aria-label" => "Toggle navigation"}
+      %span
+      %span
+      %span
+    %label.nav-overlay{:for => "nav-toggle", "aria-hidden" => "true"}
+
     %aside
       %nav
         %a{:href => "/"} home
