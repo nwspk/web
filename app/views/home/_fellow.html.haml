@@ -1,0 +1,18 @@
+- url = safe_external_url(fellow['url'])
+.member
+  - if url
+    = link_to url do
+      = image_tag fellow_image(fellow)
+  - else
+    = image_tag fellow_image(fellow)
+  .member-text
+    .fellow-header
+      %span.fellow-name
+        - if url
+          = link_to fellow['name'], url
+        - else
+          = fellow['name']
+      - if fellow['status'] == 'Fellowship Candidate'
+        %span.pill.pill-candidate Fellowship Candidate
+    - if fellow['bio'].present?
+      .fellow-bio= safe_bio(fellow['bio'])

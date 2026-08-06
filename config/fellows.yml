@@ -1,0 +1,843 @@
+---
+- name: Huda Abdirahim
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/huda-abdirahim.png
+  bio: ''
+  url: 
+- name: Tuna Acisu
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/tuna-acisu.jpg
+  bio: ''
+  url: 
+- name: Nicholas Botti
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/nicholas-botti.png
+  bio: ''
+  url: 
+- name: Alexandra Ciocanel
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/alexandra-ciocanel.jpg
+  bio: Researcher
+  url: 
+- name: Jamie Coombes
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/jamie-coombes.jpg
+  bio: AI risk and chloropleth maps
+  url: 
+- name: Connor Dunlop
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/connor-dunlop.jpg
+  bio: Building technical governance solutions to increase verifiability in AI
+  url: 
+- name: Francesca Galli
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/francesca-galli.jpg
+  bio: Analyst-writer-artist exploring how technology can further civic engagement
+  url: 
+- name: Davit Jintcharadze
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/davit-jintcharadze.png
+  bio: ''
+  url: 
+- name: Fatima Sarah Khalid
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/fatima-sarah-khalid.png
+  bio: "✧ ai engineer & civic hacker"
+  url: 
+- name: Aadi Kulkarni
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/aadi-kulkarni.png
+  bio: ''
+  url: 
+- name: Gamithra Marga
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/gamithra-marga.jpg
+  bio: "☀︎ raves, machines, and dishwashers"
+  url: 
+- name: Emily Mayhew
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/emily-mayhew.jpg
+  bio: Making policy at the AI/Creative Industries intersection
+  url: 
+- name: Frederick O'Brien
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/frederick-o-brien.jpg
+  bio: Gonzo man
+  url: 
+- name: Martina Orlea
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/martina-orlea.png
+  bio: ''
+  url: 
+- name: Chris Owen
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/chris-owen.jpg
+  bio: Educator & Coder
+  url: 
+- name: Alessandro Pedori
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/alessandro-pedori.jpg
+  bio: Engineer-life-coach integrating AI, coaching and facilitation to empower human
+    flourishing
+  url: 
+- name: David Powell
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/david-powell.png
+  bio: Building technology for humans
+  url: 
+- name: Asil Sidahmed
+  cohort: 2025 Cohort
+  status: Fellowship Candidate
+  image: fellows/asil-sidahmed.jpg
+  bio: Governance strategist
+  url: 
+- name: Yung-Hsuan Wu
+  cohort: 2024 Cohort
+  status: Fellow
+  image: fellows/yung-hsuan-wu.jpeg
+  bio: |-
+    <a href="https://yunghsuanwu.com/">Yung-Hsuan</a> is a social studies researcher on AI dedicated to portraying the co-constitutive relationship between technology and society. During the day, he works as an algorithmic auditor at <a href="https://eticas.ai/">Eticas</a>. Outside of work, he likes roaming around the city aimlessly, writes people around him into stories, and works on secret side projects. Check them out <a href="https://linktr.ee/yunghsuanwu">here</a>.
+    Created <a href="https://bit.ly/4lwBJ19">Immigration Email Drafter</a>.
+  url: 
+- name: Simon Wisdom
+  cohort: 2024 Cohort
+  status: Fellow
+  image: fellows/simon-wisdom.jpeg
+  bio: |-
+    <a href="https://simonwisdom.com">Simon</a> combines analytical thinking and creative experimentation to bring joy to his small corner of the world. Currently focused on AI, exploring technical alignment, governance, and policy. He enjoys tinkering on creative projects and facilitates connection workshops at festivals and workplaces.
+    Created <a href="https://chatlinks.xyz/">ChatLinks</a> and <a href="https://whirlpool.buzz/">Whirlpool</a>.
+  url: 
+- name: Casimir Jan Wanot
+  cohort: 2024 Cohort
+  status: Fellowship Candidate
+  image: fellows/casimir-jan-wanot.jpeg
+  bio: Software engineer at ExpressVPN, exploring game development and meditation.
+    Interested in large-scale human systems, AI safety, and how individual actions
+    shape them. Practices Global Wayfinding meditation and writes about spirituality
+    and AI alignment on his blog.
+  url: 
+- name: Melissa Tranfield
+  cohort: 2024 Cohort
+  status: Fellow
+  image: fellows/melissa-tranfield.jpeg
+  bio: |-
+    Software engineer focused on using technology, education, and policy to build a better society. Contributes to Campaign Lab on progressive tech and election tools, and organizes for codebar, teaching programming to minority groups. Passionate about exploring well-designed political tech to drive social change.
+    Created <a href="https://wealth-watch-clarity.lovable.app/">Wealth Watch</a>.
+  url: 
+- name: Tristan Spill
+  cohort: 2024 Cohort
+  status: Fellowship Candidate
+  image: fellows/tristan-spill.jpeg
+  bio: "Graphic designer interested in making hyper local Zines and floating wonders.
+    Exploring Green issues, energy policy and neurodiversity as well as new methods
+    to deal with overwhelm, infoglut and linkrot. \nCreated <a href=\"https://comicspill.neocities.org\">for
+    you page A4 mini-zine</a>."
+  url: 
+- name: Alex Papadopoulos
+  cohort: 2024 Cohort
+  status: Fellowship Candidate
+  image: 
+  bio: ''
+  url: 
+- name: Dorcas Nyamwaya
+  cohort: 2024 Cohort
+  status: Fellowship Candidate
+  image: fellows/dorcas-nyamwaya.jpeg
+  bio: Governance specialist researching digital technologies, democratic processes,
+    and justice. Focused on using data and technology to promote equity and address
+    global challenges. Background in law with experience in urban development and
+    AI governance initiatives.
+  url: 
+- name: David Norton
+  cohort: 2024 Cohort
+  status: Fellow
+  image: fellows/david-norton.jpeg
+  bio: Leads research, development, and innovation at Ekō, mobilizing millions to
+    hold corporations accountable. Previously worked in Washington, D.C., Brussels,
+    and London, including roles at the ITUC. Studied sociology, political science,
+    corpus linguistics, and gender studies, focused on how ideas and movements spread
+    online. Created <a href="https://placemarked.notastranger.org/">Placemarked</a>
+    and <a href="https://thanksjk.org/">Thanks, JK.</a>
+  url: 
+- name: Claddagh NicLochlainn
+  cohort: 2024 Cohort
+  status: Fellow
+  image: fellows/claddagh-niclochlainn.jpeg
+  bio: ''
+  url: 
+- name: Ilya Mouzykantskii
+  cohort: 2024 Cohort
+  status: Fellowship Candidate
+  image: 
+  bio: ''
+  url: 
+- name: Paulina Wisdom
+  cohort: 2024 Cohort
+  status: Fellowship Candidate
+  image: fellows/paulina-marron.jpeg
+  bio: |-
+    Data analyst with degrees in Applied Mathematics and Data Analytics, shifting to public health to apply behavioral science and game theory. Experienced in community-building and connecting students with non-profits. Passionate about leveraging technology, science, and art for positive change.
+    Created <a href="https://spare-change.lovable.app/">Spare Change</a> and <a href="https://how-we-doin.lovable.app/">How We Doin</a>.
+  url: 
+- name: Richard Kemp
+  cohort: 2024 Cohort
+  status: Fellowship Candidate
+  image: fellows/richard-kemp.jpeg
+  bio: |-
+    Focused on cultural evolution, coordination problems, spirituality, and optimism. Interested in recreating the positive effects of religious faith in a distributed way and reforming democracy for a complex world. Background in engineering and financial services; enjoys programming, fantasy, science fiction, and music.
+    Created <a href="https://community.richardkemp.uk">Community Platform</a>.
+  url: 
+- name: Jyotsna Iyer
+  cohort: 2024 Cohort
+  status: Fellowship Candidate
+  image: fellows/jyotsna-iyer.jpeg
+  bio: <a href="https://jyotsna-iy.github.io/">Jyo</a> is a Research Assistant at
+    The Alan Turing Institute in the Trustworthy Digital Infrastructures for Identity
+    Systems project. She is currently interested in producing research/projects in
+    the field of political economy/platform economy and has been developing an independent
+    research practice which draws from the humanities (literary and cultural studies,
+    media studies, philosophy). Building <a href="https://github.com/jyotsna-iy/retrackt">Retrackt</a>.
+  url: 
+- name: Ollie Bream McIntosh
+  cohort: 2024 Cohort
+  status: Fellow
+  image: fellows/ollie-bream-mcintosh.jpeg
+  bio: Researcher and designer at the intersections of sustainability transitions
+    and collective intelligence. PhD Candidate at Brussels School of Governance; Principal
+    Consultant at Raincoatfish; Associate Researcher at Mútua Systems.
+  url: 
+- name: Heather McRobie Allansdottir
+  cohort: 2024 Cohort
+  status: Fellowship Candidate
+  image: fellows/heather-mcrobie-allansdottir.jpeg
+  bio: Law scholar and writer at the intersections of public international law and
+    political technologies. Doctorate in Law from Oxford University; Lecturer in international
+    and human rights law in Iceland, Australia, and the UK; Researcher in space law
+    and sustainability.
+  url: 
+- name: Aleksandr Putilin
+  cohort: 2023 Cohort
+  status: Fellow
+  image: fellows/aleksandr-putilin.png
+  bio: Techno-Buddhist, Product Engineer, originally from Siberia, lived in Moscow
+    for 9 years, have been living in London for 6 years. <a href="https://www.linkedin.com/in/alexander-putilin-6803346b/">Linkedin</a>,
+    <a href="https://psychotechnology.substack.com/">Psychotechnology Substack</a>.
+  url: 
+- name: Ted Roberts
+  cohort: 2023 Cohort
+  status: Fellow
+  image: 
+  bio: ''
+  url: 
+- name: Andy Twelves
+  cohort: 2023 Cohort
+  status: Fellow
+  image: fellows/andy-twelves.png
+  bio: Working on new media with <a href="https://campaignlab.uk/">Campaign Lab</a>,
+    running media for <a href="https://bcs.org">BCS, The Chartered Institute for IT</a>,
+    writing and broadcasting in various other places.
+  url: https://x.com/andytwelves
+- name: Jethro Reeve
+  cohort: 2023 Cohort
+  status: Fellow
+  image: fellows/jethro-reeve.png
+  bio: Music to neuroscience to interdisciplinarity to data science. Looking at how
+    music can make us smarter, how data can help us think clearly about politics,
+    and how AI can be used to bundle together complex problems in ways we can’t understand.
+  url: 
+- name: Julia Taranova
+  cohort: 2023 Cohort
+  status: Fellow
+  image: 
+  bio: ''
+  url: 
+- name: Richard Hames
+  cohort: 2023 Cohort
+  status: Fellow
+  image: fellows/richard-hames.png
+  bio: <a href="https://newmodels-io.myshopify.com/en-gb/products/crude-futures-summer-2023">Political</a>  <a
+    href="https://www.dogsection.org/product/post-internet-far-right">Writer</a>,
+    <a href="https://www.politybooks.com/bookdetail?book_slug=the-rise-of-ecofascism-climate-change-and-the-far-right--9781509545377">Researcher</a>
+    and <a href="https://novaramedia.com/category/audio/novarafm/">Audio Producer</a>
+  url: 
+- name: Lefke Kerr
+  cohort: 2023 Cohort
+  status: Fellow
+  image: 
+  bio: ''
+  url: 
+- name: Ella Shoup
+  cohort: 2023 Cohort
+  status: Fellowship Candidate
+  image: 
+  bio: ''
+  url: 
+- name: Ardavan Afshar
+  cohort: 2022 Cohort
+  status: Fellow
+  image: fellows/dr-ardavan-afshar.png
+  bio: Number theory, Machine learning, Global development, Effective altruism<br><a
+    href="/cdn-cgi/l/email-protection#0766296661746f6675373147606a666e6b2964686a"><span
+    class="__cf_email__" data-cfemail="3657185750455e5744060076515b575f5a1855595b">[email protected]</span></a>
+  url: https://arxiv.org/search/math?searchtype=author&query=Afshar%2C+A
+- name: Patrick Connoly
+  cohort: 2022 Cohort
+  status: Fellow
+  image: fellows/patcon.jpg
+  bio: <a href="https://github.com/patcon">Coder</a>, Canadian civil servant (<a href="https://talent.canada.ca/">talent.canada.ca</a>)<br>Civic
+    tech community organizer (<a href="http://civictech.ca/">civictech.ca</a>, <a
+    href="https://hypha.coop">hypha.coop</a>, <a href="http://codeacross.ca">codeacross.ca</a>,
+    <a href="https://g0v.london">g0v.london</a>)<br><a href="/cdn-cgi/l/email-protection#f4849580869d979fda97da979b9a9a9b98988db49399959d98da979b99"><span
+    class="__cf_email__" data-cfemail="87f7e6f3f5eee4eca9e4a9e4e8e9e9e8ebebfec7e0eae6eeeba9e4e8ea">[email protected]</span></a>,
+    <a href="https://twitter.com/patcon_">@patcon_</a>
+  url: https://nodescription.net
+- name: Ian Davis
+  cohort: 2022 Cohort
+  status: Fellow
+  image: fellows/ian-davis.jpg
+  bio: Ethical platform / protocol <a href="https://github.com/ianconsolata">engineer</a>
+    focused on decentralized, privacy-preserving identity and data storage solutions<br><a
+    href="/cdn-cgi/l/email-protection#2049414e604d5953494c494f0e434f4d"><span class="__cf_email__"
+    data-cfemail="224b434c624f5b514b4e4b4d0c414d4f">[email protected]</span></a>,
+    <a href="https://twitter.com/ianconsolata">@ianconsolata</a>
+  url: https://twitter.com/ianconsolata
+- name: Artem Zhiganov
+  cohort: 2022 Cohort
+  status: Fellow
+  image: fellows/artem-zhiganov.jpg
+  bio: Governance lead <a href="https://mobile.twitter.com/protein">@protein</a><br>Metagovernance,
+    DAOs, Exit to Community<br><a href="/cdn-cgi/l/email-protection#b8d0ddd4d4d7f8c2d0dfd6ce96dbd7d5"><span
+    class="__cf_email__" data-cfemail="cea6aba2a2a18eb4a6a9a0b8e0ada1a3">[email protected]</span></a>,
+    <a href="https://twitter.com/zhiganov">@zhiganov</a>, <a href="https://linktr.ee/zhiganov">linktr.ee/zhiganov</a>
+  url: https://twitter.com/zhiganov
+- name: Richard Ng
+  cohort: 2022 Cohort
+  status: Fellow
+  image: fellows/richard-ng.jpeg
+  bio: climate × edtech <br> co-founder &amp; CTO, <a href="https://greenworkx.org">greenworkx</a>
+    <br> <a href="/cdn-cgi/l/email-protection#512338323930233511362334343f263e233a297f3e2336"><span
+    class="__cf_email__" data-cfemail="a7d5cec4cfc6d5c3e7c0d5c2c2c9d0c8d5ccdf89c8d5c0">[email protected]</span></a>,
+    <a href="https://twitter.com/richardcrng">@richardcrng</a>, <a href="https://richard.ng/">richard.ng</a>
+  url: https://richard.ng
+- name: Matthew Lutz
+  cohort: 2022 Cohort
+  status: Fellow
+  image: fellows/dr-matthew-lutz.jpg
+  bio: <a href="https://scholar.google.com/citations?hl=en&amp;user=FeYAoX4AAAAJ">Behavioral
+    ecologist</a> (ants &amp; termites), Architect<br><a href="/cdn-cgi/l/email-protection#8de0ecf9f9e5e8faa3e1f8f9f7cdeae0ece4e1a3eee2e0"><span
+    class="__cf_email__" data-cfemail="88e5e9fcfce0edffa6e4fdfcf2c8efe5e9e1e4a6ebe7e5">[email protected]</span></a>,
+    <a href="https://twitter.com/matthewjlutz">@matthewjlutz</a>, <a href="https://matthewlutz.net/">matthewlutz.net</a>
+  url: https://matthewlutz.net/
+- name: Jacob Coxon
+  cohort: 2021 Cohort
+  status: Fellow
+  image: fellows/jacob-coxon.jpg
+  bio: Applying mathematics and data science to inefficient markets<br><a href="/cdn-cgi/l/email-protection#7444421e171b0c1b1a341319151d185a171b19"><span
+    class="__cf_email__" data-cfemail="3a0a0c5059554255547a5d575b535614595557">[email protected]</span></a>
+  url: 
+- name: Viktor Veterinarov
+  cohort: 2021 Cohort
+  status: Fellow
+  image: fellows/viktor-veterinarov.jpg
+  bio: 'Economist (Urban and Applied Micro), Data scientist, Researcher at UCL Department
+    of Economics <br> Projects: <a href="https://drive.google.com/file/d/16ABeAHGgbF2_myh-IvFDSqziGqxuLYWd/view">Ethnic
+    Discrimination in Rental Market</a>,  <a href="https://drive.google.com/file/d/1WQIZsihuuG3gNQKowYQoYT6s5-KJNghU/view">Roadworks
+    Side Effects on Restaurants</a>, <a href="https://drive.google.com/file/d/1b4CxoXt0ezUhWqSQS13vq_1f6LUF6GTa/view">Public
+    Transport and Employment Gender Gap</a>, <a href="https://sites.google.com/view/gabriel-ulyssea/erc-starting-grant">Forced
+    Migration and Development</a> <br> <a href="https://twitter.com/VVeterinarov">@VVeterinarov</a>,
+    <a href="/cdn-cgi/l/email-protection#d3a5b6a7b1b6a1b4a593b4beb2babffdb0bcbe"><span
+    class="__cf_email__" data-cfemail="dfa9baabbdbaadb8a99fb8b2beb6b3f1bcb0b2">[email protected]</span></a>'
+  url: 
+- name: Amber Rignell
+  cohort: 2021 Cohort
+  status: Fellow
+  image: fellows/amber-rignell.jpg
+  bio: Product Manager at <a href="https://www.openfn.org">Open Function</a>, bringing
+    open source process automation to governments and social-impact organizations<br><a
+    href="/cdn-cgi/l/email-protection#d9b8b4bbbcabf7abb0beb7bcb5b599beb4b8b0b5f7bab6b4"><span
+    class="__cf_email__" data-cfemail="7b1a16191e095509121c151e17173b1c161a121755181416">[email protected]</span></a>,
+    <a href="https://twitter.com/a_rignell">@a_rignell</a>
+  url: https://github.com/amberrignell
+- name: Manon Jones
+  cohort: 2021 Cohort
+  status: Fellow
+  image: fellows/manon-jones.png
+  bio: Geospatial analysis and information management at UN International Organization
+    for Migration, and researching protracted refugee settlements using Space Syntax
+    methodologies at the Bartlett, UCL.<br><a href="/cdn-cgi/l/email-protection#caa7aba4a5a4a0a5a4afb9fbfffbfa8aada7aba3a6e4a9a5a7"><span
+    class="__cf_email__" data-cfemail="e68b878889888c89888395d7d3d7d6a6818b878f8ac885898b">[email protected]</span></a>
+  url: 
+- name: Clem von Stengel
+  cohort: 2021 Cohort
+  status: Fellow
+  image: fellows/clem-von-stengel.jpg
+  bio: History of AI, Reinforcement Learning, Complexity Science, Political Theory<br><a
+    href="/cdn-cgi/l/email-protection#22414e474f544d4c5156474c45474e62454f434b4e0c414d4f"><span
+    class="__cf_email__" data-cfemail="d7b4bbb2baa1b8b9a4a3b2b9b0b2bb97b0bab6bebbf9b4b8ba">[email protected]</span></a>
+  url: 
+- name: Clement Briens
+  cohort: 2021 Cohort
+  status: Fellow
+  image: fellows/cl-ment-briens.jpg
+  bio: $whoami <br>Cyber, misinfosec, OSINT<br>War Studies BA @ KCL &amp; Data and
+    Society @ LSE <br> <a href="https://twitter.com/clementbriens">@clementbriens</a>,
+    <a href="https://twitter.com/misinfosecUK">@misinfosecUK</a>
+  url: 
+- name: Lydia Farnham
+  cohort: 2021 Cohort
+  status: Fellow
+  image: fellows/lydia-farnham.png
+  bio: Applying data science and machine learning to the root causes of environmental
+    issues.<br><a href="/cdn-cgi/l/email-protection#9afcfbe8f4f2fbf7f6e3fef3fbdafdf7fbf3f6b4f9f5f7"><span
+    class="__cf_email__" data-cfemail="5d3b3c2f33353c30312439343c1d3a303c3431733e3230">[email protected]</span></a>
+  url: 
+- name: Lewis Jones
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/lewis-jones.jpeg
+  bio: Systems, software and bioengineer; technologist; environmentalist - currently
+    working as Head of Software at <a href="https://twitter.com/LITHO">Litho</a> to
+    redefine the paradigm of education using AR EdTech. <a href="https://twitter.com/la_jones21">@la_jones21</a>
+  url: 
+- name: Isla Suddek
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/isla-suddek.jpg
+  bio: 'Coach and Facilitator. Main points of focus: the climate emergency, miscommunication
+    both online and offline, and loneliness in cities. <a href="/cdn-cgi/l/email-protection#dfb6acb3beacaabbbbbab49fb8b2beb6b3f1bcb0b2"><span
+    class="__cf_email__" data-cfemail="bfd6ccd3decccadbdbdad4ffd8d2ded6d391dcd0d2">[email protected]</span></a>'
+  url: 
+- name: Yonca Braeckman
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/yonca-braeckman.png
+  bio: Founder of <a href="https://www.impactshakers.com">Impact Shakers</a>; passionate
+    about the potential of entrepreneurship to change systems; humanist &amp; technologist;
+    zebra
+  url: https://www.impactshakers.com
+- name: Adam Shorland
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/adam-shorland.jpg
+  bio: Software developer, open data &amp; knowledge enthusiast - Tech Lead for <a
+    href="https://www.wikidata.org">Wikidata</a>, a <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0
+    licenced</a> structured data repository sistered with <a href="https://www.wikipedia.org/">Wikipedia</a>.
+    <br> Also working on a side project called <a href="https://wbstack.com">WBStack</a>,
+    lowering the barrier to entry for the <a href="https://wikiba.se">Wikibase</a>
+    software stack for all. <br> <a href="https://addshore.com/">Blog</a>, <a href="https://github.com/addshore">GitHub</a>,
+    <a href="https://www.twitter.com/addshore">@Twitter</a>, <a href="https://www.linkedin.com/in/addshore/">LinkedIn</a>,
+    <a href="https://addshore.com/contact/">Email</a>
+  url: https://addshore.com
+- name: Derek Alton
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/derek-alton.jpg
+  bio: Studying systems change at the intersection of tech, society and government.  Currently
+    working as a consultant on strategy and partnerships for Innovation Science and
+    Economic Development Canada. <a href="https://twitter.com/DerekAlton">@DerekAlton</a>,
+    <a href="https://www.linkedin.com/in/derek-alton-99ab8921/">LinkedIN</a>.
+  url: 
+- name: Fiona Apps
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/fiona-apps.jpg
+  bio: Community Manager/Developer, WT.Social, looking for ways to decrease toxicity
+    online, Wikipedia Administrator
+  url: https://www.linkedin.com/in/fiona-apps-7b9893b7
+- name: Agata Sumowska
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/agata-sumowska.jpg
+  bio: Software developer, intersectional feminist, community builder<br>Finding systemic
+    solutions to bringing more representation in technology and exploring matriarchy<br><a
+    href="https://twitter.com/Agata_Anastazja">@Agata_Anastazja</a>
+  url: https://twitter.com/Agata_Anastazja
+- name: Pawel Krupinski
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/pawe-krupi-ski.jpg
+  bio: Connection and intimacy activist, software engineer, technologist, community
+    builder. <a href="https://twitter.com/pawel_krupinski">@pawel_krupinski</a>
+  url: https://www.facebook.com/pawel.the.mischievous/
+- name: Mike Butcher
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/mike-butcher.jpg
+  bio: 'Editor-at-large, TechCrunch<br>Co-founder: <a href="https://twitter.com/techforuk">@TechForUK</a>,
+    <a href="https://twitter.com/thepathfounder">@ThePathfounder</a>, <a href="https://twitter.com/theeuropas">@TheEuropas</a>,
+    <a href="https://twitter.com/tech_vets">@tech_vets</a>, <a href="https://twitter.com/techfugees">@Techfugees</a>,
+    <a href="https://twitter.com/techhub">@TechHub</a>, <a href="https://twitter.com/coadec">@Coadec</a><br><a
+    href="https://twitter.com/mikebutcher">@MikeButcher</a>'
+  url: https://mikebutcher.me
+- name: Stephen Bediako
+  cohort: 2020 Cohort
+  status: Fellow
+  image: fellows/stephen-bediako.jpg
+  bio: Social Entrepreneur, Innovator, Collector, Advisor<br><a href="https://www.tsip.co.uk">The
+    Social Innovation Partnership</a>, <a href="https://www.turningbasinlabs.com">Turning
+    Basin Labs</a><br><a href="https://twitter.com/stephentsip">@stephentsip</a>
+  url: https://www.turningbasinlabs.com
+- name: Joseph Reeve
+  cohort: Season 13
+  status: Fellow
+  image: fellows/joe-reeve.png
+  bio: Improving journalism and publishing with <a href="https://joedocs.com">JoeDocs.com</a>
+    and <a href="https://hackthepress.org">HackThePress.org</a>
+  url: https://simmsreeve.com
+- name: Lucie-Aimee Kaffee
+  cohort: Season 13
+  status: Fellow
+  image: fellows/lucie-aim-e-kaffee.png
+  bio: Computer science researcher, with a focus on low-resource languages in Wikipedia
+    and Wikidata. Affiliated to University of Southampton and intern at Bloomberg.
+    Working on the <a href="https://meta.wikimedia.org/wiki/Scribe">Scribe</a> project.
+    <a href="https://twitter.com/frimelle">@frimelle</a>
+  url: https://luciekaffee.github.io/
+- name: John Cummings
+  cohort: Season 13
+  status: Fellow
+  image: fellows/john-cummings.png
+  bio: I currently working as Wikimedian in Residence at UNESCO, helping UN agencies
+    share their knowledge on Wikipedia. Previously I worked at the Natural History
+    Museum and Science Museum in London, I helped run Wikimania 2014, and started
+    MonmouthpediA, a community Wikipedia project in my home town.
+  url: 
+- name: Sabrina Kavanaugh
+  cohort: Season 13
+  status: Fellow
+  image: fellows/sabrina-kavanagh.jpeg
+  bio: Reach out if you’re interested in the future of work, food systems, platforms
+    &amp; communities, housing projects, adult education, ethical consumerism, representation,
+    protest, parliament. <a href="https://www.twitter.com/sabkava">@sabkava</a>, <a
+    href="/cdn-cgi/l/email-protection#ff8c9e9d949e899ebf98929e9693d19c9092"><span
+    class="__cf_email__" data-cfemail="8ffceeede4eef9eecfe8e2eee6e3a1ece0e2">[email protected]</span></a>
+  url: 
+- name: Josiane Smith
+  cohort: Season 12
+  status: Fellow
+  image: fellows/josiane-smith.jpg
+  bio: Global Programmes Lead, <a href="https://socialinnovationexchange.org/">Social
+    Innovation Exchange</a>
+  url: https://www.linkedin.com/in/josianesmith
+- name: Nathan Young
+  cohort: Season 12
+  status: Fellow
+  image: fellows/nathan-young.jpg
+  bio: Head of Forecasting, Zeitgeist
+  url: https://twitter.com/NathanpmYoung
+- name: Rula Awad
+  cohort: Season 12
+  status: Fellow
+  image: fellows/rula-awad.jpg
+  bio: Technical Project Manager, Logically.ai, using AI and OSINT to tackle disinformation
+    at scale
+  url: https://www.linkedin.com/in/rula-awad
+- name: Jim Williams
+  cohort: Season 12
+  status: Fellow
+  image: fellows/jim-williams.jpg
+  bio: 'Founder &amp; CEO of <a href="https://hatch-uk.org/">Hatch</a>, a start-up
+    to connect people with ways to take action on social causes. Background in international
+    development (especially Pakistan), conflict management, and liberal politics.
+    Research interests: institutional information ecologies, distributed agency and
+    user-centred design in communities and organisations. <a href="/cdn-cgi/l/email-protection#aec4c7c3eec6cfdacdc683dbc580c1dcc9"><span
+    class="__cf_email__" data-cfemail="096360644961687d6a61247c6227667b6e">[email protected]</span></a>'
+  url: https://hatch-uk.org
+- name: Abraham Baldry
+  cohort: Season 11
+  status: Fellow
+  image: fellows/abe-baldry.jpg
+  bio: Head of Strategy and International, UK Government Office for Artificial Intelligence
+  url: https://www.abrahambaldry.com
+- name: Dee Harding
+  cohort: Season 11
+  status: Fellow
+  image: fellows/dee-harding.jpeg
+  bio: Open Tech Lead, NHS England
+  url: https://www.twitter.com/deltaechoecho
+- name: Paul Powlesland
+  cohort: Season 10
+  status: Fellow
+  image: fellows/paul-powlesland.jpeg
+  bio: Barrister, Garden Court Chambers, Founder, Lawyers for Nature
+  url: https://www.linkedin.com/in/paul-powlesland-448a3482/
+- name: Jo Kerr
+  cohort: Season 10
+  status: Fellow
+  image: fellows/jo-kerr.jpg
+  bio: 'Digital and organisational change consultant to the charity sector. Intersticia
+    Fellow, trustee of Turn2us and chair of Trajectory Theatre. Former agency MD,
+    board of Sadler’s Wells. #1 woman in digital under 30, The Drum 2014. Immersive
+    digital art enthusiast. Yoga teacher. <a href="https://www.twitter.com/jokerrconsults">@jokerrconsults</a>,
+    <a href="https://www.linkedin.com/in/jokerrconsults">linkedin/jokerrconsults</a>,
+    <a href="/cdn-cgi/l/email-protection#f99396929c8b8b9a96978a8c958d8ab99e94989095d79a9694"><span
+    class="__cf_email__" data-cfemail="cda7a2a6a8bfbfaea2a3beb8a1b9be8daaa0aca4a1e3aea2a0">[email protected]</span></a>'
+  url: https://www.twitter.com/jokerrconsults
+- name: Rich Mason
+  cohort: Season 9
+  status: Fellow
+  image: fellows/rich-mason.png
+  bio: Founder, wings.coop
+  url: https://twitter.com/rjtmason
+- name: Lisa Murphy
+  cohort: Season 9
+  status: Fellow
+  image: fellows/lisa-murphy.jpeg
+  bio: Senior Policy Manager, NHSX Centre for Improving Data Collaboration
+  url: https://twitter.com/LisaMurphy107
+- name: Anouk Ruhaak
+  cohort: Season 9
+  status: Fellow
+  image: fellows/anouk-ruhaak.jpg
+  bio: Mozilla Senior Fellow, AlgorithmWatch, Data Governance Models
+  url: https://anoukruhaak.com/
+- name: Phoebe Tickell
+  cohort: Season 9
+  status: Fellow
+  image: fellows/phoebe-tickell.jpg
+  bio: 'Systems designer, participatory and horizontal forms of governance, community
+    catalyst and facilitator. Working on new forms of governance for a better world.
+    Currently: <a href="https://dgov.foundation/">DGOV Foundation</a>, <a href="https://enspiral.com/">Enspiral</a>,
+    <a href="www.EHF.org">Edmund Hillary Fellow</a>, <a href="https://www.thersa.org/fellowship">RSA
+    Fellow</a>, Associate Lecturer <a href="https://www.schumachercollege.org.uk/">Schumacher
+    College</a>. <a href="https://www.twitter.com/solarpunk_girl">@solarpunk_girl</a>
+    <a href="/cdn-cgi/l/email-protection#b4dcd1d8d8dbf4c4dcdbd1d6d1c0ddd7dfd1d8d89ad7dbd9"><span
+    class="__cf_email__" data-cfemail="670f020b0b0827170f08020502130e040c020b0b4904080a">[email protected]</span></a>'
+  url: https://www.phoebetickell.com
+- name: Lucy King
+  cohort: Season 8
+  status: Fellow
+  image: fellows/lucy-king.png
+  bio: Co-Founder, InFact Digital Co-op
+  url: 
+- name: Lewis Westbury
+  cohort: Season 8
+  status: Fellow
+  image: fellows/lewis-westbury.jpg
+  bio: |-
+    Senior developer and tech lead with substantive experience in digital identity from my time at Government Digital Service. I founded <a href="https://policerewired.org">Police Rewired</a> - a volunteer community for technologists working on problems in public safety and crime.
+
+    <a href="https://mastodon.social/@instantiator">@<span class="__cf_email__" data-cfemail="573e3924233639233e36233825173a36242338333839792438343e363b">[email protected]</span></a>
+  url: https://instantiator.dev/
+- name: Irina Bolyshevski
+  cohort: Season 8
+  status: Fellow
+  image: fellows/irina-bolychevsky.jpeg
+  bio: Director of Standards and Interoperability, NHSX, Founder, Redecentralize.org
+  url: http://shevski.com/
+- name: John Bryden
+  cohort: Season 8
+  status: Fellow
+  image: fellows/john-bryden.jpg
+  bio: Executive Director &amp; Senior Research Scientist, Observatory on Social Media
+    at Indiana University
+  url: http://jbryden.co.uk/home/
+- name: Tam Borine
+  cohort: Season 7
+  status: Fellow
+  image: fellows/tamara-borine.jpg
+  bio: Senior Technology Advisor, Competition Markets Authority
+  url: 
+- name: John Sandall
+  cohort: Season 7
+  status: Fellow
+  image: fellows/john-sandall.jpg
+  bio: Founder &amp; Principal Data Scientist @ Coefficient
+  url: https://coefficient.ai
+- name: Ekin Can Genc
+  cohort: Season 6
+  status: Fellow
+  image: fellows/ekin-can-genc.png
+  bio: Consultant &amp; Writer on Web3, cryptowriting.net
+  url: https://www.cryptowriting.net/
+- name: Andreas Kirsh
+  cohort: Season 6
+  status: Fellow
+  image: fellows/andreas-kirsch.jpg
+  bio: Research Engineer / Machine Learning
+  url: 
+- name: Borja Blanco Mendez
+  cohort: Season 6
+  status: Fellow
+  image: fellows/borja-blanco-m-ndez.jpg
+  bio: Founder at <a href="https://azvai.com">Azvai.com</a>, an innovation and sustainability
+    consultancy inspired by non-dualistic thinking
+  url: https://azvai.com/en/
+- name: Imeh Akpan
+  cohort: Season 6
+  status: Fellow
+  image: fellows/imeh-akpan.jpeg
+  bio: Head of Design Research, FutureGov/TPXimpact, prev GOV.UK User Research Lead,
+    Government Digital Service
+  url: 
+- name: Awais Hussain
+  cohort: Season 5
+  status: Fellow
+  image: fellows/awais-hussain.png
+  bio: Software Engineer, Wave Mobile Money
+  url: 
+- name: Dan Kwiatkowski
+  cohort: Season 5
+  status: Fellow
+  image: fellows/dan-kwiatkowski.jpg
+  bio: Charity Funding / Web Apps / Data Science
+  url: http://dan.tythe.org
+- name: Ekaterina Stambolieva
+  cohort: Season 5
+  status: Fellow
+  image: fellows/ekaterina-stambolieva.jpg
+  bio: CEO, Cosmos Pics
+  url: https://www.linkedin.com/in/ekaterina-stambolieva
+- name: Aleksi Knuutila
+  cohort: Season 5
+  status: Fellow
+  image: fellows/dr-aleksi-knuutila.jpg
+  bio: Postdoctoral Researcher, Computational Propaganda, Oxford Internet Institute
+  url: https://www.oii.ox.ac.uk/people/profiles/knuutila-aleksi/
+- name: Carl Miller
+  cohort: Season 4
+  status: Fellow
+  image: fellows/carl-miller.png
+  bio: Research Director, Centre for Analysis of Social Media
+  url: 
+- name: Sophie Chesney
+  cohort: Season 4
+  status: Fellow
+  image: fellows/sophie-chesney.jpg
+  bio: PhD, NLP and news
+  url: 
+- name: Areeq Chowdhury
+  cohort: Season 4
+  status: Fellow
+  image: fellows/areeq-chowdhury.png
+  bio: Head of Policy, Royal Society, Councillor for Canning Town North
+  url: https://twitter.com/AreeqChowdhury
+- name: Josie Fraser
+  cohort: Season 4
+  status: Fellow
+  image: fellows/josie-fraser.jpg
+  bio: Head of Digital Policy, National Lottery Heritage Fund
+  url: http://www.josiefraser.com
+- name: Ben Pollard
+  cohort: Season 3
+  status: Fellow
+  image: fellows/ben-pollard.jpg
+  bio: Co-founder, Local Welcome
+  url: 
+- name: Josh Balfour
+  cohort: Season 3
+  status: Fellow
+  image: fellows/joshua-balfour.jpg
+  bio: Full stack engineer
+  url: https://joshbalfour.co.uk
+- name: Alex Parsons
+  cohort: Season 3
+  status: Fellow
+  image: fellows/alex-parsons.jpg
+  bio: Senior Researcher, mySociety
+  url: 
+- name: Scott Craig
+  cohort: Season 2
+  status: Fellow
+  image: fellows/scott-craig.jpg
+  bio: Ford-Mozilla Fellow, Center for Democracy &amp; Technology
+  url: 
+- name: Brandon Jackson
+  cohort: Season 2
+  status: Fellow
+  image: fellows/brandon-jackson.jpeg
+  bio: Design &amp; Neuroscience, Lingumi
+  url: https://twitter.com/glassboxed
+- name: James Moulding
+  cohort: Season 2
+  status: Fellow
+  image: fellows/james-moulding.jpg
+  bio: Network Development Lead, UK Democracy Network
+  url: https://twitter.com/jims_bot
+- name: Joseph McArthur
+  cohort: Season 2
+  status: Fellow
+  image: fellows/joseph-mcarthur.jpg
+  bio: Director / Co-founder OA.Works, Assistant Director, Right to Research Coalition,
+    Organiser, OpenCon
+  url: https://twitter.com/mcarthur_joe
+- name: Shad Jahangir
+  cohort: Season 2
+  status: Fellow
+  image: fellows/shad-jahangir.jpeg
+  bio: Designer. Building Vouch, a new way to get hired.<br><a href="https://twitter.com/systemantix">@systemantix</a>
+  url: https://twitter.com/systemantix
+- name: Jonathan Penn
+  cohort: Season 1
+  status: Fellow
+  image: fellows/dr-jonathan-penn.jpg
+  bio: Historian of AI; Affiliate, Berkman Klein Centre Harvard, Research Fellow,
+    St. Edmund’s College &amp; Department of History and Philosophy of Science (Cambridge),
+    Associate Fellow, Leverhulme Centre for the Future of Intelligence
+  url: https://www.jonniepenn.com/
+- name: Will Muirhead
+  cohort: Season 1
+  status: Fellow
+  image: fellows/will-muirhead.png
+  bio: Neurovascular Fellow at University College London Hospitals NHS Foundation
+    Trust
+  url: 
+- name: Neil Anderson
+  cohort: Season 1
+  status: Fellow
+  image: 
+  bio: ''
+  url: 
+- name: Lucy Pullinger
+  cohort: Season 1
+  status: Fellow
+  image: 
+  bio: ''
+  url: 
+- name: James Dance
+  cohort: Season 1
+  status: Fellow
+  image: 
+  bio: ''
+  url: 
+- name: Josh Russell
+  cohort: Season 1
+  status: Fellow
+  image: fellows/josh-russell.jpg
+  bio: Founder, Forward Democracy
+  url: https://joshrussell.com/
+- name: Rufus Pollock
+  cohort: Season 1
+  status: Fellow
+  image: fellows/rufus-pollock.jpg
+  bio: Founder, Open Knowledge
+  url: 
+- name: James Knight
+  cohort: Season 1
+  status: Fellow
+  image: fellows/james-knight.jpg
+  bio: Climate Tech Investor
+  url: https://twitter.com/JamesKnight1603
+- name: Edward Saperia
+  cohort: Founder
+  status: Fellow
+  image: fellows/edward-saperia.png
+  bio: ''
+  url: 

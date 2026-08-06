@@ -539,6 +539,53 @@ label {
   font-style: italic;
 }
 
+.cohort {
+  margin-bottom: 2.5em;
+}
+
+.cohort-heading {
+  border-bottom: 1px solid var(--almost-black);
+  padding-bottom: 0.2em;
+  margin-bottom: 1em;
+}
+
+.fellow-header {
+  margin-bottom: 0.25em;
+}
+
+.fellow-name {
+  font-weight: 700;
+}
+
+.fellow-bio {
+  margin: 0;
+}
+
+.fellow-bio p {
+  margin: 0;
+  padding: 0;
+}
+
+.pill {
+  display: inline-block;
+  font-family: var(--sans-serif-font);
+  font-size: 0.62em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.15em 0.7em;
+  border-radius: 1em;
+  vertical-align: middle;
+  margin-left: 0.6em;
+  white-space: nowrap;
+}
+
+.pill-candidate {
+  background: var(--grey-2);
+  color: #555;
+  border: 1px solid var(--grey-1);
+}
+
 .member {
   margin-bottom: 1em;
   display: grid;

@@ -8,8 +8,11 @@ class HomeController < ApplicationController
   end
 
   def fellowship
-    @fellows = User.fellows
-    @alumni  = User.alumni
+    # Static register loaded from config/fellows.yml (see lib/tasks / tmp scripts
+    # that generate it from the CSV register + scraped photos). Pre-sorted
+    # latest-cohort-first; group_by preserves that order.
+    fellows = YAML.load_file(Rails.root.join('config', 'fellows.yml'))
+    @cohorts = fellows.group_by { |f| f['cohort'] }
   end
 
   def residency

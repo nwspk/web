@@ -9,6 +9,12 @@ module HomeHelper
     ActionController::Base.helpers.asset_url('default-face.jpg', type: :image)
   end
 
+  # Asset path for a fellow entry from config/fellows.yml (falls back to the
+  # default face for placeholder entries with no photo yet).
+  def fellow_image(fellow)
+    fellow['image'].presence || 'default-face.jpg'
+  end
+
   def social_media_url(user)
     if !user.twitter.nil?
       user.twitter.profile_url

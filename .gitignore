@@ -29,3 +29,7 @@ dump.rdb
 
 # caddy
 Caddyfile
+
+# Fellowship register (contains non-public people) and photo intake scaffolding
+/Newspeak House Fellowship Register.csv
+/fellow_photos_needed/
