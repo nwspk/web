@@ -1,121 +1,76 @@
+- cell = 'padding: 3px 18px 3px 0; font: 14px/18px monospace; vertical-align: top'
+- amount = 'padding: 3px 0; font: 14px/18px monospace; text-align: right; vertical-align: top'
+
 %p{ style: 'margin-bottom: 36px' } Hello #{@user.name},
 
 %p
   %u Upcoming Events
 
+%p{ style: 'margin-bottom: 24px' }
+  Subscribe to our calendar via
+  %a{ href: 'webcal://newspeak.house/api/events.ics' } iCal
+  or
+  %a{ href: 'https://calendar.google.com/calendar/u/0/embed?src=e9qmehb3p5utecd493ucgjq37od2g5rv@import.calendar.google.com' } gCal
+
 - if @upcoming_events.empty?
   %p{ style: 'margin-bottom: 36px' } No upcoming events currently
 - else
-  %ul{ style: 'padding-left: 18px' }
+  %ul{ style: 'padding-left: 18px; margin-bottom: 36px' }
     - @upcoming_events.each do |e|
-      %li
-        %strong= e.start_at.strftime('%e %A %B, %Y')
+      %li{ style: 'margin-bottom: 36px' }
+        %strong= e.start_at.strftime('%A %-e %B %Y')
+        = "· #{e.start_at.strftime('%H:%M')}–#{e.end_at.strftime('%H:%M')} · #{e.location}"
         %br/
-        = [e.start_at.strftime('%H:%M'), e.end_at.strftime('%H:%M')].join(' - ')
-        = "in #{e.location}:"
         %strong= link_to e.name, events_url(anchor: "event-#{e.id}")
-        = Kramdown::Document.new(e.short_description).to_html.html_safe
-
-%p{ style: 'margin-bottom: 36px' }
-  %a{ href: api_events_url } Subscribe to our event Calendar
-
-%p
-  %u New Members This Month
-
-%ul{ style: 'padding-left: 18px' }
-  - @new_users.each do |u|
-    %li
-      - member_url = safe_external_url(u.url)
-      - if member_url.blank?
-        %span>= u.name
-      - else
-        %a{ href: member_url }>= u.name
-      - unless u.showcase_text.blank?
-        = ", #{u.showcase_text}"
-      - else
-        = " "
-      - if u.twitter
-        = surround "(", ")" do
-          %a{ href: u.twitter.profile_url}= "@#{u.twitter.username}"
-
-%p
-  %u Resident Fellows
-
-%ul{ style: 'padding-left: 18px' }
-  - @fellows.each do |u|
-    %li
-      - fellow_url = safe_external_url(u.url)
-      - if fellow_url.blank?
-        %span>= u.name
-      - else
-        %a{ href: fellow_url }>= u.name
-      - unless u.showcase_text.blank?
-        = ", "
-        = safe_markdown(u.showcase_text)
-      - if u.twitter
-        = surround "(", ")" do
-          %a{ href: u.twitter.profile_url}= "@#{u.twitter.username}"
-
-%p{ style: 'margin-bottom: 36px' }
-  %a{ href: 'https://newspeak.house/fellowship' } See all fellows
+        = safe_markdown(e.short_description)
 
 %p
   %u Tax Invoice
 
-%table{ style: 'border-collapse: collapse; font: 14px/18px monospace' }
+%table{ style: 'border-collapse: collapse; margin-bottom: 18px' }
   %tbody
     %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Invoice For 
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }=@user.name
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }=@user.email
+      %td{ style: cell } Invoice for
+      %td{ style: cell }= "#{@user.name} (#{@user.email})"
     %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Reference : 
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } #{@subscription.customer_id}#{Time.now.strftime('%Y%m%d')}
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }= Time.now.strftime("%B %d, %Y")
+      %td{ style: cell } Reference
+      %td{ style: cell } #{@subscription.customer_id}#{Time.now.strftime('%Y%m%d')}
     %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } 
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }
+      %td{ style: cell } Date
+      %td{ style: cell }= Time.now.strftime('%-e %B %Y')
+
+%table{ style: 'border-collapse: collapse; margin-bottom: 18px; min-width: 340px' }
+  %tbody
     %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Newspeak House Membership
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Rate
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } #{@subscription.plan.try(:money_value)} GBP
+      %td{ style: cell }
+        Newspeak House Membership
+        %br/
+        = "#{@subscription.plan.try(:name) || 'None'}, #{Time.now.strftime('%B %Y')}"
+      %td{ style: amount }= number_to_currency(@total_amount, unit: '£')
     %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } #{@subscription.plan.try(:name) || 'None'}, #{Time.now.strftime("%B %Y")}
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } VAT
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } 20%
+      %td{ style: cell } Net
+      %td{ style: amount }= number_to_currency(@net_amount, unit: '£')
+    %tr
+      %td{ style: cell } VAT @ 20%
+      %td{ style: amount }= number_to_currency(@vat_amount, unit: '£')
   %tfoot
     %tr
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'} Total:
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}
-      %td{ style: 'padding-right: 18px; border-top: 1px solid #000; font: 14px/18px monospace'}=@subscription.plan.try(:money_value)
+      %td{ style: "#{cell}; border-top: 1px solid #000" }
+        %strong Total (inc. VAT)
+      %td{ style: "#{amount}; border-top: 1px solid #000" }
+        %strong= number_to_currency(@total_amount, unit: '£')
 
 %p{ style: 'margin-bottom: 36px' }
   You will be billed with your card ending in #{@card_num} (
-  %a{href: edit_subscription_url }> change payment details
+  %a{ href: edit_subscription_url }> change payment details
   )
 
-%table{ style: 'border-collapse: collapse; font: 14px/18px monospace' }
-  %tbody
-    %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } VAT SUMMARY
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } VAT
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }=@vat_amount
-    %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } Rate   VAT @ 20%
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } NET
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }=@net_amount
-    %tr
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' } 
-      %td{ style: 'padding-right: 18px; font: 14px/18px monospace' }
-
-%p{ style: 'color: #555'}
+%p{ style: 'color: #555' }
   Original Content London Limited trading as Newspeak House, 133-135 Bethnal Green Road, London, E2 7DG
-%p{ style: 'color: #555'}
+%p{ style: 'color: #555' }
   VAT Registration GB138 1544 17
-  
-%p{ style: 'color: #555'}
+
+%p{ style: 'color: #555' }
   Any problems with your membership, or if you see anything funny with this email, please contact
   %a{ href: 'mailto:ed@newspeak.house' } ed@newspeak.house
 
