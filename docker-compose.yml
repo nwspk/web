@@ -12,7 +12,6 @@ services:
       - "3000:3000"
     volumes:
       - .:/app
-      - gem_cache:/usr/local/bundle/gems
     environment:
       RAILS_ENV: development
       DATABASE_URL: "postgresql://postgres:postgres@database/nwspk_development"
@@ -56,12 +55,10 @@ services:
       - redis
     volumes:
       - .:/app
-      - gem_cache:/usr/local/bundle/gems
     environment:
       RAILS_ENV: development
       REDIS_URL: "redis://redis:6379/0"
     entrypoint: ./sidekiq-entrypoint.sh
 
 volumes:
-  gem_cache:
   postgres_data:

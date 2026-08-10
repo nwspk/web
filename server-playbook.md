@@ -96,8 +96,8 @@ exit # relogin to reload new .bashrc
 sudo -i -u deploy
 rbenv root # verify rbenv exists
 git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
-rbenv install 3.1.3
-rbenv global 3.1.3
+rbenv install 3.3.12
+rbenv global 3.3.12
 exit
 ```
 
@@ -122,7 +122,7 @@ git checkout staging
 cp .envrc.example .envrc # only used for testing / dev server
 vim .envrc # add stripe env keys
 
-ruby --version # should be 3.1.3
+ruby --version # should be 3.3.12 (see .ruby-version)
 which ruby # should /home/deploy/.rbenv/shims/ruby
 bundle install
 bundle exec rails db:migrate
