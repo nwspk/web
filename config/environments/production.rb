@@ -50,8 +50,11 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
-  # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  # Cache fragments in Redis (already on the server for Sidekiq) so the cache
+  # survives app restarts. With the default in-memory store, the first visitor
+  # to /events after every deploy waited ~25s while all ~1,700 event fragments
+  # re-rendered. Database 1 keeps it out of Sidekiq's database 0.
+  config.cache_store = :redis_cache_store, { url: ENV.fetch('CACHE_REDIS_URL') { 'redis://localhost:6379/1' } }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'

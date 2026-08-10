@@ -640,6 +640,31 @@ label {
   border-left: 1px solid var(--almost-black);
   padding-left: 1em;
   margin-bottom: 3em;
+  /* The events page renders ~1,700 events in one document; let the browser
+     skip layout/paint for the ones off-screen instead of choking on them. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
+}
+
+.event-search {
+  margin: 1em 0 2em;
+}
+.event-search input[type='search'] {
+  font: inherit;
+  width: 100%;
+  max-width: 28em;
+  padding: 0.5em 0.75em;
+  border: 1px solid var(--almost-black);
+  background: transparent;
+  color: inherit;
+}
+.event-search-count {
+  display: block;
+  margin-top: 0.5em;
+  font-family: var(--sans-serif-font);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85em;
 }
 @media (max-width: 600px) {
   .event {

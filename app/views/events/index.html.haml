@@ -29,6 +29,10 @@
   %a{:href => "mailto:contact@newspeak.house"}> contact@newspeak.house
   ) to see if it could fit into our programme.
 
+.event-search
+  %input#event-search-input{ type: 'search', placeholder: 'Search events by title, host, or description…', 'aria-label': 'Search events' }
+  %span#event-search-count.event-search-count{ 'aria-live': 'polite' }
+
 %h2 What's On
 
 .event

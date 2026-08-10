@@ -313,6 +313,8 @@ GEM
       prism (>= 1.6.0)
       rbs (>= 4.0.0)
       tsort
+    redis (6.0.0)
+      redis-client (= 0.30.1)
     redis-client (0.30.1)
       connection_pool
     regexp_parser (2.12.0)
@@ -445,6 +447,7 @@ DEPENDENCIES
   pry
   puma (~> 8.0, >= 8.0.2)
   rails (~> 7.2.3, >= 7.2.3.2)
+  redis
   rspec-rails
   rubocop
   rubocop-performance

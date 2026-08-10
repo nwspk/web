@@ -6,6 +6,7 @@ ruby "~> 3.3.0"
 gem "rails", "~> 7.2.3", ">= 7.2.3.2"
 gem "pg"
 gem "puma", "~> 8.0", ">= 8.0.2"
+gem "redis" # production cache store
 gem "sidekiq", "~> 7.3"
 gem "sprockets-rails"
 

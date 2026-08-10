@@ -16,6 +16,38 @@ document.addEventListener('click', function (e) {
   }
 });
 
+// Live text filter for the events page. All ~1,700 events are already in the
+// DOM (kept lightweight by content-visibility in the CSS), so filtering is a
+// substring match over a one-time index — no server round-trips.
+document.addEventListener('DOMContentLoaded', function () {
+  var input = document.getElementById('event-search-input');
+  if (!input) return;
+  var countEl = document.getElementById('event-search-count');
+  var rows = null;
+
+  function buildIndex() {
+    rows = Array.prototype.map.call(document.querySelectorAll('.event[id^="event-"]'), function (el) {
+      return { el: el, text: el.textContent.toLowerCase() };
+    });
+  }
+
+  var timer = null;
+  input.addEventListener('input', function () {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      if (!rows) buildIndex();
+      var q = input.value.trim().toLowerCase();
+      var shown = 0;
+      rows.forEach(function (r) {
+        var match = q === '' || r.text.indexOf(q) !== -1;
+        r.el.style.display = match ? '' : 'none';
+        if (match) shown++;
+      });
+      countEl.textContent = q === '' ? '' : shown + ' matching event' + (shown === 1 ? '' : 's');
+    }, 120);
+  });
+});
+
 // Decode Cloudflare-style obfuscated emails client-side, so the address is never
 // in the served HTML (bots see "[email protected]") but humans get a real link.
 // Mirrors Cloudflare's own email-decode: first hex byte is an XOR key.
