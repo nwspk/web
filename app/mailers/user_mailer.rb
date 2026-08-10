@@ -2,16 +2,13 @@ class UserMailer < ApplicationMailer
   helper ApplicationHelper
   include ApplicationHelper
 
-  def billing_email(user, time = Time.now)
+  def billing_email(user)
     @user = user
-    @new_users = User.recent.created_after_date(time - 30.days)
-    @num_users = User.count
     @subscription = user.subscription
     @upcoming_events = Event.public_and_confirmed.upcoming
-    @fellows = User.fellows
     @total_amount = @subscription.plan.value.to_f / 100
-    @vat_amount = (@total_amount / 1.2).round(2)
-    @net_amount = (@total_amount - @vat_amount).round(2)
+    @net_amount = (@total_amount / 1.2).round(2)
+    @vat_amount = (@total_amount - @net_amount).round(2)
 
     if @subscription.customer_id.present?
       stripe_customer = Stripe::Customer.retrieve(@subscription.customer_id)
