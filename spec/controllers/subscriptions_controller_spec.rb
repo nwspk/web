@@ -15,34 +15,40 @@ RSpec.describe SubscriptionsController, type: :controller do
   end
 
   describe "POST #process_card" do
-    let(:plan) { Fabricate(:plan, value: 5000) }
-
-    before do
-      Stripe::Plan.create(
-        amount: plan.money_value.cents,
-        name: plan.name,
-        id: plan.stripe_id,
-        interval: 'month',
-        currency: plan.money_value.currency.iso_code
+    it "rejects a checkout session that belongs to another account" do
+      checkout = Stripe::StripeObject.construct_from(
+        customer_email: 'someone-else@example.com',
+        customer: 'cus_123',
+        subscription: 'sub_123'
       )
+      allow(Stripe::Checkout::Session).to receive(:retrieve).with('cs_123').and_return(checkout)
 
-      user.build_subscription(plan: plan).save
+      post :process_card, params: { session_id: 'cs_123' }
+
+      expect(response).to redirect_to(dashboard_path)
+      expect(flash[:alert]).to match(/does not belong to your account/)
+      expect(user.subscription.reload.customer_id).to_not eq 'cus_123'
     end
 
-    it "returns http success" do
-      post :process_card, { stripeToken: StripeMock.generate_card_token(last4: "9191", exp_year: 1984) }
-      expect(response).to have_http_status(:redirect)
-    end
+    it "activates the subscription from a matching checkout session" do
+      checkout = Stripe::StripeObject.construct_from(
+        customer_email: user.email,
+        customer: 'cus_123',
+        subscription: 'sub_123'
+      )
+      stripe_subscription = Stripe::StripeObject.construct_from(
+        id: 'sub_123',
+        current_period_end: 30.days.from_now.to_i
+      )
+      allow(Stripe::Checkout::Session).to receive(:retrieve).with('cs_123').and_return(checkout)
+      allow(Stripe::Subscription).to receive(:retrieve).with('sub_123').and_return(stripe_subscription)
 
-    it "charges user only sign-up fee first" do
-      token = StripeMock.generate_card_token(last4: "9191", exp_year: 1984)
+      post :process_card, params: { session_id: 'cs_123' }
 
-      mock.proxy(Stripe::Customer).create.with_any_args do |customer|
-        expect(customer.account_balance).to eq(SIGNUP_FEE - 5000)
-        customer
-      end
-
-      post :process_card, { stripeToken: token }
+      expect(response).to redirect_to(dashboard_path)
+      expect(user.subscription.reload.customer_id).to eq 'cus_123'
+      expect(user.subscription.subscription_id).to eq 'sub_123'
+      expect(user.subscription.active_until).to be > Time.current
     end
   end
 

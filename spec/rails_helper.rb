@@ -4,11 +4,14 @@ require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'rr'
 require 'stripe_mock'
 require 'sidekiq/testing'
 
 Sidekiq::Testing.inline!
+
+# deliver_later / perform_later run synchronously so specs can assert on
+# ActionMailer::Base.deliveries without a running Sidekiq.
+ActiveJob::Base.queue_adapter = :inline
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -30,8 +33,17 @@ Sidekiq::Testing.inline!
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+  # Emails accumulate in ActionMailer::Base.deliveries across examples (e.g.
+  # User's after_create sends a new-member email); clear per example so specs
+  # can't pass vacuously on another example's mail.
+  config.before(:each) { ActionMailer::Base.deliveries.clear }
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  if config.respond_to?(:fixture_paths)
+    config.fixture_paths = ["#{::Rails.root}/spec/fixtures"]
+  else
+    config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

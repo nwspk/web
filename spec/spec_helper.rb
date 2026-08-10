@@ -6,8 +6,6 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-  config.mock_with :rr
-
   config.before(:each) { StripeMock.start }
   config.after(:each)  { StripeMock.stop }
 

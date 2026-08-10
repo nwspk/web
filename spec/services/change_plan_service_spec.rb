@@ -16,12 +16,14 @@ RSpec.describe ChangePlanService, type: :model do
     subscription.customer_id = customer.id
 
     [plan1, plan2].each do |plan|
-      Stripe::Plan.create(
+      product = stripe_helper.create_product(id: "prod_#{plan.stripe_id}", name: plan.name)
+      stripe_helper.create_plan(
         amount: plan.money_value.cents,
         name: plan.name,
         id: plan.stripe_id,
+        product: product.id,
         interval: 'month',
-        currency: plan.money_value.currency.iso_code
+        currency: plan.money_value.currency.iso_code.downcase
       )
     end
   end
@@ -47,7 +49,7 @@ RSpec.describe ChangePlanService, type: :model do
 
   describe 'changes an existing Stripe subscription' do
     before do
-      stripe_subscription = Stripe::Customer.retrieve(subscription.customer_id).subscriptions.create(plan: plan1.stripe_id)
+      stripe_subscription = Stripe::Subscription.create(customer: subscription.customer_id, plan: plan1.stripe_id)
       subscription.update!(subscription_id: stripe_subscription.id, plan_id: plan1.id, active_until: 30.days.from_now)
 
       service = ChangePlanService.new
@@ -59,7 +61,7 @@ RSpec.describe ChangePlanService, type: :model do
     end
 
     it 'sets the remote plan' do
-      stripe_subscription = Stripe::Customer.retrieve(subscription.customer_id).subscriptions.retrieve(subscription.subscription_id)
+      stripe_subscription = Stripe::Subscription.retrieve(subscription.subscription_id)
       expect(stripe_subscription.plan.id).to eql plan2.stripe_id
     end
   end

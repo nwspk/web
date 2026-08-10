@@ -7,12 +7,14 @@ RSpec.describe TerminateSubscriptionService, type: :model do
   let(:plan) { Fabricate(:plan, name: 'p') }
 
   before do
-    Stripe::Plan.create(
+    product = stripe_helper.create_product(name: plan.name)
+    stripe_helper.create_plan(
       amount: plan.money_value.cents,
       name: plan.name,
       id: plan.stripe_id,
+      product: product.id,
       interval: 'month',
-      currency: plan.money_value.currency.iso_code
+      currency: plan.money_value.currency.iso_code.downcase
     )
 
     customer = Stripe::Customer.create({
@@ -20,7 +22,7 @@ RSpec.describe TerminateSubscriptionService, type: :model do
       source: stripe_helper.generate_card_token
     })
 
-    stripe_subscription = customer.subscriptions.create(plan: plan.stripe_id)
+    stripe_subscription = Stripe::Subscription.create(customer: customer.id, plan: plan.stripe_id)
 
     subscription.update(customer_id: customer.id, subscription_id: stripe_subscription.id, active_until: 30.days.from_now)
   end

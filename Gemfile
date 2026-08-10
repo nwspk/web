@@ -32,19 +32,19 @@ group :development do
   # gem "rack-mini-profiler"
 end
 
-# group :development, :test do
-  # gem "rspec-rails"
-  # gem "pry"
-  # gem "fabrication"
-  # gem "faker"
-  # gem "fuubar", require: false
-# end
+group :development, :test do
+  gem "rspec-rails"
+  gem "pry"
+  gem "fabrication"
+  gem "faker"
+  gem "fuubar", require: false
+end
 
-# group :test do
-  # gem "rr", "1.1.2", require: false
-  # gem "timecop"
-  # gem "simplecov", require: false
-# end
+group :test do
+  gem "timecop"
+  gem "simplecov", require: false
+  gem "stripe-ruby-mock", require: "stripe_mock"
+end
 
 group :production do
   gem "lograge"

@@ -11,7 +11,13 @@ RSpec.describe AdminMailer, type: :mailer do
 
   describe '#new_member_email' do
     it 'sends e-mail when a user is created' do
-      user  = Fabricate(:user)
+      # Mailer specs run with ActiveJob's :test adapter (via
+      # ActionMailer::TestCase::Behavior), so deliver_later only enqueues;
+      # perform_enqueued_jobs actually delivers.
+      user = nil
+      perform_enqueued_jobs do
+        user = Fabricate(:user)
+      end
       email = ActionMailer::Base.deliveries.last
 
       expect(email.subject).to eql "New member signed up: #{user.name}"

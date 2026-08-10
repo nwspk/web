@@ -24,7 +24,10 @@ class ChangePlanService
   private
 
   def create_new_subscription(subscription_record)
-    subscription = Stripe::Subscription.create(plan: subscription_record.plan.stripe_id)
+    subscription = Stripe::Subscription.create(
+      customer: subscription_record.customer_id,
+      plan: subscription_record.plan.stripe_id
+    )
     subscription_record.update!(subscription_id: subscription.id, active_until: arbitrary_future_date)
   end
 

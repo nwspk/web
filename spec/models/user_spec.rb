@@ -6,9 +6,7 @@ RSpec.describe User, type: :model do
       user = Fabricate(:user)
       Fabricate(:subscription, user: user)
 
-      any_instance_of(TerminateSubscriptionService) do |klass|
-        stub(klass).call(is_a(Subscription))
-      end
+      expect_any_instance_of(TerminateSubscriptionService).to receive(:call).with(kind_of(Subscription))
 
       user.destroy
     end
