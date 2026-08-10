@@ -3,15 +3,15 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "~> 3.3.0"
 
-gem "rails", "~> 7.0.4"
+gem "rails", "~> 7.1.0"
 gem "pg"
-gem "puma", "~> 5.6.9"
-gem "sidekiq"
+gem "puma", "~> 8.0", ">= 8.0.2"
+gem "sidekiq", "~> 7.3"
 gem "sprockets-rails"
 
-gem "activeadmin"
+gem "activeadmin", "~> 3.0" # 2.x caps railties < 7.1
 gem "cancancan"
-gem "devise"
+gem "devise", "~> 4.9"
 gem "haml-rails"
 gem "jquery-rails"
 gem "money"

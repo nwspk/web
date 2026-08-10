@@ -27,6 +27,6 @@ module Nwspk
     end
 
     config.active_job.queue_adapter = :sidekiq
-    config.active_record.legacy_connection_handling = false
+    config.active_support.cache_format_version = 7.1
   end
 end
