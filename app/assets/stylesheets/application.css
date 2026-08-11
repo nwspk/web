@@ -257,7 +257,7 @@ nav a:hover {
   }
 }
 
-/* The college roundel at the top of the sidebar, doubling as a home link.
+/* The college book emblem at the top of the sidebar, doubling as a home link.
    Full sidebar width so its side padding equals the aside's top padding, and
    rendered as a CSS mask filled with currentColor for exact hover dimming. */
 nav .side-logo {
