@@ -36,8 +36,8 @@ class AdminMailer < ApplicationMailer
     @contact = contact
     @incident = incident
     @feedback = feedback
-    recipients = admins.presence || ['ed@newspeak.house']
-    mail to: recipients, subject: 'Website feedback (Google Form relay failed)'
+    # Feedback can be sensitive — it goes to Ed alone, not all admins.
+    mail to: 'ed@newspeak.house', subject: 'Website feedback (Google Form relay failed)'
   end
 
   def staff_reminder_email(reminder, member)

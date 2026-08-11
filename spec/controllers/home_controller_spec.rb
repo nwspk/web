@@ -55,6 +55,7 @@ RSpec.describe HomeController, type: :controller do
       post :submit_feedback, params: params
       expect(response).to redirect_to(feedback_path(sent: 'emailed'))
       mail = ActionMailer::Base.deliveries.last
+      expect(mail.to).to eq(['ed@newspeak.house'])
       expect(mail.subject).to include('relay failed')
       expect(mail.body.encoded).to include('Lovely evening')
       expect(mail.body.encoded).to include('visitor@example.com')
