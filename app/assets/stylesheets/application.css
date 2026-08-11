@@ -110,9 +110,11 @@ aside {
 }
 
 @media (max-width: 940px) {
-  /* A typographic toggle — a filled circle opening to a diamond. The \FE0E
-     variation selectors force text presentation so phones don't render the
-     circle as a colour emoji. */
+  /* A typographic toggle — a diamond in plaque ink to open, turning red to
+     close. Over the homepage plaque the ink diamond disappears by design:
+     like the desktop sidebar links, it only shows itself once you scroll
+     down to the paper. The \FE0E variation selector forces text presentation
+     so phones don't render the diamond as a colour emoji. */
   .nav-toggle-button {
     display: flex;
     align-items: center;
@@ -125,7 +127,7 @@ aside {
     height: 1.9em;
     border-radius: 50%;
     cursor: pointer;
-    color: var(--red-bright);
+    color: var(--almost-black);
     font-family: var(--serif-font);
     font-size: 1.7em;
     line-height: 1;
@@ -137,10 +139,10 @@ aside {
     background: rgba(226, 59, 55, 0.2);
   }
   .nav-toggle-button::before {
-    content: '\26AB\FE0E';
-  }
-  #nav-toggle:checked ~ .nav-toggle-button::before {
     content: '\2666\FE0E';
+  }
+  #nav-toggle:checked ~ .nav-toggle-button {
+    color: var(--red);
   }
   .nav-toggle-button span {
     display: none;
@@ -194,6 +196,15 @@ footer {
     grid-row: 4;
     padding: 0;
     margin: 1em;
+  }
+}
+/* On phones the footer wraps anyway — one part per line, no bullet. */
+@media (max-width: 600px) {
+  footer a {
+    display: block;
+  }
+  .footer-sep {
+    display: none;
   }
 }
 
@@ -349,7 +360,6 @@ h1 {
 h2 {
   font-size: 3.8em;
   line-height: 1.12;
-  letter-spacing: 0.02em;
   padding-top: 0.74em;
   margin-bottom: 0.25em;
   text-wrap: balance;
@@ -577,6 +587,29 @@ textarea {
   padding: 6px 12px;
   border: 1px solid var(--grey-1);
   box-sizing: border-box;
+}
+
+/* Checkboxes in the print language: a small inked box that takes a red
+   diamond when ticked, with clear air between the box and its label. */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.05em;
+  height: 1.05em;
+  border: 1px solid var(--almost-black);
+  background-color: #fff;
+  vertical-align: -0.15em;
+  margin: 0 0.6em 0 0;
+  cursor: pointer;
+}
+input[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M5 1.2 8.8 5 5 8.8 1.2 5Z' fill='%23e23b37'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+.checkbox label {
+  cursor: pointer;
 }
 
 label {
@@ -900,7 +933,7 @@ body.home {
     text-align: center;
   }
   .plaque-roundel {
-    width: min(75%, 300px);
+    width: min(88%, 340px);
   }
   .plaque-text {
     padding: 0 0.5em;

@@ -54,7 +54,7 @@
 = simple_form_for(resource, as: resource_name, url: user_registration_path) do |f|
   = f.error_notification
   = f.input :name, required: true
-  = f.input :email, required: true, hint: "No password needed — you'll sign in with a link we email you"
+  = f.input :email, required: true
   = f.input :url, wrapper_html: { style: 'display: none' }
 
   .form-group
