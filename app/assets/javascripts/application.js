@@ -17,14 +17,15 @@ document.addEventListener('click', function (e) {
 });
 
 // On the homepage the masthead plaque carries the identity, so the sidebar
-// starts invisible and fades in scroll-linked: opacity tracks how far past
-// the plaque you've scrolled, ramping over FADE_DISTANCE pixels.
+// starts invisible and fades in scroll-linked: opacity tracks the plaque
+// roundel's exit — the fade begins as the roundel starts to slide under the
+// viewport top and completes the moment it clears, so the sidebar has fully
+// taken over the identity before the roundel is gone.
 document.addEventListener('DOMContentLoaded', function () {
   if (!document.body.classList.contains('home')) return;
-  var plaque = document.querySelector('.home-plaque');
+  var roundel = document.querySelector('.plaque-roundel');
   var nav = document.querySelector('aside nav');
-  if (!plaque || !nav) return;
-  var FADE_DISTANCE = 250;
+  if (!roundel || !nav) return;
   var mobile = window.matchMedia('(max-width: 940px)');
   var update = function () {
     if (mobile.matches) {
@@ -32,9 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
       nav.style.visibility = '';
       return;
     }
-    /* fade begins only once the plaque is entirely off screen */
-    var start = plaque.offsetHeight;
-    var progress = Math.min(Math.max((window.scrollY - start) / FADE_DISTANCE, 0), 1);
+    var rect = roundel.getBoundingClientRect();
+    var progress = Math.min(Math.max(-rect.top / rect.height, 0), 1);
     nav.style.opacity = progress;
     nav.style.visibility = progress > 0 ? 'visible' : 'hidden';
   };

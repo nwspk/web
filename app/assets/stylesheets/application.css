@@ -21,7 +21,11 @@ html {
 
 body {
   display: grid;
-  grid-template-columns: 1fr 768px 1fr;
+  /* minmax(0, …) lets the text column give way on narrow windows (browser
+     side panels, split screens): below ~1030px a fixed 768px column plus the
+     sidebar's minimum would overflow the viewport and clip against the
+     overflow-x: clip above. */
+  grid-template-columns: 1fr minmax(0, 768px) 1fr;
   grid-template-rows: repeat(4, auto);
   font-family: var(--serif-font);
   font-size: 17px;
@@ -301,6 +305,17 @@ nav .side-logo:hover {
 @media (max-width: 940px) {
   .side-contact {
     margin-top: 2em;
+  }
+}
+
+/* Below ~1330px the sidebar column rests on its min-content floor, which is
+   computed with the percentage margin treated as zero — the real margin then
+   shoved the nowrap address off the left edge of the viewport (browsers with
+   side panels land in this range). A fixed margin is counted in the floor,
+   so the address stays on-screen. */
+@media (min-width: 941px) and (max-width: 1330px) {
+  .side-contact {
+    margin-right: 0.5em;
   }
 }
 
@@ -920,10 +935,11 @@ body.home {
   }
 }
 
-/* Below the plaque, the homepage resumes the standard sidebar grid. */
+/* Below the plaque, the homepage resumes the standard sidebar grid,
+   minmax for the same narrow-window give as the body grid above. */
 .home-columns {
   display: grid;
-  grid-template-columns: 1fr 768px 1fr;
+  grid-template-columns: 1fr minmax(0, 768px) 1fr;
 }
 @media (max-width: 940px) {
   .home-plaque {
