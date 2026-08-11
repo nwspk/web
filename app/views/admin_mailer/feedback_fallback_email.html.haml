@@ -1,0 +1,22 @@
+%p
+  Someone submitted the website feedback form, but the relay to the feedback
+  Google Form failed — most likely the form was edited and the site's field
+  mapping is stale (see HomeController#submit_feedback), or Google was
+  unreachable.
+%p
+  %strong This email is the only copy of their submission
+  — it is not in the response spreadsheet.
+
+%p
+  %strong Name:
+  = @name
+%p
+  %strong Contact details:
+  = @contact
+- if @incident.present?
+  %p
+    %strong Time and date of incident:
+    = @incident
+%p
+  %strong Feedback:
+= simple_format(@feedback)

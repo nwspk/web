@@ -3,13 +3,44 @@
 
 %h2.no-topping Feedback
 
-%p
-  We'd love to hear your thoughts about the college — what we're doing well, and what we could do better.
+- case params[:sent]
+- when 'recorded'
+  #feedback-thanks
+    %p
+      %strong Thank you — your response has been recorded.
+    %p= link_to 'Back to the homepage', root_path
+- when 'emailed'
+  #feedback-thanks
+    %p
+      %strong Thank you — your feedback has been received.
+    %p
+      Our connection to the response system hiccuped, so your submission was
+      delivered directly to college staff by email instead. There's nothing
+      more you need to do.
+    %p= link_to 'Back to the homepage', root_path
+- else
+  %p
+    We'd love to hear your thoughts about the college — what we're doing well, and what we could do better.
 
-%iframe.embedded-form{:src => "https://docs.google.com/forms/d/e/1FAIpQLSfMqX_Ry3beaB0-9XsJWNBpssTvkQiIGtWfbWnHzAeAMGj_jA/viewform?embedded=true", :title => "Feedback form", :loading => "lazy"}
-  Loading…
+  %p
+    We take reports against individuals very seriously. We do not consider such reports made anonymously, however all reports will be treated confidentially, with access limited to staff and faculty members only. You may like to review our #{link_to "exclusion policy", "https://docs.google.com/document/d/1sJESDvuz-M9hUeuUs-8SJrrp21afWRaYHQpYBFaJTEc"}. All submissions are subject to our #{link_to "data protection policy", "https://docs.google.com/document/d/1Qo-agksXX9kprEHmUvRogCZEeBGFccqMYJKNfaA_zO0"}.
 
-%p
-  If the form doesn't load, you can
-  %a{:href => "https://forms.gle/NLZ8JQdDFeuToWgF6"} open it in a new tab
-  \.
+  -# Presents the feedback Google Form's questions natively; the controller
+  -# relays submissions to Google server-side (see HomeController#submit_feedback,
+  -# which also documents how to update the field mapping if the form changes).
+  = form_tag feedback_path, id: 'feedback-form' do
+    .form-group
+      = label_tag :name, 'Your name'
+      = text_field_tag :name, nil, required: true, autocomplete: 'name'
+    .form-group
+      = label_tag :contact, 'Your contact details (e.g. email)'
+      = text_field_tag :contact, nil, required: true, autocomplete: 'email'
+    .form-group
+      = label_tag :incident, 'Time and date of incident, if applicable'
+      = datetime_field_tag :incident
+    .form-group
+      = label_tag :feedback, 'Your feedback'
+      %span.help-block Please be as detailed as you can. If your submission is long, you may wish to draft it elsewhere and then copy and paste it here.
+      = text_area_tag :feedback, nil, rows: 10, required: true
+    .form-group
+      = submit_tag 'Submit Feedback'

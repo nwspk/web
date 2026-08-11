@@ -27,6 +27,19 @@ class AdminMailer < ApplicationMailer
     mail to: admins, subject: "New member became a paid subscriber: #{new_subscriber.name}"
   end
 
+  # Safety net for the website feedback form: sent when the server-side relay
+  # to the feedback Google Form couldn't confirm the response was recorded
+  # (stale field mapping after a form edit, outage, timeout). This email IS
+  # the submission — it exists nowhere else — so it must always send.
+  def feedback_fallback_email(name, contact, incident, feedback)
+    @name = name
+    @contact = contact
+    @incident = incident
+    @feedback = feedback
+    recipients = admins.presence || ['ed@newspeak.house']
+    mail to: recipients, subject: 'Website feedback (Google Form relay failed)'
+  end
+
   def staff_reminder_email(reminder, member)
     @member = member
     @reminder = reminder

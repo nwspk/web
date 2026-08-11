@@ -858,14 +858,22 @@ label {
   }
 }
 
-/* Embedded external forms (e.g. the feedback Google Form) — page chrome is
-   ours even though the form's innards keep Google's styling. */
-.embedded-form {
-  width: 100%;
-  height: 1300px;
-  border: none;
-  margin: 1em 0;
-  background: transparent;
+/* The feedback form: native inputs relayed server-side to the feedback
+   Google Form (see HomeController#submit_feedback). Labels sit above their
+   fields; the date input keeps its natural width. */
+#feedback-form label {
+  display: block;
+  margin-bottom: 0.25em;
+}
+#feedback-form .help-block {
+  font-weight: 400;
+  margin-bottom: 0.25em;
+}
+input[type="datetime-local"] {
+  padding: 6px 12px;
+  border: 1px solid var(--grey-1);
+  font: inherit;
+  background: #fff;
 }
 
 /* The plaque: a full-viewport-width charcoal band above everything — roundel
