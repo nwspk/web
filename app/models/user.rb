@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :lockable
+  # Sign-in is via emailed magic links; database_authenticatable remains so
+  # existing password mechanics (and the random per-account passwords set at
+  # registration) stay valid, but no UI asks for a password.
+  devise :magic_link_authenticatable, :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :lockable
 
   ROLES = {
     admin: 'admin',

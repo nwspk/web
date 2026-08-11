@@ -41,6 +41,15 @@ jobs:
           ssh nwspk-production "sudo systemctl restart nwspk-web.service"
           ssh nwspk-production "sudo systemctl restart nwspk-sidekiq.service"
 
+      # Rails compiles each page's templates on its first render after a
+      # restart (1-2s per page); pay that cost here so visitors never do.
+      - name: Warm the application
+        run: |
+          sleep 10
+          for p in / /about /events /membership /scholarships /study-with-us /fellowship /visit /donate /feedback /jobs /account/sign_in; do
+            curl -s -o /dev/null --max-time 30 "https://newspeak.house$p" || true
+          done
+
   deploy-staging:
     runs-on: ubuntu-22.04
     if: github.ref == 'refs/heads/staging'

@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var plaque = document.querySelector('.home-plaque');
   var nav = document.querySelector('aside nav');
   if (!plaque || !nav) return;
-  var FADE_DISTANCE = 500;
+  var FADE_DISTANCE = 250;
   var mobile = window.matchMedia('(max-width: 940px)');
   var update = function () {
     if (mobile.matches) {

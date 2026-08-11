@@ -13,6 +13,7 @@ gem "sprockets-rails"
 gem "activeadmin", "~> 3.0" # 2.x caps railties < 7.1
 gem "cancancan"
 gem "devise", "~> 4.9"
+gem "devise-passwordless"
 gem "haml-rails"
 gem "jquery-rails"
 gem "money"

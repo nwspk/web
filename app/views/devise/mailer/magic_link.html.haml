@@ -1,0 +1,11 @@
+%p{ style: 'margin-bottom: 24px' } Hello #{@resource.name},
+
+%p
+  %a{ :href => send("#{@scope_name}_magic_link_url", Hash[@scope_name, { email: @resource.email, token: @token, remember_me: @remember_me }]) }
+    Click here to sign in to Newspeak House
+
+%p{ style: 'color: #555' }
+  This link works once and expires shortly. If you didn't request it, you can safely ignore this email.
+
+%p
+  %strong Newspeak House

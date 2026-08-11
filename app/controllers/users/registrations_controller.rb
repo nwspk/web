@@ -18,6 +18,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   protected
 
+  # Members never see or choose a password — sign-in is via magic links. Every
+  # account still gets a strong random password so the database_authenticatable
+  # validations and mechanics stay intact.
+  def build_resource(hash = {})
+    super
+    if resource.password.blank?
+      resource.password = resource.password_confirmation = SecureRandom.base58(32)
+    end
+  end
+
   def update_resource(resource, params)
     email_changing = params[:email].present? && params[:email] != resource.email
 
@@ -51,7 +61,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:name, :email, :url, :password, :password_confirmation, :sponsor, :applicant, :application_text)
+    params.require(:user).permit(:name, :email, :url, :sponsor, :applicant, :application_text)
   end
 
   def account_update_params

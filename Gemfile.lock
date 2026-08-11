@@ -121,6 +121,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-passwordless (1.1.0)
+      devise
+      globalid
     diff-lcs (1.6.2)
     drb (2.2.3)
     erb (6.0.7)
@@ -433,6 +436,7 @@ DEPENDENCIES
   cancancan
   carrierwave (~> 2.2.7)
   devise (~> 4.9)
+  devise-passwordless
   fabrication
   faker
   fuubar

@@ -28,10 +28,7 @@ body {
   font-weight: 400;
   line-height: 1.7;
   color: #171717;
-  /* Paper grain baked into the page background (inline SVG turbulence — no
-     extra request), sitting beneath the text. */
   background-color: #f1f1f1;
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'300'%20height%3D'300'%3E%3Cfilter%20id%3D'n'%3E%3CfeTurbulence%20type%3D'fractalNoise'%20baseFrequency%3D'0.8'%20numOctaves%3D'2'%20stitchTiles%3D'stitch'%2F%3E%3CfeColorMatrix%20type%3D'matrix'%20values%3D'0%200%200%200%200%20%200%200%200%200%200%20%200%200%200%200%200%20%200.07%200.07%200.07%200%200'%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D'300'%20height%3D'300'%20filter%3D'url%28%23n%29'%2F%3E%3C%2Fsvg%3E");
   min-height: 100vh;
 }
 
@@ -113,8 +110,9 @@ aside {
 }
 
 @media (max-width: 940px) {
-  /* A typographic toggle — a bare double dagger (three crossings: very
-     nearly a hamburger), becoming a currency sign when the drawer is open. */
+  /* A typographic toggle — a filled circle opening to a diamond. The \FE0E
+     variation selectors force text presentation so phones don't render the
+     circle as a colour emoji. */
   .nav-toggle-button {
     display: flex;
     align-items: center;
@@ -139,10 +137,10 @@ aside {
     background: rgba(226, 59, 55, 0.2);
   }
   .nav-toggle-button::before {
-    content: '‡';
+    content: '\26AB\FE0E';
   }
   #nav-toggle:checked ~ .nav-toggle-button::before {
-    content: '¤';
+    content: '\2666\FE0E';
   }
   .nav-toggle-button span {
     display: none;
@@ -234,7 +232,7 @@ nav a:hover {
 /* On short screens, compress the sidebar so all links stay reachable. */
 @media (min-width: 941px) and (max-height: 900px) {
   nav .side-logo {
-    width: 38%;
+    width: min(38%, 20% + 1em, 120px);
   }
   .side-contact {
     margin-bottom: 1em;
@@ -250,7 +248,10 @@ nav a:hover {
 nav .side-logo {
   display: block;
   align-self: flex-end;
-  width: 46%;
+  /* Scales with the sidebar but never beyond twice the nav's right inset
+     (10% + 0.5em, doubled) nor the size the book appears in the roundel
+     (~120px) — so huge monitors don't get a huge book. */
+  width: min(46%, 20% + 1em, 120px);
   aspect-ratio: 1 / 1;
   /* Right edge aligns with the nav links' text edge, and the VISUAL space
      above the ink equals the visual right gap: the artwork has 13.4%
@@ -258,7 +259,7 @@ nav .side-logo {
      the right side gains the aside's 1em padding, both compensated here. */
   margin: calc(3.84% + 0.5em) calc(10% + 0.5em) 0.75em 0;
   padding: 0;
-  color: var(--grey-2);
+  color: var(--grey-1);
   background-color: currentColor;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: contain;
@@ -268,7 +269,7 @@ nav .side-logo {
   mask-position: right center;
 }
 nav .side-logo:hover {
-  color: var(--grey-1);
+  color: #a8a8a8;
 }
 
 /* Address and email at the foot of the viewport, on the links' right axis. */
@@ -353,10 +354,19 @@ h2 {
   margin-bottom: 0.25em;
   text-wrap: balance;
 }
-/* Phones: the whole scale steps down — big type needs distance it hasn't got. */
+/* Phones: the whole scale steps down — big type needs distance it hasn't got —
+   and headings take the real Extrabold cut, one step heavier. */
 @media (max-width: 800px) {
   body {
     font-size: 16px;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: 'Copernicus-Extrabold', 'Copernicus', 'Georgia', serif;
+    font-weight: 400;
   }
   h2 {
     font-size: 2.5em;
@@ -494,6 +504,8 @@ img {
 
 .events-toc a:hover {
   color: var(--red-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .events-toc .toc-event-details {
@@ -741,9 +753,11 @@ label {
 }
 
 .wide-pic {
-  /* plate width: bleeds to the viewport's right edge */
+  /* plate width: bleeds to the viewport's right edge; height follows the
+     original 672:200 proportions so wider never means a tighter crop */
   width: calc(50vw + 384px - 3em);
-  height: 200px;
+  height: auto;
+  aspect-ratio: 672 / 200;
   background-color: var(--grey-1);
   background-position: center;
   background-size: cover;
@@ -820,11 +834,19 @@ body.home {
   gap: 3em;
   padding: 5.25em 7vw;
 }
-.home-plaque img {
+/* The roundel as a mask, so it takes the site's paper-grey rather than the
+   artwork's pure white — pure white doesn't exist on this site. */
+.plaque-roundel {
   width: min(100%, 280px);
-  height: auto;
+  aspect-ratio: 1 / 1;
   justify-self: center;
-  box-shadow: none;
+  background-color: var(--grey-2);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
 }
 
 /* The opening statement — supporting voice beside the emblem. */
@@ -877,7 +899,7 @@ body.home {
     padding: 2.5em 1.5em;
     text-align: center;
   }
-  .home-plaque img {
+  .plaque-roundel {
     width: min(75%, 300px);
   }
   .plaque-text {
@@ -895,6 +917,8 @@ body.home {
   border-left: 1px solid var(--almost-black);
   padding-left: 1em;
   margin-bottom: 3em;
+  /* breathing room above the heading when arriving via #event-N anchors */
+  scroll-margin-top: 2em;
 }
 /* The events archive renders ~1,700 events in one document; let the browser
    skip layout/paint for the ones off-screen instead of choking on them.

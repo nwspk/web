@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   resource :user, only: [:edit, :update]
   resources :events, only: :index
 
-  devise_for :users, path: 'account', controllers: { registrations: 'users/registrations' }
+  devise_for :users, path: 'account', controllers: { registrations: 'users/registrations', sessions: 'devise/passwordless/sessions' }
 
   devise_scope :user do
     get 'membership', to: 'users/registrations#new'

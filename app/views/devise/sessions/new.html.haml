@@ -3,12 +3,16 @@
 
 %h2.no-topping Log In
 
-= render "devise/shared/links"
+%p
+  Enter your email address and we'll send you a one-time sign-in link — no password needed.
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  = f.input :email, required: false, autofocus: true
-  = f.input :password, required: false
-  = f.input :remember_me, as: :boolean
+  = f.input :email, required: true, autofocus: true
 
   .form-group
-    = f.button :submit, "Log in"
+    = f.button :submit, "Email me a sign-in link"
+
+%p
+  Not a member yet?
+  %a{:href => "/membership"} Join here
+  \.
