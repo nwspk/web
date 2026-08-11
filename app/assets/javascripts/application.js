@@ -16,6 +16,33 @@ document.addEventListener('click', function (e) {
   }
 });
 
+// On the homepage the masthead plaque carries the identity, so the sidebar
+// starts invisible and fades in scroll-linked: opacity tracks how far past
+// the plaque you've scrolled, ramping over FADE_DISTANCE pixels.
+document.addEventListener('DOMContentLoaded', function () {
+  if (!document.body.classList.contains('home')) return;
+  var plaque = document.querySelector('.home-plaque');
+  var nav = document.querySelector('aside nav');
+  if (!plaque || !nav) return;
+  var FADE_DISTANCE = 500;
+  var mobile = window.matchMedia('(max-width: 940px)');
+  var update = function () {
+    if (mobile.matches) {
+      nav.style.opacity = '';
+      nav.style.visibility = '';
+      return;
+    }
+    /* fade begins only once the plaque is entirely off screen */
+    var start = plaque.offsetHeight;
+    var progress = Math.min(Math.max((window.scrollY - start) / FADE_DISTANCE, 0), 1);
+    nav.style.opacity = progress;
+    nav.style.visibility = progress > 0 ? 'visible' : 'hidden';
+  };
+  window.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
+  window.addEventListener('resize', function () { requestAnimationFrame(update); }, { passive: true });
+  update();
+});
+
 // Live text filter for the events page. All ~1,700 events are already in the
 // DOM (kept lightweight by content-visibility in the CSS), so filtering is a
 // substring match over a one-time index — no server round-trips.

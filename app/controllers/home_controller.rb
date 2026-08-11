@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  layout 'subpage', except: [:index]
+  layout :resolve_layout
 
   def index
     @events  = Event.public_and_confirmed.upcoming
@@ -32,5 +32,11 @@ class HomeController < ApplicationController
 
   def residents
     @fellows = User.fellows
+  end
+
+  private
+
+  def resolve_layout
+    action_name == 'index' ? 'home' : 'subpage'
   end
 end

@@ -29,3 +29,27 @@
   font-style: italic;
   font-stretch: normal;
 }
+
+@font-face {
+  font-family: 'Copernicus-Book';
+  src: url('GalaxieCopernicus-Book.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: 'Copernicus-Extrabold';
+  src: url('GalaxieCopernicus-Extrabold.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: 'Copernicus-Heavy';
+  src: url('GalaxieCopernicus-Heavy.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+}

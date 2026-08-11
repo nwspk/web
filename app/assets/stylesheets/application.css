@@ -6,10 +6,17 @@
   --sans-serif-font: 'Lato', sans-serif;
   --almost-black: #2e2e2e;
   --danger: #901714;
-  --red: #fd433e;
-  --red-accent: #da3531;
+  --red: #e23b37; /* on light surfaces */
+  --red-accent: #b02a27;
+  --red-bright: #fd433e; /* on the dark sidebar, where the darker red loses contrast */
   --grey-1: #ccc;
   --grey-2: #e8e8e8;
+}
+
+html {
+  /* Absorb the scrollbar-width overhang of the full-bleed homepage cover
+     without creating a scroll container (which would break position:sticky). */
+  overflow-x: clip;
 }
 
 body {
@@ -17,11 +24,48 @@ body {
   grid-template-columns: 1fr 768px 1fr;
   grid-template-rows: repeat(4, auto);
   font-family: var(--serif-font);
+  font-size: 17px;
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 1.7;
   color: #171717;
-  background: #f1f1f1;
+  /* Paper grain baked into the page background (inline SVG turbulence — no
+     extra request), sitting beneath the text. */
+  background-color: #f1f1f1;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'300'%20height%3D'300'%3E%3Cfilter%20id%3D'n'%3E%3CfeTurbulence%20type%3D'fractalNoise'%20baseFrequency%3D'0.8'%20numOctaves%3D'2'%20stitchTiles%3D'stitch'%2F%3E%3CfeColorMatrix%20type%3D'matrix'%20values%3D'0%200%200%200%200%20%200%200%200%200%200%20%200%200%200%200%200%20%200.07%200.07%200.07%200%200'%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D'300'%20height%3D'300'%20filter%3D'url%28%23n%29'%2F%3E%3C%2Fsvg%3E");
   min-height: 100vh;
+}
+
+/* Printed-plate language: images sit on the page with the same solid offset
+   block the profile photos have always used — no floaty blur shadows. */
+main > img:not(.plate),
+main p img:not(.plate) {
+  box-shadow: 8px 8px 0 0 var(--almost-black);
+}
+
+/* Big images are plates: they bleed to the viewport's right edge like the
+   homepage cover, turning the right margin into a live edge. No shadow —
+   a plate meets the paper's edge cleanly. (.wide-pic gets the same widths in
+   its own block later in this file.) */
+img.plate {
+  width: calc(50vw + 384px - 3em);
+  max-width: none;
+  height: auto;
+  display: block;
+  box-shadow: none;
+}
+@media (max-width: 940px) {
+  /* on narrow screens plates go edge-to-edge, like the cover */
+  img.plate {
+    margin-left: -1em;
+    width: calc(100% + 2em);
+  }
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--red-accent);
+  outline-offset: 2px;
 }
 @media (max-width: 940px) {
   body {
@@ -33,9 +77,13 @@ body {
 aside {
   grid-row: 1 / 5;
   grid-column: 1;
-  background: var(--almost-black);
-  padding: 12em 1em;
+  background-color: var(--almost-black);
+  padding: 0 1em 1em;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
 }
 @media (max-width: 940px) {
   aside {
@@ -46,7 +94,7 @@ aside {
     width: min(75vw, 300px);
     box-sizing: border-box;
     height: auto;
-    padding: 5em 1.5em 2em;
+    padding: 1em 1.5em 2em;
     overflow-y: auto;
     z-index: 20;
     transform: translateX(-100%);
@@ -65,45 +113,39 @@ aside {
 }
 
 @media (max-width: 940px) {
+  /* A typographic toggle — a bare double dagger (three crossings: very
+     nearly a hamburger), becoming a currency sign when the drawer is open. */
   .nav-toggle-button {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
-    top: 1em;
-    left: 1em;
+    top: 0.6em;
+    left: 0.6em;
     z-index: 30;
-    width: 44px;
-    height: 44px;
-    padding: 13px 10px;
-    box-sizing: border-box;
+    width: 1.9em;
+    height: 1.9em;
+    border-radius: 50%;
     cursor: pointer;
-    background: #f1f1f1;
-    border: 1px solid var(--almost-black);
+    color: var(--red-bright);
+    font-family: var(--serif-font);
+    font-size: 1.7em;
+    line-height: 1;
+    text-align: center;
+    /* replace the default blue tap flash with a round red one */
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-toggle-button:active {
+    background: rgba(226, 59, 55, 0.2);
+  }
+  .nav-toggle-button::before {
+    content: '‡';
+  }
+  #nav-toggle:checked ~ .nav-toggle-button::before {
+    content: '¤';
   }
   .nav-toggle-button span {
-    display: block;
-    width: 100%;
-    height: 2px;
-    background: var(--almost-black);
-    transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
-  }
-  .nav-toggle-button span + span {
-    margin-top: 6px;
-  }
-  #nav-toggle:checked ~ .nav-toggle-button {
-    background: var(--almost-black);
-    border-color: #f1f1f1;
-  }
-  #nav-toggle:checked ~ .nav-toggle-button span {
-    background: #f1f1f1;
-  }
-  #nav-toggle:checked ~ .nav-toggle-button span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-  }
-  #nav-toggle:checked ~ .nav-toggle-button span:nth-child(2) {
-    opacity: 0;
-  }
-  #nav-toggle:checked ~ .nav-toggle-button span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    display: none;
   }
   #nav-toggle:checked ~ .nav-overlay {
     display: block;
@@ -117,20 +159,6 @@ aside {
   }
 }
 
-header {
-  grid-column: 2;
-  grid-row: 1;
-  padding: 0 3em;
-  text-align: center;
-}
-@media (max-width: 940px) {
-  header {
-    grid-column: 1;
-    grid-row: 1;
-    padding: 0 1em;
-  }
-}
-
 main {
   grid-column: 2;
   grid-row: 2;
@@ -140,7 +168,12 @@ main {
   main {
     grid-column: 1;
     grid-row: 3;
-    padding: 0 1em;
+    /* clear the fixed menu button, and give page titles air */
+    padding: 4em 1em 0;
+  }
+  /* the homepage cover sits flush beneath the plaque */
+  body.home main {
+    padding-top: 0;
   }
 }
 
@@ -148,8 +181,14 @@ footer {
   grid-column: 2;
   grid-row: 4;
   margin: 6em 3em;
-  padding-top: 0.5em;
-  border-top: 1px solid;
+  padding-top: 1em;
+  border-top: 1px solid #c9c9c9;
+  /* colophon treatment, echoing the sidebar contact */
+  text-align: center;
+  font-variant-caps: all-small-caps;
+  font-variant-numeric: oldstyle-nums;
+  letter-spacing: 0.06em;
+  font-size: 0.9em;
 }
 @media (max-width: 940px) {
   footer {
@@ -162,42 +201,131 @@ footer {
 
 nav {
   position: sticky;
-  top: 12em; /* matches aside's top padding, so the nav never appears to move */
+  top: 0; /* matches aside's top padding, so the nav never appears to move */
   display: flex;
   flex-direction: column;
   align-items: end;
-}
-/* On short screens, move the nav up so the last links aren't cut off. The
-   sticky `top` must stay equal to the aside's padding-top, otherwise the nav
-   slides from its natural offset down to `top` before sticking. */
-@media (max-height: 760px) {
-  aside {
-    padding-top: 1em;
-  }
-  nav {
-    top: 1em;
-  }
+  /* Fill the viewport so the contact block can sit at its foot; on screens
+     too short for that, margin-top: auto collapses and it follows the links. */
+  height: calc(100vh - 1em);
 }
 @media (max-width: 940px) {
   nav {
     position: static;
     flex-direction: column;
-    align-items: flex-start;
+    height: auto;
   }
 }
 
 nav a {
-  padding: 0.5em;
+  align-self: flex-end;
+  padding: 0.45em 0.5em;
+  margin-right: 10%;
   font-weight: 400;
   letter-spacing: 0.1em;
   font-style: italic;
   text-align: right;
+  color: var(--red-bright);
+}
+nav a:hover {
+  color: #ff7672;
+}
+
+/* On short screens, compress the sidebar so all links stay reachable. */
+@media (min-width: 941px) and (max-height: 900px) {
+  nav .side-logo {
+    width: 38%;
+  }
+  .side-contact {
+    margin-bottom: 1em;
+  }
+  nav a {
+    padding: 0.3em 0.5em;
+  }
+}
+
+/* The college roundel at the top of the sidebar, doubling as a home link.
+   Full sidebar width so its side padding equals the aside's top padding, and
+   rendered as a CSS mask filled with currentColor for exact hover dimming. */
+nav .side-logo {
+  display: block;
+  align-self: flex-end;
+  width: 46%;
+  aspect-ratio: 1 / 1;
+  /* Right edge aligns with the nav links' text edge, and the VISUAL space
+     above the ink equals the visual right gap: the artwork has 13.4%
+     transparent padding at its top (6.16% of nav width at 46% box size) and
+     the right side gains the aside's 1em padding, both compensated here. */
+  margin: calc(3.84% + 0.5em) calc(10% + 0.5em) 0.75em 0;
+  padding: 0;
+  color: var(--grey-2);
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-position: right center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: right center;
+}
+nav .side-logo:hover {
+  color: var(--grey-1);
+}
+
+/* Address and email at the foot of the viewport, on the links' right axis. */
+.side-contact {
+  align-self: flex-end;
+  text-align: right;
+  font-size: 0.68em;
+  font-variant-caps: all-small-caps;
+  font-variant-numeric: oldstyle-nums;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  white-space: nowrap;
+  margin-top: auto;
+  margin-right: calc(10% + 0.5em);
+  margin-bottom: 0.5em;
+}
+
+@media (max-width: 940px) {
+  .side-contact {
+    margin-top: 2em;
+  }
+}
+
+/* The homepage masthead carries the identity while it's in view; the whole
+   sidebar fades in scroll-linked as you pass the plaque (opacity set by JS). */
+body.home aside nav {
+  opacity: 0;
+  visibility: hidden;
 }
 @media (max-width: 940px) {
-  nav a {
-    padding-left: 0;
-    text-align: left;
+  /* the mobile drawer is always fully visible */
+  body.home aside nav {
+    opacity: 1;
+    visibility: visible;
   }
+}
+.side-contact a {
+  color: #a8a8a8;
+  /* undo the nav-link alignment rules; these are centered, not right-aligned */
+  margin-right: 0;
+  padding: 0;
+  font-style: normal;
+}
+.side-contact a:hover {
+  color: var(--grey-1);
+}
+
+nav a.current {
+  color: #f1f1f1;
+}
+
+/* Pages whose content opens with a heading shouldn't inherit the heading's
+   top margin or padding as dead space above the title. */
+main > h1:first-child,
+main > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 h1,
@@ -218,20 +346,33 @@ h1 {
 }
 
 h2 {
-  font-size: 3.39em;
-  line-height: 1.43em;
-  padding-top: 0.852em;
-  margin-bottom: 0.0984em;
+  font-size: 3.8em;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  padding-top: 0.74em;
+  margin-bottom: 0.25em;
+  text-wrap: balance;
 }
+/* Phones: the whole scale steps down — big type needs distance it hasn't got. */
 @media (max-width: 800px) {
+  body {
+    font-size: 16px;
+  }
   h2 {
-    font-size: 3em;
+    font-size: 2.5em;
+  }
+  h3 {
+    font-size: 2em;
+  }
+  .home-lede {
+    font-size: 1.1em;
   }
 }
 
 h3 {
-  font-size: 2.28em;
-  line-height: 1.41em;
+  font-size: 2.55em;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
   padding-top: 1.07em;
   margin-bottom: 0.341em;
 }
@@ -310,6 +451,8 @@ a:hover {
 }
 
 .section-link {
+  font-family: 'Copernicus-Semi', 'Copernicus', 'Georgia', serif;
+  font-size: 1.1em;
   font-family: var(--sans-serif-font);
   text-transform: uppercase;
   text-decoration: none;
@@ -452,42 +595,6 @@ label {
   font-weight: 700;
 }
 
-.head-image {
-  width: 100%;
-  border-bottom: 1px solid;
-  padding-bottom: 1em;
-}
-@media(max-width: 940px) {
-  .head-image {
-    padding-top: 2em;
-  }
-}
-
-.head-title {
-  width: 100%;
-}
-@media(max-width: 940px) {
-  .head-title {
-    padding-top: 2em;
-  }
-}
-
-.head-title img {
-  width: 400px;
-  margin-top: 80px;
-}
-@media(max-width: 940px) {
-  .head-title img {
-    margin-top: 0;
-  }
-}
-
-@media(max-width: 940px) {
-  .head-byline {
-    margin-bottom: 32px;
-  }
-}
-
 .profile {
   display: flex;
   padding-bottom: 1em;
@@ -552,6 +659,13 @@ label {
   border-bottom: 1px solid var(--almost-black);
   padding-bottom: 0.2em;
   margin-bottom: 1em;
+}
+/* Linked cohort headings read as headings first, links on hover. */
+.cohort-heading a {
+  color: inherit;
+}
+.cohort-heading a:hover {
+  color: var(--red);
 }
 
 .fellow-header {
@@ -627,21 +741,166 @@ label {
 }
 
 .wide-pic {
-  width: 100%;
+  /* plate width: bleeds to the viewport's right edge */
+  width: calc(50vw + 384px - 3em);
   height: 200px;
   background-color: var(--grey-1);
   background-position: center;
   background-size: cover;
   margin-bottom: 2em;
   margin-top: 1em;
+  box-shadow: none;
+}
+@media (max-width: 940px) {
+  .wide-pic {
+    margin-left: -1em;
+    width: calc(100% + 2em);
+  }
+}
+
+/* The homepage opens with the front door as a cover, title carved on it.
+   Bleeds from the sidebar's right edge to the right edge of the viewport,
+   keeping the original wide-pic aspect ratio (672:200). */
+.wide-pic.home-cover {
+  margin-top: -3em;
+  margin-left: -3em;
+  margin-bottom: 3em; /* paper shows between cover and plaque */
+  width: calc(50vw + 384px);
+  height: auto;
+  aspect-ratio: 672 / 200;
+  max-height: 60vh;
+  box-shadow: none;
+  position: relative;
+  overflow: hidden;
+  background: none;
+}
+/* The image is 40% taller than its window and anchored to the bottom; the
+   scroll handler translates it downward (slower than the page) so the door
+   lags behind — parallax without background-attachment jank. */
+/* Static crop matching what was the top-of-page parallax framing. */
+.wide-pic.home-cover img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 130%;
+  object-fit: cover;
+  object-position: center 0%;
+  box-shadow: none;
+}
+@media (max-width: 940px) {
+  .wide-pic.home-cover {
+    margin-top: 0;
+    margin-left: -1em;
+    width: calc(100% + 2em);
+  }
+}
+
+/* Embedded external forms (e.g. the feedback Google Form) — page chrome is
+   ours even though the form's innards keep Google's styling. */
+.embedded-form {
+  width: 100%;
+  height: 1300px;
+  border: none;
+  margin: 1em 0;
+  background: transparent;
+}
+
+/* The plaque: a full-viewport-width charcoal band above everything — roundel
+   on the left third, the opening statement on the right two-thirds. */
+body.home {
+  display: block;
+}
+.home-plaque {
+  background: var(--almost-black);
+  color: #f1f1f1;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: 3em;
+  padding: 5.25em 7vw;
+}
+.home-plaque img {
+  width: min(100%, 280px);
+  height: auto;
+  justify-self: center;
+  box-shadow: none;
+}
+
+/* The opening statement — supporting voice beside the emblem. */
+.home-lede {
+  font-family: 'Copernicus-Book', 'Copernicus', 'Georgia', serif;
+  font-size: 1.25em;
+  line-height: 1.65;
+  max-width: 30em;
+  margin: 0;
+}
+
+.plaque-text {
+  padding: 0 2em;
+}
+
+/* Letterhead line: where to find us, quiet beneath the statement. */
+.plaque-contact {
+  margin: 1.25em 0 0;
+  font-variant-caps: all-small-caps;
+  font-variant-numeric: oldstyle-nums;
+  letter-spacing: 0.08em;
+  color: #a8a8a8;
+}
+.plaque-contact a {
+  color: #a8a8a8;
+}
+.plaque-contact a:hover {
+  color: var(--grey-1);
+}
+/* When the contact line wraps (narrow screens), each part takes its own line
+   and the bullet separator disappears. */
+@media (max-width: 940px) {
+  .plaque-contact a {
+    display: block;
+  }
+  .plaque-contact-sep {
+    display: none;
+  }
+}
+
+/* Below the plaque, the homepage resumes the standard sidebar grid. */
+.home-columns {
+  display: grid;
+  grid-template-columns: 1fr 768px 1fr;
+}
+@media (max-width: 940px) {
+  .home-plaque {
+    grid-template-columns: 1fr;
+    gap: 1.5em;
+    padding: 2.5em 1.5em;
+    text-align: center;
+  }
+  .home-plaque img {
+    width: min(75%, 300px);
+  }
+  .plaque-text {
+    padding: 0 0.5em;
+  }
+  .home-lede {
+    margin: 0 auto;
+  }
+  .home-columns {
+    display: block;
+  }
 }
 
 .event {
   border-left: 1px solid var(--almost-black);
   padding-left: 1em;
   margin-bottom: 3em;
-  /* The events page renders ~1,700 events in one document; let the browser
-     skip layout/paint for the ones off-screen instead of choking on them. */
+}
+/* The events archive renders ~1,700 events in one document; let the browser
+   skip layout/paint for the ones off-screen instead of choking on them.
+   Scoped to the archive: on short lists the size estimation causes scroll
+   jumps (e.g. a blank void when jumping to the end of the homepage). */
+#archive .event {
   content-visibility: auto;
   contain-intrinsic-size: auto 280px;
 }
@@ -678,6 +937,8 @@ label {
   text-transform: uppercase;
   font-weight: 400;
   letter-spacing: 0.1em;
+  /* dates are information, not actions — keep red for links */
+  color: #4a4a4a;
 }
 
 .event-title {

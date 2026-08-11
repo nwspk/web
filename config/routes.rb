@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   get 'residency', to: 'home#residency', as: :residency
   get 'residents', to: 'home#residents', as: :residents
   get 'scholarships', to: 'home#scholarships', as: :scholarships
-  get 'donate', to: redirect('https://donate.stripe.com/cN25lPeUe3qO5zyfYY'), as: :donate_redirect
+  get 'donate', to: 'home#donate', as: :donate
   get 'shop', to: redirect('https://nwspk.myshopify.com/'), as: :shop
-  get 'feedback', to: redirect('https://forms.gle/NLZ8JQdDFeuToWgF6'), as: :feedback
+  get 'feedback', to: 'home#feedback', as: :feedback
   get 'rationclub', to: redirect('https://forms.gle/T3rXorsrb4gXKazv9'), as: :rationclub
   get 'library', to: 'home#library', as: :library
   get 'jobs', to: 'home#jobs', as: :jobs

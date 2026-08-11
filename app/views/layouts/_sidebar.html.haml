@@ -1,0 +1,14 @@
+%aside
+  %nav
+    %a.side-logo{:href => "/", "aria-label" => "Newspeak House — home", :style => "-webkit-mask-image: url(#{image_path('book-logo-white.png')}); mask-image: url(#{image_path('book-logo-white.png')})"}
+    - nav_links = [['about', '/about'], ['events', '/#events'], ['fellowship', '/fellowship'], ['membership', '/membership'], ['scholarships', '/scholarships'], ['study with us', '/study-with-us'], ['feedback', '/feedback'], ['donate', '/donate'], ['visit', '/visit'], ['shop', '/shop']]
+    - nav_links.each do |label, path|
+      %a{:href => path, :class => (request.path == path ? 'current' : nil)}= label
+    -if current_user.present?
+      %a{:href => "/account", :class => (request.path == '/account' ? 'current' : nil)} account
+    -else
+      %a{:href => "/account/sign_in", :class => (request.path == '/account/sign_in' ? 'current' : nil)} login
+    .side-contact
+      %a{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
+      %br/
+      %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house

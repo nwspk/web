@@ -1,20 +1,7 @@
 !!!
 %html
   %head
-    %title
-      Newspeak House
-      - if content_for? :page_title
-        \-
-        = yield :page_title
-
-    = stylesheet_link_tag 'application', media: 'all'
-    = javascript_include_tag 'application'
-    = csrf_meta_tags
-    = favicon_link_tag 'favicon.ico'
-
-    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1"}
-
-    = yield :extra_tags
+    = render 'layouts/head'
 
   %body
 
@@ -25,31 +12,7 @@
       %span
     %label.nav-overlay{:for => "nav-toggle", "aria-hidden" => "true"}
 
-    %aside
-      %nav
-        %a{:href => "/"} home
-        %a{:href => "/about"} about
-        %a{:href => "/#events"} events
-        %a{:href => "/fellowship"} fellowship
-        %a{:href => "/membership"} membership
-        %a{:href => "/scholarships"} scholarships
-        %a{:href => "/study-with-us"} study with us
-        %a{:href => "/feedback"} feedback
-        %a{:href => "/donate"} donate
-        %a{:href => "/visit"} visit
-        %a{:href => "/shop"} shop
-        -if current_user.present?
-          %a{:href => "/account"} account
-        -else
-          %a{:href => "/account/sign_in"} login
-
-    %header
-      .head-title
-        = image_tag('lcpt-logo.png')
-      .head-byline
-        %a{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
-        •
-        %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
+    = render 'layouts/sidebar'
 
     %main
       = content_for?(:content) ? yield(:content) : yield

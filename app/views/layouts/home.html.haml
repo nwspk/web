@@ -1,0 +1,36 @@
+!!!
+%html
+  %head
+    = render 'layouts/head'
+
+  %body.home
+
+    .home-plaque
+      = image_tag('lcpt-logo-white.png', alt: 'London College of Political Technology — Newspeak House — 2015')
+      .plaque-text
+        %p.home-lede
+          Newspeak House is an independent residential college founded in 2015 to study, nurture, and inspire emerging communities of practice across civil society and the public sector in the UK.
+        %p.plaque-contact
+          %a{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
+          %span.plaque-contact-sep •
+          %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house
+
+    .home-columns
+
+      %input#nav-toggle{:type => "checkbox"}
+      %label.nav-toggle-button{:for => "nav-toggle", "aria-label" => "Toggle navigation"}
+        %span
+        %span
+        %span
+      %label.nav-overlay{:for => "nav-toggle", "aria-hidden" => "true"}
+
+      = render 'layouts/sidebar'
+
+      %main
+        = yield
+
+      %footer
+        %p
+          %a{:href => "https://goo.gl/maps/Z8Sa4T6sb3n"} 133-135 Bethnal Green Road
+          •
+          %a{:href => "mailto:contact@newspeak.house"} contact@newspeak.house

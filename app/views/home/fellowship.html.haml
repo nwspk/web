@@ -1,14 +1,19 @@
 - content_for :page_title do
   Fellows and alumni
 
-%h2.no-topping Newspeak House Fellowship
+%h2.no-topping Fellowship
 %p
   Those who successfully complete the
-  %a{:href => "/study-with-us"} course
+  %a{:href => "/study-with-us"} programme
   become Fellows of Newspeak House. We now have a network of over 100 fellows, who can be found in significant positions across many prominent institutions. As fellows of the college, they have the right to attend college ceremonies and access certain special fellowship activities.
 
 - @cohorts.each do |cohort, fellows|
   %section.cohort
-    %h3.cohort-heading= cohort
+    - cohort_year = cohort[/\A(\d{4}) Cohort\z/, 1]
+    - if cohort_year && cohort_year.to_i >= 2024
+      %h3.cohort-heading
+        %a{:href => "https://#{cohort_year}.newspeak.house"}= cohort
+    - else
+      %h3.cohort-heading= cohort
     - fellows.each do |fellow|
       = render partial: 'fellow', locals: { fellow: fellow }

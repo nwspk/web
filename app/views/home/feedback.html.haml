@@ -1,0 +1,15 @@
+- content_for :page_title do
+  Feedback
+
+%h2.no-topping Feedback
+
+%p
+  We'd love to hear your thoughts about the college — what we're doing well, and what we could do better.
+
+%iframe.embedded-form{:src => "https://docs.google.com/forms/d/e/1FAIpQLSfMqX_Ry3beaB0-9XsJWNBpssTvkQiIGtWfbWnHzAeAMGj_jA/viewform?embedded=true", :title => "Feedback form", :loading => "lazy"}
+  Loading…
+
+%p
+  If the form doesn't load, you can
+  %a{:href => "https://forms.gle/NLZ8JQdDFeuToWgF6"} open it in a new tab
+  \.
