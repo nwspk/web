@@ -43,6 +43,21 @@ document.addEventListener('DOMContentLoaded', function () {
   update();
 });
 
+// Homepage TOC links carry the shareable event URL (/events?id=N#event-N) so
+// copying them yields a link with social-preview tags — but a normal click
+// should still just scroll down the homepage, where the same event rows live.
+// Intercept the click, scroll in place, and put the shareable URL in the
+// address bar so copy-after-click shares correctly too.
+document.addEventListener('click', function (e) {
+  var link = e.target.closest('a[data-event-anchor]');
+  if (!link) return;
+  var target = document.getElementById(link.getAttribute('data-event-anchor'));
+  if (!target) return;
+  e.preventDefault();
+  history.pushState(null, '', link.getAttribute('href'));
+  target.scrollIntoView();
+});
+
 // Live text filter for the events page. All ~1,700 events are already in the
 // DOM (kept lightweight by content-visibility in the CSS), so filtering is a
 // substring match over a one-time index — no server round-trips.

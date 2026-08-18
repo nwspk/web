@@ -10,8 +10,11 @@ class EventsController < ApplicationController
       @past_events = Event.public_and_confirmed.archive
     end
 
+    # Selected event drives the social-preview meta tags, so search past
+    # events too — shared links keep working after the event has happened.
     if params[:id]
-      @selected_event = @events.where(id: params[:id].to_i).take
+      id = params[:id].to_i
+      @selected_event = @events.where(id: id).take || @past_events.where(id: id).take
     end
   end
 end

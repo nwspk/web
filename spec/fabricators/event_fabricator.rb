@@ -11,4 +11,5 @@ Fabricator(:event) do
   public          true
   status          1
   value           1000
+  notes           ""
 end
