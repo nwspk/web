@@ -564,11 +564,20 @@ li {
 input[type="text"],
 input[type="email"],
 input[type="url"],
-input[type="password"] {
+input[type="password"],
+input[type="datetime-local"] {
   width: 100%;
   padding: 6px 12px;
   border: 1px solid var(--grey-1);
   box-sizing: border-box;
+}
+
+/* The date picker keeps its natural width and the page's type, rather than
+   stretching like the free-text fields. */
+input[type="datetime-local"] {
+  width: auto;
+  font: inherit;
+  background: #fff;
 }
 
 input[type="submit"] {
@@ -858,22 +867,15 @@ label {
   }
 }
 
-/* The feedback form: native inputs relayed server-side to the feedback
-   Google Form (see HomeController#submit_feedback). Labels sit above their
-   fields; the date input keeps its natural width. */
-#feedback-form label {
+/* Hand-built forms (the feedback form; anything else using .form-group with
+   its own labels) sit their labels above the field. */
+.form-group label {
   display: block;
   margin-bottom: 0.25em;
 }
+/* A hint between a label and its field stays close to the field it explains. */
 #feedback-form .help-block {
-  font-weight: 400;
   margin-bottom: 0.25em;
-}
-input[type="datetime-local"] {
-  padding: 6px 12px;
-  border: 1px solid var(--grey-1);
-  font: inherit;
-  background: #fff;
 }
 
 /* The plaque: a full-viewport-width charcoal band above everything — roundel

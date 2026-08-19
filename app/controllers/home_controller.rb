@@ -15,7 +15,6 @@ class HomeController < ApplicationController
     feedback: 'entry.2137140456'
   }.freeze
   FEEDBACK_INCIDENT_FIELD = 'entry.48862705'.freeze
-  FEEDBACK_CONFIRMATION = 'Your response has been recorded'.freeze
 
   def index
     @events  = Event.public_and_confirmed.upcoming
@@ -51,28 +50,23 @@ class HomeController < ApplicationController
   end
 
   def submit_feedback
-    values = FEEDBACK_FIELDS.keys.index_with { |key| params[key].to_s.strip }
+    answers  = FEEDBACK_FIELDS.keys.index_with { |key| params[key].to_s.strip }
+    incident = params[:incident].to_s.strip
     # Browsers enforce `required`; anything arriving blank is not a real
     # submission, so drop it rather than relay junk or email noise.
-    return redirect_to feedback_path if values.value?('')
+    return redirect_to feedback_path if answers.value?('')
 
-    fields = { 'fvv' => '1', 'pageHistory' => '0' }
-    FEEDBACK_FIELDS.each { |key, entry| fields[entry] = values[key] }
-    # Google wants date-time answers as five numbered parts.
-    if (m = params[:incident].to_s.match(/\A(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/))
-      %w[year month day hour minute].each_with_index do |part, i|
-        fields["#{FEEDBACK_INCIDENT_FIELD}_#{part}"] = m[i + 1].to_i.to_s
-      end
-    end
+    fields = FEEDBACK_FIELDS.to_h { |key, entry| [entry, answers[key]] }
+                            .merge(GoogleFormRelay.date_time_fields(FEEDBACK_INCIDENT_FIELD, incident))
 
-    if GoogleFormRelay.submit(FEEDBACK_FORM_ID, fields, confirmation: FEEDBACK_CONFIRMATION)
+    if GoogleFormRelay.submit(FEEDBACK_FORM_ID, fields)
       redirect_to feedback_path(sent: 'recorded')
     else
       # Google didn't confirm (stale field mapping, outage, timeout) — the
       # submission would otherwise vanish, so capture it by email instead and
       # tell the submitter that's what happened.
       AdminMailer.feedback_fallback_email(
-        params[:name], params[:contact], params[:incident], params[:feedback]
+        answers[:name], answers[:contact], incident, answers[:feedback]
       ).deliver_later
       redirect_to feedback_path(sent: 'emailed')
     end

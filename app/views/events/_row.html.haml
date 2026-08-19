@@ -1,10 +1,10 @@
 - cache event do
-  .event{ id: "event-#{event.id}" }
+  .event{ id: event_anchor(event) }
     .event-title= link_to event.name, event.url
     - unless event.public?
       %small (Private event)
 
-    = link_to events_path(anchor: "event-#{event.id}", id: event.id) do
+    = link_to event_share_path(event) do
       .event-details= event.formatted_date_details
 
     .event-host= link_to event.organiser_name, event.organiser_url

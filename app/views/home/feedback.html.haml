@@ -3,21 +3,20 @@
 
 %h2.no-topping Feedback
 
-- case params[:sent]
-- when 'recorded'
-  #feedback-thanks
-    %p
-      %strong Thank you — your response has been recorded.
-    %p= link_to 'Back to the homepage', root_path
-- when 'emailed'
-  #feedback-thanks
-    %p
-      %strong Thank you — your feedback has been received.
+-# After a submission the form is replaced by a thank-you. The two outcomes
+-# differ only in whether the relay to Google was confirmed (see
+-# HomeController#submit_feedback); "emailed" also explains the detour.
+- if params[:sent]
+  - emailed = params[:sent] == 'emailed'
+  %p
+    %strong
+      = emailed ? 'Thank you — your feedback has been received.' : 'Thank you — your response has been recorded.'
+  - if emailed
     %p
       Our connection to the response system hiccuped, so your submission was
       delivered directly to college staff by email instead. There's nothing
       more you need to do.
-    %p= link_to 'Back to the homepage', root_path
+  %p= link_to 'Back to the homepage', root_path
 - else
   %p
     We'd love to hear your thoughts about the college — what we're doing well, and what we could do better.

@@ -2,19 +2,25 @@ class EventsController < ApplicationController
   layout 'subpage'
 
   def index
-    if user_signed_in? && current_user.admin_or_staff?
-      @events      = Event.confirmed.upcoming
-      @past_events = Event.confirmed.archive
-    else
-      @events      = Event.public_and_confirmed.upcoming
-      @past_events = Event.public_and_confirmed.archive
-    end
+    events       = visible_events
+    @events      = events.upcoming
+    @past_events = events.archive
 
-    # Selected event drives the social-preview meta tags, so search past
-    # events too — shared links keep working after the event has happened.
-    if params[:id]
-      id = params[:id].to_i
-      @selected_event = @events.where(id: id).take || @past_events.where(id: id).take
+    # The selected event drives the social-preview meta tags. Looked up in the
+    # whole visible scope rather than in the two lists, so a shared link keeps
+    # working after the event has happened.
+    @selected_event = events.find_by(id: params[:id]) if params[:id]
+  end
+
+  private
+
+  # Events this visitor may see. The upcoming/archive split is a display
+  # concern, so it lives at the call site rather than in here.
+  def visible_events
+    if user_signed_in? && current_user.admin_or_staff?
+      Event.confirmed
+    else
+      Event.public_and_confirmed
     end
   end
 end

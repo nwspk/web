@@ -43,15 +43,19 @@ document.addEventListener('DOMContentLoaded', function () {
   update();
 });
 
-// Homepage TOC links carry the shareable event URL (/events?id=N#event-N) so
-// copying them yields a link with social-preview tags — but a normal click
-// should still just scroll down the homepage, where the same event rows live.
-// Intercept the click, scroll in place, and put the shareable URL in the
-// address bar so copy-after-click shares correctly too.
+// Event share links (/events?id=N#event-N) point at the events page so that
+// copying one yields a URL the server can hang social-preview tags on. But when
+// the page already contains the row they name — the homepage lists the same
+// events, in the TOC and again as rows — a plain click should scroll there
+// rather than navigate away. So: if the link's own fragment names an element in
+// this document, scroll to it and put the shareable URL in the address bar, so
+// copy-after-click still shares correctly. Modified and non-primary clicks are
+// left alone, so open-in-new-tab still opens the shareable URL.
 document.addEventListener('click', function (e) {
-  var link = e.target.closest('a[data-event-anchor]');
+  if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  var link = e.target.closest('a[href*="#event-"]');
   if (!link) return;
-  var target = document.getElementById(link.getAttribute('data-event-anchor'));
+  var target = link.hash && document.getElementById(link.hash.slice(1));
   if (!target) return;
   e.preventDefault();
   history.pushState(null, '', link.getAttribute('href'));
