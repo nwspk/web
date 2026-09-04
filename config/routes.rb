@@ -27,7 +27,8 @@ Rails.application.routes.draw do
   
   get '2025', to: 'home#course2025', as: :course2025
   get 'fieldwork25', to: redirect('https://docs.google.com/document/d/19eLJIlsOuKmC0sMlSqC-C8gGmI9XIOtS_8jQ5pHBuWc'), as: :fieldwork25
-  get 'pairwork25', to: redirect('https://docs.google.com/document/d/1ZSf8g-G3rbklbpEDq_WFCykOUy921ZQwb9YZvFPbhbw'), as: :pairwork25 
+  get 'pairwork25', to: redirect('https://docs.google.com/document/d/1ZSf8g-G3rbklbpEDq_WFCykOUy921ZQwb9YZvFPbhbw'), as: :pairwork25
+  get 'exclusion', to: redirect('https://docs.google.com/document/d/1sJESDvuz-M9hUeuUs-8SJrrp21afWRaYHQpYBFaJTEc'), as: :exclusion
 
   post 'webhooks', to: 'webhooks#index'
 
