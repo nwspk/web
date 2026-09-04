@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   get '2024', to: 'home#course2024', as: :course2024
   
   get '2025', to: 'home#course2025', as: :course2025
+  # 302 rather than the 301 the other short links use: earlier years became on-site pages,
+  # and a cached 301 would keep sending returning visitors to the doc after this one does too.
+  get '2026', to: redirect('https://docs.google.com/document/d/12tVn3welgutGo3xd4UGkIg__MZANENu7_Kd5lyS1SDg', status: 302), as: :course2026
   get 'fieldwork25', to: redirect('https://docs.google.com/document/d/19eLJIlsOuKmC0sMlSqC-C8gGmI9XIOtS_8jQ5pHBuWc'), as: :fieldwork25
   get 'pairwork25', to: redirect('https://docs.google.com/document/d/1ZSf8g-G3rbklbpEDq_WFCykOUy921ZQwb9YZvFPbhbw'), as: :pairwork25
   get 'exclusion', to: redirect('https://docs.google.com/document/d/1sJESDvuz-M9hUeuUs-8SJrrp21afWRaYHQpYBFaJTEc'), as: :exclusion
