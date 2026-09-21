@@ -16,6 +16,18 @@ class HomeController < ApplicationController
   }.freeze
   FEEDBACK_INCIDENT_FIELD = 'entry.48862705'.freeze
 
+  # Bot traps. Spam began when the form became native: generic form-fillers
+  # can't see into Google's iframe, but they can see a plain form on our page,
+  # and the CSRF token is no obstacle to anything that loads the page first.
+  # The honeypot is a field people never see, so only a bot fills it. The time
+  # trap is the signed moment the form was served: nobody completes three
+  # required fields within seconds of that. This form takes reports against
+  # individuals, so the traps are built never to catch a person — a missing
+  # stamp (form open across a deploy) passes; only a forged or too-fresh one
+  # is caught.
+  FEEDBACK_HONEYPOT = :subject
+  FEEDBACK_MIN_FILL_TIME = 3.seconds
+
   def index
     @events  = Event.public_and_confirmed.upcoming
     @fellows = User.fellows
@@ -49,7 +61,19 @@ class HomeController < ApplicationController
     @fellows = User.fellows
   end
 
+  def feedback
+    @served_at = feedback_stamp_verifier.generate(Time.current.to_i)
+  end
+
   def submit_feedback
+    if (trap = sprung_feedback_trap)
+      # Answer exactly as a success would, so a bot learns nothing. The log
+      # line is the audit trail should a person ever be caught: the request's
+      # own Parameters line beside it holds what they sent.
+      logger.warn("Feedback #{trap} sprung by #{request.remote_ip}; submission not relayed")
+      return redirect_to feedback_path(sent: 'recorded')
+    end
+
     answers  = FEEDBACK_FIELDS.keys.index_with { |key| params[key].to_s.strip }
     incident = params[:incident].to_s.strip
     # Browsers enforce `required`; anything arriving blank is not a real
@@ -73,6 +97,19 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def feedback_stamp_verifier
+    Rails.application.message_verifier(:feedback_served_at)
+  end
+
+  # Names the trap a submission fell into, or nil for one that looks human.
+  def sprung_feedback_trap
+    return 'honeypot' if params[FEEDBACK_HONEYPOT].present?
+    return if params[:served_at].blank?
+
+    served_at = feedback_stamp_verifier.verified(params[:served_at])
+    'time trap' if served_at.nil? || Time.current.to_i - served_at < FEEDBACK_MIN_FILL_TIME
+  end
 
   def resolve_layout
     action_name == 'index' ? 'home' : 'subpage'

@@ -28,6 +28,13 @@
   -# relays submissions to Google server-side (see HomeController#submit_feedback,
   -# which also documents how to update the field mapping if the form changes).
   = form_tag feedback_path, id: 'feedback-form' do
+    -# Bot traps (see HomeController): the signed time the form was served, and
+    -# a decoy field kept off-screen, out of the tab order and away from screen
+    -# readers and autofill, which only a bot will fill in.
+    = hidden_field_tag :served_at, @served_at
+    .form-group.form-group-extra{ 'aria-hidden': 'true' }
+      = label_tag HomeController::FEEDBACK_HONEYPOT, 'Subject (please leave this blank)'
+      = text_field_tag HomeController::FEEDBACK_HONEYPOT, nil, tabindex: -1, autocomplete: 'off'
     .form-group
       = label_tag :name, 'Your name'
       = text_field_tag :name, nil, required: true, autocomplete: 'name'

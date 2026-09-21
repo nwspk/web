@@ -877,6 +877,15 @@ label {
 #feedback-form .help-block {
   margin-bottom: 0.25em;
 }
+/* The feedback form's decoy field: present in the markup, never on screen.
+   Positioned away rather than display: none, which form-filling bots check. */
+#feedback-form .form-group-extra {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 
 /* The plaque: a full-viewport-width charcoal band above everything — roundel
    on the left third, the opening statement on the right two-thirds. */

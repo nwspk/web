@@ -16,6 +16,12 @@ RSpec.describe HomeController, type: :controller do
       expect(response).to have_http_status(:success)
       expect(response.body).to include('feedback-form')
     end
+
+    it "serves the form with both bot traps in place" do
+      get :feedback
+      expect(response.body).to include('name="served_at"')
+      expect(response.body).to include(%(name="#{HomeController::FEEDBACK_HONEYPOT}"))
+    end
   end
 
   describe "social preview tags" do
@@ -86,6 +92,40 @@ RSpec.describe HomeController, type: :controller do
       post :submit_feedback, params: params.merge(feedback: '  ')
       expect(response).to redirect_to(feedback_path)
       expect(ActionMailer::Base.deliveries).to be_empty
+    end
+
+    describe "bot traps" do
+      def stamp(time)
+        Rails.application.message_verifier(:feedback_served_at).generate(time.to_i)
+      end
+
+      # A caught bot sees the same thank-you a person would, and nothing
+      # reaches Google or the fallback inbox.
+      def expect_caught(extra)
+        expect(GoogleFormRelay).not_to receive(:submit)
+        post :submit_feedback, params: params.merge(extra)
+        expect(response).to redirect_to(feedback_path(sent: 'recorded'))
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+
+      it "catches a submission that filled the honeypot" do
+        expect_caught(HomeController::FEEDBACK_HONEYPOT => 'Cheap pills',
+                      served_at: stamp(1.minute.ago))
+      end
+
+      it "catches a submission made the moment the form was served" do
+        expect_caught(served_at: stamp(Time.current))
+      end
+
+      it "catches a forged served-at stamp" do
+        expect_caught(served_at: 1.hour.ago.to_i.to_s)
+      end
+
+      it "relays a submission made a human interval after the form was served" do
+        expect(GoogleFormRelay).to receive(:submit).and_return(true)
+        post :submit_feedback, params: params.merge(served_at: stamp(10.seconds.ago))
+        expect(response).to redirect_to(feedback_path(sent: 'recorded'))
+      end
     end
   end
 end
