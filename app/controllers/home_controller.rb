@@ -68,8 +68,8 @@ class HomeController < ApplicationController
   def submit_feedback
     if (trap = sprung_feedback_trap)
       # Answer exactly as a success would, so a bot learns nothing. The log
-      # line is the audit trail should a person ever be caught: the request's
-      # own Parameters line beside it holds what they sent.
+      # line records only that a trap fired: production logs through lograge,
+      # which keeps no request parameters, so what was sent is not retained.
       logger.warn("Feedback #{trap} sprung by #{request.remote_ip}; submission not relayed")
       return redirect_to feedback_path(sent: 'recorded')
     end

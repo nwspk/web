@@ -35,5 +35,17 @@ RSpec.describe ApiController, type: :controller do
       expect(response.body).to include 'BEGIN:VCALENDAR'
       expect(response.body).to include 'Ration Club'
     end
+
+    it 'carries recent and upcoming events but not the deep archive' do
+      Fabricate(:event, name: 'Recent event',   start_at: 1.month.ago,  end_at: 1.month.ago + 2.hours)
+      Fabricate(:event, name: 'Upcoming event', start_at: 1.week.from_now, end_at: 1.week.from_now + 2.hours)
+      Fabricate(:event, name: 'Archived event', start_at: 1.year.ago,   end_at: 1.year.ago + 2.hours)
+
+      get :events
+
+      expect(response.body).to include 'Recent event'
+      expect(response.body).to include 'Upcoming event'
+      expect(response.body).not_to include 'Archived event'
+    end
   end
 end

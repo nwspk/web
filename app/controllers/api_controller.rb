@@ -23,6 +23,12 @@ class ApiController < ApplicationController
     end
   end
 
+  # The feed carries the past six months plus everything upcoming. Proton
+  # Calendar refuses subscriptions over 1 MB, and the full archive (every
+  # public event since 2016) had reached 2.7 MB; this window keeps the feed
+  # around a quarter of that and stops it growing. The archive is /events.
+  ICS_WINDOW = 6.months
+
   def events
     cal = Icalendar::Calendar.new
     # Hint to clients (including Apple Calendar) that the calendar's canonical timezone is Europe/London
@@ -30,7 +36,7 @@ class ApiController < ApplicationController
     cal.append_custom_property('X-WR-TIMEZONE', 'Europe/London')
 
 
-    Event.public_and_confirmed.each do |ev|
+    Event.public_and_confirmed.where('end_at > ?', ICS_WINDOW.ago).order(:start_at).each do |ev|
       cal.event do |e|
         e.dtstart     = Icalendar::Values::DateTime.new(ev.start_at.utc, tzid: 'UTC')
         e.dtend       = Icalendar::Values::DateTime.new(ev.end_at.utc, tzid: 'UTC')
