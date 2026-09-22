@@ -39,7 +39,7 @@ RSpec.describe ApiController, type: :controller do
     it 'carries recent and upcoming events but not the deep archive' do
       Fabricate(:event, name: 'Recent event',   start_at: 1.month.ago,  end_at: 1.month.ago + 2.hours)
       Fabricate(:event, name: 'Upcoming event', start_at: 1.week.from_now, end_at: 1.week.from_now + 2.hours)
-      Fabricate(:event, name: 'Archived event', start_at: 1.year.ago,   end_at: 1.year.ago + 2.hours)
+      Fabricate(:event, name: 'Archived event', start_at: 2.years.ago,  end_at: 2.years.ago + 2.hours)
 
       get :events
 

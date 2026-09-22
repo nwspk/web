@@ -23,11 +23,12 @@ class ApiController < ApplicationController
     end
   end
 
-  # The feed carries the past six months plus everything upcoming. Proton
-  # Calendar refuses subscriptions over 1 MB, and the full archive (every
-  # public event since 2016) had reached 2.7 MB; this window keeps the feed
-  # around a quarter of that and stops it growing. The archive is /events.
-  ICS_WINDOW = 6.months
+  # The feed carries the past thirteen months plus everything upcoming, so a
+  # subscriber can always see the same week last year. Proton Calendar
+  # refuses subscriptions over 1 MB, and the full archive (every public event
+  # since 2016) had reached 2.7 MB; at ~300 events a year this window keeps
+  # the feed around 550 KB and stops it growing. The archive is /events.
+  ICS_WINDOW = 13.months
 
   def events
     cal = Icalendar::Calendar.new
