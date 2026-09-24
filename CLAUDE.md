@@ -18,6 +18,8 @@ Pushing to `master` deploys straight to production via GitHub Actions (pull → 
 
 The site speaks in print-shop terms: big images are "plates" that bleed to the viewport edge; smaller images take a solid ink-block offset shadow (never blur); colophon/contact lines are letter-spaced small caps; red means clickable; the charcoal sidebar carries the college book emblem. On the homepage the masthead plaque owns the identity and the sidebar fades in as the plaque roundel scrolls off.
 
+Type: Galaxie Copernicus (licensed; serif) and Lato (OFL; the small sans used for event dates/venues, pills, buttons, tables) are both self-hosted from `app/assets/fonts` as woff2 only — no Google Fonts link (it sends every visitor's IP to Google), and never serve or commit desktop OTF/TTF files: the repo is public and `design/fonts/` is gitignored for that reason.
+
 Layout must survive narrow windows (browser side panels are common): the text column is `minmax(0, 768px)` in both the `body` and `.home-columns` grids, and the sidebar's no-wrap contact line takes a fixed margin below 1330px so it can't clip. Don't reintroduce fixed track widths.
 
 ## Glossary

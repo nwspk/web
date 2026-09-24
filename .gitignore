@@ -34,3 +34,7 @@ Caddyfile
 /Newspeak House Fellowship Register.csv
 /fellow_photos_needed/
 *.dump
+
+# Retail desktop font files are licensed, not redistributable, and this repo is public.
+# The site serves its own web fonts from app/assets/fonts.
+/design/fonts/

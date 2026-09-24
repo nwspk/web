@@ -57,7 +57,7 @@ ActiveAdmin.register User do
     attributes_table do
       row :name
       row :email
-      row(:avatar) { |u| image_tag u.avatar_url || 'stock-profile-image.jpg' }
+      row(:avatar) { |u| image_tag u.avatar_url || 'default-face.jpg' }
       row :created_at
       row(:role) { |u| status_tag u.role }
       row :showcase

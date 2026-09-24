@@ -1,5 +1,3 @@
-require 'open-uri'
-
 module HomeHelper
   def profile_image_url(user)
     user.avatar.file.nil? ? default_avatar : user.avatar_url
@@ -13,15 +11,5 @@ module HomeHelper
   # default face for placeholder entries with no photo yet).
   def fellow_image(fellow)
     fellow['image'].presence || 'default-face.jpg'
-  end
-
-  def social_media_url(user)
-    if !user.twitter.nil?
-      user.twitter.profile_url
-    elsif !user.facebook.nil?
-      user.facebook.profile_url
-    else
-      ''
-    end
   end
 end

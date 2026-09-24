@@ -29,32 +29,26 @@ class HomeController < ApplicationController
   FEEDBACK_MIN_FILL_TIME = 3.seconds
 
   def index
-    @events  = Event.public_and_confirmed.upcoming
-    @fellows = User.fellows
-    @past_events = Event.public_and_confirmed.archive
+    @events = Event.public_and_confirmed.upcoming
   end
 
   def fellowship
-    # Static register loaded from config/fellows.yml (see lib/tasks / tmp scripts
-    # that generate it from the CSV register + scraped photos). Pre-sorted
-    # latest-cohort-first; group_by preserves that order.
+    # Static register loaded from config/fellows.yml, which is edited by hand
+    # (it was first built from the CSV register + scraped photos; that script
+    # was never committed). Pre-sorted latest-cohort-first; group_by preserves
+    # that order.
     fellows = YAML.load_file(Rails.root.join('config', 'fellows.yml'))
     @cohorts = fellows.group_by { |f| f['cohort'] }
   end
 
   def residency
-    @fellows = User.fellows
-    @alumni  = User.alumni
+    @alumni = User.alumni
   end
 
-  def study_with_us
-    @fellows = User.fellows
-    @alumni  = User.alumni
-  end
+  def study_with_us; end
 
   def course2023
     @fellows = User.fellows
-    @alumni  = User.alumni
   end
 
   def residents

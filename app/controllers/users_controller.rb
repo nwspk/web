@@ -6,11 +6,7 @@ class UsersController < ApplicationController
 
   def update
     current_user.update(user_params)
-
-    respond_to do |format|
-      format.json { respond_with_bip(current_user) }
-      format.html { redirect_to dashboard_path }
-    end
+    redirect_to dashboard_path
   end
 
   private
