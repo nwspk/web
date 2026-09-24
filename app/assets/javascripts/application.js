@@ -1,5 +1,7 @@
-//= require jquery
-//= require jquery_ujs
+// rails-ujs (shipped with Rails) drives the method: :delete / data-confirm
+// links (logout, cancel subscription, cancel account). Public pages need no
+// jQuery; /admin loads ActiveAdmin's own bundle, which brings jQuery 3.
+//= require rails-ujs
 
 // Close the mobile nav drawer when a link inside it is tapped
 // (matters for same-page anchors like /#events, where no page load happens)
