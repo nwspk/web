@@ -12,10 +12,6 @@ class Plan < ActiveRecord::Base
     Money.new(read_attribute(:value), 'GBP')
   end
 
-  def value_with_discount(user)
-    money_value - [user.discount / 12, money_value].min
-  end
-
   scope :visible,     -> { where(visible: true).order('id asc').offset(1) }
   scope :all_visible, -> { where(visible: true).order('id asc') }
 

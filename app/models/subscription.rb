@@ -11,10 +11,6 @@ class Subscription < ActiveRecord::Base
     subscription_id.present? && !active_until.nil? && active_until > Time.zone.now
   end
 
-  def grace_period?
-    !active_until.nil? && active_until < Time.zone.now
-  end
-
   def needs_checkout?
     customer_id.blank?
   end
