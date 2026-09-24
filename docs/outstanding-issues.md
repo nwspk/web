@@ -22,6 +22,18 @@ checkable condition under which to act. Delete an entry once it is done.
   in that case the answer is the rate limit or Turnstile, not this).
 - **Where:** `app/controllers/home_controller.rb`, `app/services/google_form_relay.rb`.
 
+## Drop the retired features' tables (PR #50)
+
+- **Item:** PR #50 (branch `drop-dead-tables`) drops connections, friend_edges,
+  addresses, rings, door_accesses and six dead columns, including sign-in IPs.
+  Merging deploys and runs the drop.
+- **Why deferred (2026-09-24):** Ed has no production access; @sirodoht was
+  asked to run row counts and take a full pg_dump before merging.
+- **Condition to act:** PR #50 is merged (`gh pr view 50 --json state`). Then
+  run `db:migrate` on the local dev database and delete this entry. If the
+  counts turned up anything surprising, Ed decides before merge instead.
+- **Where:** https://github.com/nwspk/web/pull/50
+
 ## Retail font files remain in git history
 
 - **Item:** The full Galaxie Copernicus desktop set (24 OTF/TTF files) was
