@@ -1,15 +1,12 @@
 ActiveAdmin.register User do
   config.batch_actions = false
 
-  permit_params :name, :email, :password, :password_confirmation, :showcase, :url, :showcase_text, :ring_size, :role, :notes, :avatar
+  permit_params :name, :email, :password, :password_confirmation, :showcase, :url, :showcase_text, :role, :notes, :avatar
 
   filter :name
   filter :email
-  filter :rings_uid_matches, as: :string, label: 'Ring UID'
 
   scope :all
-  scope :with_rings
-  scope :without_rings
   scope :with_subscription
   scope :fellows
   scope :alumni
@@ -20,22 +17,9 @@ ActiveAdmin.register User do
   scope :inactive
   scope :applicants
 
-  controller do
-    def scoped_collection
-      super.with_last_ring
-    end
-  end
-
   sidebar 'Extra User Details', only: [:show, :edit] do
     ul do
-      li(link_to('Facebook', user.facebook.profile_url)) unless user.facebook.nil?
-      li(link_to('Twitter', user.twitter.profile_url)) unless user.twitter.nil?
-      li(link_to('Rings', admin_user_rings_path(user)))
       li(link_to('Subscription', admin_subscription_path(user.subscription))) unless user.subscription.nil?
-
-      user.friends.each do |f|
-        li(link_to(f.to.name, admin_user_path(f.to)))
-      end
     end
   end
 
@@ -48,7 +32,6 @@ ActiveAdmin.register User do
     column :showcase
     column :showcase_text
     column(:subscription) { |u| status_tag u.subscription.try(:plan_name), class: (u.subscription.try(:active?) ? :active : :inactive) }
-    column('Last ring', sortable: :last_ring_created_at, &:last_ring_created_at)
 
     actions
   end
@@ -64,7 +47,6 @@ ActiveAdmin.register User do
       row :url
       row :showcase_text
       row :application_text
-      row :ring_size
       row(:subscription) { |u| status_tag u.subscription.try(:plan_name), class: (u.subscription.try(:active?) ? :active : :inactive) }
       row :notes
     end
@@ -100,7 +82,6 @@ ActiveAdmin.register User do
       input :showcase
       input :url
       input :showcase_text
-      input :ring_size, as: :select, collection: Ring::SIZES
       input :avatar, as: :file
 
       input :role, as: :select, collection: User::ROLES if current_user.id != user.id

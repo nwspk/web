@@ -22,19 +22,8 @@ class User < ActiveRecord::Base
   validates :role, inclusion: ROLES.values
   validates :url, format: { with: %r{\Ahttps?://}i, message: 'must start with http:// or https://' }, allow_blank: true
   validates_associated :subscription
-  validates :ring_size, inclusion: Ring::SIZES, unless: -> { ring_size.nil? }
 
-  has_one :address, dependent: :destroy
   has_one :subscription, dependent: :destroy
-  has_many :connections, dependent: :destroy
-  has_many :rings, dependent: :destroy
-  has_many :door_accesses, dependent: :destroy
-
-  has_many :friends, -> { includes(:to) }, class_name: 'FriendEdge', foreign_key: 'from_id', dependent: :destroy
-  has_many :followers, class_name: 'FriendEdge', foreign_key: 'to_id', dependent: :destroy
-
-  has_one :twitter,  -> { where(provider: 'twitter') },  class_name: 'Connection'
-  has_one :facebook, -> { where(provider: 'facebook') }, class_name: 'Connection'
 
   accepts_nested_attributes_for :subscription
 
@@ -53,9 +42,6 @@ class User < ActiveRecord::Base
 
   scope :with_subscription,  -> { joins(:subscription).where.not(subscriptions: { subscription_id: '' }) }
   scope :created_after_date, -> (date) { where('created_at > ?', date) }
-  scope :with_last_ring,     -> { select('users.*, (SELECT created_at FROM rings WHERE user_id = users.id ORDER BY created_at desc LIMIT 1) AS last_ring_created_at') }
-  scope :with_rings,         -> { with_last_ring.joins('LEFT OUTER JOIN rings ON rings.user_id = users.id ').group('users.id').having('count(rings.id) > 0') }
-  scope :without_rings,      -> { with_last_ring.joins('LEFT OUTER JOIN rings ON rings.user_id = users.id ').group('users.id').having('count(rings.id) = 0') }
 
   def admin?
     self.role == ROLES[:admin]
@@ -75,6 +61,19 @@ class User < ActiveRecord::Base
 
   def eligible_for_reminders?
     !excluded_from_graphs?
+  end
+
+  # Devise :trackable, minus the IP addresses: sign-in counts and times are a
+  # useful sign of whether an account is used, but nothing ever read the IPs,
+  # so they were personal data held for no purpose (columns dropped
+  # 2026-09-24). Mirrors Devise 4.9's own update_tracked_fields otherwise.
+  def update_tracked_fields(_request)
+    old_current, new_current = current_sign_in_at, Time.now.utc
+    self.last_sign_in_at     = old_current || new_current
+    self.current_sign_in_at  = new_current
+
+    self.sign_in_count ||= 0
+    self.sign_in_count += 1
   end
 
   def fellow?
@@ -99,18 +98,6 @@ class User < ActiveRecord::Base
 
   def applicant?
     self.role == ROLES[:applicant]
-  end
-
-  def overrides_entry_rules?
-    admin_or_staff? || fellow? || guest? || alumnus? || founder?
-  end
-
-  def discount
-    Money.new(self.friends.count('distinct to_id') * 100, 'GBP')
-  end
-
-  def needs_ring_size?
-    self.ring_size.nil?
   end
 
   private

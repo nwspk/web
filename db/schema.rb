@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_08_06_132745) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_24_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,42 +26,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_08_06_132745) do
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
-  end
-
-  create_table "addresses", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.string "recipient"
-    t.string "street"
-    t.string "city"
-    t.string "postal_code"
-    t.string "country"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["user_id"], name: "index_addresses_on_user_id"
-  end
-
-  create_table "connections", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.string "provider", default: "", null: false
-    t.string "uid", default: "", null: false
-    t.string "access_token", default: "", null: false
-    t.string "secret"
-    t.datetime "expires_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "profile_url"
-    t.string "username", default: "", null: false
-    t.index ["provider", "uid"], name: "index_connections_on_provider_and_uid", unique: true
-    t.index ["user_id"], name: "index_connections_on_user_id"
-  end
-
-  create_table "door_accesses", id: :serial, force: :cascade do |t|
-    t.integer "ring_id", null: false
-    t.integer "user_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["ring_id"], name: "index_door_accesses_on_ring_id"
-    t.index ["user_id"], name: "index_door_accesses_on_user_id"
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
@@ -81,19 +45,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_08_06_132745) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.text "short_description", default: "", null: false
-    t.string "gcal_id"
     t.index ["end_at"], name: "index_events_on_end_at"
     t.index ["start_at"], name: "index_events_on_start_at"
-  end
-
-  create_table "friend_edges", id: :serial, force: :cascade do |t|
-    t.integer "from_id", null: false
-    t.integer "to_id", null: false
-    t.string "network", default: "", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["from_id"], name: "index_friend_edges_on_from_id"
-    t.index ["to_id"], name: "index_friend_edges_on_to_id"
   end
 
   create_table "payments", id: :serial, force: :cascade do |t|
@@ -115,20 +68,10 @@ ActiveRecord::Schema[7.0].define(version: 2026_08_06_132745) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "visible", default: true, null: false
-    t.float "contribution", default: 0.0, null: false
-  end
-
-  create_table "rings", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.string "uid", default: "", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["user_id"], name: "index_rings_on_user_id"
   end
 
   create_table "staff_reminders", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
-    t.string "string", default: "", null: false
     t.integer "frequency"
     t.integer "last_id"
     t.datetime "created_at", precision: nil, null: false
@@ -159,14 +102,11 @@ ActiveRecord::Schema[7.0].define(version: 2026_08_06_132745) do
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at", precision: nil
     t.datetime "last_sign_in_at", precision: nil
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "role", default: "", null: false
     t.boolean "showcase", default: false, null: false
     t.string "url", default: "", null: false
-    t.float "ring_size"
     t.string "showcase_text", default: "", null: false
     t.text "application_text", default: "", null: false
     t.text "notes"
@@ -178,5 +118,4 @@ ActiveRecord::Schema[7.0].define(version: 2026_08_06_132745) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
-
 end
