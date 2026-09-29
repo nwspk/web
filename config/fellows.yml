@@ -1,4 +1,88 @@
 ---
+- name: Tess Buckley
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/tess-buckley.jpg
+  bio: ''
+  url: 
+- name: Joel Naoki Christoph
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/joel-naoki-christoph.jpg
+  bio: ''
+  url: 
+- name: Nathaniel Cooke
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/nathaniel-cooke.jpg
+  bio: ''
+  url: 
+- name: Noam Herberg
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/noam-herberg.jpg
+  bio: ''
+  url: 
+- name: Madison Karas
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/madison-karas.jpg
+  bio: ''
+  url: 
+- name: Mario Morvan
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/mario-morvan.jpg
+  bio: ''
+  url: 
+- name: Fernanda Munhoz
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/fernanda-munhoz.jpg
+  bio: ''
+  url: 
+- name: Niba
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/niba.jpg
+  bio: ''
+  url: 
+- name: Yiannis Ravanis
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/yiannis-ravanis.jpg
+  bio: ''
+  url: 
+- name: Rhianwen Rowlands
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/rhianwen-rowlands.jpg
+  bio: ''
+  url: 
+- name: Disha Shanbhag
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/disha-shanbhag.jpg
+  bio: ''
+  url: 
+- name: Anchit Som
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/anchit-som.jpg
+  bio: ''
+  url: 
+- name: William Wong
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/william-wong.jpg
+  bio: ''
+  url: 
+- name: Clara Yeo
+  cohort: 2026 Cohort
+  status: Fellowship Candidate
+  image: fellows/clara-yeo.jpg
+  bio: ''
+  url: 
 - name: Huda Abdirahim
   cohort: 2025 Cohort
   status: Fellowship Candidate

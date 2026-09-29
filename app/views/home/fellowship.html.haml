@@ -15,5 +15,7 @@
         %a{:href => "https://#{cohort_year}.newspeak.house"}= cohort
     - else
       %h3.cohort-heading= cohort
+    - if (photo = cohort_photo(cohort))
+      = image_tag photo, class: 'plate', alt: "The #{cohort.downcase}"
     - fellows.each do |fellow|
       = render partial: 'fellow', locals: { fellow: fellow }

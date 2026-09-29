@@ -12,4 +12,14 @@ module HomeHelper
   def fellow_image(fellow)
     fellow['image'].presence || 'default-face.jpg'
   end
+
+  # Cohort group photos, shown as a plate under the cohort's heading on
+  # /fellowship. Listed explicitly so a photo only appears once chosen.
+  COHORT_PHOTOS = {
+    '2025 Cohort' => '2025-cohort.jpg'
+  }.freeze
+
+  def cohort_photo(cohort)
+    COHORT_PHOTOS[cohort]
+  end
 end
