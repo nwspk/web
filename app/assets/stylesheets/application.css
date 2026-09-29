@@ -729,6 +729,10 @@ label {
   padding-bottom: 0.2em;
   margin-bottom: 1em;
 }
+/* A cohort's group photo sits between its heading and its fellows. */
+.cohort img.plate {
+  margin-bottom: 1.5em;
+}
 /* Linked cohort headings read as headings first, links on hover. */
 .cohort-heading a {
   color: inherit;
