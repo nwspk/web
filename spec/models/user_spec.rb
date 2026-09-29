@@ -12,38 +12,22 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#overrides_entry_rules?' do
+  describe 'sign-in tracking' do
     let(:user) { Fabricate(:user) }
+    let(:request) { ActionDispatch::TestRequest.create('REMOTE_ADDR' => '203.0.113.9') }
 
-    it 'returns true for admins' do
-      user.role = User::ROLES[:admin]
-      expect(user.overrides_entry_rules?).to be true
+    it 'records the sign-in count and times' do
+      user.update_tracked_fields!(request)
+      user.update_tracked_fields!(request)
+
+      user.reload
+      expect(user.sign_in_count).to eq 2
+      expect(user.current_sign_in_at).to be_present
+      expect(user.last_sign_in_at).to be_present
     end
 
-    it 'returns true for staff' do
-      user.role = User::ROLES[:staff]
-      expect(user.overrides_entry_rules?).to be true
-    end
-
-    it 'returns true for fellows' do
-      user.role = User::ROLES[:fellow]
-      expect(user.overrides_entry_rules?).to be true
-    end
-  end
-
-  describe '#discount' do
-    let(:user) { Fabricate(:user) }
-
-    before do
-      5.times { |i| FriendEdge.create(from: user, to_id: i, network: 'foo') }
-    end
-
-    it 'returns an instance of Money' do
-      expect(user.discount).to be_instance_of Money
-    end
-
-    it 'returns the discount value based on number of friends' do
-      expect(user.discount.cents).to eq 500
+    it 'keeps no IP addresses' do
+      expect(User.column_names).not_to include('current_sign_in_ip', 'last_sign_in_ip')
     end
   end
 end

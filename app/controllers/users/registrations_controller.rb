@@ -31,7 +31,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def update_resource(resource, params)
     email_changing = params[:email].present? && params[:email] != resource.email
 
-    # Allow no-password updates for low-risk fields (e.g. ring_size), but require
+    # Allow no-password saves when nothing sensitive changes, but require
     # the current password whenever the password OR the email is being changed —
     # otherwise an open session could silently take over the account by swapping
     # the email and triggering a password reset.
@@ -65,7 +65,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def account_update_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :ring_size)
+    params.require(:user).permit(:email, :password, :password_confirmation, :current_password)
   end
 
   def set_progress

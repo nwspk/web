@@ -1,12 +1,6 @@
 %u{:style => 'font: 14px/18px monospace'} It's time to talk to:
 %table#templateColumns{:border => '0', :cellpadding => '0', :cellspacing => '0', :width => '800'}
   %tr
-    -if @twitter_photo
-      %td.templateColumnContainer{:align => 'center', :valign => 'top', :width => '40%'}
-        %table{:border => '0', :cellpadding => '10', :cellspacing => '0', :width => '100%'}
-          %tr
-            %td.leftColumnContent
-              %img.columnImage{:src => @twitter_photo, :style => 'max-width:280px;', :width => '280'}
     %td.templateColumnContainer{:align => 'left', :valign => 'top', :width => '60%'}
       %table{:border => '0', :cellpadding => '10', :cellspacing => '0', :width => '100%'}
         %tr
@@ -21,18 +15,10 @@
         %tr
           %td{:style => 'padding-right: 18px; font: 14px/18px monospace'} Info:
           %td{:style => 'padding-right: 18px; font: 14px/18px monospace'}= @member.showcase_text
-        -if @member.try(:profile_url)
+        -if @member.url.present?
           %tr
             %td{:style => 'padding-right: 18px; font: 14px/18px monospace'} URL:
             %td{:style => 'padding-right: 18px; font: 14px/18px monospace'}= @member.url
-        -if @member.twitter.try(:profile_url)
-          %tr
-            %td{:style => 'padding-right: 18px; font: 14px/18px monospace'} Twitter:
-            %td{:style => 'padding-right: 18px; font: 14px/18px monospace'}= @member.twitter.try(:profile_url)
-        -if @twitter_bio
-          %tr
-            %td{:style => 'padding-right: 18px; font: 14px/18px monospace'} Twitter Bio:
-            %td{:style => 'padding-right: 18px; font: 14px/18px monospace'}= @twitter_bio
 %p{:style => 'color: #555'}
   You are receiving these e-mails because you're setup to receive periodic member reminders every #{pluralize(@reminder.frequency, 'hour')}. Contact ed@newspeak.house to change this.
 %p
