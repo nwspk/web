@@ -5,9 +5,10 @@ RSpec.describe Ability, 'admissions' do
   let(:event) { applicant.events.first }
   let(:models) { [Admissions::Round, Admissions::Applicant, Admissions::ApplicantEvent, Admissions::StaffMember] }
 
-  it 'gives a site admin without an admissions role no admissions access, but everything else as before' do
+  it 'gives a site admin without an admissions role only the staff list, and everything else as before' do
     ability = described_class.new(Fabricate(:user, role: 'admin'))
-    models.each { |model| expect(ability.can?(:read, model)).to be(false), model.name }
+    (models - [Admissions::StaffMember]).each { |model| expect(ability.can?(:read, model)).to be(false), model.name }
+    expect(ability.can?(:manage, Admissions::StaffMember)).to be true
     expect(ability.can?(:read, applicant)).to be false
     expect(ability.can?(:manage, :all)).to be true
     expect(ability.can?(:manage, User)).to be true

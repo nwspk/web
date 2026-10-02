@@ -6,6 +6,7 @@ module Admissions
     ROLES = %w[lead officer].freeze
 
     belongs_to :user
+    belongs_to :granted_by_user, class_name: 'User', optional: true
 
     validates :role, inclusion: { in: ROLES }
     validates :user_id, uniqueness: true

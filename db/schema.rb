@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_02_210000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_02_220000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -90,6 +90,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_02_210000) do
     t.string "role", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "granted_by_user_id"
+    t.index ["granted_by_user_id"], name: "index_admissions_staff_members_on_granted_by_user_id"
     t.index ["user_id"], name: "index_admissions_staff_members_on_user_id", unique: true
   end
 
@@ -188,6 +190,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_02_210000) do
   add_foreign_key "admissions_applicant_events", "users", column: "actor_user_id"
   add_foreign_key "admissions_applicants", "admissions_applicants", column: "previous_applicant_id"
   add_foreign_key "admissions_applicants", "admissions_rounds", column: "round_id"
+  add_foreign_key "admissions_staff_members", "users", column: "granted_by_user_id", on_delete: :nullify
   add_foreign_key "admissions_staff_members", "users", on_delete: :cascade
 
   execute <<~'SQL'

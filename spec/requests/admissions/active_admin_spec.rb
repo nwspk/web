@@ -60,17 +60,56 @@ RSpec.describe 'Admissions in ActiveAdmin (the fallback screens)', type: :reques
     end
   end
 
-  it 'keeps a site admin without an admissions role out of the admissions screens' do
-    sign_in Fabricate(:user, role: 'admin')
+  describe 'a site admin without an admissions role' do
+    let(:admin) { Fabricate(:user, role: 'admin') }
 
-    get '/admin'
-    expect(response).to have_http_status(:ok)
-    expect(response.body).not_to include('Admissions')
+    before { sign_in admin }
 
-    %W[/admin/admissions_applicants /admin/admissions_applicants/#{applicant.id} /admin/admissions_rounds
-       /admin/admissions_staff_members /admin/admissions_applicant_events].each do |path|
-      get path
-      expect(response).to redirect_to('/account'), path
+    it 'is kept out of applicants, the event log and rounds' do
+      get '/admin'
+      expect(response).to have_http_status(:ok)
+      %w[admissions_applicants admissions_applicant_events admissions_rounds].each do |path|
+        expect(response.body).not_to include("/admin/#{path}")
+      end
+
+      %W[/admin/admissions_applicants /admin/admissions_applicants/#{applicant.id} /admin/admissions_rounds
+         /admin/admissions_rounds/#{round.id}/edit /admin/admissions_applicant_events
+         /admin/admissions_applicant_events/#{applicant.events.first.id}].each do |path|
+        get path
+        expect(response).to redirect_to('/account'), path
+      end
+      patch "/admin/admissions_rounds/#{round.id}", params: { admissions_round: { name: 'Hijacked' } }
+      expect(round.reload.name).to eq 'Fellowship 2027'
+    end
+
+    it 'can grant the first lead, and the grant records who made it' do
+      get '/admin/admissions_staff_members'
+      expect(response).to have_http_status(:ok)
+      get '/admin/admissions_staff_members/new'
+      expect(response).to have_http_status(:ok)
+
+      first_lead = Fabricate(:user, name: 'First Lead')
+      post '/admin/admissions_staff_members', params: { admissions_staff_member: { user_id: first_lead.id, role: 'lead' } }
+      member = Admissions::StaffMember.for(first_lead)
+      expect(member).to be_lead
+      expect(member.granted_by_user).to eq admin
+
+      get '/admin/admissions_staff_members'
+      expect(response.body).to include('Granted by', admin.name)
+    end
+
+    it 'records whoever changes a role, and can remove one' do
+      member = Fabricate(:admissions_staff_member, role: 'officer')
+      patch "/admin/admissions_staff_members/#{member.id}", params: { admissions_staff_member: { role: 'lead' } }
+      expect(member.reload).to have_attributes(role: 'lead', granted_by_user: admin)
+
+      delete "/admin/admissions_staff_members/#{member.id}"
+      expect(Admissions::StaffMember.where(id: member.id)).not_to exist
+    end
+
+    it 'gets no way into /admissions from managing staff' do
+      get '/admissions'
+      expect(response).to have_http_status(:not_found)
     end
   end
 

@@ -74,13 +74,28 @@ ActiveAdmin.register Admissions::StaffMember, as: 'Admissions Staff Member' do
 
   permit_params :user_id, :role
 
+  # Whoever grants or changes a role is recorded against it.
+  before_save { |member| member.granted_by_user = current_user }
+
   filter :role, as: :select, collection: Admissions::StaffMember::ROLES
 
   index do
     column(:user) { |m| link_to m.user.name, admin_user_path(m.user) }
     column(:email) { |m| m.user.email }
     column(:role) { |m| status_tag m.role }
+    column('Granted by') { |m| m.granted_by_user&.name || 'Not recorded' }
+    column('Granted') { |m| m.updated_at }
     actions
+  end
+
+  show do
+    attributes_table do
+      row :user
+      row :role
+      row('Granted by') { |m| m.granted_by_user&.name || 'Not recorded' }
+      row :created_at
+      row :updated_at
+    end
   end
 
   form do |f|

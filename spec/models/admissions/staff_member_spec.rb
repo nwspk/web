@@ -21,6 +21,13 @@ RSpec.describe Admissions::StaffMember do
     expect(described_class.for(nil)).to be_nil
   end
 
+  it 'keeps the role, without a grantor, when the granting user is deleted' do
+    granter = Fabricate(:user, role: 'admin')
+    member = Fabricate(:admissions_staff_member, granted_by_user: granter)
+    granter.destroy
+    expect(member.reload.granted_by_user).to be_nil
+  end
+
   it 'goes when the user is deleted' do
     member = Fabricate(:admissions_staff_member)
     member.user.destroy
