@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_02_120000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_02_210000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,12 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_02_120000) do
     t.datetime "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "programme_fee_pence"
+    t.integer "accommodation_monthly_pence"
+    t.integer "scholarship_pot_pence"
+    t.jsonb "email_modes", default: {}, null: false
+    t.jsonb "staff_turnaround_days", default: {}, null: false
+    t.integer "reminder_interval_days", default: 7, null: false
     t.index ["name"], name: "index_admissions_rounds_on_name", unique: true
   end
 
