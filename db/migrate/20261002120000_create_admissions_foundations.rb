@@ -44,6 +44,10 @@ class CreateAdmissionsFoundations < ActiveRecord::Migration[7.2]
       t.date :complicated_check_back_on
 
       t.timestamps
+
+      # A withdrawn stub keeps no contact details (SPEC §9b).
+      t.check_constraint "stage <> 'withdrawn' OR (email IS NULL AND phone IS NULL AND name IS NULL)",
+                         name: 'admissions_applicants_withdrawn_scrubbed'
     end
     add_index :admissions_applicants, :stage
     add_index :admissions_applicants, 'round_id, lower(email)', unique: true,
@@ -64,5 +68,82 @@ class CreateAdmissionsFoundations < ActiveRecord::Migration[7.2]
       t.datetime :created_at, null: false
     end
     add_index :admissions_applicant_events, :kind
+
+    reversible do |dir|
+      dir.up { execute GUARDS }
+      dir.down { execute DROP_GUARDS }
+    end
   end
+
+  # Database-level guards, so the rules hold whatever Ruby does (update_all,
+  # update_columns, raw SQL). db/schema.rb carries them too: see
+  # config/initializers/schema_dumper_triggers.rb.
+  #
+  # - Applicant rows are written only inside Admissions::ApplicantChanges,
+  #   which sets admissions.service_write for the length of its transaction:
+  #   without it, inserts and changes to the cached state or the contact
+  #   details are refused. Applicants are never deleted.
+  # - The event log is append-only: no DELETE or TRUNCATE, and the only
+  #   UPDATE allowed blanks body and stamps redacted_at (withdrawal).
+  GUARDS = <<~SQL.freeze
+    CREATE OR REPLACE FUNCTION admissions_applicants_guard() RETURNS trigger
+    LANGUAGE plpgsql AS $$
+    BEGIN
+      IF TG_OP = 'DELETE' THEN
+        RAISE EXCEPTION 'admissions applicants are never deleted; withdraw them instead';
+      END IF;
+      IF current_setting('admissions.service_write', true) IS DISTINCT FROM 'on' THEN
+        IF TG_OP = 'INSERT' THEN
+          RAISE EXCEPTION 'admissions applicants are created only through Admissions::ApplicantChanges';
+        END IF;
+        IF (NEW.stage, NEW.stage_entered_at, NEW.held_from_stage, NEW.hold_reason, NEW.hold_until,
+            NEW.exited_from_stage, NEW.complicated, NEW.complicated_note, NEW.complicated_check_back_on,
+            NEW.email, NEW.phone, NEW.name)
+           IS DISTINCT FROM
+           (OLD.stage, OLD.stage_entered_at, OLD.held_from_stage, OLD.hold_reason, OLD.hold_until,
+            OLD.exited_from_stage, OLD.complicated, OLD.complicated_note, OLD.complicated_check_back_on,
+            OLD.email, OLD.phone, OLD.name) THEN
+          RAISE EXCEPTION 'admissions applicant state and contact details change only through Admissions::ApplicantChanges';
+        END IF;
+      END IF;
+      RETURN NEW;
+    END
+    $$;
+
+    CREATE TRIGGER admissions_applicants_guard
+      BEFORE INSERT OR UPDATE OR DELETE ON admissions_applicants
+      FOR EACH ROW EXECUTE FUNCTION admissions_applicants_guard();
+
+    CREATE OR REPLACE FUNCTION admissions_applicant_events_append_only() RETURNS trigger
+    LANGUAGE plpgsql AS $$
+    BEGIN
+      IF TG_OP = 'UPDATE'
+         AND NEW.body IS NULL AND NEW.redacted_at IS NOT NULL
+         AND (NEW.id, NEW.applicant_id, NEW.kind, NEW.actor_type, NEW.actor_user_id,
+              NEW.from_stage, NEW.to_stage, NEW.details, NEW.created_at)
+             IS NOT DISTINCT FROM
+             (OLD.id, OLD.applicant_id, OLD.kind, OLD.actor_type, OLD.actor_user_id,
+              OLD.from_stage, OLD.to_stage, OLD.details, OLD.created_at) THEN
+        RETURN NEW;
+      END IF;
+      RAISE EXCEPTION 'the admissions event log is append-only';
+    END
+    $$;
+
+    CREATE TRIGGER admissions_applicant_events_append_only
+      BEFORE UPDATE OR DELETE ON admissions_applicant_events
+      FOR EACH ROW EXECUTE FUNCTION admissions_applicant_events_append_only();
+
+    CREATE TRIGGER admissions_applicant_events_no_truncate
+      BEFORE TRUNCATE ON admissions_applicant_events
+      FOR EACH STATEMENT EXECUTE FUNCTION admissions_applicant_events_append_only();
+  SQL
+
+  DROP_GUARDS = <<~SQL.freeze
+    DROP TRIGGER IF EXISTS admissions_applicant_events_no_truncate ON admissions_applicant_events;
+    DROP TRIGGER IF EXISTS admissions_applicant_events_append_only ON admissions_applicant_events;
+    DROP FUNCTION IF EXISTS admissions_applicant_events_append_only();
+    DROP TRIGGER IF EXISTS admissions_applicants_guard ON admissions_applicants;
+    DROP FUNCTION IF EXISTS admissions_applicants_guard();
+  SQL
 end

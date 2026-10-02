@@ -67,7 +67,7 @@ RSpec.describe Admissions::NextStep do
 
   it 'restarts the clock when the stage changes' do
     applicant = applicant_at('invited', round: round)
-    Timecop.freeze(entered + 3.days) { applicant_changes.advance!(applicant, to: 'applied') }
+    Timecop.freeze(entered + 3.days) { applicant_changes(applicant).advance!(applicant, to: 'applied') }
     expect(applicant.next_step).to have_attributes(owner: :staff, due_at: entered + 10.days)
   end
 

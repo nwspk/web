@@ -7,7 +7,8 @@ module AdmissionsHelpers
     Admissions::ApplicantChanges.new(Admissions::Actor.staff(user))
   end
 
-  def applicant_changes = Admissions::ApplicantChanges.new(Admissions::Actor.applicant)
+  # Acting as the applicant whose record this is (nil: a new EOI).
+  def applicant_changes(applicant = nil) = Admissions::ApplicantChanges.new(Admissions::Actor.applicant(applicant))
   def system_changes = Admissions::ApplicantChanges.new(Admissions::Actor.system)
 
   # A new applicant, created by hand by staff at `stage`.
@@ -32,6 +33,27 @@ module AdmissionsHelpers
       end
     else
       create_applicant(stage: 'applied', round: round).tap { |a| s.exit!(a, to: state) }
+    end
+  end
+end
+
+module AdmissionsHelpers
+  # Expects the block to be refused, inside a savepoint so a database error
+  # doesn't poison the rest of the test's transaction.
+  def expect_refused(error = ActiveRecord::StatementInvalid, message = nil, &block)
+    ActiveRecord::Base.transaction(requires_new: true) do
+      expect(&block).to raise_error(error, message)
+      raise ActiveRecord::Rollback
+    end
+  end
+
+  # Runs raw writes with the service's permission, as ApplicantChanges does:
+  # for simulating tampering by someone who bypasses the service on purpose.
+  def with_service_write
+    ActiveRecord::Base.transaction(requires_new: true) do
+      ActiveRecord::Base.connection.execute("SELECT set_config('admissions.service_write', 'on', true)")
+      yield
+      ActiveRecord::Base.connection.execute("SELECT set_config('admissions.service_write', 'off', true)")
     end
   end
 end

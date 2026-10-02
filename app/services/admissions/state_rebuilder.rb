@@ -49,7 +49,6 @@ module Admissions
         enter(event, **cleared_hold, exited_from_stage: nil)
       when 'exited'
         enter(event, **cleared_hold, exited_from_stage: event.details['resume_stage'])
-        state.merge!(cleared_complicated) if event.to_stage == 'withdrawn'
       when 'flagged_complicated'
         state.merge!(complicated: true, complicated_note: event.body,
                      complicated_check_back_on: date(event, 'check_back_on'))

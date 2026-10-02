@@ -28,7 +28,26 @@ RSpec.describe Admissions::ApplicantEvent do
 
     it 'keeps the applicant from being deleted' do
       expect { applicant.destroy }.to raise_error(ActiveRecord::ReadOnlyRecord)
-      expect { applicant.delete }.to raise_error(ActiveRecord::InvalidForeignKey)
+    end
+
+    it 'refuses writes that bypass the model, at the database' do
+      rows = described_class.where(id: event.id)
+      expect_refused { rows.update_all(kind: 'moved') }
+      expect_refused { rows.update_all(body: 'rewritten') }
+      expect_refused { rows.update_all(body: nil) } # blanking must be stamped
+      expect_refused { rows.delete_all }
+      expect_refused { described_class.connection.execute('TRUNCATE admissions_applicant_events CASCADE') }
+      expect_refused(ActiveRecord::ReadOnlyRecord) { event.save(validate: false) }
+      expect(rows.first.attributes).to eq event.attributes
+    end
+
+    it 'allows only the redaction: blanking a body with a stamp' do
+      staff_changes.add_note!(applicant, body: 'Spoke on the phone')
+      note = applicant.events.last
+      at = Time.current.floor(6)
+      described_class.redact_bodies_for(applicant, at: at)
+      expect(note.reload).to have_attributes(body: nil, redacted_at: at, kind: 'note_added')
+      expect_refused { described_class.where(id: note.id).update_all(body: nil, redacted_at: at, kind: 'moved') }
     end
   end
 

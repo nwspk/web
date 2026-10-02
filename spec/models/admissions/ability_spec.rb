@@ -37,13 +37,13 @@ RSpec.describe Ability, 'admissions' do
     expect(ability.can?(:create, Admissions::StaffMember)).to be true
   end
 
-  it 'lets nobody change or delete the log, or delete an applicant' do
+  it 'lets nobody write the log directly, change or delete it, or delete an applicant' do
     user = Fabricate(:user, role: 'admin')
     Fabricate(:admissions_staff_member, user: user, role: 'lead')
     ability = described_class.new(user)
     expect(ability.can?(:update, event)).to be false
     expect(ability.can?(:destroy, event)).to be false
     expect(ability.can?(:destroy, applicant)).to be false
-    expect(ability.can?(:create, Admissions::ApplicantEvent)).to be true
+    expect(ability.can?(:create, Admissions::ApplicantEvent)).to be false
   end
 end

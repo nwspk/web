@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
 
   before_validation :set_default_role
   after_create :notify_admins
+  # Runs first, before the subscription is cancelled with Stripe: the
+  # admissions event log must keep naming who acted (FK restrict), so such a
+  # user can't be deleted, and nothing outside the database may change first.
+  before_destroy :keep_admissions_attribution, prepend: true
   before_destroy :terminate_subscription
 
   scope :admins,     -> { where(role: ROLES[:admin]) }
@@ -108,6 +112,13 @@ class User < ActiveRecord::Base
 
   def notify_admins
     AdminMailer.new_member_email(self).deliver_later
+  end
+
+  def keep_admissions_attribution
+    return unless Admissions::ApplicantEvent.exists?(actor_user_id: id)
+
+    errors.add(:base, 'has acted as admissions staff; remove their admissions role instead')
+    throw(:abort)
   end
 
   def terminate_subscription

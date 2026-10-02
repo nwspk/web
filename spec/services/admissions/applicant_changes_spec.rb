@@ -7,11 +7,10 @@ RSpec.describe Admissions::ApplicantChanges do
   let(:round) { Fabricate(:admissions_round) }
   let(:lead) { admissions_staff(role: 'lead') }
   let(:staff) { staff_changes(lead) }
-  let(:as_applicant) { applicant_changes }
   let(:as_system) { system_changes }
 
-  def changes_for(actor_type)
-    { 'staff' => staff, 'applicant' => as_applicant, 'system' => as_system }.fetch(actor_type)
+  def changes_for(actor_type, applicant)
+    { 'staff' => staff, 'applicant' => applicant_changes(applicant), 'system' => as_system }.fetch(actor_type)
   end
 
   # Whatever a test did, every applicant's cached state must still agree with
@@ -51,7 +50,7 @@ RSpec.describe Admissions::ApplicantChanges do
 
   describe '#create!' do
     it 'creates an EOI from the applicant with a created event' do
-      applicant = as_applicant.create!(round: round, email: 'someone@example.org')
+      applicant = applicant_changes.create!(round: round, email: 'someone@example.org')
 
       expect(applicant).to be_persisted
       expect(applicant.stage).to eq 'eoi'
@@ -69,7 +68,7 @@ RSpec.describe Admissions::ApplicantChanges do
 
     it 'lets only staff create past eoi' do
       expect {
- as_applicant.create!(round: round, email: Faker::Internet.email, stage: 'applied') }.to raise_error(not_permitted)
+ applicant_changes.create!(round: round, email: Faker::Internet.email, stage: 'applied') }.to raise_error(not_permitted)
       expect { as_system.create!(round: round, email: Faker::Internet.email) }.to raise_error(not_permitted)
     end
 
@@ -102,7 +101,7 @@ RSpec.describe Admissions::ApplicantChanges do
         it "#{from} → #{to} by #{actor_type}" do
           applicant = applicant_at(from)
           Timecop.freeze(1.day.from_now) do
-            changes_for(actor_type).advance!(applicant, to: to)
+            changes_for(actor_type, applicant).advance!(applicant, to: to)
           end
           applicant.reload
           expect(applicant.stage).to eq to
@@ -116,7 +115,7 @@ RSpec.describe Admissions::ApplicantChanges do
       (Admissions::Stages::ACTOR_TYPES - actors).each do |actor_type|
         it "refuses #{from} → #{to} by #{actor_type}" do
           applicant = applicant_at(from)
-          expect { changes_for(actor_type).advance!(applicant, to: to) }.to raise_error(not_permitted)
+          expect { changes_for(actor_type, applicant).advance!(applicant, to: to) }.to raise_error(not_permitted)
           expect(applicant.reload.stage).to eq from
           expect(applicant.events.count).to eq 1
         end
@@ -168,7 +167,7 @@ RSpec.describe Admissions::ApplicantChanges do
     Admissions::Stages::FUNNEL.reject { |s| Admissions::Stages.terminal?(s) }.each do |stage|
       it "holds from #{stage} and returns to #{stage}" do
         applicant = applicant_at(stage)
-        as_applicant.hold!(applicant, until_date: until_date, reason: 'Waiting to hear about a job')
+        applicant_changes(applicant).hold!(applicant, until_date: until_date, reason: 'Waiting to hear about a job')
         applicant.reload
         expect(applicant).to have_attributes(stage: 'on_hold', held_from_stage: stage, hold_until: until_date,
                                              hold_reason: 'Waiting to hear about a job', funnel_stage: stage)
@@ -207,7 +206,7 @@ RSpec.describe Admissions::ApplicantChanges do
     it 'lets the applicant return early, but not the system' do
       applicant = applicant_at('on_hold')
       expect { as_system.return_from_hold!(applicant) }.to raise_error(not_permitted)
-      as_applicant.return_from_hold!(applicant)
+      applicant_changes(applicant).return_from_hold!(applicant)
       expect(applicant.reload.stage).to eq 'applied'
     end
 
@@ -263,11 +262,11 @@ complicated_check_back_on: Date.current + 5)
     it 'is staff-only' do
       applicant = create_applicant
       expect {
- as_applicant.flag_complicated!(applicant, note: 'x', check_back_on: Date.current) }.to raise_error(not_permitted)
+ applicant_changes(applicant).flag_complicated!(applicant, note: 'x', check_back_on: Date.current) }.to raise_error(not_permitted)
       expect {
  as_system.flag_complicated!(applicant, note: 'x', check_back_on: Date.current) }.to raise_error(not_permitted)
       staff.flag_complicated!(applicant, note: 'x', check_back_on: Date.current)
-      expect { as_applicant.clear_complicated!(applicant) }.to raise_error(not_permitted)
+      expect { applicant_changes(applicant).clear_complicated!(applicant) }.to raise_error(not_permitted)
     end
 
     it 'cannot be set on an exit state, or cleared when not set' do
@@ -322,7 +321,8 @@ complicated_check_back_on: Date.current + 5)
     end
 
     it 'is staff-only' do
-      expect { as_applicant.move!(create_applicant, to: 'offered') }.to raise_error(not_permitted)
+      applicant = create_applicant
+      expect { applicant_changes(applicant).move!(applicant, to: 'offered') }.to raise_error(not_permitted)
       expect { as_system.move!(create_applicant, to: 'offered') }.to raise_error(not_permitted)
     end
 
@@ -358,7 +358,7 @@ complicated_check_back_on: Date.current + 5)
       actors.each do |actor_type|
         it "lets #{actor_type} exit to #{to}" do
           applicant = create_applicant(stage: 'offered')
-          changes_for(actor_type).exit!(applicant, to: to)
+          changes_for(actor_type, applicant).exit!(applicant, to: to)
           expect(applicant.reload.stage).to eq to
           expect(applicant.events.last.actor_type).to eq actor_type
         end
@@ -367,7 +367,7 @@ complicated_check_back_on: Date.current + 5)
       (Admissions::Stages::ACTOR_TYPES - actors).each do |actor_type|
         it "refuses #{to} by #{actor_type}" do
           applicant = create_applicant(stage: 'offered')
-          expect { changes_for(actor_type).exit!(applicant, to: to) }.to raise_error(not_permitted)
+          expect { changes_for(actor_type, applicant).exit!(applicant, to: to) }.to raise_error(not_permitted)
           expect(applicant.reload.stage).to eq 'offered'
         end
       end
@@ -412,9 +412,10 @@ complicated_check_back_on: Date.current + 5)
     end
     let!(:later) { create_applicant(round: Fabricate(:admissions_round), previous_applicant: applicant) }
 
-    before { as_applicant.withdraw!(applicant) }
+    before { applicant_changes(applicant).withdraw!(applicant) }
 
     it 'blanks the personal fields and free text, keeping an anonymised stub' do
+      expect(applicant.email).to be_nil # the object passed in is reloaded
       applicant.reload
       expect(applicant).to have_attributes(email: nil, phone: nil, name: nil, hold_reason: nil, complicated: false,
                                            complicated_note: nil, complicated_check_back_on: nil,
@@ -424,16 +425,22 @@ complicated_check_back_on: Date.current + 5)
 
     it "blanks the free text in the applicant's events but keeps the events" do
       events = applicant.events.reload
-      expect(events.map(&:kind)).to eq %w[created note_added held flagged_complicated exited]
+      expect(events.map(&:kind)).to eq %w[created note_added held flagged_complicated cleared_complicated exited]
       expect(events.map(&:body)).to all(be_nil)
       expect(events.select(&:redacted_at).map(&:kind)).to eq %w[note_added held flagged_complicated]
       expect(events.last).to have_attributes(actor_type: 'applicant', to_stage: 'withdrawn')
     end
 
-    it 'unlinks the stub from the same person in other rounds' do
-      expect(applicant.reload.previous_applicant).to be_nil
-      expect(later.reload.previous_applicant).to be_nil
-      expect(earlier.reload.email).to be_present
+    it "keeps the links to the same person's records in other rounds, which keep their data" do
+      expect(applicant.reload.previous_applicant).to eq earlier
+      expect(later.reload.previous_applicant).to eq applicant
+      expect(applicant.person_records).to eq [earlier, applicant, later]
+      expect([earlier.reload.email, later.email]).to all(be_present)
+    end
+
+    it 'lets staff withdraw each linked record for a full erasure' do
+      applicant.person_records.reject(&:withdrawn?).each { |record| staff.withdraw!(record) }
+      expect([earlier, applicant, later].map { |r| r.reload.email }).to all(be_nil)
     end
 
     it "leaves other applicants' events alone" do
@@ -450,8 +457,8 @@ complicated_check_back_on: Date.current + 5)
   describe '#reopen!' do
     it 'returns a deferred applicant to the stage they deferred from' do
       applicant = create_applicant(stage: 'task_sent', round: round)
-      as_applicant.exit!(applicant, to: 'deferred')
-      as_applicant.reopen!(applicant)
+      applicant_changes(applicant).exit!(applicant, to: 'deferred')
+      applicant_changes(applicant).reopen!(applicant)
       expect(applicant.reload).to have_attributes(stage: 'task_sent', exited_from_stage: nil)
       expect(applicant.events.last).to have_attributes(kind: 'reopened', from_stage: 'deferred', to_stage: 'task_sent')
     end
@@ -466,7 +473,7 @@ complicated_check_back_on: Date.current + 5)
     it 'lets the applicant reopen only while the round is open; staff always' do
       applicant = applicant_at('deferred', round: round)
       round.update!(closed_at: Time.current)
-      expect { as_applicant.reopen!(applicant) }.to raise_error(not_permitted)
+      expect { applicant_changes(applicant).reopen!(applicant) }.to raise_error(not_permitted)
       staff.reopen!(applicant)
       expect(applicant.reload.stage).to eq 'applied'
     end
@@ -490,14 +497,15 @@ complicated_check_back_on: Date.current + 5)
 
     it 'needs text and staff' do
       expect { staff.add_note!(create_applicant, body: '') }.to raise_error(illegal)
-      expect { as_applicant.add_note!(create_applicant, body: 'x') }.to raise_error(not_permitted)
+      applicant = create_applicant
+      expect { applicant_changes(applicant).add_note!(applicant, body: 'x') }.to raise_error(not_permitted)
     end
   end
 
   describe '#update_details!' do
     it 'changes contact details and logs the field names, not the values' do
       applicant = create_applicant
-      as_applicant.update_details!(applicant, phone: '+44 20 7946 0000', name: 'A. N. Other')
+      applicant_changes(applicant).update_details!(applicant, phone: '+44 20 7946 0000', name: 'A. N. Other')
       event = applicant.events.reload.last
       expect(event).to have_attributes(kind: 'details_changed', body: nil, details: { 'fields' => %w[phone name] })
       expect(event.attributes.values.join).not_to include('7946')
@@ -520,12 +528,110 @@ complicated_check_back_on: Date.current + 5)
       officer = admissions_staff(role: 'officer')
       applicant = create_applicant(by: staff)
       staff_changes(officer).advance!(applicant, to: 'invited')
-      as_applicant.advance!(applicant, to: 'applied')
+      applicant_changes(applicant).advance!(applicant, to: 'applied')
       as_system.exit!(applicant, to: 'deferred')
 
       expect(applicant.events.map { |e| [e.actor_type, e.actor_user] }).to eq [
         ['staff', lead], ['staff', officer], ['applicant', nil], ['system', nil]
       ]
+    end
+  end
+
+  describe 'an applicant acts only on their own record' do
+    it 'refuses an applicant actor acting on another record' do
+      mine = create_applicant(stage: 'invited')
+      theirs = create_applicant(stage: 'invited')
+      expect { applicant_changes(mine).advance!(theirs, to: 'applied') }.to raise_error(not_permitted)
+      expect { applicant_changes.advance!(theirs, to: 'applied') }.to raise_error(not_permitted)
+      applicant_changes(mine.id).advance!(mine, to: 'applied')
+      expect([mine.reload.stage, theirs.reload.stage]).to eq %w[applied invited]
+    end
+
+    it 'creates an EOI only as a new applicant' do
+      existing = create_applicant
+      expect { applicant_changes(existing).create!(round: round, email: Faker::Internet.email) }
+        .to raise_error(not_permitted)
+    end
+
+    it 'names the applicant only on an applicant actor' do
+      expect { described_class.new(Admissions::Actor.new('system', nil, 1)) }.to raise_error(ArgumentError)
+      expect { described_class.new(Admissions::Actor.new('staff', lead, 1)) }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe "exits clear \"it's complicated\"" do
+    %w[deferred declined rejected withdrawn].each do |to|
+      it "clears the flag on #{to}, with its own event, so nobody is left flagged at a terminal stage" do
+        applicant = create_applicant(stage: 'offered')
+        staff.flag_complicated!(applicant, note: 'Unsure', check_back_on: Date.current + 3)
+        applicant_changes(applicant).exit!(applicant, to: to) unless to == 'rejected'
+        staff.exit!(applicant, to: to) if to == 'rejected'
+
+        expect(applicant.reload).to have_attributes(stage: to, complicated: false, complicated_note: nil,
+                                                    complicated_check_back_on: nil)
+        expect(applicant.events.last(2).map(&:kind)).to eq %w[cleared_complicated exited]
+        expect(applicant.events.last(2).map(&:actor_type).uniq).to eq [to == 'rejected' ? 'staff' : 'applicant']
+        expect(applicant.next_step).to be_nil
+      end
+    end
+
+    it 'logs no clearing when there was no flag' do
+      applicant = create_applicant
+      staff.exit!(applicant, to: 'deferred')
+      expect(applicant.events.map(&:kind)).to eq %w[created exited]
+    end
+  end
+
+  describe 'the object passed in' do
+    it 'may be dirty: the change works on a fresh copy, then reloads it' do
+      applicant = create_applicant
+      applicant.name = 'Unsaved Name'
+      staff.advance!(applicant, to: 'invited')
+      expect(applicant).to have_attributes(stage: 'invited', changed?: false)
+      expect(applicant.name).not_to eq 'Unsaved Name'
+    end
+
+    it 'is left exactly as it was when a change fails' do
+      applicant = create_applicant
+      applicant.name = 'Unsaved Name'
+      expect { staff.advance!(applicant, to: 'confirmed') }.to raise_error(illegal)
+      expect { staff.update_details!(applicant, email: 'bad') }.to raise_error(ActiveRecord::RecordInvalid)
+      expect(applicant).to have_attributes(stage: 'eoi', name: 'Unsaved Name', changed?: true)
+    end
+  end
+
+  describe 'a duplicate EOI race' do
+    it 'turns the unique index violation into a validation error' do
+      allow_any_instance_of(ActiveRecord::Validations::UniquenessValidator).to receive(:validate_each)
+      applicant_changes.create!(round: round, email: 'race@example.org')
+
+      expect { applicant_changes.create!(round: round, email: 'RACE@example.org') }
+        .to raise_error(ActiveRecord::RecordInvalid, /Email has already been taken/)
+      expect(round.applicants.count).to eq 1
+    end
+
+    it 'does the same for a contact-detail change' do
+      allow_any_instance_of(ActiveRecord::Validations::UniquenessValidator).to receive(:validate_each)
+      create_applicant(round: round, email: 'taken@example.org')
+      other = create_applicant(round: round)
+      expect { staff.update_details!(other, email: 'taken@example.org') }.to raise_error(ActiveRecord::RecordInvalid)
+      expect(other.reload.email).not_to eq 'taken@example.org'
+    end
+  end
+
+  describe 'the service write permission' do
+    it 'is on only inside a change, never after one, whether it succeeds or fails' do
+      applicant = create_applicant
+      seen = nil
+      allow(Admissions::ApplicantEvent).to receive(:create!).and_wrap_original do |original, **args|
+        seen = Admissions::Applicant.service_write_allowed?
+        original.call(**args)
+      end
+      staff.advance!(applicant, to: 'invited')
+      expect(seen).to be true
+      expect(Admissions::Applicant.service_write_allowed?).to be false
+      expect { staff.advance!(applicant, to: 'confirmed') }.to raise_error(illegal)
+      expect(Admissions::Applicant.service_write_allowed?).to be false
     end
   end
 

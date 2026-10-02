@@ -21,7 +21,8 @@ RSpec.describe Admissions::StateRebuilder do
   it 'finds a row changed behind the log' do
     applicant = create_applicant
     good = create_applicant
-    Admissions::Applicant.where(id: applicant.id).update_all(stage: 'confirmed') # rubocop:disable Rails/SkipsModelValidations
+    # Only someone deliberately bypassing the service can do this now.
+    with_service_write { Admissions::Applicant.where(id: applicant.id).update_all(stage: 'confirmed') }
 
     expect(described_class.discrepancies(applicant)).to eq(stage: { cached: 'confirmed', rebuilt: 'eoi' })
     expect(described_class).not_to be_consistent(applicant)

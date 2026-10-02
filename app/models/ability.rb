@@ -28,7 +28,7 @@ class Ability
     if staff
       can :read, Admissions::Round
       can :manage, Admissions::Applicant
-      can %i[read create], Admissions::ApplicantEvent
+      can :read, Admissions::ApplicantEvent # written only by Admissions::ApplicantChanges
       can :read, Admissions::StaffMember
       can :manage, [Admissions::Round, Admissions::StaffMember] if staff.lead?
     end

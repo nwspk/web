@@ -8,7 +8,12 @@ module Admissions
   #
   # Raises IllegalChange for a move the stage machine does not allow,
   # NotPermitted when this actor may not make it, and
-  # ActiveRecord::RecordInvalid for bad input.
+  # ActiveRecord::RecordInvalid for bad input (including an email already
+  # taken in the round, even when two requests race).
+  #
+  # Each method works on a freshly locked copy of the applicant, so a stale
+  # or dirty object passed in is never trusted; on success the object passed
+  # in is reloaded, and on failure it is left exactly as it was.
   class ApplicantChanges
     class IllegalChange < StandardError; end
     class NotPermitted < StandardError; end
@@ -32,23 +37,22 @@ module Admissions
       raise IllegalChange, "cannot create an applicant at #{stage}" unless Stages::FUNNEL.include?(stage)
 
       permit!(stage == 'eoi' ? %w[applicant staff] : %w[staff], "create an applicant at #{stage}")
+      raise NotPermitted, 'an applicant acts only on their own record' if actor.applicant? && actor.applicant_id
 
-      Applicant.transaction do
+      applicant = Applicant.new(round: round, email: email, phone: phone, name: name,
+                                previous_applicant: previous_applicant)
+      service_write(applicant) do
         now = timestamp
-        applicant = Applicant.new(round: round, email: email, phone: phone, name: name,
-                                  previous_applicant: previous_applicant)
-        applicant.writing_through_service do
-          applicant.assign_attributes(stage: stage, stage_entered_at: now)
-          applicant.save!
-        end
+        applicant.assign_attributes(stage: stage, stage_entered_at: now)
+        applicant.save!
         log!(applicant, 'created', now, to: stage)
-        applicant
       end
+      applicant
     end
 
     # One step along the funnel (Stages::TRANSITIONS).
     def advance!(applicant, to:)
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         from = applicant.stage
         raise IllegalChange, 'return the applicant from hold first' if applicant.on_hold?
         raise IllegalChange, "#{from} → #{to} is not a legal transition" unless Stages.transition?(from, to)
@@ -62,7 +66,7 @@ module Admissions
     # On hold until a date, with a reason; returning goes back to the stage
     # the applicant was held from.
     def hold!(applicant, until_date:, reason:)
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         from = applicant.stage
         raise IllegalChange, "cannot hold an applicant at #{from}" unless Stages.holdable?(from)
 
@@ -80,7 +84,7 @@ module Admissions
     end
 
     def return_from_hold!(applicant)
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         raise IllegalChange, 'the applicant is not on hold' unless applicant.on_hold?
 
         permit!(Stages::RETURN_ACTORS, 'return an applicant from hold')
@@ -98,7 +102,7 @@ module Admissions
     # to fast-track or correct (SPEC §3a). Ends any hold. `emails` are the
     # keys ticked in preview_move's list.
     def move!(applicant, to:, emails: [], note: nil)
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         from = applicant.stage
         permit!(Stages::MOVE_ACTORS, 'move an applicant to any stage')
         raise IllegalChange, 'a withdrawn applicant cannot be moved' if applicant.withdrawn?
@@ -114,16 +118,23 @@ module Admissions
       end
     end
 
-    # Leave the funnel: deferred, declined, rejected or withdrawn. Withdrawal
-    # scrubs the applicant's personal data, keeping an anonymised stub.
+    # Leave the funnel. `deferred` is "not this year": the record is kept and
+    # reminded when the next round opens. `withdrawn` is "remove my details":
+    # personal data is scrubbed, keeping an anonymised stub (SPEC §3, §9b).
+    # Dropping out is not withdrawing. Any exit clears "it's complicated",
+    # with its own event, so no flagged applicant sits in a terminal stage.
     def exit!(applicant, to:, note: nil)
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         from = applicant.stage
         raise IllegalChange, "#{to} is not an exit state" unless Stages::EXITS.include?(to)
         raise IllegalChange, "cannot go from #{from} to #{to}" unless Stages.exit_reachable?(from, to)
 
         permit!(Stages::EXIT_ACTORS.fetch(to), "move an applicant to #{to}")
         resume = Stages.exit?(from) ? applicant.exited_from_stage : applicant.funnel_stage
+        if applicant.complicated?
+          applicant.assign_attributes(**cleared_complicated)
+          log!(applicant, 'cleared_complicated', now)
+        end
         applicant.assign_attributes(stage: to, stage_entered_at: now, exited_from_stage: resume, **cleared_hold)
         log!(applicant, 'exited', now, from: from, to: to, details: { 'resume_stage' => resume }, body: note.presence)
         scrub!(applicant, now) if to == 'withdrawn'
@@ -137,7 +148,7 @@ module Admissions
     # A deferred applicant comes back to the stage they deferred from. The
     # applicant can do this only while the round is open; staff can always.
     def reopen!(applicant)
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         raise IllegalChange, 'only a deferred applicant can be reopened' unless applicant.stage == 'deferred'
 
         permit!(Stages::REOPEN_ACTORS, 'reopen a deferred applicant')
@@ -154,7 +165,7 @@ module Admissions
     # "It's complicated" is a flag, not a stage: the applicant keeps their
     # stage (and hold); the flag needs a note and a check-back date.
     def flag_complicated!(applicant, note:, check_back_on:)
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         permit!(Stages::FLAG_ACTORS, "flag an applicant \"it's complicated\"")
         raise IllegalChange, "cannot flag an applicant at #{applicant.stage}" if Stages.exit?(applicant.stage)
 
@@ -169,7 +180,7 @@ module Admissions
     end
 
     def clear_complicated!(applicant)
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         permit!(Stages::FLAG_ACTORS, "clear \"it's complicated\"")
         raise IllegalChange, "the applicant is not flagged \"it's complicated\"" unless applicant.complicated?
 
@@ -179,7 +190,7 @@ module Admissions
     end
 
     def add_note!(applicant, body:)
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         permit!(Stages::NOTE_ACTORS, 'add a note')
         raise IllegalChange, 'a withdrawn applicant takes no notes' if applicant.withdrawn?
 
@@ -194,7 +205,7 @@ module Admissions
       unknown = attrs.keys - Applicant::PERSONAL_FIELDS
       raise ArgumentError, "not a contact field: #{unknown.join(', ')}" if unknown.any?
 
-      change!(applicant) do |now|
+      change!(applicant) do |applicant, now|
         permit!(Stages::DETAILS_ACTORS, 'change contact details')
         raise IllegalChange, 'a withdrawn applicant has no details' if applicant.withdrawn?
 
@@ -211,6 +222,7 @@ module Admissions
         raise ArgumentError, "unknown actor #{actor.inspect}"
       end
       raise ArgumentError, 'only a staff actor names a user' if !actor.staff? && actor.user
+      raise ArgumentError, 'only an applicant actor names an applicant' if !actor.applicant? && actor.applicant_id
       return unless actor.staff?
 
       return if actor.user && Ability.new(actor.user).can?(:update, Applicant)
@@ -226,18 +238,42 @@ module Admissions
       raise IllegalChange, message if text.blank?
     end
 
-    # Locks the row, lets the block assign the new state and log its event,
-    # then saves — all in one transaction.
+    # Locks a fresh copy of the row, lets the block assign the new state and
+    # log its event, then saves — all in one transaction. The caller's object
+    # is reloaded once the change has committed.
     def change!(applicant)
-      Applicant.transaction do
-        applicant.lock!
-        now = timestamp
-        applicant.writing_through_service do
-          yield now
-          applicant.save!
-        end
-        applicant
+      if actor.applicant? && actor.applicant_id != applicant.id
+        raise NotPermitted, 'an applicant acts only on their own record'
       end
+
+      fresh = nil
+      service_write(applicant) do
+        fresh = Applicant.lock.find(applicant.id)
+        yield fresh, timestamp
+        fresh.save!
+      end
+      applicant.reload
+    end
+
+    # The one transaction every write runs in. Inside it, and only inside it,
+    # admissions.service_write is on, which the applicant validation and the
+    # database trigger both require. A savepoint (requires_new) means a
+    # failed change rolls the setting back with everything else.
+    def service_write(record)
+      Applicant.transaction(requires_new: true) do
+        allow_service_write('on')
+        yield
+        allow_service_write('off')
+      end
+    rescue ActiveRecord::RecordNotUnique
+      record.errors.add(:email, :taken)
+      raise ActiveRecord::RecordInvalid, record
+    end
+
+    def allow_service_write(value)
+      Applicant.connection.select_value(
+        Applicant.sanitize_sql(["SELECT set_config('admissions.service_write', ?, true)", value])
+      )
     end
 
     def log!(applicant, kind, now, from: nil, to: nil, details: {}, body: nil)
@@ -245,10 +281,11 @@ module Admissions
                              from_stage: from, to_stage: to, details: details, body: body, created_at: now)
     end
 
+    # Withdrawal scrubs this round's record only (Ed, 2026-10-02); the links
+    # to the person's records in other rounds are kept, so staff can find
+    # them all with Applicant#person_records and withdraw each one.
     def scrub!(applicant, now)
       applicant.assign_attributes(Applicant::PERSONAL_FIELDS.index_with(nil))
-      applicant.assign_attributes(previous_applicant: nil, **cleared_complicated)
-      Applicant.where(previous_applicant_id: applicant.id).update_all(previous_applicant_id: nil)
       ApplicantEvent.redact_bodies_for(applicant, at: now)
     end
 

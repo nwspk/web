@@ -8,6 +8,9 @@ module Admissions
       interview_booked interviewed offered accepted contracts_sent confirmed
     ].freeze
     ON_HOLD = 'on_hold'.freeze
+    # deferred = not this year: kept, and reminded when the next round opens.
+    # withdrawn = remove my details: scrubbed to an anonymised stub. Someone
+    # dropping out is deferred, not withdrawn, unless they ask for removal.
     EXITS = %w[deferred declined rejected withdrawn].freeze
     ALL = (FUNNEL + [ON_HOLD] + EXITS).freeze
     TERMINAL = (['confirmed'] + EXITS).freeze
