@@ -1,0 +1,42 @@
+- content_for :page_title do
+  = @round.name
+
+- content_for :back_link do
+  = admissions_root_path
+
+- if can?(:update, @round)
+  %p= link_to 'Edit settings', edit_admissions_round_path(@round)
+
+%p= render 'dates', round: @round
+
+%h3 Money
+%table
+  %tbody
+    %tr
+      %th Programme fee
+      %td= @round.programme_fee&.format || 'Not set'
+    %tr
+      %th Accommodation, per month
+      %td= @round.accommodation_monthly&.format || 'Not set'
+    %tr
+      %th Scholarship pot
+      %td= @round.scholarship_pot&.format || 'None'
+
+%h3 Timings
+%table
+  %tbody
+    %tr
+      %th Reminder interval
+      %td= pluralize(@round.reminder_interval_days, 'day')
+    - Admissions::Round.staff_stages.each do |stage|
+      %tr
+        %th Staff turnaround: #{Admissions::Stages.label(stage)}
+        %td= pluralize(@round.staff_turnaround(stage).in_days.to_i, 'day')
+
+%h3 Email modes
+%table
+  %tbody
+    - Admissions::EmailTypes::TYPES.each do |type, label|
+      %tr
+        %th= label
+        %td= Admissions::EmailTypes::MODES.fetch(@round.email_mode(type))

@@ -10,10 +10,9 @@ module Admissions
   #   date while "it's complicated" (which takes precedence over the stage).
   #
   # A nil due_at means the applicant has no due time; the daily check (later)
-  # flags those. The defaults become round-config settings in a later piece.
+  # flags those. The reminder interval and the staff turnarounds are the
+  # applicant's round settings (7 days unless changed).
   NextStep = Struct.new(:description, :owner, :due_at, keyword_init: true) do
-    def self.reminder_interval = 7.days
-    def self.staff_turnaround(_stage) = 7.days
 
     def self.for(applicant, now: Time.current)
       return nil if applicant.terminal?
@@ -31,7 +30,8 @@ module Admissions
       description = Stages::NEXT_STEP.fetch(stage)
       case Stages::WAITING_ON.fetch(stage)
       when :applicant
-        new(description: description, owner: :applicant, due_at: applicant.last_contacted_at + reminder_interval)
+        new(description: description, owner: :applicant,
+            due_at: applicant.last_contacted_at + applicant.round.reminder_interval)
       when :staff
         staff_step(description, applicant, stage)
       when :date
@@ -40,7 +40,8 @@ module Admissions
     end
 
     def self.staff_step(description, applicant, stage)
-      new(description: description, owner: :staff, due_at: applicant.stage_entered_at + staff_turnaround(stage))
+      new(description: description, owner: :staff,
+          due_at: applicant.stage_entered_at + applicant.round.staff_turnaround(stage))
     end
 
     def self.date_step(description, applicant, stage, now)
@@ -52,7 +53,7 @@ module Admissions
             # An EOI that arrived before applications opened is due from the
             # opening date, not from when it arrived.
             opened = start_of(round.invites_on)
-            step.due_at = [step.due_at, opened + staff_turnaround(stage)].max
+            step.due_at = [step.due_at, opened + round.staff_turnaround(stage)].max
           end
         else
           new(description: description, owner: :date, due_at: start_of(round.invites_on))

@@ -84,7 +84,19 @@ module Admissions
       :complicated => 'Staff to check back on this case'
     }.freeze
 
+    # How staff screens name each state.
+    LABELS = {
+      'eoi' => 'EOI', 'invited' => 'Invited', 'applied' => 'Applied', 'task_sent' => 'Task sent',
+      'task_returned' => 'Task returned', 'interview_offered' => 'Interview offered',
+      'interview_booked' => 'Interview booked', 'interviewed' => 'Interviewed', 'offered' => 'Offered',
+      'accepted' => 'Accepted', 'contracts_sent' => 'Contracts sent', 'confirmed' => 'Confirmed',
+      'on_hold' => 'On hold', 'deferred' => 'Deferred', 'declined' => 'Declined', 'rejected' => 'Rejected',
+      'withdrawn' => 'Withdrawn'
+    }.freeze
+
     module_function
+
+    def label(stage) = LABELS.fetch(stage)
 
     def terminal?(stage) = TERMINAL.include?(stage)
     def exit?(stage) = EXITS.include?(stage)

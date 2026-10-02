@@ -57,3 +57,5 @@ module AdmissionsHelpers
     end
   end
 end
+
+RSpec.configure { |config| config.include Devise::Test::IntegrationHelpers, type: :request }

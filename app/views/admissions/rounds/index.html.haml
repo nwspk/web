@@ -1,0 +1,26 @@
+- content_for :page_title do
+  Admissions
+
+- if can?(:create, Admissions::Round)
+  %p= link_to 'New round', new_admissions_round_path
+
+- if @rounds.empty?
+  %p No rounds yet.
+
+- @rounds.each do |round|
+  %h3= link_to round.name, admissions_round_path(round)
+  %p
+    = render 'dates', round: round
+  %table.admissions-stage-counts
+    %thead
+      %tr
+        %th Stage
+        %th Applicants
+    %tbody
+      - Admissions::Stages::ALL.each do |stage|
+        %tr
+          %td= Admissions::Stages.label(stage)
+          %td= @stage_counts.fetch([round.id, stage], 0)
+      %tr
+        %td It's complicated
+        %td= @complicated_counts.fetch(round.id, 0)
