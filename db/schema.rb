@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_09_24_120000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_02_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,65 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_24_120000) do
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  end
+
+  create_table "admissions_applicant_events", force: :cascade do |t|
+    t.bigint "applicant_id", null: false
+    t.string "kind", null: false
+    t.string "actor_type", null: false
+    t.bigint "actor_user_id"
+    t.string "from_stage"
+    t.string "to_stage"
+    t.jsonb "details", default: {}, null: false
+    t.text "body"
+    t.datetime "redacted_at"
+    t.datetime "created_at", null: false
+    t.index ["actor_user_id"], name: "index_admissions_applicant_events_on_actor_user_id"
+    t.index ["applicant_id"], name: "index_admissions_applicant_events_on_applicant_id"
+    t.index ["kind"], name: "index_admissions_applicant_events_on_kind"
+  end
+
+  create_table "admissions_applicants", force: :cascade do |t|
+    t.bigint "round_id", null: false
+    t.bigint "previous_applicant_id"
+    t.string "email"
+    t.string "phone"
+    t.string "name"
+    t.string "stage", null: false
+    t.datetime "stage_entered_at", null: false
+    t.string "held_from_stage"
+    t.text "hold_reason"
+    t.date "hold_until"
+    t.string "exited_from_stage"
+    t.boolean "complicated", default: false, null: false
+    t.text "complicated_note"
+    t.date "complicated_check_back_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "round_id, lower((email)::text)", name: "index_admissions_applicants_on_round_and_email", unique: true, where: "(email IS NOT NULL)"
+    t.index ["previous_applicant_id"], name: "index_admissions_applicants_on_previous_applicant_id"
+    t.index ["round_id"], name: "index_admissions_applicants_on_round_id"
+    t.index ["stage"], name: "index_admissions_applicants_on_stage"
+    t.check_constraint "stage::text <> 'withdrawn'::text OR email IS NULL AND phone IS NULL AND name IS NULL", name: "admissions_applicants_withdrawn_scrubbed"
+  end
+
+  create_table "admissions_rounds", force: :cascade do |t|
+    t.string "name", null: false
+    t.date "opens_on"
+    t.date "invites_on"
+    t.date "closes_on"
+    t.datetime "closed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_admissions_rounds_on_name", unique: true
+  end
+
+  create_table "admissions_staff_members", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "role", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_admissions_staff_members_on_user_id", unique: true
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
@@ -118,4 +177,63 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_24_120000) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
+
+  add_foreign_key "admissions_applicant_events", "admissions_applicants", column: "applicant_id"
+  add_foreign_key "admissions_applicant_events", "users", column: "actor_user_id"
+  add_foreign_key "admissions_applicants", "admissions_applicants", column: "previous_applicant_id"
+  add_foreign_key "admissions_applicants", "admissions_rounds", column: "round_id"
+  add_foreign_key "admissions_staff_members", "users", on_delete: :cascade
+
+  execute <<~'SQL'
+    CREATE OR REPLACE FUNCTION public.admissions_applicant_events_append_only()
+     RETURNS trigger
+     LANGUAGE plpgsql
+    AS $function$
+    BEGIN
+      IF TG_OP = 'UPDATE'
+         AND NEW.body IS NULL AND NEW.redacted_at IS NOT NULL
+         AND (NEW.id, NEW.applicant_id, NEW.kind, NEW.actor_type, NEW.actor_user_id,
+              NEW.from_stage, NEW.to_stage, NEW.details, NEW.created_at)
+             IS NOT DISTINCT FROM
+             (OLD.id, OLD.applicant_id, OLD.kind, OLD.actor_type, OLD.actor_user_id,
+              OLD.from_stage, OLD.to_stage, OLD.details, OLD.created_at) THEN
+        RETURN NEW;
+      END IF;
+      RAISE EXCEPTION 'the admissions event log is append-only';
+    END
+    $function$;
+
+    CREATE OR REPLACE FUNCTION public.admissions_applicants_guard()
+     RETURNS trigger
+     LANGUAGE plpgsql
+    AS $function$
+    BEGIN
+      IF TG_OP = 'DELETE' THEN
+        RAISE EXCEPTION 'admissions applicants are never deleted; withdraw them instead';
+      END IF;
+      IF current_setting('admissions.service_write', true) IS DISTINCT FROM 'on' THEN
+        IF TG_OP = 'INSERT' THEN
+          RAISE EXCEPTION 'admissions applicants are created only through Admissions::ApplicantChanges';
+        END IF;
+        IF (NEW.stage, NEW.stage_entered_at, NEW.held_from_stage, NEW.hold_reason, NEW.hold_until,
+            NEW.exited_from_stage, NEW.complicated, NEW.complicated_note, NEW.complicated_check_back_on,
+            NEW.email, NEW.phone, NEW.name)
+           IS DISTINCT FROM
+           (OLD.stage, OLD.stage_entered_at, OLD.held_from_stage, OLD.hold_reason, OLD.hold_until,
+            OLD.exited_from_stage, OLD.complicated, OLD.complicated_note, OLD.complicated_check_back_on,
+            OLD.email, OLD.phone, OLD.name) THEN
+          RAISE EXCEPTION 'admissions applicant state and contact details change only through Admissions::ApplicantChanges';
+        END IF;
+      END IF;
+      RETURN NEW;
+    END
+    $function$;
+
+    CREATE TRIGGER admissions_applicant_events_append_only BEFORE DELETE OR UPDATE ON public.admissions_applicant_events FOR EACH ROW EXECUTE FUNCTION admissions_applicant_events_append_only();
+
+    CREATE TRIGGER admissions_applicant_events_no_truncate BEFORE TRUNCATE ON public.admissions_applicant_events FOR EACH STATEMENT EXECUTE FUNCTION admissions_applicant_events_append_only();
+
+    CREATE TRIGGER admissions_applicants_guard BEFORE INSERT OR DELETE OR UPDATE ON public.admissions_applicants FOR EACH ROW EXECUTE FUNCTION admissions_applicants_guard();
+
+  SQL
 end

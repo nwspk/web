@@ -12,6 +12,29 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'deleting a user who has acted as admissions staff' do
+    let(:user) { admissions_staff }
+
+    before do
+      Fabricate(:subscription, user: user)
+      staff_changes(user).add_note!(create_applicant, body: 'Seen at an event')
+    end
+
+    it 'is refused before anything else happens, so Stripe is left alone' do
+      expect_any_instance_of(TerminateSubscriptionService).not_to receive(:call)
+
+      expect(user.destroy).to be false
+      expect(user.errors[:base]).to eq ['has acted as admissions staff; remove their admissions role instead']
+      expect(User.where(id: user.id)).to exist
+      expect(user.subscription.reload).to be_present
+    end
+
+    it 'still lets a user who never acted be deleted' do
+      other = admissions_staff
+      expect(other.destroy).to be_truthy
+    end
+  end
+
   describe 'sign-in tracking' do
     let(:user) { Fabricate(:user) }
     let(:request) { ActionDispatch::TestRequest.create('REMOTE_ADDR' => '203.0.113.9') }
