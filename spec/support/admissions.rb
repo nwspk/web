@@ -18,3 +18,20 @@ module AdmissionsHelpers
 end
 
 RSpec.configure { |config| config.include AdmissionsHelpers }
+
+module AdmissionsHelpers
+  # An applicant sitting at any state: funnel stages are created there by
+  # hand, on_hold is held from `applied`, exits are exited from `applied`.
+  def applicant_at(state, round: Fabricate(:admissions_round))
+    s = staff_changes
+    if Admissions::Stages::FUNNEL.include?(state)
+      create_applicant(stage: state, round: round)
+    elsif state == Admissions::Stages::ON_HOLD
+      create_applicant(stage: 'applied', round: round).tap do |a|
+        s.hold!(a, until_date: Date.current + 14, reason: 'Waiting on another decision')
+      end
+    else
+      create_applicant(stage: 'applied', round: round).tap { |a| s.exit!(a, to: state) }
+    end
+  end
+end

@@ -27,7 +27,9 @@ module Admissions
     validates :held_from_stage, presence: true, if: :on_hold?
     validate :state_changed_through_service
 
-    before_destroy { raise ActiveRecord::ReadOnlyRecord, 'Applicants are never deleted; withdraw them instead' }
+    before_destroy(prepend: true) do
+      raise ActiveRecord::ReadOnlyRecord, 'Applicants are never deleted; withdraw them instead'
+    end
 
     scope :active, -> { where.not(stage: Stages::TERMINAL) }
 

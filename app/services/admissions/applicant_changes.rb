@@ -68,7 +68,9 @@ module Admissions
 
         permit!(Stages::HOLD_ACTORS, 'put an applicant on hold')
         require_text!(reason, 'a hold needs a reason')
-        raise IllegalChange, 'a hold needs a return date after today' unless until_date.is_a?(Date) && until_date > Date.current
+        unless until_date.is_a?(Date) && until_date > Date.current
+          raise IllegalChange, 'a hold needs a return date after today'
+        end
 
         applicant.assign_attributes(stage: Stages::ON_HOLD, stage_entered_at: now, held_from_stage: from,
                                     hold_until: until_date, hold_reason: reason)
@@ -103,7 +105,7 @@ module Admissions
         raise IllegalChange, "cannot move to #{to}: moves go to a funnel stage" unless Stages::FUNNEL.include?(to)
         raise IllegalChange, "the applicant is already at #{to}" if from == to
 
-        offered = preview_move(applicant, to: to).emails.map { |e| e[:key] }
+        offered = preview_move(applicant, to: to).emails.pluck(:key)
         unknown = emails - offered
         raise IllegalChange, "the move would not send #{unknown.join(', ')}" if unknown.any?
 
@@ -205,7 +207,9 @@ module Admissions
     private
 
     def validate_actor!
-      raise ArgumentError, "unknown actor #{actor.inspect}" unless actor.is_a?(Actor) && Stages::ACTOR_TYPES.include?(actor.type)
+      unless actor.is_a?(Actor) && Stages::ACTOR_TYPES.include?(actor.type)
+        raise ArgumentError, "unknown actor #{actor.inspect}"
+      end
       raise ArgumentError, 'only a staff actor names a user' if !actor.staff? && actor.user
       return unless actor.staff?
 
