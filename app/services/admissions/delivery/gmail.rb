@@ -31,14 +31,19 @@ module Admissions
       end
 
       # The message as Gmail wants it: RFC 2822, base64url-encoded. Plain
-      # text only.
+      # text, or with an attachment, multipart: the text, then the file.
       def self.raw(message)
         mail = Mail.new
         mail.from = FROM
         mail.to = message.to
         mail.subject = message.subject
         mail.charset = 'UTF-8'
-        mail.body = message.body
+        if (file = message.attachment)
+          mail.text_part = Mail::Part.new(content_type: 'text/plain; charset=UTF-8', body: message.body)
+          mail.attachments[file.filename] = { mime_type: file.content_type, content: file.content }
+        else
+          mail.body = message.body
+        end
         Base64.urlsafe_encode64(mail.to_s)
       end
 

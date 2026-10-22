@@ -16,7 +16,12 @@ module Admissions
   #   variables are set (Gmail::VARIABLES). ADMISSIONS_EMAIL_DELIVERY=recording
   #   switches a production host (staging, say) to recording instead.
   module Delivery
-    Message = Struct.new(:to, :subject, :body, :email_id, keyword_init: true)
+    # `to` is one address or several, comma-separated. `email_id` is the
+    # outbox row an applicant email came from; staff mail (the nightly
+    # backup) has none. `attachment`, if any, is one file, sent as MIME
+    # multipart beside the plain-text body.
+    Message = Struct.new(:to, :subject, :body, :email_id, :attachment, keyword_init: true)
+    Attachment = Struct.new(:filename, :content_type, :content, keyword_init: true)
     Receipt = Struct.new(:delivery, :message_id, keyword_init: true)
 
     class Error < StandardError; end

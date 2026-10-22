@@ -17,8 +17,17 @@ module Admissions
 
       def deliver(message)
         self.class.deliveries << message if Rails.env.test?
-        Rails.logger.info("[admissions] email ##{message.email_id} recorded, not sent (recording delivery)")
+        Rails.logger.info("[admissions] #{description(message)} recorded, not sent (recording delivery)")
         Receipt.new(delivery: 'recording', message_id: "recorded-#{SecureRandom.hex(8)}")
+      end
+
+      private
+
+      # Names the message without its text or addresses.
+      def description(message)
+        what = message.email_id ? "email ##{message.email_id}" : 'staff email'
+        file = message.attachment
+        file ? "#{what} with #{file.filename} (#{file.content.bytesize} bytes)" : what
       end
     end
   end

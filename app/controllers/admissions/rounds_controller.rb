@@ -11,6 +11,7 @@ module Admissions
       @check_back_count = Applicant.check_back_due.count
       @hold_return_count = Applicant.hold_return_due.count
       @eoi_form_closed_reasons = EoiForm.closed_reasons
+      @backup_warning = BackupRun.warning
     end
 
     def show; end

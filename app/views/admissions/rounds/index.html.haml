@@ -2,6 +2,7 @@
   Admissions
 
 = render 'admissions/form_texts/status', reasons: @eoi_form_closed_reasons
+= render 'admissions/backups/status', warning: @backup_warning
 
 %p= link_to 'Board', admissions_board_path
 %p= link_to "Approval queue (#{pluralize(@held_count, 'email')} waiting)", admissions_emails_path

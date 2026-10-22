@@ -82,6 +82,19 @@ RSpec.describe Admissions::Delivery do
     end
   end
 
+  describe 'an attachment through the recording delivery' do
+    it 'keeps the file in tests and logs only its name and size' do
+      file = Admissions::Delivery::Attachment.new(filename: 'test-backup.jsonl.gz', content_type: 'application/gzip',
+                                                  content: 'x' * 10)
+      message = Admissions::Delivery::Message.new(to: 'lead@example.com', subject: 'Secret subject', body: 'b',
+                                                  attachment: file)
+      expect(Rails.logger).to receive(:info)
+        .with('[admissions] staff email with test-backup.jsonl.gz (10 bytes) recorded, not sent (recording delivery)')
+      described_class::Recording.new.deliver(message)
+      expect(described_class::Recording.deliveries.last.attachment).to eq file
+    end
+  end
+
   describe described_class::Gmail do
     let(:message) do
       Admissions::Delivery::Message.new(to: 'applicant@example.com', subject: 'Test subject ✓',
@@ -103,6 +116,31 @@ RSpec.describe Admissions::Delivery do
       # On the wire, lines end CRLF, as RFC 2822 requires.
       expect(mail.body.decoded.force_encoding('UTF-8')).to eq "Test body\r\nwith ünïcode"
       expect(mail.mime_type).to eq 'text/plain'
+    end
+
+    it 'sends one attachment beside the text, as MIME multipart' do
+      client = instance_double(Admissions::Delivery::Gmail::Client)
+      raw = nil
+      allow(client).to receive(:send_raw) { |r| raw = r and 'gmail-id-2' }
+      content = Zlib.gzip("Test file ✓\n" * 50).b
+      attached = message.dup.tap do |m|
+        m.to = 'lead@example.com, second-lead@example.com'
+        m.email_id = nil
+        m.attachment = Admissions::Delivery::Attachment.new(filename: 'test-backup.jsonl.gz',
+                                                            content_type: 'application/gzip', content: content)
+      end
+
+      described_class.new(env: gmail_env, client: client).deliver(attached)
+
+      mail = Mail.new(Base64.urlsafe_decode64(raw))
+      expect(mail.to).to eq %w[lead@example.com second-lead@example.com]
+      expect(mail).to be_multipart
+      expect(mail.text_part.decoded).to eq "Test body\r\nwith ünïcode"
+      expect(mail.attachments.size).to eq 1
+      file = mail.attachments.first
+      expect(file.filename).to eq 'test-backup.jsonl.gz'
+      expect(file.mime_type).to eq 'application/gzip'
+      expect(file.decoded.b).to eq content
     end
 
     it 'refuses to start without its variables' do

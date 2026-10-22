@@ -41,7 +41,7 @@ RSpec.describe Admissions::EmailSender do
                                        delivery: 'recording')
       expect(email.sent_at).to be_present
       expect(recorded_emails.map(&:to_h)).to eq [{ to: 'test.person@example.com', subject: expected_subject,
-                                                   body: expected_body, email_id: email.id }]
+                                                   body: expected_body, email_id: email.id, attachment: nil }]
       expect(applicant.events.map(&:kind)).to eq %w[created email_drafted email_sending email_sent]
       expect(events('email_sending').sole).to have_attributes(actor_type: 'system', body: expected_text)
 
