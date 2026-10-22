@@ -296,3 +296,30 @@ ActiveAdmin.register Admissions::Email, as: 'Admissions Email' do
     end
   end
 end
+
+ActiveAdmin.register Admissions::FormText, as: 'Admissions Form Text' do
+  menu parent: 'Admissions', label: 'EOI form wording'
+  config.batch_actions = false
+  config.sort_order = 'id_desc'
+  actions :index, :show
+
+  filter :key, as: :select, collection: Admissions::FormText::KEYS.invert
+  filter :created_at
+
+  index do
+    id_column
+    column :key
+    column :created_at
+    column :created_by_user
+    actions
+  end
+
+  show do
+    attributes_table do
+      row :key
+      row :created_at
+      row :created_by_user
+      row(:body) { |text| simple_format(text.body) }
+    end
+  end
+end

@@ -1,0 +1,16 @@
+-# Whether the public eoi-form at /admissions is taking EOIs, and if not,
+-# why (Admissions::EoiForm.closed_reasons).
+- if reasons.any?
+  .alert.alert-danger
+    The expression-of-interest form at
+    = link_to admissions_eoi_form_url, admissions_eoi_form_path
+    is closed and saves nothing:
+    = succeed '.' do
+      = reasons.map { |r| AdmissionsHelper::EOI_FORM_CLOSED_REASONS.fetch(r) }.to_sentence
+- else
+  %p
+    The expression-of-interest form at
+    = link_to admissions_eoi_form_url, admissions_eoi_form_path
+    is open. New expressions of interest join
+    = succeed '.' do
+      = link_to Admissions::EoiForm.round.name, admissions_round_path(Admissions::EoiForm.round)

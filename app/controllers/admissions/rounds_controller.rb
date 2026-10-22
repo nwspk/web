@@ -8,6 +8,7 @@ module Admissions
       @stage_counts = Applicant.group(:round_id, :stage).count
       @complicated_counts = Applicant.where(complicated: true).group(:round_id).count
       @held_count = Email.where(status: %w[held sending]).count
+      @eoi_form_closed_reasons = EoiForm.closed_reasons
     end
 
     def show; end

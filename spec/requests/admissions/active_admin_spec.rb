@@ -162,8 +162,8 @@ RSpec.describe 'Admissions in ActiveAdmin (the fallback screens)', type: :reques
       expect(Admissions::StaffMember.where(id: member.id)).not_to exist
     end
 
-    it 'gets no way into /admissions from managing staff' do
-      get '/admissions'
+    it 'gets no way into /admissions/staff from managing staff' do
+      get '/admissions/staff'
       expect(response).to have_http_status(:not_found)
     end
   end

@@ -34,8 +34,9 @@ module Admissions
     end
 
     # A new applicant: from the EOI form (the applicant, at `eoi`), or a card
-    # created by hand by staff at any funnel stage.
-    def create!(round:, email:, phone: nil, name: nil, stage: 'eoi', previous_applicant: nil)
+    # created by hand by staff at any funnel stage. `details` go on the
+    # `created` event (the eoi-form records which privacy notice was shown).
+    def create!(round:, email:, phone: nil, name: nil, stage: 'eoi', previous_applicant: nil, details: {})
       raise IllegalChange, "cannot create an applicant at #{stage}" unless Stages::FUNNEL.include?(stage)
 
       permit!(stage == 'eoi' ? %w[applicant staff] : %w[staff], "create an applicant at #{stage}")
@@ -47,9 +48,26 @@ module Admissions
         now = timestamp
         applicant.assign_attributes(stage: stage, stage_entered_at: now)
         applicant.save!
-        log!(applicant, 'created', now, to: stage)
+        log!(applicant, 'created', now, to: stage, details: details)
       end
       applicant
+    end
+
+    # The eoi-form was submitted again with this applicant's address in the
+    # same round. Nothing changes but the log, so staff see it on the card;
+    # the form answers exactly as for a first EOI (SPEC §9b). Whoever typed
+    # the address is unverified, so a phone number given with it is kept in
+    # the event's body for staff to read, never copied onto the record.
+    def record_repeat_eoi!(applicant, phone: nil)
+      change!(applicant) do |applicant, now|
+        permit!(Stages::EOI_ACTORS, 'submit the EOI form')
+        raise IllegalChange, 'a withdrawn applicant has no address to repeat' if applicant.withdrawn?
+
+        phone = phone.to_s.strip.presence
+        new_phone = phone && phone != applicant.phone ? phone : nil
+        log!(applicant, 'eoi_repeated', now, details: { 'new_phone' => new_phone.present? },
+                                             body: new_phone && "Phone number given: #{new_phone}")
+      end
     end
 
     # One step along the funnel (Stages::TRANSITIONS).

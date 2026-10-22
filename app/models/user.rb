@@ -30,7 +30,8 @@ class User < ActiveRecord::Base
   before_validation :set_default_role
   after_create :notify_admins
   # Runs first, before the subscription is cancelled with Stripe: the
-  # admissions event log must keep naming who acted (FK restrict), so such a
+  # admissions event log and the eoi-form's wording versions must keep
+  # naming who acted (FK restrict), so such a
   # user can't be deleted, and nothing outside the database may change first.
   before_destroy :keep_admissions_attribution, prepend: true
   before_destroy :terminate_subscription
@@ -115,7 +116,8 @@ class User < ActiveRecord::Base
   end
 
   def keep_admissions_attribution
-    return unless Admissions::ApplicantEvent.exists?(actor_user_id: id)
+    return unless Admissions::ApplicantEvent.exists?(actor_user_id: id) ||
+                  Admissions::FormText.exists?(created_by_user_id: id)
 
     errors.add(:base, 'has acted as admissions staff; remove their admissions role instead')
     throw(:abort)

@@ -23,23 +23,23 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
       it "for #{who}, and nothing changes" do
         sign_in(instance_exec(&make_user)) if make_user
 
-        get '/admissions/emails'
+        get '/admissions/staff/emails'
         expect_not_found
-        patch "/admissions/emails/#{email.id}", params: { admissions_email: { subject: 'Hijacked', body: 'x' },
+        patch "/admissions/staff/emails/#{email.id}", params: { admissions_email: { subject: 'Hijacked', body: 'x' },
                                                           send_email: '1' }
         expect_not_found
-        post "/admissions/emails/#{email.id}/discard"
+        post "/admissions/staff/emails/#{email.id}/discard"
         expect_not_found
-        post "/admissions/applicants/#{applicant.id}/pause_emails"
+        post "/admissions/staff/applicants/#{applicant.id}/pause_emails"
         expect_not_found
-        get "/admissions/rounds/#{round.id}/email_templates"
+        get "/admissions/staff/rounds/#{round.id}/email_templates"
         expect_not_found
-        get "/admissions/rounds/#{round.id}/email_templates/new?email_type=holding"
+        get "/admissions/staff/rounds/#{round.id}/email_templates/new?email_type=holding"
         expect_not_found
-        post "/admissions/rounds/#{round.id}/email_templates",
+        post "/admissions/staff/rounds/#{round.id}/email_templates",
              params: { admissions_email_template: { email_type: 'holding', subject: 's', body: 'b' } }
         expect_not_found
-        patch "/admissions/rounds/#{round.id}/email_templates/#{template.id}",
+        patch "/admissions/staff/rounds/#{round.id}/email_templates/#{template.id}",
               params: { admissions_email_template: { subject: 'Hijacked' } }
         expect_not_found
 
@@ -59,7 +59,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
       other = create_applicant(round: round, name: 'Gone Person')
       staff_sender(lead).discard!(Admissions::EmailSender.request_automatic!(other, 'confirmation'))
 
-      get '/admissions/emails'
+      get '/admissions/staff/emails'
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('Approval queue', 'EOI confirmation to Test Person', 'test.person@example.com',
                                        'Fellowship 2027', 'Drafted', 'by the system',
@@ -68,13 +68,13 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
     end
 
     it 'is linked from the admissions home with its count' do
-      get '/admissions'
+      get '/admissions/staff'
       expect(response.body).to include('Approval queue (1 email waiting)')
     end
 
     it 'saves edits, attributed, without sending' do
-      patch "/admissions/emails/#{email.id}", params: { admissions_email: { subject: 'New subject', body: "New\r\nbody" } }
-      expect(response).to redirect_to("/admissions/emails#email-#{email.id}")
+      patch "/admissions/staff/emails/#{email.id}", params: { admissions_email: { subject: 'New subject', body: "New\r\nbody" } }
+      expect(response).to redirect_to("/admissions/staff/emails#email-#{email.id}")
       follow_redirect!
       expect(response.body).to include('Changes saved. The email is still waiting to be sent.')
 
@@ -86,9 +86,9 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
     end
 
     it 'sends the text as shown, saving any edits first' do
-      patch "/admissions/emails/#{email.id}", params: { admissions_email: { subject: 'Final subject', body: 'Final body' },
+      patch "/admissions/staff/emails/#{email.id}", params: { admissions_email: { subject: 'Final subject', body: 'Final body' },
                                                         send_email: 'Send' }
-      expect(response).to redirect_to('/admissions/emails')
+      expect(response).to redirect_to('/admissions/staff/emails')
       follow_redirect!
       expect(response.body).to include('Sent to test.person@example.com.', 'Nothing is waiting.')
 
@@ -101,7 +101,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
     end
 
     it 'keeps what was typed when an edit is refused' do
-      patch "/admissions/emails/#{email.id}", params: { admissions_email: { subject: '', body: 'My careful rewrite' },
+      patch "/admissions/staff/emails/#{email.id}", params: { admissions_email: { subject: '', body: 'My careful rewrite' },
                                                         send_email: 'Send' }
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('Not saved: Subject can&#39;t be blank.', 'My careful rewrite')
@@ -113,7 +113,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
       Admissions::Delivery.adapter = Class.new do
         def deliver(_) = raise(Admissions::Delivery::NotConfigured, 'Gmail delivery is not configured: set X in the environment')
       end.new
-      patch "/admissions/emails/#{email.id}", params: { admissions_email: { subject: email.subject, body: email.body },
+      patch "/admissions/staff/emails/#{email.id}", params: { admissions_email: { subject: email.subject, body: email.body },
                                                         send_email: 'Send' }
       follow_redirect!
       expect(response.body).to include('Not sent, and still waiting: Gmail delivery is not configured: set X in the environment.')
@@ -124,7 +124,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
     end
 
     it 'discards, attributed' do
-      post "/admissions/emails/#{email.id}/discard"
+      post "/admissions/staff/emails/#{email.id}/discard"
       follow_redirect!
       expect(response.body).to include('Email discarded. It will not be sent.')
       expect(email.reload).to be_discarded
@@ -133,19 +133,19 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
     end
 
     it 'refuses to act twice on the same email' do
-      post "/admissions/emails/#{email.id}/discard"
-      patch "/admissions/emails/#{email.id}", params: { admissions_email: { subject: 's', body: 'b' }, send_email: 'Send' }
+      post "/admissions/staff/emails/#{email.id}/discard"
+      patch "/admissions/staff/emails/#{email.id}", params: { admissions_email: { subject: 's', body: 'b' }, send_email: 'Send' }
       follow_redirect!
       expect(response.body).to include('Nothing done: this email has already been discarded.')
       expect(recorded_emails).to be_empty
     end
 
     it 'says when this site only records mail' do
-      get '/admissions/emails'
+      get '/admissions/staff/emails'
       expect(response.body).to include('Recording only: nothing is actually sent from this site.')
 
       allow(Admissions::Delivery).to receive(:recording?).and_return(false)
-      get '/admissions/emails'
+      get '/admissions/staff/emails'
       expect(response.body).not_to include('Recording only')
     end
 
@@ -154,7 +154,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
         Admissions::Delivery.adapter = Class.new do
           def deliver(_) = raise(Admissions::Delivery::OutcomeUnknown, 'the connection to Gmail was lost before it answered')
         end.new
-        patch "/admissions/emails/#{email.id}", params: { admissions_email: { subject: email.subject, body: email.body },
+        patch "/admissions/staff/emails/#{email.id}", params: { admissions_email: { subject: email.subject, body: email.body },
                                                           send_email: 'Send' }
         Admissions::Delivery.adapter = nil
       end
@@ -170,7 +170,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
       end
 
       it 'is resolved as sent, attributed' do
-        post "/admissions/emails/#{email.id}/confirm_sent"
+        post "/admissions/staff/emails/#{email.id}/confirm_sent"
         follow_redirect!
         expect(response.body).to include('Recorded as sent.')
         expect(email.reload).to be_sent
@@ -178,7 +178,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
       end
 
       it 'is resolved as not sent, back in the queue' do
-        post "/admissions/emails/#{email.id}/confirm_not_sent"
+        post "/admissions/staff/emails/#{email.id}/confirm_not_sent"
         follow_redirect!
         expect(response.body).to include('Recorded as not sent. The email is back in the queue.', 'Save changes')
         expect(email.reload).to be_held
@@ -190,16 +190,16 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
       Admissions::Delivery.adapter = Class.new { define_method(:deliver) { |_| raise crash } }.new
       expect { staff_sender(officer).send_held!(email) }.to raise_error(crash) # the process died mid-send
       Admissions::Delivery.adapter = nil
-      get '/admissions/emails'
+      get '/admissions/staff/emails'
       expect(response.body).to include('Sending…')
       expect(response.body).not_to include('It was sent', 'Save changes')
-      post "/admissions/emails/#{email.id}/confirm_sent"
+      post "/admissions/staff/emails/#{email.id}/confirm_sent"
       follow_redirect!
       expect(response.body).to include('Nothing done: this email is still being sent.')
     end
 
     it 'is not found for an email that does not exist' do
-      post '/admissions/emails/0/discard'
+      post '/admissions/staff/emails/0/discard'
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -208,12 +208,12 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
     before { sign_in officer }
 
     it 'turns automatic email to one applicant off and on, each attributed' do
-      post "/admissions/applicants/#{applicant.id}/pause_emails"
+      post "/admissions/staff/applicants/#{applicant.id}/pause_emails"
       follow_redirect!
       expect(response.body).to include('Automatic email to Test Person is paused.', 'Resume automatic email')
       expect(applicant.reload.emails_paused).to be true
 
-      post "/admissions/applicants/#{applicant.id}/resume_emails"
+      post "/admissions/staff/applicants/#{applicant.id}/resume_emails"
       follow_redirect!
       expect(response.body).to include('Automatic email to Test Person is back on.')
       expect(applicant.reload.emails_paused).to be false
@@ -223,7 +223,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
     end
 
     it 'says when there is nothing to do' do
-      post "/admissions/applicants/#{applicant.id}/resume_emails"
+      post "/admissions/staff/applicants/#{applicant.id}/resume_emails"
       follow_redirect!
       expect(response.body).to include('Nothing done: automatic email to this applicant is not paused.')
     end
@@ -232,35 +232,35 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
   describe 'email templates' do
     it 'are listed for any staff member, and written only by a lead' do
       sign_in officer
-      get "/admissions/rounds/#{round.id}/email_templates"
+      get "/admissions/staff/rounds/#{round.id}/email_templates"
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('Test subject for {{name}}', 'No template yet', 'Only an admissions lead can change them.')
       expect(response.body).not_to include('Write it')
 
-      get "/admissions/rounds/#{round.id}/email_templates/#{template.id}/edit"
-      expect(response).to redirect_to('/admissions')
-      patch "/admissions/rounds/#{round.id}/email_templates/#{template.id}",
+      get "/admissions/staff/rounds/#{round.id}/email_templates/#{template.id}/edit"
+      expect(response).to redirect_to('/admissions/staff')
+      patch "/admissions/staff/rounds/#{round.id}/email_templates/#{template.id}",
             params: { admissions_email_template: { subject: 'Officer rewrite' } }
       expect(template.reload.subject).to eq 'Test subject for {{name}}'
-      post "/admissions/rounds/#{round.id}/email_templates",
+      post "/admissions/staff/rounds/#{round.id}/email_templates",
            params: { admissions_email_template: { email_type: 'holding', subject: 's', body: 'b' } }
       expect(round.email_templates.count).to eq 1
     end
 
     it 'are written by a lead, attributed, and then draftable' do
       sign_in lead
-      get "/admissions/rounds/#{round.id}/email_templates/new?email_type=holding"
+      get "/admissions/staff/rounds/#{round.id}/email_templates/new?email_type=holding"
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('Holding email (EOI out of round) template', '{{portal_link}}')
 
-      post "/admissions/rounds/#{round.id}/email_templates",
+      post "/admissions/staff/rounds/#{round.id}/email_templates",
            params: { admissions_email_template: { email_type: 'holding', subject: 'Fake holding subject',
                                                   body: "Fake holding body for {{name}}\r\nLine two" } }
-      expect(response).to redirect_to("/admissions/rounds/#{round.id}/email_templates")
+      expect(response).to redirect_to("/admissions/staff/rounds/#{round.id}/email_templates")
       created = round.email_template('holding')
       expect(created).to have_attributes(body: "Fake holding body for {{name}}\nLine two", updated_by_user: lead)
 
-      patch "/admissions/rounds/#{round.id}/email_templates/#{template.id}",
+      patch "/admissions/staff/rounds/#{round.id}/email_templates/#{template.id}",
             params: { admissions_email_template: { subject: 'Edited {{round}}' } }
       expect(template.reload.subject).to eq 'Edited {{round}}'
       expect(template.updated_by_user).to eq lead
@@ -268,7 +268,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
 
     it 'refuse unknown placeholders, saying which' do
       sign_in lead
-      post "/admissions/rounds/#{round.id}/email_templates",
+      post "/admissions/staff/rounds/#{round.id}/email_templates",
            params: { admissions_email_template: { email_type: 'holding', subject: 'Hi {{first_name}}', body: 'b' } }
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include('uses unknown placeholders: {{first_name}}')
@@ -276,7 +276,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
 
     it 'are not found for an unknown type' do
       sign_in lead
-      get "/admissions/rounds/#{round.id}/email_templates/new?email_type=love_letter"
+      get "/admissions/staff/rounds/#{round.id}/email_templates/new?email_type=love_letter"
       expect(response).to have_http_status(:not_found)
     end
   end

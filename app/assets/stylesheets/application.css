@@ -563,6 +563,7 @@ li {
 
 input[type="text"],
 input[type="email"],
+input[type="tel"],
 input[type="url"],
 input[type="password"],
 input[type="datetime-local"] {
@@ -881,14 +882,38 @@ label {
 #feedback-form .help-block {
   margin-bottom: 0.25em;
 }
-/* The feedback form's decoy field: present in the markup, never on screen.
-   Positioned away rather than display: none, which form-filling bots check. */
-#feedback-form .form-group-extra {
+/* The feedback and EOI forms' decoy fields: present in the markup, never on
+   screen. Positioned away rather than display: none, which form-filling bots
+   check. */
+#feedback-form .form-group-extra,
+#eoi-form .form-group-extra {
   position: absolute;
   left: -9999px;
   width: 1px;
   height: 1px;
   overflow: hidden;
+}
+
+/* The EOI form (/admissions): a field that needs fixing says why in the
+   site's danger red, and the privacy notice sits quietly above the button,
+   in the small sans the site uses for fine print. */
+#eoi-form .has-error .help-block {
+  color: var(--danger);
+  font-family: var(--sans-serif-font);
+  font-size: 0.85em;
+  margin-top: 0.25em;
+}
+#eoi-form .has-error input {
+  border-color: var(--danger);
+}
+.eoi-privacy {
+  font-family: var(--sans-serif-font);
+  font-size: 0.85em;
+  color: #737373;
+  margin: 1.5em 0;
+}
+.eoi-privacy p {
+  margin: 0 0 0.75em;
 }
 
 /* The plaque: a full-viewport-width charcoal band above everything — roundel

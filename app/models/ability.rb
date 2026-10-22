@@ -3,7 +3,7 @@ class Ability
 
   ADMISSIONS_MODELS = [
     Admissions::Round, Admissions::Applicant, Admissions::ApplicantEvent, Admissions::StaffMember,
-    Admissions::EmailTemplate, Admissions::Email
+    Admissions::EmailTemplate, Admissions::Email, Admissions::FormText
   ].freeze
 
   def initialize(user)
@@ -20,8 +20,8 @@ class Ability
 
   # Admissions access comes only from an admissions staff role (SPEC §9b),
   # never from users.role: a site admin is not admissions staff unless they
-  # also hold one. Leads also manage rounds, their email templates and the
-  # staff list. Any staff member may work the approval queue (SPEC §9b: it
+  # also hold one. Leads also manage rounds, their email templates, the
+  # eoi-form's wording and the staff list. Any staff member may work the approval queue (SPEC §9b: it
   # is shared). Nobody may change or delete the event log, or delete an
   # email.
   #
@@ -40,7 +40,11 @@ class Ability
       can :read, Admissions::StaffMember
       can :read, Admissions::EmailTemplate
       can %i[read update], Admissions::Email # written only by Admissions::EmailSender
-      can :manage, [Admissions::Round, Admissions::StaffMember, Admissions::EmailTemplate] if staff.lead?
+      can :read, Admissions::FormText
+      if staff.lead?
+        can :manage, [Admissions::Round, Admissions::StaffMember, Admissions::EmailTemplate]
+        can %i[read create], Admissions::FormText # each edit is a new version
+      end
     end
 
     cannot %i[update destroy], Admissions::ApplicantEvent

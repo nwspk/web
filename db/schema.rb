@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_22_120000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_22_200000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -116,6 +116,16 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_120000) do
     t.check_constraint "status::text <> 'sending'::text OR sending_at IS NOT NULL", name: "admissions_emails_sending_at"
     t.check_constraint "status::text <> 'sent'::text OR sent_at IS NOT NULL", name: "admissions_emails_sent_at"
     t.check_constraint "status::text = ANY (ARRAY['held'::character varying, 'sending'::character varying, 'sent'::character varying, 'discarded'::character varying]::text[])", name: "admissions_emails_status"
+  end
+
+  create_table "admissions_form_texts", force: :cascade do |t|
+    t.string "key", null: false
+    t.text "body", null: false
+    t.bigint "created_by_user_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["created_by_user_id"], name: "index_admissions_form_texts_on_created_by_user_id"
+    t.index ["key", "id"], name: "index_admissions_form_texts_on_key_and_id"
+    t.check_constraint "key::text = ANY (ARRAY['eoi_introduction'::character varying, 'privacy_notice'::character varying]::text[])", name: "admissions_form_texts_key"
   end
 
   create_table "admissions_rounds", force: :cascade do |t|
@@ -247,6 +257,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_120000) do
   add_foreign_key "admissions_emails", "users", column: "drafted_by_user_id"
   add_foreign_key "admissions_emails", "users", column: "edited_by_user_id"
   add_foreign_key "admissions_emails", "users", column: "sent_by_user_id"
+  add_foreign_key "admissions_form_texts", "users", column: "created_by_user_id"
   add_foreign_key "admissions_staff_members", "users", column: "granted_by_user_id", on_delete: :nullify
   add_foreign_key "admissions_staff_members", "users", on_delete: :cascade
 
@@ -328,6 +339,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_120000) do
     END
     $function$;
 
+    CREATE OR REPLACE FUNCTION public.admissions_form_texts_append_only()
+     RETURNS trigger
+     LANGUAGE plpgsql
+    AS $function$
+    BEGIN
+      RAISE EXCEPTION 'admissions form texts are append-only: save a new version instead';
+    END
+    $function$;
+
     CREATE TRIGGER admissions_applicant_events_append_only BEFORE DELETE OR UPDATE ON public.admissions_applicant_events FOR EACH ROW EXECUTE FUNCTION admissions_applicant_events_append_only();
 
     CREATE TRIGGER admissions_applicant_events_no_truncate BEFORE TRUNCATE ON public.admissions_applicant_events FOR EACH STATEMENT EXECUTE FUNCTION admissions_applicant_events_append_only();
@@ -337,6 +357,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_120000) do
     CREATE TRIGGER admissions_emails_guard BEFORE INSERT OR DELETE OR UPDATE ON public.admissions_emails FOR EACH ROW EXECUTE FUNCTION admissions_emails_guard();
 
     CREATE TRIGGER admissions_emails_no_truncate BEFORE TRUNCATE ON public.admissions_emails FOR EACH STATEMENT EXECUTE FUNCTION admissions_emails_guard();
+
+    CREATE TRIGGER admissions_form_texts_append_only BEFORE DELETE OR UPDATE ON public.admissions_form_texts FOR EACH ROW EXECUTE FUNCTION admissions_form_texts_append_only();
+
+    CREATE TRIGGER admissions_form_texts_no_truncate BEFORE TRUNCATE ON public.admissions_form_texts FOR EACH STATEMENT EXECUTE FUNCTION admissions_form_texts_append_only();
 
   SQL
 end

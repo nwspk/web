@@ -10,7 +10,7 @@ module Admissions
   class ApplicantEvent < ActiveRecord::Base
     KINDS = %w[
       created advanced held returned_from_hold moved exited reopened
-      flagged_complicated cleared_complicated note_added details_changed
+      flagged_complicated cleared_complicated note_added details_changed eoi_repeated
       emails_paused emails_resumed
       email_drafted email_not_drafted email_skipped email_edited email_discarded
       email_sending email_sent email_send_failed email_outcome_unknown email_returned_to_held

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'The /admissions area', type: :request do
+RSpec.describe 'The /admissions/staff area', type: :request do
   let!(:round) { Fabricate(:admissions_round, name: 'Fellowship 2027') }
   let(:lead) { admissions_staff(role: 'lead') }
   let(:officer) { admissions_staff(role: 'officer') }
@@ -21,17 +21,17 @@ RSpec.describe 'The /admissions area', type: :request do
       it "for #{who}" do
         sign_in(instance_exec(&make_user)) if make_user
 
-        get '/admissions'
+        get '/admissions/staff'
         expect_not_found
-        get "/admissions/rounds/#{round.id}"
+        get "/admissions/staff/rounds/#{round.id}"
         expect_not_found
-        get "/admissions/rounds/#{round.id}/edit"
+        get "/admissions/staff/rounds/#{round.id}/edit"
         expect_not_found
-        get '/admissions/rounds/new'
+        get '/admissions/staff/rounds/new'
         expect_not_found
-        patch "/admissions/rounds/#{round.id}", params: { admissions_round: { name: 'Hijacked' } }
+        patch "/admissions/staff/rounds/#{round.id}", params: { admissions_round: { name: 'Hijacked' } }
         expect_not_found
-        post '/admissions/rounds', params: { admissions_round: { name: 'Sneaky' } }
+        post '/admissions/staff/rounds', params: { admissions_round: { name: 'Sneaky' } }
         expect_not_found
 
         expect(round.reload.name).to eq 'Fellowship 2027'
@@ -40,7 +40,7 @@ RSpec.describe 'The /admissions area', type: :request do
     end
 
     it 'looks the same as a page that does not exist' do
-      get '/admissions'
+      get '/admissions/staff'
       admissions_body = response.body
       get '/no-such-page'
       expect(response.body).to eq admissions_body
@@ -56,7 +56,7 @@ RSpec.describe 'The /admissions area', type: :request do
       flagged = create_applicant(round: round, stage: 'eoi')
       staff_changes.flag_complicated!(flagged, note: 'n', check_back_on: Date.current)
 
-      get '/admissions'
+      get '/admissions/staff'
       expect(response).to have_http_status(:ok)
       body = Nokogiri::HTML(response.body)
       counts = body.css('table.admissions-stage-counts tbody tr').to_h { |tr| tr.css('td').map(&:text) }
@@ -65,22 +65,22 @@ RSpec.describe 'The /admissions area', type: :request do
     end
 
     it 'reads the settings but is offered no edit' do
-      get "/admissions/rounds/#{round.id}"
+      get "/admissions/staff/rounds/#{round.id}"
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('Programme fee', 'Ask me first', 'Staff turnaround: Applied')
       expect(response.body).not_to include('Edit settings')
     end
 
     it 'cannot edit or create' do
-      get "/admissions/rounds/#{round.id}/edit"
-      expect(response).to redirect_to('/admissions')
+      get "/admissions/staff/rounds/#{round.id}/edit"
+      expect(response).to redirect_to('/admissions/staff')
       expect(flash[:alert]).to eq 'Only an admissions lead can do that.'
 
-      patch "/admissions/rounds/#{round.id}", params: { admissions_round: { name: 'Renamed' } }
-      expect(response).to redirect_to('/admissions')
+      patch "/admissions/staff/rounds/#{round.id}", params: { admissions_round: { name: 'Renamed' } }
+      expect(response).to redirect_to('/admissions/staff')
       expect(round.reload.name).to eq 'Fellowship 2027'
 
-      post '/admissions/rounds', params: { admissions_round: { name: 'Another' } }
+      post '/admissions/staff/rounds', params: { admissions_round: { name: 'Another' } }
       expect(Admissions::Round.count).to eq 1
     end
   end
@@ -89,17 +89,17 @@ RSpec.describe 'The /admissions area', type: :request do
     before { sign_in lead }
 
     it 'edits the settings' do
-      get "/admissions/rounds/#{round.id}/edit"
+      get "/admissions/staff/rounds/#{round.id}/edit"
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('Programme fee (£)', 'Reminder interval (days)', 'Weekly reminder')
 
-      patch "/admissions/rounds/#{round.id}", params: { admissions_round: {
+      patch "/admissions/staff/rounds/#{round.id}", params: { admissions_round: {
         programme_fee_pounds: '3,000', accommodation_monthly_pounds: '1100.50', scholarship_pot_pounds: '',
         reminder_interval_days: '10',
         staff_turnaround_days: { 'applied' => '3', 'interviewed' => '' },
         email_modes: { 'confirmation' => 'automatic', 'reminder' => 'off' }
       } }
-      expect(response).to redirect_to("/admissions/rounds/#{round.id}")
+      expect(response).to redirect_to("/admissions/staff/rounds/#{round.id}")
       expect(flash[:notice]).to eq 'Round settings saved.'
 
       round.reload
@@ -113,12 +113,12 @@ RSpec.describe 'The /admissions area', type: :request do
       expect(round.email_mode('reminder')).to eq 'off'
       expect(round.email_mode('holding')).to eq 'ask_me_first'
 
-      get "/admissions/rounds/#{round.id}"
+      get "/admissions/staff/rounds/#{round.id}"
       expect(response.body).to include('Edit settings', '£3000.00', '10 days')
     end
 
     it 'sees errors and keeps what was typed' do
-      patch "/admissions/rounds/#{round.id}", params: { admissions_round: {
+      patch "/admissions/staff/rounds/#{round.id}", params: { admissions_round: {
         programme_fee_pounds: 'lots', reminder_interval_days: '0',
         staff_turnaround_days: { 'applied' => 'soon' }, email_modes: { 'confirmation' => 'sometimes' }
       } }
@@ -129,7 +129,7 @@ RSpec.describe 'The /admissions area', type: :request do
     end
 
     it 'ignores email types and stages that are not in the lists' do
-      patch "/admissions/rounds/#{round.id}", params: { admissions_round: {
+      patch "/admissions/staff/rounds/#{round.id}", params: { admissions_round: {
         email_modes: { 'made_up' => 'automatic' }, staff_turnaround_days: { 'invited' => '2' }
       } }
       expect(round.reload.email_modes).to eq({})
@@ -137,20 +137,20 @@ RSpec.describe 'The /admissions area', type: :request do
     end
 
     it 'creates a round' do
-      get '/admissions'
+      get '/admissions/staff'
       expect(response.body).to include('New round')
-      get '/admissions/rounds/new'
+      get '/admissions/staff/rounds/new'
       expect(response).to have_http_status(:ok)
 
-      post '/admissions/rounds', params: { admissions_round: { name: 'Fellowship 2028', opens_on: '2027-09-01' } }
+      post '/admissions/staff/rounds', params: { admissions_round: { name: 'Fellowship 2028', opens_on: '2027-09-01' } }
       created = Admissions::Round.find_by!(name: 'Fellowship 2028')
-      expect(response).to redirect_to("/admissions/rounds/#{created.id}")
+      expect(response).to redirect_to("/admissions/staff/rounds/#{created.id}")
       expect(created.opens_on).to eq Date.new(2027, 9, 1)
       expect(created.email_mode('offer')).to eq 'ask_me_first'
     end
 
     it 'gets a not-found for a round that does not exist' do
-      get '/admissions/rounds/0'
+      get '/admissions/staff/rounds/0'
       expect(response).to have_http_status(:not_found)
     end
   end

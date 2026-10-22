@@ -1,7 +1,10 @@
 - content_for :page_title do
   Admissions
 
+= render 'admissions/form_texts/status', reasons: @eoi_form_closed_reasons
+
 %p= link_to "Approval queue (#{pluralize(@held_count, 'email')} waiting)", admissions_emails_path
+%p= link_to 'EOI form wording', admissions_form_texts_path
 
 - if can?(:create, Admissions::Round)
   %p= link_to 'New round', new_admissions_round_path

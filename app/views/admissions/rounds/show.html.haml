@@ -2,7 +2,7 @@
   = @round.name
 
 - content_for :back_link do
-  = admissions_root_path
+  = admissions_staff_root_path
 
 - if can?(:update, @round)
   %p= link_to 'Edit settings', edit_admissions_round_path(@round)

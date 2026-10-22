@@ -10,7 +10,7 @@ module Admissions
     rescue_from(ActiveRecord::RecordNotFound) { route_not_found }
 
     rescue_from CanCan::AccessDenied do
-      redirect_to admissions_root_path, alert: 'Only an admissions lead can do that.'
+      redirect_to admissions_staff_root_path, alert: 'Only an admissions lead can do that.'
     end
 
     private
