@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_22_200000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_23_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,6 +67,27 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_200000) do
     t.index ["round_id"], name: "index_admissions_applicants_on_round_id"
     t.index ["stage"], name: "index_admissions_applicants_on_stage"
     t.check_constraint "stage::text <> 'withdrawn'::text OR email IS NULL AND phone IS NULL AND name IS NULL", name: "admissions_applicants_withdrawn_scrubbed"
+  end
+
+  create_table "admissions_backup_runs", force: :cascade do |t|
+    t.string "outcome", null: false
+    t.datetime "started_at", null: false
+    t.datetime "finished_at", null: false
+    t.bigint "schema_version"
+    t.string "content_checksum"
+    t.string "file_name"
+    t.string "file_checksum"
+    t.integer "file_bytes"
+    t.jsonb "row_counts", default: {}, null: false
+    t.jsonb "recipients", default: [], null: false
+    t.string "delivery"
+    t.string "delivery_message_id"
+    t.text "error"
+    t.datetime "created_at", null: false
+    t.index ["outcome", "id"], name: "index_admissions_backup_runs_on_outcome_and_id"
+    t.check_constraint "outcome::text <> 'failed'::text OR error IS NOT NULL", name: "admissions_backup_runs_failed_error"
+    t.check_constraint "outcome::text = 'failed'::text OR content_checksum IS NOT NULL", name: "admissions_backup_runs_checksum"
+    t.check_constraint "outcome::text = ANY (ARRAY['sent'::character varying, 'unchanged'::character varying, 'failed'::character varying]::text[])", name: "admissions_backup_runs_outcome"
   end
 
   create_table "admissions_email_templates", force: :cascade do |t|
@@ -306,6 +327,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_200000) do
     END
     $function$;
 
+    CREATE OR REPLACE FUNCTION public.admissions_backup_runs_append_only()
+     RETURNS trigger
+     LANGUAGE plpgsql
+    AS $function$
+    BEGIN
+      RAISE EXCEPTION 'the admissions backup log is append-only';
+    END
+    $function$;
+
     CREATE OR REPLACE FUNCTION public.admissions_emails_guard()
      RETURNS trigger
      LANGUAGE plpgsql
@@ -353,6 +383,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_200000) do
     CREATE TRIGGER admissions_applicant_events_no_truncate BEFORE TRUNCATE ON public.admissions_applicant_events FOR EACH STATEMENT EXECUTE FUNCTION admissions_applicant_events_append_only();
 
     CREATE TRIGGER admissions_applicants_guard BEFORE INSERT OR DELETE OR UPDATE ON public.admissions_applicants FOR EACH ROW EXECUTE FUNCTION admissions_applicants_guard();
+
+    CREATE TRIGGER admissions_backup_runs_append_only BEFORE DELETE OR UPDATE ON public.admissions_backup_runs FOR EACH ROW EXECUTE FUNCTION admissions_backup_runs_append_only();
+
+    CREATE TRIGGER admissions_backup_runs_no_truncate BEFORE TRUNCATE ON public.admissions_backup_runs FOR EACH STATEMENT EXECUTE FUNCTION admissions_backup_runs_append_only();
 
     CREATE TRIGGER admissions_emails_guard BEFORE INSERT OR DELETE OR UPDATE ON public.admissions_emails FOR EACH ROW EXECUTE FUNCTION admissions_emails_guard();
 
