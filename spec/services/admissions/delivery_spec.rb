@@ -132,6 +132,10 @@ RSpec.describe Admissions::Delivery do
       expect(client([]).inspect).not_to include('fake')
     end
 
+    it 'is backed by a suite-wide guard against reaching the network' do
+      expect { Net::HTTP.get(URI('https://example.com/')) }.to raise_error(/Tests may not reach the network/)
+    end
+
     it 'never reaches the network in tests' do
       real = described_class.new(client_id: 'fake-id', client_secret: 'fake-secret', refresh_token: 'fake-refresh')
       expect { real.send_raw('a') }.to raise_error(Admissions::Delivery::Error, /could not be reached/)

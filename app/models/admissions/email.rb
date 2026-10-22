@@ -26,8 +26,7 @@ module Admissions
     validates :email_type, inclusion: { in: EmailTypes.keys }
     validates :status, inclusion: { in: STATUSES }
     validates :subject, :body, presence: true, unless: :redacted?
-    validates :subject, length: { maximum: 250 }, format: { without: /[\r\n]/, message: 'must be one line' },
-                        allow_nil: true
+    validates :subject, format: { without: /[\r\n]/, message: 'must be one line' }, allow_nil: true
     validates :drafted_by_type, inclusion: { in: Stages::ACTOR_TYPES }
     validate :written_through_service
 

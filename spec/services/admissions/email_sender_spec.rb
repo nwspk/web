@@ -160,6 +160,16 @@ RSpec.describe Admissions::EmailSender do
 
       after { Admissions::Delivery.adapter = nil }
 
+      it 'keeps the email held when production delivery is not configured' do
+        Admissions::Delivery.adapter = nil
+        allow(Admissions::Delivery).to receive(:build)
+          .and_raise(Admissions::Delivery::NotConfigured, 'Gmail delivery is not configured: set X in the environment')
+        email = described_class.request_automatic!(applicant, 'confirmation')
+
+        expect(email).to be_held
+        expect(events('email_send_failed').sole.details['error']).to start_with('Gmail delivery is not configured')
+      end
+
       it 'keeps the email held for staff, and logs why' do
         email = described_class.request_automatic!(applicant, 'confirmation')
 
