@@ -58,6 +58,28 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  # Admissions (admit): staff only; anyone else gets the ordinary not-found.
+  namespace :admissions do
+    root to: 'rounds#index'
+    resources :rounds, only: %i[show new create edit update] do
+      resources :email_templates, only: %i[index new create edit update]
+    end
+    # The approval queue: held emails, shared among staff.
+    resources :emails, only: %i[index update] do
+      member do
+        post :discard
+        post :confirm_sent
+        post :confirm_not_sent
+      end
+    end
+    resources :applicants, only: [] do
+      member do
+        post :pause_emails
+        post :resume_emails
+      end
+    end
+  end
+
   root to: 'home#index'
 
   get '*unmatched_route', to: 'application#route_not_found', constraints: { format: :html }

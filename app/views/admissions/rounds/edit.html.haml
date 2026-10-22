@@ -1,0 +1,7 @@
+- content_for :page_title do
+  Settings: #{@round.name}
+
+- content_for :back_link do
+  = admissions_round_path(@round)
+
+= render 'form'

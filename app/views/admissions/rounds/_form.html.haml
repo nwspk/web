@@ -1,0 +1,38 @@
+= simple_form_for @round, url: (@round.new_record? ? admissions_rounds_path : admissions_round_path(@round)) do |f|
+  = f.error_notification
+  - if f.object.errors[:base].any?
+    .alert.alert-danger= f.object.errors[:base].to_sentence
+
+  = f.input :name, label: 'Name'
+  = f.input :opens_on, as: :date, html5: true, label: 'Opens'
+  = f.input :invites_on, as: :date, html5: true, label: 'Invitations go out'
+  = f.input :closes_on, as: :date, html5: true, label: 'Closes (planned)'
+
+  %h3 Money
+  = f.input :programme_fee_pounds, label: 'Programme fee (£)', required: false
+  = f.input :accommodation_monthly_pounds, label: 'Accommodation per month (£)', required: false
+  = f.input :scholarship_pot_pounds, label: 'Scholarship pot (£, optional)', required: false
+
+  %h3 Timings
+  = f.input :reminder_interval_days, label: 'Reminder interval (days)', input_html: { min: 1, max: 365 }
+  - Admissions::Round.staff_stages.each do |stage|
+    .form-group
+      = label_tag "admissions_round_staff_turnaround_days_#{stage}", "Staff turnaround: #{Admissions::Stages.label(stage)} (days)"
+      = number_field_tag "admissions_round[staff_turnaround_days][#{stage}]",
+        f.object.staff_turnaround_days.fetch(stage, Admissions::Round::DEFAULT_DAYS),
+        min: 1, max: 365, class: 'form-control', id: "admissions_round_staff_turnaround_days_#{stage}"
+  - if f.object.errors[:staff_turnaround_days].any?
+    .alert.alert-danger= f.object.errors.full_messages_for(:staff_turnaround_days).to_sentence
+
+  %h3 Email modes
+  %p Every type starts on “Ask me first”.
+  - Admissions::EmailTypes::TYPES.each do |type, label|
+    .form-group
+      = label_tag "admissions_round_email_modes_#{type}", label
+      = select_tag "admissions_round[email_modes][#{type}]",
+        options_for_select(Admissions::EmailTypes::MODES.invert, f.object.email_modes.fetch(type, Admissions::EmailTypes::DEFAULT_MODE)),
+        class: 'form-control', id: "admissions_round_email_modes_#{type}"
+  - if f.object.errors[:email_modes].any?
+    .alert.alert-danger= f.object.errors.full_messages_for(:email_modes).to_sentence
+
+  = f.button :submit, 'Save'
