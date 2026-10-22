@@ -20,6 +20,25 @@ RSpec.describe Admissions::Applicant do
     expect(Admissions::StateRebuilder).to be_consistent(applicant)
   end
 
+  describe '#first_interest_on' do
+    it "is the date entered on a card created by hand, else the record's creation day" do
+      by_hand = staff_changes.create!(round: Fabricate(:admissions_round), email: 'a@example.com',
+                                      details: { 'via' => 'by_hand', 'first_interest_on' => '2026-03-04' })
+      expect(by_hand.first_interest_on).to eq Date.new(2026, 3, 4)
+      expect(Timecop.freeze(Date.new(2026, 10, 1)) { create_applicant }.first_interest_on).to eq Date.new(2026, 10, 1)
+    end
+  end
+
+  describe '#display_name' do
+    it 'is the name once known, else the address, else says the record is withdrawn' do
+      expect(applicant.display_name).to eq applicant.name
+      staff_changes.update_details!(applicant, name: nil)
+      expect(applicant.display_name).to eq applicant.email
+      staff_changes.withdraw!(applicant)
+      expect(applicant.display_name).to eq "Withdrawn applicant ##{applicant.id}"
+    end
+  end
+
   describe 'database guards' do
     let!(:rows) { described_class.where(id: applicant.id) }
 

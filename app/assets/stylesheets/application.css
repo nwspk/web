@@ -1116,8 +1116,8 @@ summary {
   padding-bottom: 1em;
 }
 .admissions-column {
-  flex: 0 0 13em;
-  background: #f1f1f1;
+  flex: 0 0 12em;
+  background: var(--grey-2);
   padding: 0.5em;
 }
 .admissions-column h3 {
@@ -1152,6 +1152,16 @@ summary {
   margin: 0.25em 0.25em 0 0;
   font-size: 0.85em;
 }
+.admissions-finished summary,
+.admissions-history summary {
+  font-family: var(--sans-serif-font);
+  font-size: 0.9em;
+  padding: 0.25em 0;
+}
+.admissions-finished summary::marker,
+.admissions-history summary::marker {
+  font-size: 1em;
+}
 .admissions-finished .admissions-card {
   display: inline-block;
   width: 13em;
@@ -1176,4 +1186,27 @@ summary {
 }
 .admissions-history li {
   margin-bottom: 0.75em;
+}
+/* Below 940px the page's single grid track is sized to its content, so the
+   board's row of columns (or a long address) would widen the whole page.
+   On the staff screens, main may shrink to the window instead, and the
+   board scrolls sideways within it. */
+main:has(.admissions-board, .admissions-details) {
+  min-width: 0;
+}
+.admissions-details td,
+.admissions-history li {
+  overflow-wrap: anywhere;
+}
+/* The applicant page has many sections: its headings step down from the
+   site's display sizes, which would also overflow a phone on a long word. */
+main:has(.admissions-details) h3 {
+  font-size: 1.6em;
+}
+/* An email's text, previewed or as sent, set off from the page around it. */
+.admissions-preview,
+.admissions-sent-email {
+  border-left: 3px solid var(--grey-1);
+  padding-left: 1em;
+  margin-bottom: 1.5em;
 }

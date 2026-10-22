@@ -31,6 +31,12 @@ RSpec.describe Ability, 'admissions' do
     expect(ability.can?(:create, Admissions::StaffMember)).to be false
   end
 
+  it 'leaves withdrawal, which erases a person\'s details, to a lead' do
+    expect(described_class.new(admissions_staff(role: 'officer')).can?(:withdraw, applicant)).to be false
+    expect(described_class.new(admissions_staff(role: 'lead')).can?(:withdraw, applicant)).to be true
+    expect(described_class.new(Fabricate(:user, role: 'admin')).can?(:withdraw, applicant)).to be false
+  end
+
   it 'lets a lead also run rounds and the staff list' do
     ability = described_class.new(admissions_staff(role: 'lead'))
     expect(ability.can?(:update, applicant)).to be true

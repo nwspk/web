@@ -5,7 +5,7 @@
 %a.admissions-card{ href: admissions_applicant_path(applicant), id: "card-#{applicant.id}" }
   %span.admissions-card-name= applicant.display_name
   %span.admissions-card-time
-    - if applicant.complicated? && !applicant.terminal?
+    - if applicant.complicated?
       #{admissions_stage_label(applicant.funnel_stage)}#{' (on hold)' if applicant.on_hold?},
       check back #{l(applicant.complicated_check_back_on, format: :long)}
     - elsif applicant.on_hold?

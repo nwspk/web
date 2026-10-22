@@ -389,6 +389,17 @@ complicated_check_back_on: Date.current + 5)
       end
     end
 
+    it 'leaves withdrawal to a lead: an officer may defer but not withdraw' do
+      officer = staff_changes(admissions_staff(role: 'officer'))
+      applicant = create_applicant(stage: 'applied')
+      expect { officer.withdraw!(applicant) }.to raise_error(not_permitted, /only an admissions lead/)
+      expect(applicant.reload).to have_attributes(stage: 'applied', email: be_present)
+      officer.exit!(applicant, to: 'deferred')
+      expect { officer.withdraw!(applicant) }.to raise_error(not_permitted)
+      staff.withdraw!(applicant)
+      expect(applicant.reload.stage).to eq 'withdrawn'
+    end
+
     it 'cannot withdraw twice, or exit to a non-exit' do
       expect { staff.withdraw!(applicant_at('withdrawn')) }.to raise_error(illegal)
       expect { staff.exit!(create_applicant, to: 'confirmed') }.to raise_error(illegal)

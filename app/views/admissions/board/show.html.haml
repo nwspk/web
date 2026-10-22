@@ -19,6 +19,8 @@
       The EOI form is filling this round.
     = link_to 'New card', new_admissions_applicant_path(round: @round.id)
 
+  %p.admissions-small
+    #{Admissions::Board::COLUMNS.size} columns, from EOI to "it's complicated": scroll sideways to see them all.
   .admissions-board
     - @board.columns.each do |column, applicants|
       %section.admissions-column{ id: "column-#{column}" }

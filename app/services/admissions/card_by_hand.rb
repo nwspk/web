@@ -41,9 +41,23 @@ module Admissions
     validate :first_interest_on_a_past_date
     validate :ticked_emails_offered
 
-    def email=(value) = super(value.to_s.strip)
-    def phone=(value) = super(value.to_s.strip.presence)
-    def name=(value) = super(value.to_s.squish.presence)
+    def email=(value)
+      super(value.to_s.strip)
+    end
+
+    def phone=(value)
+      super(value.to_s.strip.presence)
+    end
+
+    def name=(value)
+      super(value.to_s.squish.presence)
+    end
+
+    # Kept as typed, so a date that doesn't parse is reported, not ignored.
+    def first_interest_on=(value)
+      @first_interest_on_typed = value
+      super
+    end
 
     # The email types ticked to send.
     def send_emails = @send_emails || []
@@ -158,8 +172,7 @@ module Admissions
     end
 
     def first_interest_on_a_past_date
-      typed = first_interest_on_before_type_cast
-      if typed.present? && first_interest_on.nil?
+      if @first_interest_on_typed.present? && first_interest_on.nil?
         errors.add(:first_interest_on, "That isn't a date.")
       elsif first_interest_on && first_interest_on > Date.current
         errors.add(:first_interest_on, "That's in the future.")
@@ -170,7 +183,8 @@ module Admissions
       unknown = send_emails - offered_emails
       return if unknown.empty?
 
-      errors.add(:send_emails, "A card at this stage can't send #{unknown.map { |t| EmailTypes::TYPES.fetch(t, t) }.to_sentence}.")
+      labels = unknown.map { |type| EmailTypes::TYPES.fetch(type, type) }
+      errors.add(:send_emails, "A card at this stage can't send #{labels.to_sentence}.")
     end
   end
 end

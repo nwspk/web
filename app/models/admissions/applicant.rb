@@ -39,7 +39,7 @@ module Admissions
     scope :active, -> { where.not(stage: Stages::TERMINAL) }
     # Flagged "it's complicated" with the check-back date come (SPEC §3a).
     scope :check_back_due, lambda { |on = Date.current|
-      active.where(complicated: true).where(complicated_check_back_on: ..on)
+      where(complicated: true, complicated_check_back_on: ..on)
     }
     # On hold with the return date come: staff return them (SPEC §3a).
     scope :hold_return_due, ->(on = Date.current) { where(stage: Stages::ON_HOLD, hold_until: ..on) }

@@ -147,7 +147,7 @@
   %p Notes appear in the history, with who wrote them.
 
 %h3#history History
-%ol.admissions-history{ reversed: true }
+%ul.admissions-history
   - @events.each do |event|
     %li{ id: "event-#{event.id}" }
       %span.admissions-small

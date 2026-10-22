@@ -2,9 +2,10 @@ module Admissions
   # The kanban-board's columns for one round (SPEC §2 kanban-board, §3a): one
   # per funnel stage that isn't terminal, in funnel order, then on hold, then
   # "it's complicated". A flagged applicant shows only in the complicated
-  # column, whatever their stage or hold (the flag decides where the card
-  # shows, SPEC §3). Applicants who have finished (confirmed, or any exit)
-  # are kept apart in #finished, which the board shows collapsed.
+  # column, whatever their stage or hold, confirmed included (the flag
+  # decides where the card shows, SPEC §3; every exit clears it). Applicants
+  # who have finished (confirmed, or any exit) are kept apart in #finished,
+  # which the board shows collapsed.
   #
   # Within a column the card that has sat longest comes first.
   class Board
@@ -19,7 +20,7 @@ module Admissions
     end
 
     def self.column_for(applicant)
-      applicant.complicated? && !applicant.terminal? ? COMPLICATED : applicant.stage
+      applicant.complicated? ? COMPLICATED : applicant.stage
     end
 
     def self.column_label(column)
