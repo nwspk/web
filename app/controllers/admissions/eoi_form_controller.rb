@@ -17,7 +17,7 @@ module Admissions
 
     rate_limit to: RATE_LIMIT, within: RATE_LIMIT_WINDOW, only: :create,
                by: -> { OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, request.remote_ip) },
-               with: -> { render :rate_limited, status: :too_many_requests }
+               with: -> { refuse_over_rate_limit }
 
     def show
       @form = EoiForm.new
@@ -44,6 +44,13 @@ module Admissions
     def thanks; end
 
     private
+
+    # A refused submission may be a real person's lost EOI, so it leaves a
+    # trace in the log: no IP, no address, only that it happened.
+    def refuse_over_rate_limit
+      logger.warn('[admissions] EOI rate limit hit; submission refused')
+      render :rate_limited, status: :too_many_requests
+    end
 
     def eoi_params
       eoi = params[:eoi]

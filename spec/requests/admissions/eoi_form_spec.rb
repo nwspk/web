@@ -133,6 +133,16 @@ RSpec.describe 'The EOI form at /admissions', type: :request do
       expect(Admissions::Applicant.count).to eq limit
     end
 
+    it 'logs each refusal, naming no IP and no address' do
+      allow(Rails.logger).to receive(:warn).and_call_original
+      limit.times { |i| post_eoi(email: "person#{i}@example.com") }
+      expect(Rails.logger).not_to have_received(:warn).with(/rate limit/)
+
+      post_eoi(email: 'one.too.many@example.com')
+
+      expect(Rails.logger).to have_received(:warn).with('[admissions] EOI rate limit hit; submission refused').once
+    end
+
     it 'counts each address separately' do
       limit.times { |i| post_eoi(email: "person#{i}@example.com") }
       post '/admissions', params: { eoi: { email: 'elsewhere@example.com' } },
