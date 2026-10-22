@@ -1,0 +1,13 @@
+# Runs nwspk-admissions-backup.service every night at 02:30 London time.
+# Persistent=true runs a night missed while the server was off as soon as
+# it is back. Installed by bin/install-admissions-timers.
+[Unit]
+Description=Nightly admissions backup at 02:30 London time
+
+[Timer]
+OnCalendar=*-*-* 02:30:00 Europe/London
+Persistent=true
+Unit=nwspk-admissions-backup.service
+
+[Install]
+WantedBy=timers.target

@@ -15,6 +15,9 @@ Rails.application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
+  # In memory, and cleared before each example (spec/support/cache.rb), so
+  # nothing cached (the EOI form's rate-limit counts, say) outlives a test.
+  config.cache_store = :memory_store
 
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = :none

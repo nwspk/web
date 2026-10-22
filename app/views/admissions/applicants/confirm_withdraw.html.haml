@@ -1,0 +1,50 @@
+- content_for :page_title do
+  Withdraw #{@applicant.display_name}
+
+- a = @applicant
+- emails = a.emails.to_a
+- held = emails.count { |email| email.held? }
+- written = a.events.where.not(body: nil).count
+%p= link_to "Back to #{a.display_name}", admissions_applicant_path(a)
+
+%h2 Withdraw #{a.display_name}: remove their details
+
+%p
+  Only do this when they have asked for their details to be removed.
+  If they're dropping out, defer them instead: deferring keeps them, to be invited again another year.
+
+%h3 What will be erased
+%ul
+  %li
+    Their email address, phone number and name on this record, in #{a.round.name}.
+  %li
+    The text of every email to them on this record:
+    #{pluralize(emails.size, 'email')}, sent or not, with each one's subject, body and address.
+  %li
+    Everything written in this record's history:
+    #{pluralize(written, 'entry', plural: 'entries')} with text, such as notes, hold reasons,
+    "it's complicated" notes and email texts.
+  - if held.positive?
+    %li
+      #{pluralize(held, 'email')} waiting for approval will be discarded, so nothing more can go to them.
+
+%h3 What is kept
+%ul
+  %li
+    An anonymous record: which stages they passed through, when, and who acted, for the round's statistics.
+  %li
+    - if @person_records.any?
+      Their records in other rounds, which this doesn't touch. To erase them everywhere, withdraw each of these too:
+      - @person_records.each do |record|
+        = link_to "#{record.round.name} (#{admissions_stage_label(record.stage)})", admissions_applicant_path(record)
+    - else
+      Nothing else: they have no records in other rounds.
+
+%p
+  %strong This can't be undone.
+
+= form_tag withdraw_admissions_applicant_path(a) do
+  %p
+    = check_box_tag :confirm, '1', false, required: true
+    = label_tag :confirm, "I understand this erases #{a.display_name}'s details for good."
+  = submit_tag 'Erase their details and withdraw them'

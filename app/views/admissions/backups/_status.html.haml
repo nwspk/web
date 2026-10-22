@@ -1,0 +1,39 @@
+-# The nightly backup's health (Admissions::BackupRun.warning): red while
+-# the latest run failed or no run has been recorded for over a night, and
+-# a plain line otherwise.
+- kind, run = warning
+- last_sent = Admissions::BackupRun.last_sent
+- if kind == :failed
+  - first = Admissions::BackupRun.failures_since_last_success.first
+  .alert.alert-danger
+    %strong The nightly backup failed
+    = succeed ':' do
+      at #{l(run.finished_at, format: :long)}
+    = succeed '.' do
+      = run.error
+    - if first && first != run
+      It has failed every night since #{l(first.finished_at, format: :long)}.
+    - if last_sent
+      The last backup emailed to the leads was taken #{l(last_sent.started_at, format: :long)}.
+    - else
+      No backup has been emailed yet.
+    This warning stays until a night's backup succeeds.
+- elsif kind == :overdue
+  .alert.alert-danger
+    %strong
+      - if run
+        No nightly backup has run since #{l(run.finished_at, format: :long)}.
+      - else
+        No nightly backup has run yet.
+    The server should run it every night; until it does, nothing new is backed up.
+- elsif (latest = Admissions::BackupRun.latest)
+  %p
+    Backups: last checked #{l(latest.finished_at, format: :long)}
+    - if last_sent
+      = succeed '.' do
+        and last emailed to the leads #{l(last_sent.finished_at, format: :long)}
+    - else
+      = succeed '.' do
+        and nothing has been emailed yet
+    - if last_sent&.recording?
+      (Recording only: nothing actually went out.)

@@ -1,0 +1,12 @@
+- content_for :page_title do
+  Register your interest
+
+%h2.no-topping Register your interest
+
+-# Shown, and nothing saved, while there is no privacy notice or no
+-# unclosed round; the staff home page says which.
+%p We're not taking expressions of interest just now. Please check back soon.
+%p
+  You can read about the fellowship on our
+  = succeed '.' do
+    = link_to 'Study with us page', study_with_us_path
