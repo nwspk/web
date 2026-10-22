@@ -2,12 +2,15 @@ require 'rails_helper'
 
 RSpec.describe 'The EOI form at /admissions', type: :request do
   let(:lead) { admissions_staff }
-  let!(:round) { Fabricate(:admissions_round, name: 'Fellowship 2027', opens_on: Date.current - 30, invites_on: Date.current + 60) }
+  let!(:round) do
+    Fabricate(:admissions_round, name: 'Fellowship 2027', opens_on: Date.current - 30, invites_on: Date.current + 60)
+  end
 
   before do
     Admissions::FormText.create!(key: 'privacy_notice', created_by_user: lead,
                                  body: "Test privacy notice, paragraph one.\n\nParagraph two: https://example.com/policy.")
-    Admissions::FormText.create!(key: 'eoi_introduction', created_by_user: lead, body: 'Test introduction <b>not bold</b>.')
+    Admissions::FormText.create!(key: 'eoi_introduction', created_by_user: lead,
+                                 body: 'Test introduction <b>not bold</b>.')
     # An EOI has no name, so these use only {{round}}.
     email_template(round, 'confirmation', subject: 'Test confirmation', body: 'Test body for {{round}}.')
     email_template(round, 'holding', subject: 'Test holding', body: 'Test holding body.')
@@ -119,7 +122,7 @@ RSpec.describe 'The EOI form at /admissions', type: :request do
   describe 'the rate limit' do
     let(:limit) { Admissions::EoiFormController::RATE_LIMIT }
 
-    it "takes #{Admissions::EoiFormController::RATE_LIMIT} submissions an hour from one address, then refuses plainly" do
+    it "takes #{Admissions::EoiFormController::RATE_LIMIT} submissions an hour from one address, then refuses" do
       limit.times { |i| post_eoi(email: "person#{i}@example.com") }
       expect(Admissions::Applicant.count).to eq limit
 
@@ -132,7 +135,8 @@ RSpec.describe 'The EOI form at /admissions', type: :request do
 
     it 'counts each address separately' do
       limit.times { |i| post_eoi(email: "person#{i}@example.com") }
-      post '/admissions', params: { eoi: { email: 'elsewhere@example.com' } }, headers: { 'REMOTE_ADDR' => '203.0.113.9' }
+      post '/admissions', params: { eoi: { email: 'elsewhere@example.com' } },
+                          headers: { 'REMOTE_ADDR' => '203.0.113.9' }
       expect(response).to redirect_to('/admissions/thank-you')
     end
 

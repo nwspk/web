@@ -7,6 +7,10 @@ RSpec.describe 'The EOI form wording and status, for staff', type: :request do
 
   def notice_versions = Admissions::FormText.where(key: 'privacy_notice').order(:id)
 
+  def write_notice(body)
+    patch '/admissions/staff/wording/privacy_notice', params: { admissions_form_text: { body: body } }
+  end
+
   describe 'a lead' do
     before { sign_in lead }
 
@@ -17,7 +21,7 @@ RSpec.describe 'The EOI form wording and status, for staff', type: :request do
 
       get '/admissions/staff/wording/privacy_notice/edit'
       expect(response).to have_http_status(:ok)
-      patch '/admissions/staff/wording/privacy_notice', params: { admissions_form_text: { body: "Test notice.\r\n\r\nTwo." } }
+      write_notice("Test notice.\r\n\r\nTwo.")
 
       expect(response).to redirect_to('/admissions/staff/wording')
       expect(flash[:notice]).to eq 'Privacy notice saved. The form shows it from now on.'
@@ -31,8 +35,8 @@ RSpec.describe 'The EOI form wording and status, for staff', type: :request do
     end
 
     it 'keeps every earlier version, and shows them' do
-      patch '/admissions/staff/wording/privacy_notice', params: { admissions_form_text: { body: 'First test notice.' } }
-      patch '/admissions/staff/wording/privacy_notice', params: { admissions_form_text: { body: 'Second test notice.' } }
+      write_notice('First test notice.')
+      write_notice('Second test notice.')
 
       expect(notice_versions.map(&:body)).to eq ['First test notice.', 'Second test notice.']
       get '/admissions/staff/wording'
@@ -42,16 +46,16 @@ RSpec.describe 'The EOI form wording and status, for staff', type: :request do
     end
 
     it 'saves no version when nothing changed' do
-      patch '/admissions/staff/wording/privacy_notice', params: { admissions_form_text: { body: 'Test notice.' } }
-      patch '/admissions/staff/wording/privacy_notice', params: { admissions_form_text: { body: " Test notice.\n" } }
+      write_notice('Test notice.')
+      write_notice(" Test notice.\n")
 
       expect(flash[:notice]).to eq 'Privacy notice: no change to save.'
       expect(notice_versions.count).to eq 1
     end
 
     it 'cannot blank the privacy notice, which would close the form' do
-      patch '/admissions/staff/wording/privacy_notice', params: { admissions_form_text: { body: 'Test notice.' } }
-      patch '/admissions/staff/wording/privacy_notice', params: { admissions_form_text: { body: '  ' } }
+      write_notice('Test notice.')
+      write_notice('  ')
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(notice_versions.count).to eq 1
@@ -92,7 +96,7 @@ RSpec.describe 'The EOI form wording and status, for staff', type: :request do
 
       get '/admissions/staff/wording/privacy_notice/edit'
       expect(response).to redirect_to('/admissions/staff')
-      patch '/admissions/staff/wording/privacy_notice', params: { admissions_form_text: { body: 'Hijacked' } }
+      write_notice('Hijacked')
       expect(response).to redirect_to('/admissions/staff')
       expect(flash[:alert]).to eq 'Only an admissions lead can do that.'
       expect(notice_versions.map(&:body)).to eq ['Test notice.']

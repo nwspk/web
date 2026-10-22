@@ -125,7 +125,7 @@ module Admissions
       if email.blank?
         errors.add(:email, 'Please enter your email address.')
       elsif email.length > EMAIL_MAX_LENGTH || !email.match?(URI::MailTo::EMAIL_REGEXP) ||
-            !email.split('@', 2).last.include?('.')
+            email.split('@', 2).last.exclude?('.')
         # A domain with no dot is nearly always a slip ("name@gmail").
         errors.add(:email, "That doesn't look like an email address. Please check it.")
       end

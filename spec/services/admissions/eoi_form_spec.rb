@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe Admissions::EoiForm do
   let(:lead) { admissions_staff }
   # Applications open in February: a round before then is out of round.
-  let!(:round) { Fabricate(:admissions_round, name: 'Fellowship 2027', opens_on: Date.current - 30, invites_on: Date.current + 60) }
+  let!(:round) do
+    Fabricate(:admissions_round, name: 'Fellowship 2027', opens_on: Date.current - 30, invites_on: Date.current + 60)
+  end
   let!(:notice) { set_privacy_notice('Test privacy notice.') }
 
   before do
@@ -219,9 +221,11 @@ RSpec.describe Admissions::EoiForm do
 
   describe 'which round' do
     it 'is the earliest unclosed round by opening date' do
-      Fabricate(:admissions_round, name: 'Fellowship 2028', opens_on: round.opens_on + 365, invites_on: nil, closes_on: nil)
+      Fabricate(:admissions_round, name: 'Fellowship 2028', opens_on: round.opens_on + 365,
+                                   invites_on: nil, closes_on: nil)
       Fabricate(:admissions_round, name: 'Undated', opens_on: nil, invites_on: nil, closes_on: nil)
-      Fabricate(:admissions_round, name: 'Fellowship 2026', opens_on: round.opens_on - 365, invites_on: nil, closes_on: nil)
+      Fabricate(:admissions_round, name: 'Fellowship 2026', opens_on: round.opens_on - 365,
+                                   invites_on: nil, closes_on: nil)
         .update!(closed_at: 1.day.ago)
 
       expect(described_class.round).to eq round
