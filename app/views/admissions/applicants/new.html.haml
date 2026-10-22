@@ -1,0 +1,55 @@
+- content_for :page_title do
+  New card
+
+%p= link_to 'Admissions', admissions_staff_root_path
+
+%h2 New card
+
+%p
+  For someone who got in touch another way: by email, at an event, or through the old Google Form.
+
+= simple_form_for @card, as: :card, url: admissions_applicants_path, method: :post do |f|
+  = f.error :base, class: 'alert alert-danger'
+  = f.input :email, label: 'Email address', input_html: { autocomplete: 'off' }
+  - if @card.existing
+    .alert.alert-danger
+      = link_to "Open the existing card for #{@card.existing.display_name}", admissions_applicant_path(@card.existing)
+  = f.input :phone, label: 'Phone number (optional)', required: false
+  = f.input :name, label: 'Name (optional)', required: false
+  = f.input :round_id, label: 'Round', collection: Admissions::Round.order(Arel.sql('opens_on DESC NULLS LAST'), id: :desc),
+    label_method: :name, value_method: :id, include_blank: false
+  = f.input :stage, label: 'Stage', collection: Admissions::Stages::FUNNEL.map { |s| [admissions_stage_label(s), s] },
+    include_blank: false,
+    hint: 'Only a card at EOI can send emails yet: the confirmation and the holding email. A card at any other stage is created without sending anything.'
+  = f.input :first_interest_on, as: :date, html5: true, required: false,
+    label: 'First expressed interest (optional)',
+    hint: 'For an EOI from elsewhere, such as the old Google Form: the day they first got in touch, so the funnel statistics count it from then. Leave it blank for today.'
+  = f.error :send_emails, class: 'alert alert-danger'
+
+  - if @previews
+    %h3 Emails to send
+    %p
+      Tick any you want sent now, exactly as shown. Nothing is ticked unless you tick it, and nothing unticked is sent.
+      - if @card.round&.applications_open?
+        Applications are open for #{@card.round.name}, so the EOI form itself would not send the holding email.
+    - @previews.each do |preview|
+      .admissions-preview{ id: "preview-#{preview.type}" }
+        - if preview.sendable?
+          %p
+            = check_box_tag 'card[send_emails][]', preview.type, @card.send_emails.include?(preview.type),
+              id: "send_#{preview.type}"
+            = label_tag "send_#{preview.type}", "Send the #{preview.label}"
+          %p
+            %strong Subject:
+            = preview.subject
+          %pre.admissions-text= preview.body
+        - else
+          %p
+            %strong= preview.label
+            can't be sent: #{preview.problem}.
+    = hidden_field_tag :preview_digest, @card.preview_digest
+    %p
+      = f.button :submit, 'Create card', name: 'create'
+      = f.button :submit, 'Show the emails again', name: 'continue'
+  - else
+    = f.button :submit, 'Continue', name: 'continue'

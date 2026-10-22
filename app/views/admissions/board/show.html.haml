@@ -1,0 +1,37 @@
+- content_for :page_title do
+  Board#{": #{@round.name}" if @round}
+
+%p= link_to 'Admissions', admissions_staff_root_path
+
+- if @round.nil?
+  %h2 Board
+  %p No rounds yet.
+- else
+  %h2 Board: #{@round.name}
+
+  = form_tag admissions_board_path, method: :get, class: 'admissions-round-picker' do
+    = label_tag :round, 'Round'
+    = select_tag :round, options_from_collection_for_select(@rounds, :id, :name, @round.id)
+    = submit_tag 'Show', name: nil
+
+  %p
+    - if @round == Admissions::EoiForm.round
+      The EOI form is filling this round.
+    = link_to 'New card', new_admissions_applicant_path(round: @round.id)
+
+  %p.admissions-small
+    #{Admissions::Board::COLUMNS.size} columns, from EOI to "it's complicated": scroll sideways to see them all.
+  .admissions-board
+    - @board.columns.each do |column, applicants|
+      %section.admissions-column{ id: "column-#{column}" }
+        %h3 #{Admissions::Board.column_label(column)} (#{applicants.size})
+        - applicants.each do |applicant|
+          = render 'admissions/applicants/card', applicant: applicant, waiting: @board.waiting_emails[applicant.id]
+
+  %h3 Finished
+  %p Confirmed, and everyone who has left the round. Open a heading to see its cards.
+  - @board.finished.each do |state, applicants|
+    %details.admissions-finished{ id: "finished-#{state}" }
+      %summary #{admissions_stage_label(state)} (#{applicants.size})
+      - applicants.each do |applicant|
+        = render 'admissions/applicants/card', applicant: applicant, waiting: @board.waiting_emails[applicant.id]

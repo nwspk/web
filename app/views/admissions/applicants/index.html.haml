@@ -1,0 +1,15 @@
+- title = Admissions::ApplicantsController::DUE_LISTS.fetch(@due)
+- content_for :page_title do
+  = title
+
+%p= link_to 'Admissions', admissions_staff_root_path
+
+%h2= title
+
+- if @applicants.empty?
+  %p Nobody, just now.
+- else
+  .admissions-due-list
+    - @applicants.each do |applicant|
+      %p.admissions-small= applicant.round.name
+      = render 'card', applicant: applicant

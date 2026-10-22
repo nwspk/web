@@ -563,6 +563,7 @@ li {
 
 input[type="text"],
 input[type="email"],
+input[type="tel"],
 input[type="url"],
 input[type="password"],
 input[type="datetime-local"] {
@@ -881,14 +882,38 @@ label {
 #feedback-form .help-block {
   margin-bottom: 0.25em;
 }
-/* The feedback form's decoy field: present in the markup, never on screen.
-   Positioned away rather than display: none, which form-filling bots check. */
-#feedback-form .form-group-extra {
+/* The feedback and EOI forms' decoy fields: present in the markup, never on
+   screen. Positioned away rather than display: none, which form-filling bots
+   check. */
+#feedback-form .form-group-extra,
+#eoi-form .form-group-extra {
   position: absolute;
   left: -9999px;
   width: 1px;
   height: 1px;
   overflow: hidden;
+}
+
+/* The EOI form (/admissions): a field that needs fixing says why in the
+   site's danger red, and the privacy notice sits quietly above the button,
+   in the small sans the site uses for fine print. */
+#eoi-form .has-error .help-block {
+  color: var(--danger);
+  font-family: var(--sans-serif-font);
+  font-size: 0.85em;
+  margin-top: 0.25em;
+}
+#eoi-form .has-error input {
+  border-color: var(--danger);
+}
+.eoi-privacy {
+  font-family: var(--sans-serif-font);
+  font-size: 0.85em;
+  color: #737373;
+  margin: 1.5em 0;
+}
+.eoi-privacy p {
+  margin: 0 0 0.75em;
 }
 
 /* The plaque: a full-viewport-width charcoal band above everything — roundel
@@ -1078,4 +1103,110 @@ summary::-webkit-details-marker {
 summary {
   padding: 50px 0px 0px 10px;
   border-radius: 5px;
+}
+
+/* The admissions staff screens (/admissions/staff): plain and functional,
+   since only staff see them. The board's columns sit side by side and
+   scroll sideways inside the text column, so the page itself never does. */
+.admissions-board {
+  display: flex;
+  gap: 0.75em;
+  overflow-x: auto;
+  align-items: flex-start;
+  padding-bottom: 1em;
+}
+.admissions-column {
+  flex: 0 0 12em;
+  background: var(--grey-2);
+  padding: 0.5em;
+}
+.admissions-column h3 {
+  font-family: var(--sans-serif-font);
+  font-size: 0.9em;
+  margin: 0 0 0.5em;
+}
+.admissions-card {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--grey-2);
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  text-decoration: none;
+  color: var(--almost-black);
+  font-family: var(--sans-serif-font);
+  font-size: 0.85em;
+}
+.admissions-card-name {
+  display: block;
+  color: var(--red);
+  overflow-wrap: anywhere;
+}
+.admissions-card-time {
+  display: block;
+  color: #737373;
+}
+.admissions-marker {
+  display: inline-block;
+  border: 1px solid var(--almost-black);
+  padding: 0 0.3em;
+  margin: 0.25em 0.25em 0 0;
+  font-size: 0.85em;
+}
+.admissions-finished summary,
+.admissions-history summary {
+  font-family: var(--sans-serif-font);
+  font-size: 0.9em;
+  padding: 0.25em 0;
+}
+.admissions-finished summary::marker,
+.admissions-history summary::marker {
+  font-size: 1em;
+}
+.admissions-finished .admissions-card {
+  display: inline-block;
+  width: 13em;
+  vertical-align: top;
+  margin-right: 0.5em;
+}
+.admissions-small {
+  font-family: var(--sans-serif-font);
+  font-size: 0.85em;
+  color: #737373;
+}
+.admissions-text {
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+.admissions-inline {
+  display: inline;
+}
+.admissions-actions section {
+  border-top: 1px solid var(--grey-2);
+  padding-top: 0.5em;
+}
+.admissions-history li {
+  margin-bottom: 0.75em;
+}
+/* Below 940px the page's single grid track is sized to its content, so the
+   board's row of columns (or a long address) would widen the whole page.
+   On the staff screens, main may shrink to the window instead, and the
+   board scrolls sideways within it. */
+main:has(.admissions-board, .admissions-details) {
+  min-width: 0;
+}
+.admissions-details td,
+.admissions-history li {
+  overflow-wrap: anywhere;
+}
+/* The applicant page has many sections: its headings step down from the
+   site's display sizes, which would also overflow a phone on a long word. */
+main:has(.admissions-details) h3 {
+  font-size: 1.6em;
+}
+/* An email's text, previewed or as sent, set off from the page around it. */
+.admissions-preview,
+.admissions-sent-email {
+  border-left: 3px solid var(--grey-1);
+  padding-left: 1em;
+  margin-bottom: 1.5em;
 }

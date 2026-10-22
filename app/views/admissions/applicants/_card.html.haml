@@ -1,0 +1,27 @@
+-# One applicant on the board: who, how long they've sat, and anything
+-# that needs an eye. The whole card opens the applicant's page.
+- waiting = local_assigns[:waiting] || {}
+- today = Date.current
+%a.admissions-card{ href: admissions_applicant_path(applicant), id: "card-#{applicant.id}" }
+  %span.admissions-card-name= applicant.display_name
+  %span.admissions-card-time
+    - if applicant.complicated?
+      #{admissions_stage_label(applicant.funnel_stage)}#{' (on hold)' if applicant.on_hold?},
+      check back #{l(applicant.complicated_check_back_on, format: :long)}
+    - elsif applicant.on_hold?
+      #{admissions_time_in_stage(applicant)} on hold from #{admissions_stage_label(applicant.held_from_stage)},
+      back #{l(applicant.hold_until, format: :long)}
+    - elsif applicant.terminal?
+      #{admissions_stage_label(applicant.stage)} #{admissions_time_in_stage(applicant)} ago
+    - else
+      #{admissions_time_in_stage(applicant)} in #{admissions_stage_label(applicant.stage)}
+  - markers = []
+  - markers << 'Check-back due' if applicant.complicated? && applicant.complicated_check_back_on <= today
+  - markers << 'Return due' if applicant.on_hold? && applicant.hold_until <= today
+  - markers << 'Paused' if applicant.emails_paused?
+  - markers << 'Held for approval' if waiting['held']
+  - markers << 'Sending' if waiting['sending']
+  - if markers.any?
+    %span.admissions-card-markers
+      - markers.each do |marker|
+        %span.admissions-marker= marker

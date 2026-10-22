@@ -1,0 +1,17 @@
+- content_for :page_title do
+  #{@text.label}: EOI form wording
+
+- content_for :back_link do
+  = admissions_form_texts_path
+
+= simple_form_for @text, url: admissions_form_text_path(@text.key), method: :patch do |f|
+  = f.error_notification
+  = f.input :body, as: :text, label: @text.label, input_html: { rows: 16 }
+  %p
+    Plain text. Leave a blank line between paragraphs. Web addresses become links.
+    - if @text.key == 'privacy_notice'
+      The form shows it above its button, and each expression of interest records which version was showing.
+    - else
+      The form shows it above its fields. Leave it empty for no introduction.
+  %p Saving keeps the earlier version, with who changed it and when.
+  = f.button :submit, 'Save'

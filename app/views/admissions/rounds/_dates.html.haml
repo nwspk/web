@@ -1,0 +1,7 @@
+Opens #{round.opens_on ? l(round.opens_on, format: :long) : 'not set'}
+\·
+Invitations #{round.invites_on ? l(round.invites_on, format: :long) : 'not set'}
+\·
+Closes #{round.closes_on ? l(round.closes_on, format: :long) : 'not set'}
+- if round.closed?
+  \· Closed

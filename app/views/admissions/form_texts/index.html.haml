@@ -1,0 +1,37 @@
+- content_for :page_title do
+  EOI form wording
+
+- content_for :back_link do
+  = admissions_staff_root_path
+
+= render 'status', reasons: @closed_reasons
+
+%p
+  The wording on the public expression-of-interest form. Labels, buttons and messages are fixed; these two are yours.
+  - unless can?(:create, Admissions::FormText)
+    Only an admissions lead can change them.
+
+- @histories.each do |key, versions|
+  - current = versions.first
+  %h3= Admissions::FormText.label(key)
+  - if current.nil? || current.body.blank?
+    %p
+      %em Not set.
+      - if key == 'privacy_notice'
+        The form stays closed until a privacy notice is set.
+  - else
+    %blockquote.admissions-wording= admissions_wording(current.body)
+  - if current
+    %p Last changed #{l(current.created_at, format: :long)} by #{current.created_by_user.name}.
+  - if can?(:create, Admissions::FormText)
+    %p= link_to(current ? 'Edit' : 'Write it', edit_admissions_form_text_path(key))
+  - if versions.size > 1
+    %details
+      %summary Earlier versions (#{versions.size - 1})
+      - versions.drop(1).each do |version|
+        %h4 #{l(version.created_at, format: :long)}, by #{version.created_by_user.name}
+        - if version.body.blank?
+          %p
+            %em Blank.
+        - else
+          %blockquote.admissions-wording= admissions_wording(version.body)

@@ -1,0 +1,35 @@
+- content_for :page_title do
+  Admissions
+
+= render 'admissions/form_texts/status', reasons: @eoi_form_closed_reasons
+
+%p= link_to 'Board', admissions_board_path
+%p= link_to "Approval queue (#{pluralize(@held_count, 'email')} waiting)", admissions_emails_path
+%p= link_to "It's complicated: #{@check_back_count} due a check-back", admissions_applicants_path(due: 'check_back')
+%p= link_to "On hold: #{@hold_return_count} due to return", admissions_applicants_path(due: 'hold_return')
+%p= link_to 'New card', new_admissions_applicant_path
+%p= link_to 'EOI form wording', admissions_form_texts_path
+
+- if can?(:create, Admissions::Round)
+  %p= link_to 'New round', new_admissions_round_path
+
+- if @rounds.empty?
+  %p No rounds yet.
+
+- @rounds.each do |round|
+  %h3= link_to round.name, admissions_round_path(round)
+  %p
+    = render 'dates', round: round
+  %table.admissions-stage-counts
+    %thead
+      %tr
+        %th Stage
+        %th Applicants
+    %tbody
+      - Admissions::Stages::ALL.each do |stage|
+        %tr
+          %td= Admissions::Stages.label(stage)
+          %td= @stage_counts.fetch([round.id, stage], 0)
+      %tr
+        %td It's complicated
+        %td= @complicated_counts.fetch(round.id, 0)
