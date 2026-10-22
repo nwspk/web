@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+# Installs the admissions nightly backup's systemd timer on this server
+# (nwspk/admit SPEC Q34): copies systemd/nwspk-admissions-backup.service and
+# .timer into /lib/systemd/system, where server-playbook.md puts the site's
+# other units, reloads systemd, and enables and starts the timer. It doesn't
+# run a backup: the timer does, at 02:30 London time.
+#
+# Run it as root from the site's checkout, on staging and on production:
+#
+#   sudo /var/www/web/bin/install-admissions-timers
+#
+# --dry-run prints every step without changing anything (no root needed).
+# Safe to run again: unchanged units are left alone, and enabling an enabled
+# timer does nothing.
+set -euo pipefail
+
+UNITS=(nwspk-admissions-backup.service nwspk-admissions-backup.timer)
+TIMER=nwspk-admissions-backup.timer
+SOURCE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/systemd"
+TARGET=${ADMISSIONS_TIMERS_TARGET:-/lib/systemd/system}
+
+dry_run=false
+case "${1:-}" in
+  --dry-run) dry_run=true ;;
+  '') ;;
+  *) echo "Usage: $0 [--dry-run]" >&2; exit 2 ;;
+esac
+
+step() { echo "==> $*"; }
+
+# Runs a command, or in a dry run only says it would.
+run() {
+  if $dry_run; then
+    echo "    (dry run) would run: $*"
+  else
+    echo "    $*"
+    "$@"
+  fi
+}
+
+if ! $dry_run && [ "$(id -u)" -ne 0 ]; then
+  echo "Run this as root (sudo $0), or with --dry-run to see what it would do." >&2
+  exit 1
+fi
+
+for unit in "${UNITS[@]}"; do
+  if [ ! -f "$SOURCE/$unit" ]; then
+    echo "Missing $SOURCE/$unit: run this from the site's checkout." >&2
+    exit 1
+  fi
+done
+
+step "Checking the units"
+if command -v systemd-analyze >/dev/null; then
+  # verify reports only real problems with these two files (it also checks
+  # that the User and the paths exist, which they do on the servers).
+  run systemd-analyze verify "${UNITS[@]/#/$SOURCE/}"
+else
+  echo "    systemd-analyze isn't installed; skipping"
+fi
+
+step "Copying the units to $TARGET"
+for unit in "${UNITS[@]}"; do
+  if cmp -s "$SOURCE/$unit" "$TARGET/$unit"; then
+    echo "    $unit is already installed and unchanged"
+  else
+    run install -m 0644 "$SOURCE/$unit" "$TARGET/$unit"
+  fi
+done
+
+step "Reloading systemd"
+run systemctl daemon-reload
+
+step "Enabling and starting the timer (this runs no backup now)"
+run systemctl enable --now "$TIMER"
+
+step "The timer"
+run systemctl list-timers --all "$TIMER"

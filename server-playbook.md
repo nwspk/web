@@ -161,6 +161,19 @@ visudo
 # %deploy ALL=NOPASSWD: /usr/bin/systemctl restart nwspk-sidekiq.service
 ```
 
+## Install the admissions backup timer
+
+The admissions data is backed up nightly by a systemd timer
+(`systemd/nwspk-admissions-backup.timer`, at 02:30 London time). It reads its
+secrets, including `ADMISSIONS_GMAIL_*`, from `/var/www/web/.envrc`, as the
+deploy workflow does. To install or update it (safe to run again; `--dry-run`
+shows the steps without changing anything):
+
+```sh
+sudo /var/www/web/bin/install-admissions-timers
+journalctl -u nwspk-admissions-backup # each night's output
+```
+
 ## Backup database
 
 ```sh

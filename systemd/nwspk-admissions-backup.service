@@ -1,0 +1,23 @@
+# The admissions nightly backup (nwspk/admit SPEC Q34): emails the admissions
+# data to the admissions leads when it changed since the last backup. Started
+# by nwspk-admissions-backup.timer; installed by bin/install-admissions-timers.
+# Needs no editing: like the deploy workflow, it reads the site's secrets,
+# including ADMISSIONS_GMAIL_*, from /var/www/web/.envrc.
+[Unit]
+Description=nwspk admissions nightly backup
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+
+WorkingDirectory=/var/www/web
+# $$ is a literal $ to systemd, so bash expands PATH, not systemd.
+ExecStart=/bin/bash -c 'source .envrc && export PATH=/home/deploy/.rbenv/shims:$$PATH && exec bundle exec rails admissions:backup:nightly'
+
+User=deploy
+Group=deploy
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nwspk-admissions-backup
