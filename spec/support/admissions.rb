@@ -59,3 +59,26 @@ module AdmissionsHelpers
 end
 
 RSpec.configure { |config| config.include Devise::Test::IntegrationHelpers, type: :request }
+
+module AdmissionsHelpers
+  # A round's template for an email type, in obviously fake words.
+  def email_template(round, type = 'confirmation', subject: 'Test subject for {{name}}',
+                     body: "Test body, {{name}}, for {{round}}.\nSecond line.")
+    Fabricate(:admissions_email_template, round: round, email_type: type, subject: subject, body: body)
+  end
+
+  def recorded_emails = Admissions::Delivery::Recording.deliveries
+  def system_sender = Admissions::EmailSender.new(Admissions::Actor.system)
+  def staff_sender(user = admissions_staff) = Admissions::EmailSender.new(Admissions::Actor.staff(user))
+end
+
+RSpec.configure { |config| config.before { Admissions::Delivery::Recording.clear! } }
+
+# Nothing in the test suite reaches a real network: any connection a test
+# opens through Net::HTTP fails the test. Tests stub the HTTP layer instead.
+module NoNetworkInTests
+  def connect
+    raise "Tests may not reach the network (tried #{address}:#{port})"
+  end
+end
+Net::HTTP.prepend(NoNetworkInTests)

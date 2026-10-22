@@ -51,6 +51,7 @@ module Admissions
     FLAG_ACTORS = %w[staff].freeze
     NOTE_ACTORS = %w[staff].freeze
     DETAILS_ACTORS = %w[applicant staff].freeze
+    PAUSE_ACTORS = %w[staff].freeze
 
     # Who each funnel stage waits on (SPEC §3 "Waiting on"). `eoi` waits on a
     # date until applications open, then on staff to invite.

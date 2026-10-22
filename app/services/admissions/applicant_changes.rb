@@ -15,6 +15,8 @@ module Admissions
   # or dirty object passed in is never trusted; on success the object passed
   # in is reloaded, and on failure it is left exactly as it was.
   class ApplicantChanges
+    include ServiceWrite
+
     class IllegalChange < StandardError; end
     class NotPermitted < StandardError; end
 
@@ -215,6 +217,30 @@ module Admissions
       end
     end
 
+    # The per-applicant pause switch (SPEC §3a "Upcoming emails"): while on,
+    # nothing automatic is drafted for the applicant. Emails staff send with
+    # a button, and held emails staff approve, still go.
+    def pause_emails!(applicant)
+      change!(applicant) do |applicant, now|
+        permit!(Stages::PAUSE_ACTORS, 'pause automatic email')
+        raise IllegalChange, 'a withdrawn applicant gets no email' if applicant.withdrawn?
+        raise IllegalChange, 'automatic email to this applicant is already paused' if applicant.emails_paused?
+
+        applicant.emails_paused = true
+        log!(applicant, 'emails_paused', now)
+      end
+    end
+
+    def resume_emails!(applicant)
+      change!(applicant) do |applicant, now|
+        permit!(Stages::PAUSE_ACTORS, 'resume automatic email')
+        raise IllegalChange, 'automatic email to this applicant is not paused' unless applicant.emails_paused?
+
+        applicant.emails_paused = false
+        log!(applicant, 'emails_resumed', now)
+      end
+    end
+
     private
 
     def validate_actor!
@@ -255,25 +281,14 @@ module Admissions
       applicant.reload
     end
 
-    # The one transaction every write runs in. Inside it, and only inside it,
-    # admissions.service_write is on, which the applicant validation and the
-    # database trigger both require. A savepoint (requires_new) means a
-    # failed change rolls the setting back with everything else.
-    def service_write(record)
-      Applicant.transaction(requires_new: true) do
-        allow_service_write('on')
-        yield
-        allow_service_write('off')
-      end
+    # Every write runs in ServiceWrite's guarded transaction. Two requests
+    # racing for the same email in a round both pass validation; the unique
+    # index refuses the second, reported as the validation would.
+    def service_write(record, &block)
+      super(&block)
     rescue ActiveRecord::RecordNotUnique
       record.errors.add(:email, :taken)
       raise ActiveRecord::RecordInvalid, record
-    end
-
-    def allow_service_write(value)
-      Applicant.connection.select_value(
-        Applicant.sanitize_sql(["SELECT set_config('admissions.service_write', ?, true)", value])
-      )
     end
 
     def log!(applicant, kind, now, from: nil, to: nil, details: {}, body: nil)
@@ -284,16 +299,22 @@ module Admissions
     # Withdrawal scrubs this round's record only (Ed, 2026-10-02); the links
     # to the person's records in other rounds are kept, so staff can find
     # them all with Applicant#person_records and withdraw each one.
+    # Held emails are discarded first, so nothing waiting for approval can
+    # go to them, and then every email's text and address is blanked along
+    # with the log's.
     def scrub!(applicant, now)
       applicant.assign_attributes(Applicant::PERSONAL_FIELDS.index_with(nil))
+      applicant.emails.held.lock.each do |email|
+        email.update!(status: 'discarded', discarded_by_type: actor.type, discarded_by_user: actor.user,
+                      discarded_at: now)
+        log!(applicant, 'email_discarded', now, details: email.event_details.merge('reason' => 'withdrawn'))
+      end
+      Email.redact_for(applicant, at: now)
       ApplicantEvent.redact_bodies_for(applicant, at: now)
     end
 
     def cleared_hold = { held_from_stage: nil, hold_until: nil, hold_reason: nil }
     def cleared_complicated = { complicated: false, complicated_note: nil, complicated_check_back_on: nil }
 
-    # Microsecond precision, as Postgres stores it, so the cached columns and
-    # the event timestamps compare equal before and after a reload.
-    def timestamp = Time.current.floor(6)
   end
 end

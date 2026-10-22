@@ -11,7 +11,10 @@ module Admissions
     KINDS = %w[
       created advanced held returned_from_hold moved exited reopened
       flagged_complicated cleared_complicated note_added details_changed
+      emails_paused emails_resumed
+      email_drafted email_edited email_sent email_send_failed email_discarded email_skipped
     ].freeze
+    EMAIL_KINDS = KINDS.grep(/\Aemail_/).freeze
 
     belongs_to :applicant, class_name: 'Admissions::Applicant', inverse_of: :events
     belongs_to :actor_user, class_name: 'User', optional: true
@@ -36,6 +39,17 @@ module Admissions
 
     def actor
       Actor.new(actor_type, actor_user)
+    end
+
+    # An email event's body is the email's exact text as
+    # Email#text writes it: "Subject: …", a blank line, then the body. The
+    # subject never holds a line break, so the split is unambiguous. Returns
+    # [subject, body], or nil when there is no text (or it was redacted).
+    def email_text
+      return nil unless EMAIL_KINDS.include?(kind) && body
+
+      subject, text = body.split("\n\n", 2)
+      [subject.delete_prefix('Subject: '), text.to_s]
     end
   end
 end

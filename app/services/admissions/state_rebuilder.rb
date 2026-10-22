@@ -31,7 +31,7 @@ module Admissions
     attr_reader :state
 
     def initialize(events)
-      @state = Applicant::STATE_FIELDS.index_with(nil).merge(complicated: false)
+      @state = Applicant::STATE_FIELDS.index_with(nil).merge(complicated: false, emails_paused: false)
       events.each { |event| apply(event) }
     end
 
@@ -54,6 +54,8 @@ module Admissions
                      complicated_check_back_on: date(event, 'check_back_on'))
       when 'cleared_complicated'
         state.merge!(cleared_complicated)
+      when 'emails_paused', 'emails_resumed'
+        state[:emails_paused] = event.kind == 'emails_paused'
       end
     end
 

@@ -11,7 +11,7 @@ module Admissions
     PERSONAL_FIELDS = %i[email phone name].freeze
     STATE_FIELDS = %i[
       stage stage_entered_at held_from_stage hold_reason hold_until
-      exited_from_stage complicated complicated_note complicated_check_back_on
+      exited_from_stage complicated complicated_note complicated_check_back_on emails_paused
     ].freeze
     GUARDED_FIELDS = (STATE_FIELDS + PERSONAL_FIELDS).freeze
 
@@ -20,6 +20,8 @@ module Admissions
     has_many :later_applicants, class_name: 'Admissions::Applicant', foreign_key: :previous_applicant_id,
                                 inverse_of: :previous_applicant, dependent: :restrict_with_exception
     has_many :events, -> { order(:id) }, class_name: 'Admissions::ApplicantEvent', inverse_of: :applicant,
+                                         dependent: :restrict_with_exception
+    has_many :emails, -> { order(:id) }, class_name: 'Admissions::Email', inverse_of: :applicant,
                                          dependent: :restrict_with_exception
 
     validates :email, presence: true, unless: :withdrawn?
@@ -56,10 +58,10 @@ module Admissions
       NextStep.for(self, now: now)
     end
 
-    # When the system last contacted the applicant. email-sender (phase 1)
-    # will log sent emails; until then a stage change is the last contact.
+    # When the system last contacted the applicant: the latest email sent,
+    # or entering the current stage if that came later.
     def last_contacted_at
-      stage_entered_at
+      [stage_entered_at, emails.sent.maximum(:sent_at)].compact.max
     end
 
     # This person's records in every round, oldest first: the chain of

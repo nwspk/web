@@ -7,6 +7,8 @@ module Admissions
     MONEY_FIELDS = %i[programme_fee accommodation_monthly scholarship_pot].freeze
 
     has_many :applicants, class_name: 'Admissions::Applicant', inverse_of: :round, dependent: :restrict_with_exception
+    has_many :email_templates, class_name: 'Admissions::EmailTemplate', inverse_of: :round,
+                               dependent: :restrict_with_exception
 
     validates :name, presence: true, uniqueness: true
     validates :reminder_interval_days, numericality: { only_integer: true, in: 1..365 }
@@ -38,6 +40,12 @@ module Admissions
       raise ArgumentError, "unknown email type #{type}" unless EmailTypes::TYPES.key?(type)
 
       email_modes.fetch(type, EmailTypes::DEFAULT_MODE)
+    end
+
+    def email_template(type)
+      raise ArgumentError, "unknown email type #{type}" unless EmailTypes::TYPES.key?(type)
+
+      email_templates.find_by(email_type: type)
     end
 
     def staff_turnaround(stage)

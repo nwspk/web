@@ -12,3 +12,10 @@ end
 
 # Applicants are built through Admissions::ApplicantChanges, never directly,
 # so the log and the cached state agree; see spec/support/admissions.rb.
+
+Fabricator(:admissions_email_template, from: 'Admissions::EmailTemplate') do
+  round(fabricator: :admissions_round)
+  email_type 'confirmation'
+  subject 'Test subject'
+  body 'Test body.'
+end

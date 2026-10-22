@@ -2,7 +2,8 @@ class Ability
   include CanCan::Ability
 
   ADMISSIONS_MODELS = [
-    Admissions::Round, Admissions::Applicant, Admissions::ApplicantEvent, Admissions::StaffMember
+    Admissions::Round, Admissions::Applicant, Admissions::ApplicantEvent, Admissions::StaffMember,
+    Admissions::EmailTemplate, Admissions::Email
   ].freeze
 
   def initialize(user)
@@ -19,8 +20,10 @@ class Ability
 
   # Admissions access comes only from an admissions staff role (SPEC §9b),
   # never from users.role: a site admin is not admissions staff unless they
-  # also hold one. Leads also manage rounds and the staff list. Nobody may
-  # change or delete the event log.
+  # also hold one. Leads also manage rounds, their email templates and the
+  # staff list. Any staff member may work the approval queue (SPEC §9b: it
+  # is shared). Nobody may change or delete the event log, or delete an
+  # email.
   #
   # The one exception: site admins may grant and remove admissions roles
   # (in ActiveAdmin), and nothing else, so the first lead can be made
@@ -33,12 +36,14 @@ class Ability
     if staff
       can :read, Admissions::Round
       can :manage, Admissions::Applicant
-      can :read, Admissions::ApplicantEvent # written only by Admissions::ApplicantChanges
+      can :read, Admissions::ApplicantEvent # written only by the admissions services
       can :read, Admissions::StaffMember
-      can :manage, [Admissions::Round, Admissions::StaffMember] if staff.lead?
+      can :read, Admissions::EmailTemplate
+      can %i[read update], Admissions::Email # written only by Admissions::EmailSender
+      can :manage, [Admissions::Round, Admissions::StaffMember, Admissions::EmailTemplate] if staff.lead?
     end
 
     cannot %i[update destroy], Admissions::ApplicantEvent
-    cannot :destroy, Admissions::Applicant
+    cannot :destroy, [Admissions::Applicant, Admissions::Email, Admissions::EmailTemplate]
   end
 end
