@@ -147,8 +147,20 @@ ActiveAdmin.register Admissions::Applicant, as: 'Admissions Applicant' do
       row :complicated
       row :complicated_note
       row :complicated_check_back_on
+      row('Automatic email paused') { |a| a.emails_paused? ? 'yes' : 'no' }
       row :previous_applicant
       row(:log_agrees) { |a| Admissions::StateRebuilder.consistent?(a) ? 'yes' : 'NO: cached state disagrees with the event log' }
+    end
+
+    panel 'Emails' do
+      table_for resource.emails do
+        column(:id) { |e| link_to e.id, admin_admissions_email_path(e) }
+        column(:email_type) { |e| e.label }
+        column(:status) { |e| status_tag e.status }
+        column :subject
+        column :drafted_at
+        column :sent_at
+      end
     end
 
     panel 'Event log' do
@@ -188,5 +200,97 @@ ActiveAdmin.register Admissions::ApplicantEvent, as: 'Admissions Applicant Event
     column :from_stage
     column :to_stage
     actions
+  end
+end
+
+ActiveAdmin.register Admissions::EmailTemplate, as: 'Admissions Email Template' do
+  menu parent: 'Admissions', label: 'Email templates'
+  config.batch_actions = false
+  actions :all, except: :destroy
+
+  permit_params :round_id, :email_type, :subject, :body
+
+  # Whoever last changed a template is recorded against it.
+  before_save { |template| template.updated_by_user = current_user }
+
+  filter :round
+  filter :email_type, as: :select, collection: Admissions::EmailTypes.keys
+
+  index do
+    column :round
+    column(:email_type) { |t| t.label }
+    column :subject
+    column('Last changed by') { |t| t.updated_by_user&.name || 'Not recorded' }
+    column :updated_at
+    actions
+  end
+
+  show do
+    attributes_table do
+      row :round
+      row(:email_type) { |t| t.label }
+      row :subject
+      row(:body) { |t| simple_format(t.body) }
+      row('Last changed by') { |t| t.updated_by_user&.name || 'Not recorded' }
+      row :updated_at
+    end
+  end
+
+  form do |f|
+    f.semantic_errors(*f.object.errors.attribute_names)
+
+    inputs do
+      input :round
+      input :email_type, as: :select, collection: Admissions::EmailTypes::TYPES.invert, include_blank: false
+      input :subject
+      input :body, input_html: { rows: 16 }
+    end
+
+    para "Placeholders: #{Admissions::EmailTemplate::PLACEHOLDERS.keys.map { |k| "{{#{k}}}" }.join(', ')}."
+
+    actions
+  end
+end
+
+# The outbox, read-only: emails are drafted, edited, sent and discarded only
+# through Admissions::EmailSender (the approval queue is at /admissions).
+ActiveAdmin.register Admissions::Email, as: 'Admissions Email' do
+  menu parent: 'Admissions', label: 'Outbox'
+  config.batch_actions = false
+  config.sort_order = 'id_desc'
+  actions :index, :show
+
+  filter :status, as: :select, collection: Admissions::Email::STATUSES
+  filter :email_type, as: :select, collection: Admissions::EmailTypes.keys
+  filter :applicant_id
+  filter :drafted_at
+
+  index do
+    id_column
+    column :applicant
+    column(:email_type) { |e| e.label }
+    column(:status) { |e| status_tag e.status }
+    column :subject
+    column :drafted_at
+    column :sent_at
+    actions
+  end
+
+  show do
+    attributes_table do
+      row :applicant
+      row(:email_type) { |e| e.label }
+      row(:status) { |e| status_tag e.status }
+      row :to_address
+      row :subject
+      row(:body) { |e| simple_format(e.body) }
+      %i[drafted edited sent discarded].each do |act|
+        row("#{act.to_s.capitalize} by") { |e| e.public_send(:"#{act}_by")&.then { |a| a.user&.name || a.type } }
+        row(:"#{act}_at")
+      end
+      row :delivery
+      row :delivery_message_id
+      row :redacted_at
+    end
   end
 end

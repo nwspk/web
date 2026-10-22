@@ -61,7 +61,19 @@ Rails.application.routes.draw do
   # Admissions (admit): staff only; anyone else gets the ordinary not-found.
   namespace :admissions do
     root to: 'rounds#index'
-    resources :rounds, only: %i[show new create edit update]
+    resources :rounds, only: %i[show new create edit update] do
+      resources :email_templates, only: %i[index new create edit update]
+    end
+    # The approval queue: held emails, shared among staff.
+    resources :emails, only: %i[index update] do
+      post :discard, on: :member
+    end
+    resources :applicants, only: [] do
+      member do
+        post :pause_emails
+        post :resume_emails
+      end
+    end
   end
 
   root to: 'home#index'

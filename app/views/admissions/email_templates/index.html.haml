@@ -1,0 +1,34 @@
+- content_for :page_title do
+  Email templates: #{@round.name}
+
+- content_for :back_link do
+  = admissions_round_path(@round)
+
+%p
+  The wording of each email in this round. An email type with no template cannot be drafted.
+  - unless can?(:create, Admissions::EmailTemplate)
+    Only an admissions lead can change them.
+
+%table
+  %thead
+    %tr
+      %th Email
+      %th Mode
+      %th Subject
+      %th
+  %tbody
+    - Admissions::EmailTypes::TYPES.each do |type, label|
+      - template = @templates[type]
+      %tr
+        %td= label
+        %td= Admissions::EmailTypes::MODES.fetch(@round.email_mode(type))
+        - if template
+          %td= template.subject
+          %td
+            - if can?(:update, template)
+              = link_to 'Edit', edit_admissions_round_email_template_path(@round, template)
+        - else
+          %td No template yet
+          %td
+            - if can?(:create, Admissions::EmailTemplate)
+              = link_to 'Write it', new_admissions_round_email_template_path(@round, email_type: type)

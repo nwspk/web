@@ -62,7 +62,8 @@ module Admissions
 
     def missing_value_message(key)
       if key == 'portal_link'
-        "The #{label} template uses {{portal_link}}, but applicants have no portal link until the applicant portal is built"
+        "The #{label} template uses {{portal_link}}, " \
+          'but applicants have no portal link until the applicant portal is built'
       else
         "The #{label} template uses {{#{key}}}, but this applicant has none"
       end

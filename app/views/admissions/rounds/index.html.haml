@@ -1,6 +1,8 @@
 - content_for :page_title do
   Admissions
 
+%p= link_to "Approval queue (#{pluralize(@held_count, 'email')} waiting)", admissions_emails_path
+
 - if can?(:create, Admissions::Round)
   %p= link_to 'New round', new_admissions_round_path
 

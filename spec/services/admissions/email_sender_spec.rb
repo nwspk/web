@@ -377,6 +377,18 @@ RSpec.describe Admissions::EmailSender do
       end
     end
 
+    it 'lets the services write inside a query-cached web request' do
+      ActiveRecord::Base.cache do
+        staff_changes.pause_emails!(applicant)
+        staff_changes.resume_emails!(applicant)
+        staff_sender.edit!(email, subject: 'One', body: 'b')
+        staff_sender.edit!(email, subject: 'Two', body: 'b')
+        staff_sender.send_held!(email)
+        expect { email.update!(subject: 'Sneaky') }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+      expect(email.reload).to have_attributes(status: 'sent', subject: 'Two')
+    end
+
     it "refuses changes to the pause switch from outside ApplicantChanges" do
       expect_refused(ActiveRecord::StatementInvalid, /only through Admissions::ApplicantChanges/) do
         Admissions::Applicant.where(id: applicant.id).update_all(emails_paused: true)

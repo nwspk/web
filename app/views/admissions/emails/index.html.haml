@@ -1,0 +1,43 @@
+- content_for :page_title do
+  Approval queue
+
+- content_for :back_link do
+  = admissions_root_path
+
+%p
+  Emails waiting for a staff member to approve them, oldest first. Anyone on the admissions staff can edit, send or
+  discard them. Nothing here goes out until someone presses Send.
+
+- if @emails.empty?
+  %p Nothing is waiting.
+
+- @emails.each do |email|
+  - shown = @refused&.id == email.id ? @refused : email
+  - applicant = email.applicant
+  .admissions-held-email{ id: "email-#{email.id}" }
+    %h3 #{email.label} to #{applicant.name.presence || applicant.email}
+    %p
+      #{applicant.email} · #{applicant.round.name} · #{Admissions::Stages.label(applicant.stage)}
+      - if applicant.complicated?
+        · it's complicated
+      %br
+      Drafted #{l(email.drafted_at, format: :long)} by #{admissions_actor_name(email.drafted_by)}
+      - if email.edited_at
+        · last edited #{l(email.edited_at, format: :long)} by #{admissions_actor_name(email.edited_by)}
+
+    = simple_form_for shown, url: admissions_email_path(email), method: :patch do |f|
+      = f.input :subject, label: 'Subject'
+      = f.input :body, as: :text, label: 'Body', input_html: { rows: [shown.body.to_s.lines.size + 2, 8].max }
+      = f.button :submit, 'Save changes', name: 'save'
+      = f.button :submit, 'Send', name: 'send_email', data: { confirm: "Send this email to #{applicant.email}?" }
+
+    %p
+      = button_to 'Discard', discard_admissions_email_path(email), method: :post,
+        data: { confirm: 'Discard this email? It will not be sent.' }, form: { style: 'display: inline' }
+      - if applicant.emails_paused?
+        Automatic email to this applicant is paused.
+        = button_to 'Resume automatic email', resume_emails_admissions_applicant_path(applicant), method: :post,
+          form: { style: 'display: inline' }
+      - else
+        = button_to 'Pause automatic email to this applicant', pause_emails_admissions_applicant_path(applicant),
+          method: :post, form: { style: 'display: inline' }

@@ -6,6 +6,7 @@
 
 - if can?(:update, @round)
   %p= link_to 'Edit settings', edit_admissions_round_path(@round)
+%p= link_to 'Email templates', admissions_round_email_templates_path(@round)
 
 %p= render 'dates', round: @round
 

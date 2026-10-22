@@ -1,0 +1,18 @@
+= simple_form_for @template, url: (@template.new_record? ? admissions_round_email_templates_path(@round) : admissions_round_email_template_path(@round, @template)) do |f|
+  = f.error_notification
+  = f.hidden_field :email_type
+  = f.input :subject, label: 'Subject'
+  = f.input :body, as: :text, label: 'Body', input_html: { rows: 16 }
+
+  %p Plain text. These placeholders are filled in for each applicant:
+  %ul
+    - Admissions::EmailTemplate::PLACEHOLDERS.each do |key, meaning|
+      %li
+        %code= "{{#{key}}}"
+        = meaning
+  %p An email whose template uses a placeholder that can't be filled for that applicant is not drafted.
+
+  = f.button :submit, 'Save'
+
+- if @template.persisted? && @template.updated_by_user
+  %p Last changed #{l(@template.updated_at, format: :long)} by #{@template.updated_by_user.name}.

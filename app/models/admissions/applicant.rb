@@ -38,9 +38,16 @@ module Admissions
 
     scope :active, -> { where.not(stage: Stages::TERMINAL) }
 
-    # True only inside an Admissions::ApplicantChanges transaction.
+    # True only inside an admissions service's guarded transaction
+    # (Admissions::ServiceWrite).
     def self.service_write_allowed?
-      connection.select_value("SELECT current_setting('admissions.service_write', true)") == 'on'
+      service_write_setting == 'on'
+    end
+
+    # Read past the query cache, which inside a web request would otherwise
+    # answer with the setting as it was at the first read.
+    def self.service_write_setting
+      uncached { connection.select_value("SELECT current_setting('admissions.service_write', true)") }
     end
 
     def on_hold? = stage == Stages::ON_HOLD

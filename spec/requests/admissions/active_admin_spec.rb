@@ -60,6 +60,61 @@ RSpec.describe 'Admissions in ActiveAdmin (the fallback screens)', type: :reques
     end
   end
 
+  describe 'the email-sender fallback' do
+    let!(:template) { email_template(round, 'confirmation') }
+    let!(:email) { Admissions::EmailSender.request_automatic!(applicant, 'confirmation') }
+
+    it 'registers the outbox read-only, and templates editable but not deletable' do
+      expect(resource('Admissions::Email').defined_actions).to match_array %i[index show]
+      expect(resource('Admissions::EmailTemplate').defined_actions).to match_array %i[index show new create edit update]
+    end
+
+    it 'shows the outbox and an applicant\'s emails to a site admin who is a lead' do
+      sign_in admin_lead
+      get '/admin/admissions_emails'
+      expect(response).to have_http_status(:ok)
+      get "/admin/admissions_emails/#{email.id}"
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(email.subject, 'system')
+      expect(response.body).to match(/Drafted by/i)
+      get "/admin/admissions_applicants/#{applicant.id}"
+      expect(response.body).to include('Emails', email.subject)
+      expect(response.body).to match(/Automatic email paused/i)
+    end
+
+    it 'lets a site admin who is a lead edit templates, attributed' do
+      sign_in admin_lead
+      get "/admin/admissions_email_templates/#{template.id}/edit"
+      expect(response).to have_http_status(:ok)
+      patch "/admin/admissions_email_templates/#{template.id}",
+            params: { admissions_email_template: { subject: 'Fallback subject' } }
+      expect(template.reload).to have_attributes(subject: 'Fallback subject', updated_by_user: admin_lead)
+      post '/admin/admissions_email_templates',
+           params: { admissions_email_template: { round_id: round.id, email_type: 'holding', subject: 's', body: 'b' } }
+      expect(round.email_template('holding')).to be_present
+    end
+
+    it 'keeps a site admin without an admissions role out' do
+      sign_in Fabricate(:user, role: 'admin')
+      %W[/admin/admissions_emails /admin/admissions_emails/#{email.id} /admin/admissions_email_templates
+         /admin/admissions_email_templates/#{template.id}/edit].each do |path|
+        get path
+        expect(response).to redirect_to('/account'), path
+      end
+      patch "/admin/admissions_email_templates/#{template.id}", params: { admissions_email_template: { subject: 'x' } }
+      expect(template.reload.subject).to eq 'Test subject for {{name}}'
+    end
+
+    it 'keeps an officer who is a site admin to reading templates' do
+      officer_admin = Fabricate(:user, role: 'admin').tap { |u| Fabricate(:admissions_staff_member, user: u, role: 'officer') }
+      sign_in officer_admin
+      get '/admin/admissions_email_templates'
+      expect(response).to have_http_status(:ok)
+      patch "/admin/admissions_email_templates/#{template.id}", params: { admissions_email_template: { subject: 'x' } }
+      expect(template.reload.subject).to eq 'Test subject for {{name}}'
+    end
+  end
+
   describe 'a site admin without an admissions role' do
     let(:admin) { Fabricate(:user, role: 'admin') }
 

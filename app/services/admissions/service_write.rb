@@ -10,9 +10,7 @@ module Admissions
 
     def service_write
       ActiveRecord::Base.transaction(requires_new: true) do
-        previous = ActiveRecord::Base.connection.select_value(
-          "SELECT current_setting('admissions.service_write', true)"
-        )
+        previous = Applicant.service_write_setting
         allow_service_write('on')
         result = yield
         allow_service_write(previous == 'on' ? 'on' : 'off')
@@ -20,10 +18,14 @@ module Admissions
       end
     end
 
+    # Uncached: inside a web request the query cache would otherwise answer
+    # a repeated set_config without running it.
     def allow_service_write(value)
-      ActiveRecord::Base.connection.select_value(
-        ActiveRecord::Base.sanitize_sql(["SELECT set_config('admissions.service_write', ?, true)", value])
-      )
+      ActiveRecord::Base.uncached do
+        ActiveRecord::Base.connection.select_value(
+          ActiveRecord::Base.sanitize_sql(["SELECT set_config('admissions.service_write', ?, true)", value])
+        )
+      end
     end
 
     # Microsecond precision, as Postgres stores it, so cached columns and
