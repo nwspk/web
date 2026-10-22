@@ -3,6 +3,7 @@ module Admissions
   # drafted with its exact text, then
   #
   # - held, awaiting a staff member's approval in the approval queue;
+  # - sending, approved and handed to the mail service (see EmailSender);
   # - sent, by staff approving it or by the system for an automatic type;
   # - discarded.
   #
@@ -16,7 +17,11 @@ module Admissions
   # any change to an email once it is sent or discarded, except withdrawal
   # blanking its text and address.
   class Email < ActiveRecord::Base
-    STATUSES = %w[held sent discarded].freeze
+    STATUSES = %w[held sending sent discarded].freeze
+
+    # A send that hasn't finished after this long has lost its process, so
+    # its outcome is unknown even if nothing recorded a failure.
+    STALE_AFTER = 5.minutes
 
     belongs_to :applicant, class_name: 'Admissions::Applicant', inverse_of: :emails
     %i[drafted edited sent discarded].each do |act|
@@ -35,12 +40,20 @@ module Admissions
     end
 
     scope :held, -> { where(status: 'held') }
+    scope :sending, -> { where(status: 'sending') }
     scope :sent, -> { where(status: 'sent') }
 
     def held? = status == 'held'
+    def sending? = status == 'sending'
     def sent? = status == 'sent'
     def discarded? = status == 'discarded'
     def redacted? = redacted_at.present?
+
+    # A send nobody knows the result of: its failure was recorded, or it
+    # has been sending too long. Staff check the Sent folder and say which.
+    def outcome_unknown?(now: Time.current)
+      sending? && (outcome_unknown_at.present? || sending_at < now - STALE_AFTER)
+    end
 
     def label = EmailTypes.label(email_type)
 

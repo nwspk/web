@@ -42,7 +42,37 @@ RSpec.describe Admissions::Delivery do
     end
   end
 
+  describe '.recording? and the boot warning' do
+    it 'is recording outside production, and in production only when told to' do
+      described_class.adapter = nil
+      expect(described_class.recording?(env: {}, rails_env: ActiveSupport::StringInquirer.new('development'))).to be true
+      expect(described_class.recording?(env: {}, rails_env: production)).to be false
+      expect(described_class.recording?(env: { 'ADMISSIONS_EMAIL_DELIVERY' => 'recording' }, rails_env: production))
+        .to be true
+    end
+
+    it 'warns at boot only on a production host set to record' do
+      logger = instance_double(Logger, warn: nil)
+      described_class.warn_if_recording(env: { 'ADMISSIONS_EMAIL_DELIVERY' => 'recording' }, rails_env: production,
+                                        logger: logger)
+      expect(logger).to have_received(:warn).with(/nothing is actually sent from this site/)
+
+      quiet = instance_double(Logger, warn: nil)
+      described_class.warn_if_recording(env: {}, rails_env: production, logger: quiet)
+      described_class.warn_if_recording(env: { 'ADMISSIONS_EMAIL_DELIVERY' => 'recording' },
+                                        rails_env: ActiveSupport::StringInquirer.new('development'), logger: quiet)
+      expect(quiet).not_to have_received(:warn)
+    end
+  end
+
   describe described_class::Recording do
+    it 'holds no message in memory outside tests' do
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
+      message = Admissions::Delivery::Message.new(to: 'a@example.com', subject: 's', body: 'b', email_id: 1)
+      expect(described_class.new.deliver(message).delivery).to eq 'recording'
+      expect(described_class.deliveries).to be_empty
+    end
+
     it 'keeps the message and logs a line without its text' do
       message = Admissions::Delivery::Message.new(to: 'a@example.com', subject: 'Secret subject', body: 'b', email_id: 7)
       expect(Rails.logger).to receive(:info).with('[admissions] email #7 recorded, not sent (recording delivery)')
@@ -118,14 +148,48 @@ RSpec.describe Admissions::Delivery do
       expect(calls.count { |uri, _| uri.include?('token') }).to eq 1
     end
 
-    it "reports Google's refusal without echoing credentials" do
+    it "reports Google's refusal as not sent, without echoing credentials" do
       refused = response(Net::HTTPForbidden, '403', { error: { status: 'PERMISSION_DENIED', message: 'x' } }.to_json)
       expect { client([token, refused]).send_raw('a') }
-        .to raise_error(Admissions::Delivery::Error, 'Gmail refused to send the message (HTTP 403 PERMISSION_DENIED)')
+        .to raise_error(Admissions::Delivery::NotSent, 'Gmail refused to send the message (HTTP 403 PERMISSION_DENIED)')
 
       bad_token = response(Net::HTTPBadRequest, '400', { error: 'invalid_grant' }.to_json)
       expect { client([bad_token]).send_raw('a') }
-        .to raise_error(Admissions::Delivery::Error, 'Gmail refused to get an access token (HTTP 400 invalid_grant)')
+        .to raise_error(Admissions::Delivery::NotSent, 'Gmail refused to get an access token (HTTP 400 invalid_grant)')
+    end
+
+    it 'calls a success it cannot read an unknown outcome' do
+      garbled = response(Net::HTTPOK, '200', 'not json')
+      expect { client([token, garbled]).send_raw('a') }.to raise_error(Admissions::Delivery::OutcomeUnknown)
+      no_id = response(Net::HTTPOK, '200', '{}')
+      expect { client([token, no_id]).send_raw('a') }.to raise_error(Admissions::Delivery::OutcomeUnknown)
+    end
+
+    describe 'over the wire (with Net::HTTP stubbed)' do
+      def real_client
+        described_class.new(client_id: 'fake-id', client_secret: 'fake-secret', refresh_token: 'fake-refresh')
+      end
+
+      it 'calls a failure to connect not sent' do
+        allow_any_instance_of(Net::HTTP).to receive(:start).and_raise(Net::OpenTimeout) # rubocop:disable RSpec/AnyInstance
+        expect { real_client.send_raw('a') }
+          .to raise_error(Admissions::Delivery::NotSent, 'Gmail could not be reached (Net::OpenTimeout)')
+      end
+
+      it 'calls a timeout after the send request went out an unknown outcome' do
+        c = real_client
+        c.instance_variable_set(:@access_token, 'fake-access')
+        c.instance_variable_set(:@expires_at, 1.hour.from_now)
+        allow_any_instance_of(Net::HTTP).to receive(:start) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(Net::HTTP).to receive(:request).and_raise(Net::ReadTimeout) # rubocop:disable RSpec/AnyInstance
+        expect { c.send_raw('a') }.to raise_error(Admissions::Delivery::OutcomeUnknown, /lost before it answered/)
+      end
+
+      it 'calls a timeout while getting the token not sent' do
+        allow_any_instance_of(Net::HTTP).to receive(:start) # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(Net::HTTP).to receive(:request).and_raise(Net::ReadTimeout) # rubocop:disable RSpec/AnyInstance
+        expect { real_client.send_raw('a') }.to raise_error(Admissions::Delivery::NotSent)
+      end
     end
 
     it 'keeps its secrets out of inspect' do
@@ -138,7 +202,7 @@ RSpec.describe Admissions::Delivery do
 
     it 'never reaches the network in tests' do
       real = described_class.new(client_id: 'fake-id', client_secret: 'fake-secret', refresh_token: 'fake-refresh')
-      expect { real.send_raw('a') }.to raise_error(Admissions::Delivery::Error, /could not be reached/)
+      expect { real.send_raw('a') }.to raise_error(Admissions::Delivery::NotSent, /could not be reached/)
     end
   end
 end

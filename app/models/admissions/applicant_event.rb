@@ -12,7 +12,8 @@ module Admissions
       created advanced held returned_from_hold moved exited reopened
       flagged_complicated cleared_complicated note_added details_changed
       emails_paused emails_resumed
-      email_drafted email_edited email_sent email_send_failed email_discarded email_skipped
+      email_drafted email_not_drafted email_skipped email_edited email_discarded
+      email_sending email_sent email_send_failed email_outcome_unknown email_returned_to_held
     ].freeze
     EMAIL_KINDS = KINDS.grep(/\Aemail_/).freeze
 

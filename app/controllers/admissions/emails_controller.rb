@@ -3,11 +3,15 @@ module Admissions
   # shared among staff, each of whom can edit, send or discard it. Every
   # action is attributed to the staff member who took it.
   class EmailsController < BaseController
-    before_action :load_email, only: %i[update discard]
+    OUTCOME_UNKNOWN = 'Outcome unknown: check the admissions@ Sent folder'.freeze
 
+    before_action :load_email, only: %i[update discard confirm_sent confirm_not_sent]
+
+    # Held emails, and any being sent (or whose send's outcome is unknown).
     def index
       authorize! :read, Email
-      @emails = Email.held.includes(applicant: :round).order(:drafted_at, :id)
+      @emails = Email.where(status: %w[held sending]).includes(applicant: :round).order(:drafted_at, :id)
+      @recording = Delivery.recording?
     end
 
     # Saves the text as shown on the form; with Send, sends it too. Edits
@@ -26,13 +30,26 @@ module Admissions
       index
       flash.now[:alert] = "Not saved: #{e.record.errors.full_messages.to_sentence}."
       render :index, status: :unprocessable_entity
-    rescue Delivery::Error => e
+    rescue Delivery::NotSent => e
       redirect_to queue_anchor, alert: "Not sent, and still waiting: #{e.message}."
+    rescue Delivery::OutcomeUnknown => e
+      redirect_to queue_anchor, alert: "#{OUTCOME_UNKNOWN} (#{e.message})."
     end
 
     def discard
       sender.discard!(@email)
       redirect_to admissions_emails_path, notice: 'Email discarded. It will not be sent.'
+    end
+
+    def confirm_sent
+      sender.confirm_sent!(@email)
+      redirect_to admissions_emails_path, notice: 'Recorded as sent.'
+    end
+
+    def confirm_not_sent
+      sender.confirm_not_sent!(@email)
+      notice = @email.held? ? 'Recorded as not sent. The email is back in the queue.' : 'Recorded as not sent.'
+      redirect_to admissions_emails_path, notice: notice
     end
 
     rescue_from EmailSender::NotSendable do |e|

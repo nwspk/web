@@ -42,7 +42,8 @@ RSpec.describe Admissions::EmailSender do
       expect(email.sent_at).to be_present
       expect(recorded_emails.map(&:to_h)).to eq [{ to: 'test.person@example.com', subject: expected_subject,
                                                    body: expected_body, email_id: email.id }]
-      expect(applicant.events.map(&:kind)).to eq %w[created email_drafted email_sent]
+      expect(applicant.events.map(&:kind)).to eq %w[created email_drafted email_sending email_sent]
+      expect(events('email_sending').sole).to have_attributes(actor_type: 'system', body: expected_text)
 
       sent = events('email_sent').sole
       expect(sent).to have_attributes(actor_type: 'system', body: expected_text)
@@ -108,13 +109,23 @@ RSpec.describe Admissions::EmailSender do
       expect(described_class.request_automatic!(stale, 'confirmation')).to be_nil
     end
 
-    it 'refuses a type with no template, saying so, and drafts nothing' do
-      expect { described_class.request_automatic!(applicant, 'holding') }
-        .to raise_error(described_class::MissingTemplate,
-                        'There is no Holding email (EOI out of round) template for Fellowship 2027: ' \
-                        'add one under Admissions, Email templates, before this email can be drafted')
+    it 'drafts nothing for a type with no template, and logs why without raising' do
+      expect(described_class.request_automatic!(applicant, 'holding')).to be_nil
       expect(applicant.emails).to be_empty
-      expect(applicant.events.map(&:kind)).to eq %w[created]
+      expect(applicant.events.map(&:kind)).to eq %w[created email_not_drafted]
+      expect(events('email_not_drafted').sole.details).to eq(
+        'email_type' => 'holding', 'reason' => 'missing_template', 'mode' => 'ask_me_first',
+        'error' => 'There is no Holding email (EOI out of round) template for Fellowship 2027: ' \
+                   'add one under Admissions, Email templates, before this email can be drafted'
+      )
+    end
+
+    it 'lets the action that asked for the email carry on when there is no template' do
+      ActiveRecord::Base.transaction(requires_new: true) do
+        described_class.request_automatic!(applicant, 'holding')
+        staff_changes.add_note!(applicant, body: 'The caller carried on')
+      end
+      expect(applicant.events.map(&:kind)).to eq %w[created email_not_drafted note_added]
     end
 
     it 'needs no template for a type that is off' do
@@ -122,11 +133,12 @@ RSpec.describe Admissions::EmailSender do
       expect(described_class.request_automatic!(applicant, 'holding')).to be_nil
     end
 
-    it 'refuses a placeholder it cannot fill, drafting nothing' do
+    it 'drafts nothing when a placeholder cannot be filled, and logs why without raising' do
       email_template(round, 'holding', body: 'Your link: {{portal_link}}')
-      expect { described_class.request_automatic!(applicant, 'holding') }
-        .to raise_error(Admissions::EmailTemplate::RenderError, /no portal link until the applicant portal is built/)
+      expect(described_class.request_automatic!(applicant, 'holding')).to be_nil
       expect(applicant.emails).to be_empty
+      expect(events('email_not_drafted').sole.details)
+        .to include('reason' => 'placeholder_unfilled', 'error' => /no portal link until the applicant portal is built/)
     end
 
     it 'fills placeholders a later phase supplies' do
@@ -174,7 +186,7 @@ RSpec.describe Admissions::EmailSender do
         email = described_class.request_automatic!(applicant, 'confirmation')
 
         expect(email).to be_held
-        expect(applicant.events.map(&:kind)).to eq %w[created email_drafted email_send_failed]
+        expect(applicant.events.map(&:kind)).to eq %w[created email_drafted email_sending email_send_failed]
         expect(events('email_send_failed').sole.details)
           .to include('email_id' => email.id, 'error' => 'Gmail delivery is not configured: set X')
       end
@@ -189,8 +201,10 @@ RSpec.describe Admissions::EmailSender do
       expect(email.sent_by).to eq Admissions::Actor.staff(lead)
       expect(email.drafted_by).to eq Admissions::Actor.staff(lead)
       expect(recorded_emails.size).to eq 1
-      expect(applicant.events.where(kind: %w[email_drafted email_sent]).map { |e| [e.kind, e.actor_user, e.body] })
-        .to eq [['email_drafted', lead, expected_text], ['email_sent', lead, expected_text]]
+      expect(applicant.events.where(kind: %w[email_drafted email_sending email_sent])
+                       .map { |e| [e.kind, e.actor_user, e.body] })
+        .to eq [['email_drafted', lead, expected_text], ['email_sending', lead, expected_text],
+                ['email_sent', lead, expected_text]]
       expect(events('email_drafted').sole.details).not_to have_key('mode')
     end
 
@@ -223,13 +237,14 @@ RSpec.describe Admissions::EmailSender do
         .to raise_error(Admissions::ApplicantChanges::NotPermitted)
     end
 
-    it 'leaves the email held when delivery fails, and says why' do
-      Admissions::Delivery.adapter = Class.new { def deliver(_) = raise(Admissions::Delivery::Error, 'Gmail refused') }.new
+    it 'leaves the email held when delivery certainly failed, and says why' do
+      Admissions::Delivery.adapter = Class.new { def deliver(_) = raise(Admissions::Delivery::NotSent, 'Gmail refused') }.new
       expect { staff_sender(lead).send_now!(applicant, 'confirmation') }
-        .to raise_error(Admissions::Delivery::Error, 'Gmail refused')
+        .to raise_error(Admissions::Delivery::NotSent, 'Gmail refused')
 
       email = applicant.emails.sole
       expect(email).to be_held
+      expect(email).to have_attributes(sending_at: nil, sent_by_type: nil, to_address: nil)
       expect(events('email_send_failed').sole).to have_attributes(actor_user: lead)
     ensure
       Admissions::Delivery.adapter = nil

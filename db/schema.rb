@@ -97,6 +97,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_120000) do
     t.datetime "edited_at"
     t.string "sent_by_type"
     t.bigint "sent_by_user_id"
+    t.datetime "sending_at"
+    t.datetime "outcome_unknown_at"
     t.datetime "sent_at"
     t.string "delivery"
     t.string "delivery_message_id"
@@ -111,8 +113,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_120000) do
     t.index ["sent_by_user_id"], name: "index_admissions_emails_on_sent_by_user_id"
     t.index ["status"], name: "index_admissions_emails_on_status"
     t.check_constraint "status::text <> 'discarded'::text OR discarded_at IS NOT NULL", name: "admissions_emails_discarded_at"
+    t.check_constraint "status::text <> 'sending'::text OR sending_at IS NOT NULL", name: "admissions_emails_sending_at"
     t.check_constraint "status::text <> 'sent'::text OR sent_at IS NOT NULL", name: "admissions_emails_sent_at"
-    t.check_constraint "status::text = ANY (ARRAY['held'::character varying, 'sent'::character varying, 'discarded'::character varying]::text[])", name: "admissions_emails_status"
+    t.check_constraint "status::text = ANY (ARRAY['held'::character varying, 'sending'::character varying, 'sent'::character varying, 'discarded'::character varying]::text[])", name: "admissions_emails_status"
   end
 
   create_table "admissions_rounds", force: :cascade do |t|
@@ -303,20 +306,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_22_120000) do
       IF current_setting('admissions.service_write', true) IS DISTINCT FROM 'on' THEN
         RAISE EXCEPTION 'admissions emails are written only through Admissions::EmailSender';
       END IF;
-      IF TG_OP = 'UPDATE' AND OLD.status <> 'held'
+      IF TG_OP = 'UPDATE' AND OLD.status IN ('sent', 'discarded')
          AND NOT (NEW.subject IS NULL AND NEW.body IS NULL AND NEW.to_address IS NULL
                   AND NEW.redacted_at IS NOT NULL
                   AND (NEW.id, NEW.applicant_id, NEW.email_type, NEW.status,
                        NEW.drafted_by_type, NEW.drafted_by_user_id, NEW.drafted_at,
                        NEW.edited_by_type, NEW.edited_by_user_id, NEW.edited_at,
-                       NEW.sent_by_type, NEW.sent_by_user_id, NEW.sent_at,
+                       NEW.sent_by_type, NEW.sent_by_user_id, NEW.sending_at, NEW.outcome_unknown_at, NEW.sent_at,
                        NEW.delivery, NEW.delivery_message_id,
                        NEW.discarded_by_type, NEW.discarded_by_user_id, NEW.discarded_at)
                       IS NOT DISTINCT FROM
                       (OLD.id, OLD.applicant_id, OLD.email_type, OLD.status,
                        OLD.drafted_by_type, OLD.drafted_by_user_id, OLD.drafted_at,
                        OLD.edited_by_type, OLD.edited_by_user_id, OLD.edited_at,
-                       OLD.sent_by_type, OLD.sent_by_user_id, OLD.sent_at,
+                       OLD.sent_by_type, OLD.sent_by_user_id, OLD.sending_at, OLD.outcome_unknown_at, OLD.sent_at,
                        OLD.delivery, OLD.delivery_message_id,
                        OLD.discarded_by_type, OLD.discarded_by_user_id, OLD.discarded_at)) THEN
         RAISE EXCEPTION 'a sent or discarded admissions email does not change';

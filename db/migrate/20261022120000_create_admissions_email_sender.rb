@@ -4,7 +4,7 @@
 # - Email templates live in the database, one per round per email type, so
 #   no admissions wording is published in this public repository (§9).
 # - The outbox holds one row per email drafted to an applicant, with the
-#   exact text: held for approval, sent, or discarded.
+#   exact text: held for approval, sending, sent, or discarded.
 # - Each applicant gets a pause switch for automatic email.
 class CreateAdmissionsEmailSender < ActiveRecord::Migration[7.2]
   def change
@@ -37,8 +37,13 @@ class CreateAdmissionsEmailSender < ActiveRecord::Migration[7.2]
       t.references :edited_by_user, foreign_key: { to_table: :users }
       t.datetime :edited_at
       # Whoever sent it approved it: the click that sends is the approval.
+      # sending_at is when the send began (status sending); sent_at when the
+      # mail service accepted it. outcome_unknown_at marks a send whose
+      # result never came back, for staff to resolve.
       t.string :sent_by_type
       t.references :sent_by_user, foreign_key: { to_table: :users }
+      t.datetime :sending_at
+      t.datetime :outcome_unknown_at
       t.datetime :sent_at
       t.string :delivery
       t.string :delivery_message_id
@@ -47,7 +52,8 @@ class CreateAdmissionsEmailSender < ActiveRecord::Migration[7.2]
       t.datetime :discarded_at
       t.datetime :redacted_at
 
-      t.check_constraint "status IN ('held', 'sent', 'discarded')", name: 'admissions_emails_status'
+      t.check_constraint "status IN ('held', 'sending', 'sent', 'discarded')", name: 'admissions_emails_status'
+      t.check_constraint "status <> 'sending' OR sending_at IS NOT NULL", name: 'admissions_emails_sending_at'
       t.check_constraint "status <> 'sent' OR sent_at IS NOT NULL", name: 'admissions_emails_sent_at'
       t.check_constraint "status <> 'discarded' OR discarded_at IS NOT NULL", name: 'admissions_emails_discarded_at'
     end
@@ -67,7 +73,8 @@ class CreateAdmissionsEmailSender < ActiveRecord::Migration[7.2]
   #   Admissions::ApplicantChanges (admissions.service_write on).
   # - Outbox rows are written only with admissions.service_write on, and are
   #   never deleted or truncated. Once sent or discarded an email does not
-  #   change, except that withdrawal blanks its text and address.
+  #   change, except that withdrawal blanks its text and address. (Held and
+  #   sending emails change: edits, and a send's steps.)
   GUARDS = <<~SQL.freeze
     CREATE OR REPLACE FUNCTION admissions_applicants_guard() RETURNS trigger
     LANGUAGE plpgsql AS $$
@@ -102,20 +109,20 @@ class CreateAdmissionsEmailSender < ActiveRecord::Migration[7.2]
       IF current_setting('admissions.service_write', true) IS DISTINCT FROM 'on' THEN
         RAISE EXCEPTION 'admissions emails are written only through Admissions::EmailSender';
       END IF;
-      IF TG_OP = 'UPDATE' AND OLD.status <> 'held'
+      IF TG_OP = 'UPDATE' AND OLD.status IN ('sent', 'discarded')
          AND NOT (NEW.subject IS NULL AND NEW.body IS NULL AND NEW.to_address IS NULL
                   AND NEW.redacted_at IS NOT NULL
                   AND (NEW.id, NEW.applicant_id, NEW.email_type, NEW.status,
                        NEW.drafted_by_type, NEW.drafted_by_user_id, NEW.drafted_at,
                        NEW.edited_by_type, NEW.edited_by_user_id, NEW.edited_at,
-                       NEW.sent_by_type, NEW.sent_by_user_id, NEW.sent_at,
+                       NEW.sent_by_type, NEW.sent_by_user_id, NEW.sending_at, NEW.outcome_unknown_at, NEW.sent_at,
                        NEW.delivery, NEW.delivery_message_id,
                        NEW.discarded_by_type, NEW.discarded_by_user_id, NEW.discarded_at)
                       IS NOT DISTINCT FROM
                       (OLD.id, OLD.applicant_id, OLD.email_type, OLD.status,
                        OLD.drafted_by_type, OLD.drafted_by_user_id, OLD.drafted_at,
                        OLD.edited_by_type, OLD.edited_by_user_id, OLD.edited_at,
-                       OLD.sent_by_type, OLD.sent_by_user_id, OLD.sent_at,
+                       OLD.sent_by_type, OLD.sent_by_user_id, OLD.sending_at, OLD.outcome_unknown_at, OLD.sent_at,
                        OLD.delivery, OLD.delivery_message_id,
                        OLD.discarded_by_type, OLD.discarded_by_user_id, OLD.discarded_at)) THEN
         RAISE EXCEPTION 'a sent or discarded admissions email does not change';

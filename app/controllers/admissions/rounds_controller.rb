@@ -7,7 +7,7 @@ module Admissions
       @rounds = Round.order(Arel.sql('opens_on DESC NULLS LAST'), id: :desc)
       @stage_counts = Applicant.group(:round_id, :stage).count
       @complicated_counts = Applicant.where(complicated: true).group(:round_id).count
-      @held_count = Email.held.count
+      @held_count = Email.where(status: %w[held sending]).count
     end
 
     def show; end

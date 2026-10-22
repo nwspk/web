@@ -45,6 +45,11 @@ module Admissions
       # The two HTTP calls Gmail needs: a fresh access token from the refresh
       # token, then users.messages.send. `http` performs a request; tests
       # replace it, so nothing in the test suite reaches Google.
+      #
+      # Any failure getting the token, an error Google returns, or a failure
+      # to connect means the message was not sent (NotSent). Once the send
+      # request may have been written, a timeout or dropped connection means
+      # nobody knows (OutcomeUnknown).
       class Client
         TOKEN_URI = URI('https://oauth2.googleapis.com/token')
         SEND_URI = URI('https://gmail.googleapis.com/gmail/v1/users/me/messages/send')
@@ -64,7 +69,8 @@ module Admissions
           request['Authorization'] = "Bearer #{access_token}"
           request['Content-Type'] = 'application/json'
           request.body = { raw: raw }.to_json
-          parse(@http.call(SEND_URI, request), 'send the message').fetch('id')
+          id = parse(@http.call(SEND_URI, request), 'send the message')['id']
+          id.presence || raise(OutcomeUnknown, 'Gmail answered without saying whether it sent the message')
         end
 
         # Keeps the secrets out of logs and error pages.
@@ -74,6 +80,7 @@ module Admissions
 
         private
 
+        # Nothing has been sent while getting the token, whatever goes wrong.
         def access_token
           return @access_token if @access_token && Time.current < @expires_at
 
@@ -82,28 +89,50 @@ module Admissions
                                 refresh_token: @refresh_token, grant_type: 'refresh_token')
           token = parse(@http.call(TOKEN_URI, request), 'get an access token')
           @expires_at = Time.current + (token['expires_in'].to_i - 60).seconds
-          @access_token = token.fetch('access_token')
+          @access_token = token['access_token'].presence || raise(NotSent, 'Gmail gave no access token')
+        rescue OutcomeUnknown => e
+          raise NotSent, e.message
         end
 
+        # What failed decides what we know: failing to connect means nothing
+        # was written; failing once the request is being written means it
+        # may have arrived.
         def perform(uri, request)
-          Net::HTTP.start(uri.host, uri.port, use_ssl: true,
-                                              open_timeout: OPEN_TIMEOUT, read_timeout: READ_TIMEOUT) do |http|
-            http.request(request)
+          http = Net::HTTP.new(uri.host, uri.port)
+          http.use_ssl = true
+          http.open_timeout = OPEN_TIMEOUT
+          http.read_timeout = READ_TIMEOUT
+          begin
+            http.start
+          rescue StandardError => e
+            raise NotSent, "Gmail could not be reached (#{e.class})"
           end
-        rescue StandardError => e
-          raise Error, "Gmail could not be reached (#{e.class})"
+          begin
+            http.request(request)
+          rescue StandardError => e
+            raise OutcomeUnknown, "the connection to Gmail was lost before it answered (#{e.class})"
+          ensure
+            http.finish if http.started?
+          end
         end
 
-        # Google's own error code is safe to show; the response never echoes
-        # our credentials.
+        # An error Google returns means it did not act. Its own error code is
+        # safe to show; the response never echoes our credentials. A success
+        # we can't read leaves the outcome unknown.
         def parse(response, what)
-          data = JSON.parse(response.body.presence || '{}')
-          return data if response.is_a?(Net::HTTPSuccess)
+          unless response.is_a?(Net::HTTPSuccess)
+            code = begin
+              error = JSON.parse(response.body.presence || '{}')['error']
+              error.is_a?(Hash) ? error['status'] : error
+            rescue JSON::ParserError
+              nil
+            end
+            raise NotSent, "Gmail refused to #{what} (HTTP #{response.code}#{" #{code}" if code})"
+          end
 
-          code = data['error'].is_a?(Hash) ? data['error']['status'] : data['error']
-          raise Error, "Gmail refused to #{what} (HTTP #{response.code}#{" #{code}" if code})"
+          JSON.parse(response.body.presence || '{}')
         rescue JSON::ParserError
-          raise Error, "Gmail refused to #{what} (HTTP #{response.code})"
+          raise OutcomeUnknown, "Gmail's answer could not be read"
         end
       end
     end

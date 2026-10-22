@@ -284,8 +284,8 @@ module Admissions
     # Every write runs in ServiceWrite's guarded transaction. Two requests
     # racing for the same email in a round both pass validation; the unique
     # index refuses the second, reported as the validation would.
-    def service_write(record, &block)
-      super(&block)
+    def service_write(record, &)
+      super(&)
     rescue ActiveRecord::RecordNotUnique
       record.errors.add(:email, :taken)
       raise ActiveRecord::RecordInvalid, record
@@ -315,6 +315,5 @@ module Admissions
 
     def cleared_hold = { held_from_stage: nil, hold_until: nil, hold_reason: nil }
     def cleared_complicated = { complicated: false, complicated_note: nil, complicated_check_back_on: nil }
-
   end
 end

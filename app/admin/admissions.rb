@@ -288,6 +288,8 @@ ActiveAdmin.register Admissions::Email, as: 'Admissions Email' do
         row("#{act.to_s.capitalize} by") { |e| e.public_send(:"#{act}_by")&.then { |a| a.user&.name || a.type } }
         row(:"#{act}_at")
       end
+      row :sending_at
+      row :outcome_unknown_at
       row :delivery
       row :delivery_message_id
       row :redacted_at

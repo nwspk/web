@@ -66,7 +66,11 @@ Rails.application.routes.draw do
     end
     # The approval queue: held emails, shared among staff.
     resources :emails, only: %i[index update] do
-      post :discard, on: :member
+      member do
+        post :discard
+        post :confirm_sent
+        post :confirm_not_sent
+      end
     end
     resources :applicants, only: [] do
       member do

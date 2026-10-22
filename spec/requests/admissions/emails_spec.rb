@@ -117,6 +117,7 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
                                                         send_email: 'Send' }
       follow_redirect!
       expect(response.body).to include('Not sent, and still waiting: Gmail delivery is not configured: set X in the environment.')
+      expect(response.body).to include('Save changes')
       expect(email.reload).to be_held
     ensure
       Admissions::Delivery.adapter = nil
@@ -137,6 +138,64 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
       follow_redirect!
       expect(response.body).to include('Nothing done: this email has already been discarded.')
       expect(recorded_emails).to be_empty
+    end
+
+    it 'says when this site only records mail' do
+      get '/admissions/emails'
+      expect(response.body).to include('Recording only: nothing is actually sent from this site.')
+
+      allow(Admissions::Delivery).to receive(:recording?).and_return(false)
+      get '/admissions/emails'
+      expect(response.body).not_to include('Recording only')
+    end
+
+    describe 'a send whose outcome is unknown' do
+      before do
+        Admissions::Delivery.adapter = Class.new do
+          def deliver(_) = raise(Admissions::Delivery::OutcomeUnknown, 'the connection to Gmail was lost before it answered')
+        end.new
+        patch "/admissions/emails/#{email.id}", params: { admissions_email: { subject: email.subject, body: email.body },
+                                                          send_email: 'Send' }
+        Admissions::Delivery.adapter = nil
+      end
+
+      it 'says so, shows the text, and offers only the two resolutions' do
+        follow_redirect!
+        expect(response.body).to include(
+          'Outcome unknown: check the admissions@ Sent folder (the connection to Gmail was lost before it answered).'
+        )
+        expect(response.body).to include('Outcome unknown: check the admissions@ Sent folder.', 'It was sent',
+                                         'It wasn&#39;t sent: put it back in the queue', 'Test subject for Test Person')
+        expect(response.body).not_to include('Save changes')
+      end
+
+      it 'is resolved as sent, attributed' do
+        post "/admissions/emails/#{email.id}/confirm_sent"
+        follow_redirect!
+        expect(response.body).to include('Recorded as sent.')
+        expect(email.reload).to be_sent
+        expect(applicant.events.where(kind: 'email_sent').sole.actor_user).to eq officer
+      end
+
+      it 'is resolved as not sent, back in the queue' do
+        post "/admissions/emails/#{email.id}/confirm_not_sent"
+        follow_redirect!
+        expect(response.body).to include('Recorded as not sent. The email is back in the queue.', 'Save changes')
+        expect(email.reload).to be_held
+      end
+    end
+
+    it 'shows a send in progress without offering anything' do
+      crash = Class.new(Exception) # rubocop:disable Lint/InheritException
+      Admissions::Delivery.adapter = Class.new { define_method(:deliver) { |_| raise crash } }.new
+      expect { staff_sender(officer).send_held!(email) }.to raise_error(crash) # the process died mid-send
+      Admissions::Delivery.adapter = nil
+      get '/admissions/emails'
+      expect(response.body).to include('Sending…')
+      expect(response.body).not_to include('It was sent', 'Save changes')
+      post "/admissions/emails/#{email.id}/confirm_sent"
+      follow_redirect!
+      expect(response.body).to include('Nothing done: this email is still being sent.')
     end
 
     it 'is not found for an email that does not exist' do
