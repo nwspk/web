@@ -1,0 +1,33 @@
+- content_for :page_title do
+  Register your interest
+
+%h2.no-topping Register your interest
+
+-# The introduction and the privacy notice are Ed's words, kept in the
+-# database (Admissions::FormText) and edited by admissions leads; only the
+-# labels, buttons and messages are here.
+- if @introduction
+  .eoi-introduction= admissions_wording(@introduction)
+
+= form_with model: @form, scope: :eoi, url: admissions_eoi_form_path, id: 'eoi-form', local: true do |f|
+  -# Bot trap (see Admissions::EoiFormController): a decoy field kept
+  -# off-screen, out of the tab order and away from screen readers and
+  -# autofill, which only a bot will fill in.
+  .form-group.form-group-extra{ 'aria-hidden': 'true' }
+    = label_tag Admissions::EoiFormController::HONEYPOT, 'Website (please leave this blank)'
+    = text_field_tag Admissions::EoiFormController::HONEYPOT, nil, tabindex: -1, autocomplete: 'off'
+  .form-group{ class: ('has-error' if @form.errors[:email].any?) }
+    = f.label :email, 'Email address', for: 'eoi_email'
+    = f.email_field :email, id: 'eoi_email', required: true, autocomplete: 'email', maxlength: Admissions::EoiForm::EMAIL_MAX_LENGTH,
+      'aria-describedby': ('eoi-email-error' if @form.errors[:email].any?)
+    - if @form.errors[:email].any?
+      %span.help-block#eoi-email-error= @form.errors[:email].first
+  .form-group{ class: ('has-error' if @form.errors[:phone].any?) }
+    = f.label :phone, 'Phone number (optional)', for: 'eoi_phone'
+    = f.telephone_field :phone, id: 'eoi_phone', autocomplete: 'tel', maxlength: Admissions::EoiForm::PHONE_MAX_LENGTH,
+      'aria-describedby': ('eoi-phone-error' if @form.errors[:phone].any?)
+    - if @form.errors[:phone].any?
+      %span.help-block#eoi-phone-error= @form.errors[:phone].first
+  .eoi-privacy= admissions_wording(@privacy_notice)
+  .form-group
+    = f.submit 'Register my interest'

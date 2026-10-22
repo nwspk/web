@@ -58,6 +58,36 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  # Admissions (admit). The eoi-form is public, at /admissions; everything
+  # under /admissions/staff is staff only, and anyone else gets the
+  # ordinary not-found there.
+  get 'admissions', to: 'admissions/eoi_form#show', as: :admissions_eoi_form
+  post 'admissions', to: 'admissions/eoi_form#create'
+  get 'admissions/thank-you', to: 'admissions/eoi_form#thanks', as: :admissions_eoi_thanks
+
+  namespace :admissions, path: 'admissions/staff' do
+    root to: 'rounds#index', as: :staff_root
+    # The eoi-form's introduction and privacy notice: staff read, leads edit.
+    resources :form_texts, path: 'wording', only: %i[index edit update], param: :key
+    resources :rounds, only: %i[show new create edit update] do
+      resources :email_templates, only: %i[index new create edit update]
+    end
+    # The approval queue: held emails, shared among staff.
+    resources :emails, only: %i[index update] do
+      member do
+        post :discard
+        post :confirm_sent
+        post :confirm_not_sent
+      end
+    end
+    resources :applicants, only: [] do
+      member do
+        post :pause_emails
+        post :resume_emails
+      end
+    end
+  end
+
   root to: 'home#index'
 
   get '*unmatched_route', to: 'application#route_not_found', constraints: { format: :html }
