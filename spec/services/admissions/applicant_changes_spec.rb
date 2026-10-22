@@ -649,4 +649,32 @@ complicated_check_back_on: Date.current + 5)
       expect(applicant.events.count).to eq 1
     end
   end
+
+  describe '#record_repeat_eoi!' do
+    let(:applicant) { applicant_changes.create!(round: Fabricate(:admissions_round), email: 'repeat@example.com') }
+
+    it 'logs the repeat as the applicant, changing nothing else' do
+      before = applicant.attributes
+      applicant_changes(applicant).record_repeat_eoi!(applicant)
+
+      expect(applicant.attributes).to eq before
+      expect(applicant.events.last).to have_attributes(kind: 'eoi_repeated', actor_type: 'applicant', body: nil)
+      expect(Admissions::StateRebuilder).to be_consistent(applicant)
+    end
+
+    it 'is for the applicant only' do
+      expect { staff_changes.record_repeat_eoi!(applicant) }.to raise_error(described_class::NotPermitted)
+      expect { system_changes.record_repeat_eoi!(applicant) }.to raise_error(described_class::NotPermitted)
+      other = applicant_changes.create!(round: applicant.round, email: 'other@example.com')
+      expect { applicant_changes(other).record_repeat_eoi!(applicant) }.to raise_error(described_class::NotPermitted)
+    end
+
+    it 'keeps a phone number only in the body, which withdrawal blanks' do
+      applicant_changes(applicant).record_repeat_eoi!(applicant, phone: '07700 900456')
+      expect(applicant.events.last.body).to eq 'Phone number given: 07700 900456'
+
+      staff_changes.withdraw!(applicant)
+      expect(applicant.events.find_by(kind: 'eoi_repeated').body).to be_nil
+    end
+  end
 end

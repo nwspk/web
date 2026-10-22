@@ -20,6 +20,7 @@ module Admissions
     belongs_to :created_by_user, class_name: 'User'
 
     validates :key, inclusion: { in: KEYS.keys }
+    validates :created_by_user, presence: true
     validates :body, presence: true, if: -> { REQUIRED.include?(key) }
     validates :body, length: { maximum: 20_000 }
 

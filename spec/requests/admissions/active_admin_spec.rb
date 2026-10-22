@@ -60,6 +60,27 @@ RSpec.describe 'Admissions in ActiveAdmin (the fallback screens)', type: :reques
     end
   end
 
+  describe 'the EOI form wording fallback' do
+    let!(:version) { Admissions::FormText.create!(key: 'privacy_notice', body: 'Test notice.', created_by_user: admin_lead) }
+
+    it 'is read-only, and readable by a site admin who is admissions staff' do
+      expect(resource('Admissions::FormText').defined_actions).to match_array %i[index show]
+
+      sign_in admin_lead
+      get '/admin/admissions_form_texts'
+      expect(response).to have_http_status(:ok)
+      get "/admin/admissions_form_texts/#{version.id}"
+      expect(response.body).to include('Test notice.')
+    end
+
+    it 'keeps a site admin without an admissions role out' do
+      sign_in Fabricate(:user, role: 'admin')
+      get "/admin/admissions_form_texts/#{version.id}"
+      expect(response).not_to have_http_status(:ok)
+      expect(response.body).not_to include('Test notice.')
+    end
+  end
+
   describe 'the email-sender fallback' do
     let!(:template) { email_template(round, 'confirmation') }
     let!(:email) { Admissions::EmailSender.request_automatic!(applicant, 'confirmation') }
