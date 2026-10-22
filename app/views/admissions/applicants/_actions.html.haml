@@ -1,0 +1,71 @@
+-# The card's actions (SPEC §3a): each one click or one short form, each
+-# through ApplicantChanges and attributed to whoever pressed it.
+- a = @applicant
+%h3#actions Actions
+- if a.withdrawn?
+  %p This applicant has withdrawn. Their details are erased, and nothing more can be done on this record.
+- else
+  .admissions-actions
+    %section#action-complicated
+      %h4 It's complicated
+      - if a.complicated?
+        %pre.admissions-text= a.complicated_note
+        = button_to 'Clear the flag', clear_complicated_admissions_applicant_path(a),
+          form: { class: 'admissions-inline' }
+        %p.admissions-small Clearing puts the card back in its stage's column, and automatic email can resume.
+      - elsif Admissions::Stages.exit?(a.stage)
+        %p.admissions-small Only an applicant still in the round can be flagged.
+      - else
+        = form_tag flag_complicated_admissions_applicant_path(a) do
+          = label_tag :complicated_note, "What's happening"
+          = text_area_tag :note, nil, rows: 2, id: 'complicated_note', class: 'form-control', required: true
+          = label_tag :check_back_on, 'Check back on'
+          = date_field_tag :check_back_on, Date.current + 7, min: Date.current, required: true
+          = submit_tag "Flag \"it's complicated\""
+        %p.admissions-small While flagged, they get no automatic email of any kind.
+
+    %section#action-hold
+      %h4 Hold
+      - if a.on_hold?
+        %p
+          Reason:
+          = a.hold_reason
+        = button_to "Return from hold to #{admissions_stage_label(a.held_from_stage)}",
+          return_from_hold_admissions_applicant_path(a), form: { class: 'admissions-inline' }
+      - elsif Admissions::Stages.holdable?(a.stage)
+        = form_tag hold_admissions_applicant_path(a) do
+          = label_tag :hold_until, 'Hold until'
+          = date_field_tag :hold_until, nil, min: Date.current + 1, required: true
+          = label_tag :reason, 'Reason'
+          = text_field_tag :reason, nil, class: 'form-control', required: true
+          = submit_tag 'Put on hold'
+        %p.admissions-small They stay in this round. On the date they come back to the staff home, not to their inbox.
+      - else
+        %p.admissions-small Only an applicant in a stage of the funnel can be put on hold.
+
+    %section#action-move
+      %h4 Move to any stage
+      = form_tag move_admissions_applicant_path(a), method: :get do
+        = label_tag :to, 'Move to'
+        = select_tag :to, options_for_select((Admissions::Stages::FUNNEL - [a.stage]).map { |s| [admissions_stage_label(s), s] })
+        = submit_tag 'Next', name: nil
+      %p.admissions-small You'll see what the move does before it happens.
+
+    %section#action-leave
+      %h4 Leaving
+      - if a.stage == 'deferred'
+        = button_to "Reopen at #{admissions_stage_label(a.exited_from_stage)}", reopen_admissions_applicant_path(a),
+          form: { class: 'admissions-inline' }
+      - elsif !Admissions::Stages.exit?(a.stage)
+        = form_tag defer_admissions_applicant_path(a) do
+          = label_tag :defer_note, 'Note (optional)'
+          = text_field_tag :note, nil, id: 'defer_note', class: 'form-control'
+          = submit_tag 'Defer: not this year'
+        %p.admissions-small
+          For someone dropping out. They're kept, and reminded when the next round opens.
+      - if can?(:withdraw, a)
+        %p
+          = link_to 'Withdraw: remove their details…', withdraw_admissions_applicant_path(a)
+        %p.admissions-small Only when they've asked for their details to be removed. You'll confirm on the next page.
+      - else
+        %p.admissions-small Only an admissions lead can withdraw an applicant (remove their details).

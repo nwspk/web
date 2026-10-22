@@ -80,10 +80,24 @@ Rails.application.routes.draw do
         post :confirm_not_sent
       end
     end
-    resources :applicants, only: [] do
+    # The kanban-board, and each applicant's page with its actions; cards
+    # created by hand; the lists behind the staff home's counts (?due=…).
+    get 'board', to: 'board#show', as: :board
+    resources :applicants, only: %i[index show new create] do
       member do
+        post :note
         post :pause_emails
         post :resume_emails
+        post :flag_complicated
+        post :clear_complicated
+        post :hold
+        post :return_from_hold
+        get :move, action: :confirm_move
+        post :move
+        post :defer
+        post :reopen
+        get :withdraw, action: :confirm_withdraw
+        post :withdraw
       end
     end
   end

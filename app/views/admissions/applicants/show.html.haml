@@ -1,0 +1,166 @@
+- content_for :page_title do
+  = @applicant.display_name
+
+- round = @applicant.round
+- step = @applicant.next_step
+%p
+  = link_to 'Admissions', admissions_staff_root_path
+  ·
+  = link_to "Board: #{round.name}", admissions_board_path(round: round.id)
+
+%h2= @applicant.display_name
+
+%h3#details Details
+%table.admissions-details
+  %tbody
+    %tr
+      %th Email
+      %td= @applicant.email || 'Erased'
+    %tr
+      %th Phone
+      %td= @applicant.phone || (@applicant.withdrawn? ? 'Erased' : 'Not given')
+    %tr
+      %th Name
+      %td= @applicant.name || (@applicant.withdrawn? ? 'Erased' : 'Not known yet')
+    %tr
+      %th Stage
+      %td
+        - if @applicant.on_hold?
+          On hold from #{admissions_stage_label(@applicant.held_from_stage)},
+          until #{l(@applicant.hold_until, format: :long)}
+        - else
+          = admissions_stage_label(@applicant.stage)
+        - if @applicant.complicated?
+          %br
+          %strong It's complicated:
+          check back #{l(@applicant.complicated_check_back_on, format: :long)}
+    %tr
+      %th Time in stage
+      %td #{admissions_time_in_stage(@applicant)}, since #{l(@applicant.stage_entered_at, format: :long)}
+    - if step
+      %tr
+        %th Next step
+        %td #{step.description}#{", due #{l(step.due_at.to_date, format: :long)}" if step.due_at}
+    %tr
+      %th Round
+      %td= link_to round.name, admissions_round_path(round)
+    %tr
+      %th First expressed interest
+      %td
+        - first = @applicant.first_interest_on
+        = first ? l(first, format: :long) : 'Not recorded'
+        - if @applicant.created_event&.details&.key?('first_interest_on')
+          (entered by hand)
+    %tr
+      %th Earlier round
+      %td
+        - if @applicant.previous_applicant
+          = link_to "#{@applicant.previous_applicant.round.name}: #{@applicant.previous_applicant.display_name}",
+            admissions_applicant_path(@applicant.previous_applicant)
+        - else
+          None
+    - later = @person_records.reject { |record| record == @applicant.previous_applicant }
+    - if later.any?
+      %tr
+        %th Other rounds
+        %td
+          - later.each do |record|
+            = link_to "#{record.round.name}: #{admissions_stage_label(record.stage)}", admissions_applicant_path(record)
+            %br
+
+= render 'actions'
+
+%h3#upcoming Upcoming emails
+- suppressed = Admissions::UpcomingEmails.suppressed_because(@applicant)
+- if suppressed
+  %p= AdmissionsHelper::EMAIL_SUPPRESSED.fetch(suppressed)
+- if @upcoming.empty?
+  %p Nothing is waiting to be sent.
+- else
+  %ul.admissions-upcoming
+    - @upcoming.each do |item|
+      %li
+        %strong= item.label
+        - case item.status
+        - when :held
+          held for approval since #{l(item.at, format: :long)}
+          (drafted by #{admissions_actor_name(item.email.drafted_by)}).
+        - when :sending
+          sending since #{l(item.at, format: :long)}.
+        - when :outcome_unknown
+          outcome unknown: check the admissions@ Sent folder.
+        = link_to 'Open it in the approval queue', admissions_emails_path(anchor: "email-#{item.email.id}")
+%p Weekly reminders aren't sent yet, so none are listed here.
+- unless @applicant.withdrawn?
+  - if @applicant.emails_paused?
+    %p
+      Automatic email to this applicant is paused.
+      = button_to 'Resume automatic email', resume_emails_admissions_applicant_path(@applicant),
+        form: { class: 'admissions-inline' }
+  - else
+    %p
+      = button_to 'Pause automatic email', pause_emails_admissions_applicant_path(@applicant),
+        form: { class: 'admissions-inline' }
+      Pausing stops anything automatic being drafted. Emails already waiting stay in the approval queue.
+
+%h3#correspondence Correspondence
+%p Replies to admissions@ aren't shown here yet.
+- if @correspondence.empty?
+  %p No email has been sent to this applicant.
+- @correspondence.each do |event|
+  - details = event.details
+  .admissions-sent-email{ id: "sent-#{event.id}" }
+    %h4
+      = Admissions::EmailTypes::TYPES.fetch(details['email_type'], details['email_type'])
+      ·
+      = l(event.created_at, format: :long)
+    %p.admissions-small
+      - if details['confirmed_by_staff']
+        Confirmed sent by #{admissions_actor_name(event.actor)}, who found it in the admissions@ Sent folder.
+      - elsif event.actor_type == 'system'
+        Sent automatically.
+      - else
+        Sent by #{admissions_actor_name(event.actor)}.
+      - if details['delivery'] == 'recording'
+        %strong Recording only: nothing actually went out.
+    - text = event.email_text
+    - if text
+      %p
+        %strong Subject:
+        = text.first
+      %pre.admissions-text= text.last
+    - elsif event.redacted_at || @applicant.withdrawn?
+      %p
+        %em Text blanked when the applicant withdrew.
+    - else
+      %p
+        %em No text was recorded.
+
+%h3#notes Notes
+- if @applicant.withdrawn?
+  %p A withdrawn applicant takes no notes.
+- else
+  = form_tag note_admissions_applicant_path(@applicant) do
+    = label_tag :body, 'Add a note'
+    = text_area_tag :body, nil, rows: 3, class: 'form-control'
+    = submit_tag 'Add note'
+  %p Notes appear in the history, with who wrote them.
+
+%h3#history History
+%ol.admissions-history{ reversed: true }
+  - @events.each do |event|
+    %li{ id: "event-#{event.id}" }
+      %span.admissions-small
+        #{l(event.created_at, format: :long)} · #{admissions_actor_name(event.actor)}
+      %br
+      = admissions_event_summary(event)
+      - if event.body
+        - if Admissions::ApplicantEvent::EMAIL_KINDS.include?(event.kind)
+          %details
+            %summary The email's text
+            %pre.admissions-text= event.body
+        - else
+          %pre.admissions-text= event.body
+      - elsif event.redacted_at
+        %br
+        %em Text removed when the applicant withdrew.

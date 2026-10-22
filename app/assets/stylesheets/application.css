@@ -1104,3 +1104,76 @@ summary {
   padding: 50px 0px 0px 10px;
   border-radius: 5px;
 }
+
+/* The admissions staff screens (/admissions/staff): plain and functional,
+   since only staff see them. The board's columns sit side by side and
+   scroll sideways inside the text column, so the page itself never does. */
+.admissions-board {
+  display: flex;
+  gap: 0.75em;
+  overflow-x: auto;
+  align-items: flex-start;
+  padding-bottom: 1em;
+}
+.admissions-column {
+  flex: 0 0 13em;
+  background: #f1f1f1;
+  padding: 0.5em;
+}
+.admissions-column h3 {
+  font-family: var(--sans-serif-font);
+  font-size: 0.9em;
+  margin: 0 0 0.5em;
+}
+.admissions-card {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--grey-2);
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  text-decoration: none;
+  color: var(--almost-black);
+  font-family: var(--sans-serif-font);
+  font-size: 0.85em;
+}
+.admissions-card-name {
+  display: block;
+  color: var(--red);
+  overflow-wrap: anywhere;
+}
+.admissions-card-time {
+  display: block;
+  color: #737373;
+}
+.admissions-marker {
+  display: inline-block;
+  border: 1px solid var(--almost-black);
+  padding: 0 0.3em;
+  margin: 0.25em 0.25em 0 0;
+  font-size: 0.85em;
+}
+.admissions-finished .admissions-card {
+  display: inline-block;
+  width: 13em;
+  vertical-align: top;
+  margin-right: 0.5em;
+}
+.admissions-small {
+  font-family: var(--sans-serif-font);
+  font-size: 0.85em;
+  color: #737373;
+}
+.admissions-text {
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+.admissions-inline {
+  display: inline;
+}
+.admissions-actions section {
+  border-top: 1px solid var(--grey-2);
+  padding-top: 0.5em;
+}
+.admissions-history li {
+  margin-bottom: 0.75em;
+}

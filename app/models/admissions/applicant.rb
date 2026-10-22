@@ -37,6 +37,12 @@ module Admissions
     end
 
     scope :active, -> { where.not(stage: Stages::TERMINAL) }
+    # Flagged "it's complicated" with the check-back date come (SPEC §3a).
+    scope :check_back_due, lambda { |on = Date.current|
+      active.where(complicated: true).where(complicated_check_back_on: ..on)
+    }
+    # On hold with the return date come: staff return them (SPEC §3a).
+    scope :hold_return_due, ->(on = Date.current) { where(stage: Stages::ON_HOLD, hold_until: ..on) }
 
     # True only inside an admissions service's guarded transaction
     # (Admissions::ServiceWrite).
@@ -69,6 +75,28 @@ module Admissions
     # or entering the current stage if that came later.
     def last_contacted_at
       [stage_entered_at, emails.sent.maximum(:sent_at)].compact.max
+    end
+
+    # How staff screens name the applicant: their name once known, else
+    # their address; a withdrawn record has neither.
+    def display_name
+      name.presence || email.presence || "Withdrawn applicant ##{id}"
+    end
+
+    def created_event
+      events.find_by(kind: 'created')
+    end
+
+    # The day this person first expressed interest (SPEC §3a "Cards created
+    # by hand"): the date staff entered on a card created by hand, which the
+    # `created` event keeps as details['first_interest_on'], or else the
+    # day the record was created. funnel-stats reads it from there.
+    def first_interest_on
+      event = created_event
+      return nil unless event
+
+      given = event.details['first_interest_on']
+      given ? Date.iso8601(given) : event.created_at.to_date
     end
 
     # This person's records in every round, oldest first: the chain of

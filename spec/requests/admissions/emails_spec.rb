@@ -61,7 +61,9 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
 
       get '/admissions/staff/emails'
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('Approval queue', 'EOI confirmation to Test Person', 'test.person@example.com',
+      expect(response.body).to include('Approval queue', 'EOI confirmation to',
+                                       "<a href=\"/admissions/staff/applicants/#{applicant.id}\">Test Person</a>",
+                                       'test.person@example.com',
                                        'Fellowship 2027', 'Drafted', 'by the system',
                                        'Test subject for Test Person', 'Test body, Test Person, for Fellowship 2027.')
       expect(response.body).not_to include('Gone Person')
@@ -207,8 +209,15 @@ RSpec.describe 'The approval queue, email templates and the pause switch', type:
   describe 'the pause switch' do
     before { sign_in officer }
 
+    it 'lives on the card, which the queue links to' do
+      get '/admissions/staff/emails'
+      expect(response.body).to include('Open their card', "/admissions/staff/applicants/#{applicant.id}#upcoming")
+      expect(response.body).not_to include('Pause automatic email')
+    end
+
     it 'turns automatic email to one applicant off and on, each attributed' do
       post "/admissions/staff/applicants/#{applicant.id}/pause_emails"
+      expect(response).to redirect_to("/admissions/staff/applicants/#{applicant.id}")
       follow_redirect!
       expect(response.body).to include('Automatic email to Test Person is paused.', 'Resume automatic email')
       expect(applicant.reload.emails_paused).to be true

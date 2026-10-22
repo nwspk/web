@@ -3,7 +3,11 @@
 
 = render 'admissions/form_texts/status', reasons: @eoi_form_closed_reasons
 
+%p= link_to 'Board', admissions_board_path
 %p= link_to "Approval queue (#{pluralize(@held_count, 'email')} waiting)", admissions_emails_path
+%p= link_to "It's complicated: #{@check_back_count} due a check-back", admissions_applicants_path(due: 'check_back')
+%p= link_to "On hold: #{@hold_return_count} due to return", admissions_applicants_path(due: 'hold_return')
+%p= link_to 'New card', new_admissions_applicant_path
 %p= link_to 'EOI form wording', admissions_form_texts_path
 
 - if can?(:create, Admissions::Round)

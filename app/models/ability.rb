@@ -44,6 +44,10 @@ class Ability
       if staff.lead?
         can :manage, [Admissions::Round, Admissions::StaffMember, Admissions::EmailTemplate]
         can %i[read create], Admissions::FormText # each edit is a new version
+      else
+        # Withdrawal erases a person's details and can't be undone, so it
+        # is a lead's act; every other card action is shared.
+        cannot :withdraw, Admissions::Applicant
       end
     end
 

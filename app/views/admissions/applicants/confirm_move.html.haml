@@ -1,0 +1,23 @@
+- content_for :page_title do
+  Move #{@applicant.display_name}
+
+%p= link_to "Back to #{@applicant.display_name}", admissions_applicant_path(@applicant)
+
+%h2 Move #{@applicant.display_name} to #{admissions_stage_label(@to)}
+
+%p
+  From #{admissions_stage_label(@preview.from)} to #{admissions_stage_label(@preview.to)}.
+  - if @applicant.on_hold?
+    This also ends their hold.
+  - elsif Admissions::Stages.exit?(@applicant.stage)
+    This brings them back into the round.
+
+%p
+  %strong This move sends no email.
+  Moves don't offer any emails yet. If they should hear from you, write to them from admissions@.
+
+= form_tag move_admissions_applicant_path(@applicant) do
+  = hidden_field_tag :to, @to
+  = label_tag :note, 'Why (optional): kept in the history'
+  = text_area_tag :note, nil, rows: 2, class: 'form-control'
+  = submit_tag "Move to #{admissions_stage_label(@to)}"

@@ -150,6 +150,9 @@ module Admissions
         raise IllegalChange, "cannot go from #{from} to #{to}" unless Stages.exit_reachable?(from, to)
 
         permit!(Stages::EXIT_ACTORS.fetch(to), "move an applicant to #{to}")
+        if to == 'withdrawn' && actor.staff? && Ability.new(actor.user).cannot?(:withdraw, Applicant)
+          raise NotPermitted, 'only an admissions lead can withdraw an applicant'
+        end
         resume = Stages.exit?(from) ? applicant.exited_from_stage : applicant.funnel_stage
         if applicant.complicated?
           applicant.assign_attributes(**cleared_complicated)

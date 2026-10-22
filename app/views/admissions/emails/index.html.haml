@@ -19,7 +19,9 @@
   - shown = @refused&.id == email.id ? @refused : email
   - applicant = email.applicant
   .admissions-held-email{ id: "email-#{email.id}" }
-    %h3 #{email.label} to #{applicant.name.presence || applicant.email || 'a withdrawn applicant'}
+    %h3
+      #{email.label} to
+      = link_to applicant.name.presence || applicant.email || 'a withdrawn applicant', admissions_applicant_path(applicant)
     %p
       #{applicant.email} · #{applicant.round.name} · #{Admissions::Stages.label(applicant.stage)}
       - if applicant.complicated?
@@ -60,8 +62,5 @@
           data: { confirm: 'Discard this email? It will not be sent.' }, form: { style: 'display: inline' }
         - if applicant.emails_paused?
           Automatic email to this applicant is paused.
-          = button_to 'Resume automatic email', resume_emails_admissions_applicant_path(applicant), method: :post,
-            form: { style: 'display: inline' }
-        - else
-          = button_to 'Pause automatic email to this applicant', pause_emails_admissions_applicant_path(applicant),
-            method: :post, form: { style: 'display: inline' }
+        = link_to 'Open their card', admissions_applicant_path(applicant, anchor: 'upcoming')
+        (to pause or resume automatic email to them)
